@@ -17,6 +17,7 @@ Sign In with Google or Sign In with Twitter
 - Enter workout result
 
 ### Nice to Have's
+- Multi Language Support (DE/EN/FR/IT)
 - Upload workout evidence (for verification purposes)
 - Challenging friends or other users
 - Leadership board
