@@ -11,8 +11,8 @@ See more information about Fun Sports Training Games below including the Project
 - User Management
 - Security
 - Create Workout (includes Create Exercise )
-- Enter Workout Result
-- Multi Language Support (DE, EN)
+- Workout
+- Workout Statistics
 
 ### Frontend
 
@@ -21,8 +21,7 @@ See more information about Fun Sports Training Games below including the Project
 
 ### Backend
 
-- Node Express (Typescript)
-- MongoDB
+- Google Firebase
 
 ### Authentication
 
@@ -39,3 +38,11 @@ See more information about Fun Sports Training Games below including the Project
 - Customizable dashboard
 - Live challenges with movement tracking and live results
 - Voice command
+
+### Backlog
+
+https://trello.com/b/ZLoRVBFX/project-2-fstg-cas-frontend-engineering
+
+### Wireframing
+
+https://miro.com/app/board/o9J_lzH5aPk=/
