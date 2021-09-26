@@ -20,7 +20,12 @@ module.exports = {
         'unused-imports/no-unused-imports': 2,
         'unused-imports/no-unused-vars': 1,
         camelcase: 'off',
-        'prettier/prettier': 'warn',
+        'prettier/prettier': [
+            'warn',
+            {
+                endOfLine: 'auto'
+            }
+        ],
         '@typescript-eslint/camelcase': ['off'], // turn camelcase checking off for now...
         'no-use-before-define': 'off', // https://stackoverflow.com/a/64024916/1892214
         '@typescript-eslint/no-use-before-define': ['error']

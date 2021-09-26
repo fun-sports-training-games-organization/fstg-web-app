@@ -21,7 +21,7 @@ See more information about Fun Sports Training Games below including the Project
 
 ### Backend
 
-- Google Firebase
+- Google Firebase: https://console.firebase.google.com/u/1/project/fstg-edb94/settings/general/web:NDBhNGM1NDktMTUyZS00MGEyLTg1NDQtNjc4NTUxMWJlNjU0
 
 ### Authentication
 
