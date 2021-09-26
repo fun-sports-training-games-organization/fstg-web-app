@@ -1,0 +1,23 @@
+{
+  "common": {
+    "email": "Email",
+    "password": "Password"
+  },
+  "page": {
+    "login": {
+      "header": "Login",
+      "button": {
+        "login": "Login"
+      }
+    },
+    "register":{
+      "header": "Registration",
+      "label": {
+        "confirmPassword": "Confirm Password"
+      },
+      "button": {
+        "register": "Register"
+      }
+    }
+  }
+}

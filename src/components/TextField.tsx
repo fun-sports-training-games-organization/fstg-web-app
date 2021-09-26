@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { FormControl, InputLabel, OutlinedInput, OutlinedInputProps } from '@material-ui/core';
+import { FormControl, InputLabel, OutlinedInput, OutlinedInputProps } from '@mui/material';
 
 const TextField: FC<OutlinedInputProps> = (props) => {
     return (

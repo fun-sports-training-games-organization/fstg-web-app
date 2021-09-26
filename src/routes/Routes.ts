@@ -25,6 +25,13 @@ const routes: IRoute[] = [
         component: HomePage,
         name: 'Home Page',
         protected: true
+    },
+    {
+        path: '/',
+        exact: true,
+        component: HomePage,
+        name: 'Home Page',
+        protected: true
     }
 ];
 

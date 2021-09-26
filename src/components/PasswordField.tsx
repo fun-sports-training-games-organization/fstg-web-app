@@ -1,8 +1,6 @@
 import React, { FC } from 'react';
-import IconButton from '@material-ui/core/IconButton';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import { Visibility as VisibilityIcon, VisibilityOff as VisibilityOffIcon } from '@material-ui/icons';
-import { FormControl, InputLabel, OutlinedInput, OutlinedInputProps } from '@material-ui/core';
+import { Visibility as VisibilityIcon, VisibilityOff as VisibilityOffIcon } from '@mui/icons-material';
+import { FormControl, InputLabel, OutlinedInput, OutlinedInputProps, IconButton, InputAdornment } from '@mui/material';
 
 const PasswordField: FC<OutlinedInputProps> = (props) => {
     const [showPassword, setShowPassword] = React.useState<boolean>(false);
