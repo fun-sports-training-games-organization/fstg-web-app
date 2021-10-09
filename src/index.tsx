@@ -6,11 +6,22 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import './i18n';
 
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
+
+import thunk from 'redux-thunk';
+import rootReducer from './reducers';
+
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
+
 ReactDOM.render(
     <Suspense fallback={<></>}>
         <StrictMode>
             <BrowserRouter>
-                <App />
+                <Provider store={store}>
+                    <App />
+                </Provider>
             </BrowserRouter>
         </StrictMode>
     </Suspense>,
