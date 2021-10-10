@@ -1,0 +1,23 @@
+{
+  "common": {
+    "email": "E-mail",
+    "password": "Mot de passe"
+  },
+  "page": {
+    "login": {
+      "header": "Connexion",
+      "button": {
+        "login": "Connexion"
+      }
+    },
+    "register":{
+      "header": "Enregistrement",
+      "label": {
+        "confirmPassword": "Confirmez le mot de passe"
+      },
+      "button": {
+        "register": "S'inscrire"
+      }
+    }
+  }
+}
