@@ -1,15 +1,15 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { auth } from '../../config/firebase';
 
-// import FirebaseUIAuth from 'react-firebaseui-localized';
-// import { StyledFirebaseAuth } from 'react-firebaseui';
 import AuthContainer from '../../components/AuthContainer';
 import { useTranslation } from 'react-i18next';
 import firebase from 'firebase';
 import * as firebaseui from 'firebaseui';
 import { Grid } from '@mui/material';
 import LanguageMenu from '../../components/LanguageMenu';
-import LocalizedFirebaseUIAuth from '../../elements/LocalizedFirebaseUIAuth';
+import { StyledFirebaseAuth } from 'react-firebaseui';
+import { useDispatch } from 'react-redux';
+import { AuthDispatcher } from '../../reducers/authReducer';
 
 const config: firebaseui.auth.Config = {
     signInFlow: 'popup',
@@ -25,9 +25,18 @@ const config: firebaseui.auth.Config = {
     widgetUrl: 'https://www.gstatic.com/firebasejs/ui/5.0.0/firebase-ui-auth__fr.js'
 };
 
+// interface Props extends PropsFromRedux {}
 const LoginPage: FC = () => {
-    const { t, i18n } = useTranslation();
+    const dispatch = useDispatch();
+    const authDispatcher = new AuthDispatcher(dispatch);
+    const { t } = useTranslation();
 
+    useEffect(() => {
+        auth.onAuthStateChanged(async (user: firebase.User | null) => {
+            !!user ? authDispatcher.signedIn(user) : authDispatcher.loginFailed();
+        });
+        // eslint-disable-next-line
+    }, [auth.currentUser]);
     return (
         <Grid
             container
@@ -40,27 +49,7 @@ const LoginPage: FC = () => {
             <LanguageMenu />
             <Grid item xs={3}>
                 <AuthContainer header={t('page.login.header')}>
-                    <LocalizedFirebaseUIAuth
-                        auth={auth}
-                        config={config}
-                        lang={i18n.language.split('-')[0]}
-                        firebase={firebase}
-                    />
-                    {/*<StyledFirebaseAuth*/}
-                    {/*    firebaseAuth={auth}*/}
-                    {/*    uiConfig={config}*/}
-                    {/*    uiCallback={(x) => {*/}
-                    {/*        console.log(x);*/}
-                    {/*    }}*/}
-                    {/*/>*/}
-                    {/*<FirebaseUIAuth*/}
-                    {/*    lang={i18n.language.split('-')[0]}*/}
-                    {/*    version="5.0.0"*/}
-                    {/*    config={config}*/}
-                    {/*    auth={auth}*/}
-                    {/*    firebase={firebase}*/}
-                    {/*    rtl={false}*/}
-                    {/*/>*/}
+                    <StyledFirebaseAuth className={'loginExternalWrapper'} firebaseAuth={auth} uiConfig={config} />
                 </AuthContainer>
             </Grid>
         </Grid>

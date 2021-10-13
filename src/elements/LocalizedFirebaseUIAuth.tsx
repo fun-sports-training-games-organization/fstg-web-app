@@ -1,7 +1,6 @@
-import React, { useEffect /*, useRef*/ } from 'react';
+import React, { useCallback, useEffect /*, useRef*/ } from 'react';
 import useScript from '../hooks/useScript';
 import firebase from 'firebase';
-import { useTranslation } from 'react-i18next';
 const FIREBASEUI_CONTAINER_ID = 'firebaseui_container';
 
 type Props = {
@@ -14,7 +13,6 @@ type Props = {
 };
 
 function FirebaseUIAuth({ auth, config, lang, firebase }: Props): JSX.Element {
-    const { i18n } = useTranslation();
     const state = useScript(`scripts/firebase/firebase-ui-auth__${lang}.js`);
     // const container = useRef<any>();
     // const app = useRef<any>();
@@ -24,19 +22,32 @@ function FirebaseUIAuth({ auth, config, lang, firebase }: Props): JSX.Element {
             window.firebase = firebase;
         }
     }, [firebase]);
+
+    const loadFirebaseUI = useCallback(async () => {
+        // () => {
+        const firebaseUI = window.firebaseui.auth.AuthUI.getInstance() || new window.firebaseui.auth.AuthUI(auth);
+
+        firebaseUI.start(`#${FIREBASEUI_CONTAINER_ID}`, config);
+        state.value = 'reset';
+    }, [auth, config, state]);
     useEffect(() => {
-        if (state.value === 'loading') {
+        /* if (state.value === 'loading') {
             return;
         }
         if (state.value === 'error') {
             throw state.payload;
+        }*/
+
+        switch (state.value) {
+            case 'loading':
+                return;
+            case 'error':
+                throw state.payload;
+            case 'loaded':
+                loadFirebaseUI().catch(console.error);
         }
-        const loadFirebaseUI = async () => {
-            const firebaseUI = window.firebaseui.auth.AuthUI.getInstance() || new window.firebaseui.auth.AuthUI(auth);
-            firebaseUI.start(`#${FIREBASEUI_CONTAINER_ID}`, config);
-        };
-        loadFirebaseUI().catch(console.error);
-        console.log(i18n.language);
+        // loadFirebaseUI().catch(console.error);
+        // console.log(i18n.language);
         // (async () => {
         //     try {
         //         if (app.current) {
@@ -58,7 +69,7 @@ function FirebaseUIAuth({ auth, config, lang, firebase }: Props): JSX.Element {
         //         //ignore
         //     }
         // })();
-    }, [auth, config, state, lang, i18n.language]);
+    }, [state, loadFirebaseUI]);
 
     return (
         <>
