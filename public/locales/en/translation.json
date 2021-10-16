@@ -3,6 +3,12 @@
     "email": "Email",
     "password": "Password"
   },
+  "idp": {
+    "login": {
+      "button": "Login with {{idp}}",
+      "t&c": "By continuing, you are indicating that you accept our <1>Terms of Service</1> and <3>Privacy Policy</3>."
+    }
+  },
   "page": {
     "login": {
       "header": "Login",
@@ -10,7 +16,7 @@
         "login": "Login"
       }
     },
-    "register":{
+    "register": {
       "header": "Registration",
       "label": {
         "confirmPassword": "Confirm Password"

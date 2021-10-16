@@ -1,42 +1,40 @@
-import { FC, useEffect } from 'react';
-import { auth } from '../../config/firebase';
+import { FC } from 'react';
+import { signInWithFacebook, signInWithGoogle, signInWithTwitter } from '../../config/firebase';
 
 import AuthContainer from '../../components/AuthContainer';
-import { useTranslation } from 'react-i18next';
-import firebase from 'firebase';
-import * as firebaseui from 'firebaseui';
-import { Grid } from '@mui/material';
-import LanguageMenu from '../../components/LanguageMenu';
-import { StyledFirebaseAuth } from 'react-firebaseui';
-import { useDispatch } from 'react-redux';
-import { AuthDispatcher } from '../../reducers/authReducer';
+import { Trans, useTranslation } from 'react-i18next';
+import { Grid, Link, Stack, Typography } from '@mui/material';
+import { useSnackbar } from 'notistack';
+import { UserCredential } from 'firebase/auth';
+import { useAuth } from '../../contexts/AuthContextProvider';
+import { useHistory } from 'react-router-dom';
+import { Twitter as TwitterIcon, Facebook as FacebookIcon, Google as GoogleIcon } from '@mui/icons-material';
+import IdpLoginButton from '../../components/idp/IdPLoginButton';
 
-const config: firebaseui.auth.Config = {
-    signInFlow: 'popup',
-    signInSuccessUrl: '/home',
-    signInOptions: [
-        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-        firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-        firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-        firebase.auth.EmailAuthProvider.PROVIDER_ID
-    ],
-    tosUrl: '/terms-of-service',
-    privacyPolicyUrl: '/privacy-policy',
-    widgetUrl: 'https://www.gstatic.com/firebasejs/ui/5.0.0/firebase-ui-auth__fr.js'
-};
-
-// interface Props extends PropsFromRedux {}
 const LoginPage: FC = () => {
-    const dispatch = useDispatch();
-    const authDispatcher = new AuthDispatcher(dispatch);
+    const { enqueueSnackbar } = useSnackbar();
+    const history = useHistory();
+    const { setAuthenticated, setUser } = useAuth();
     const { t } = useTranslation();
 
-    useEffect(() => {
-        auth.onAuthStateChanged(async (user: firebase.User | null) => {
-            !!user ? authDispatcher.signedIn(user) : authDispatcher.loginFailed();
-        });
-        // eslint-disable-next-line
-    }, [auth.currentUser]);
+    const loggedInSuccessfully = (result: UserCredential) => {
+        setAuthenticated(true);
+        setUser(result.user);
+        history.push('/home');
+        enqueueSnackbar('login successful!', { variant: 'success' });
+    };
+    const handleGoogleSignIn = () => {
+        signInWithGoogle().then((result) => loggedInSuccessfully(result));
+    };
+
+    const handleFacebookSignIn = () => {
+        signInWithFacebook().then((result) => loggedInSuccessfully(result));
+    };
+
+    const handleTwitterSignIn = () => {
+        signInWithTwitter().then((result) => loggedInSuccessfully(result));
+    };
+
     return (
         <Grid
             container
@@ -46,10 +44,38 @@ const LoginPage: FC = () => {
             justifyContent="center"
             style={{ minHeight: '100vh' }}
         >
-            <LanguageMenu />
             <Grid item xs={3}>
                 <AuthContainer header={t('page.login.header')}>
-                    <StyledFirebaseAuth className={'loginExternalWrapper'} firebaseAuth={auth} uiConfig={config} />
+                    <Stack padding={2} spacing={2} alignItems={'center'}>
+                        <IdpLoginButton color="#db4437" icon={<GoogleIcon />} onClick={handleGoogleSignIn}>
+                            {t('idp.login.button', { idp: 'Google' })}
+                        </IdpLoginButton>
+                        <IdpLoginButton color="#3b5998" icon={<FacebookIcon />} onClick={handleFacebookSignIn}>
+                            {t('idp.login.button', { idp: 'Facebook' })}
+                        </IdpLoginButton>
+                        <IdpLoginButton color="#55acee" icon={<TwitterIcon />} onClick={handleTwitterSignIn}>
+                            {t('idp.login.button', { idp: 'Twitter' })}
+                        </IdpLoginButton>
+                        <Typography
+                            sx={{ marginLeft: '50px !important', marginRight: '50px !important' }}
+                            color={'textSecondary'}
+                            variant="caption"
+                            display="block"
+                            gutterBottom
+                        >
+                            <Trans i18nKey={'idp.login.t&c'}>
+                                By continuing, you are indicating that you accept our
+                                <Link href={'/terms-of-service'} target="_blank" rel="noopener">
+                                    Terms of Service
+                                </Link>
+                                and
+                                <Link href={'/privacy-policy'} target="_blank" rel="noopener">
+                                    Privacy Policy
+                                </Link>
+                                .
+                            </Trans>
+                        </Typography>
+                    </Stack>
                 </AuthContainer>
             </Grid>
         </Grid>

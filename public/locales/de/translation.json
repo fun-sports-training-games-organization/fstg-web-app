@@ -3,6 +3,12 @@
     "email": "E-mail",
     "password": "Kennwort"
   },
+  "idp": {
+    "login": {
+      "button": "Mit {{idp}} anmelden",
+      "t&c": "Indem Sie fortfahren, stimmen Sie unseren <1>Nutzungsbedingungen</1> und unserer <3>Datenschutzerklärung</3> zu."
+    }
+  },
   "page": {
     "login": {
       "header": "Anmeldung",

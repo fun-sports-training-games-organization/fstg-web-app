@@ -12,6 +12,8 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 import thunk from 'redux-thunk';
 import rootReducer from './reducers';
+import { SnackbarProvider } from 'notistack';
+import AuthContextProvider from './contexts/AuthContextProvider';
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
 
@@ -19,9 +21,18 @@ ReactDOM.render(
     <Suspense fallback={<></>}>
         <StrictMode>
             <BrowserRouter>
-                <Provider store={store}>
-                    <App />
-                </Provider>
+                <SnackbarProvider
+                    anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'center'
+                    }}
+                >
+                    <AuthContextProvider>
+                        <Provider store={store}>
+                            <App />
+                        </Provider>
+                    </AuthContextProvider>
+                </SnackbarProvider>
             </BrowserRouter>
         </StrictMode>
     </Suspense>,

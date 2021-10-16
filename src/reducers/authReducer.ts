@@ -1,12 +1,12 @@
 import { Action, Reducer } from 'redux';
 import { Dispatch } from 'react';
-import firebase from 'firebase';
+import { User } from 'firebase/auth';
 
 // example taken from: https://dzone.com/articles/react-redux-hooks-with-typescript-in-2020
 export interface InitialState {
     signingIn?: boolean;
     signedIn?: boolean;
-    user?: firebase.User;
+    user?: User;
 }
 
 export const initialState: InitialState = {
@@ -43,8 +43,7 @@ export class AuthDispatcher {
     constructor(dispatch: Dispatch<DispatchAction>) {
         this.dispatch = dispatch;
     }
-    signedIn = (user: firebase.User): void =>
-        this.dispatch({ type: ActionType.SignedIn, payload: { signedIn: true, user } });
+    signedIn = (user: User): void => this.dispatch({ type: ActionType.SignedIn, payload: { signedIn: true, user } });
 
     loginFailed = (): void => this.dispatch({ type: ActionType.LoginFailed, payload: {} });
     logout = (): void => this.dispatch({ type: ActionType.Logout, payload: {} });

@@ -3,6 +3,12 @@
     "email": "E-mail",
     "password": "Mot de passe"
   },
+  "idp": {
+    "login": {
+      "button": "Se connecter avec {{idp}}",
+      "t&c": "En continuant, vous acceptez les <1>Conditions d'utilisation</1> et les <3>Règles de confidentialité</3>."
+    }
+  },
   "page": {
     "login": {
       "header": "Connexion",

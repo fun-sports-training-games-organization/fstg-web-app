@@ -18,7 +18,7 @@ const LanguageMenu: FC = () => {
     };
 
     return (
-        <MenuIcon icon={<LanguageIcon />}>
+        <MenuIcon icon={<LanguageIcon style={{ color: 'white' }} />}>
             <MenuList>
                 {locales.map((locale: Locale) => (
                     <MenuItem key={locale.key} onClick={(): void => handleSelect(locale.value)}>

@@ -1,22 +1,15 @@
 import { FC } from 'react';
-import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import logger from '../logging/logger';
-import { InitialState } from '../reducers/authReducer';
-import firebase from 'firebase';
-
-interface StateProps {
-    user: firebase.User | undefined;
-}
+import { useAuth } from '../contexts/AuthContextProvider';
 
 const AuthRoute: FC = (props) => {
-    const { user } = useSelector<InitialState, StateProps>((state: InitialState) => {
-        return {
-            user: state.user
-        };
-    });
+    const { user, authenticated } = useAuth();
     const { children } = props;
-    if (!user) {
+    if (!authenticated) {
+        console.log(authenticated);
+        // auth.currentUser?.delete();
+        console.log(user);
         logger.warn('no user found! redirecting to login page...');
         return <Redirect to={'/login'} />;
     }

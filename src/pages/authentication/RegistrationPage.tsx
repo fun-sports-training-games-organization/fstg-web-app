@@ -1,5 +1,5 @@
 import { FC, useState } from 'react';
-import { auth } from '../../config/firebase';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import PasswordField from '../../components/PasswordField';
 import { useHistory } from 'react-router-dom';
 import TextField from '../../components/TextField';
@@ -22,8 +22,10 @@ const RegistrationPage: FC = () => {
         if (error !== '') {
             setError('');
         }
+        const auth = getAuth();
         // setRegistering(true);
-        auth.createUserWithEmailAndPassword(email, password)
+
+        createUserWithEmailAndPassword(auth, email, password)
             .then((result) => {
                 // logging.info(result);
                 console.log(result);
