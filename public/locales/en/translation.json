@@ -1,4 +1,16 @@
 {
+  "auth": {
+    "message": {
+      "login": {
+        "successful": "You have logged in successfully!",
+        "failure": "You have failed to log in!"
+      },
+      "logout": {
+        "successful": "You have logged out successfully!",
+        "failure": "You have failed to log out!"
+      }
+    }
+  },
   "common": {
     "email": "Email",
     "password": "Password"

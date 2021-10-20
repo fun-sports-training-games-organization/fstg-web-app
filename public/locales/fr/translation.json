@@ -1,4 +1,16 @@
 {
+  "auth": {
+    "message": {
+      "login": {
+        "successful": "Vous vous êtes connecté avec succès!",
+        "failure": "Vous n'avez pas réussi à vous connecter!"
+      },
+      "logout": {
+        "successful": "Vous vous êtes déconnecté avec succès!",
+        "failure": "Vous n'avez pas réussi à vous déconnecter!"
+      }
+    }
+  },
   "common": {
     "email": "E-mail",
     "password": "Mot de passe"
@@ -16,7 +28,7 @@
         "login": "Connexion"
       }
     },
-    "register":{
+    "register": {
       "header": "Enregistrement",
       "label": {
         "confirmPassword": "Confirmez le mot de passe"

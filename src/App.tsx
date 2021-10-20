@@ -10,15 +10,17 @@ import { Box } from '@mui/system';
 import { useAuth } from './contexts/AuthContextProvider';
 
 function App(): JSX.Element {
-    const { authenticated, logout } = useAuth();
+    const { user, logout } = useAuth();
     return (
         <AppBar position="static">
             <Toolbar>
-                <IconButton size="large" edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
-                    <MenuIcon />
-                </IconButton>
+                {user && (
+                    <IconButton size="large" edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
+                        <MenuIcon />
+                    </IconButton>
+                )}
                 <Box sx={{ flexGrow: 1 }}></Box>
-                {authenticated && (
+                {user && (
                     <IconButton onClick={logout}>
                         <LogoutIcon style={{ color: 'white' }} />
                     </IconButton>

@@ -1,4 +1,16 @@
 {
+  "auth": {
+    "message": {
+      "login": {
+        "successful": "Sie haben sich erfolgreich angemeldet!",
+        "failure": "Sie konnten sich nicht anmelden!"
+      },
+      "logout": {
+        "successful": "Sie haben sich erfolgreich abgemeldet!",
+        "failure": "Sie konnten sich nicht abmelden!"
+      }
+    }
+  },
   "common": {
     "email": "E-mail",
     "password": "Kennwort"
@@ -16,7 +28,7 @@
         "login": "Anmelden"
       }
     },
-    "register":{
+    "register": {
       "header": "Registrierung",
       "label": {
         "confirmPassword": "Kennwort bestätigen"
