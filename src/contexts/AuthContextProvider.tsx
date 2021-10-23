@@ -4,15 +4,18 @@ import { getAuth, onAuthStateChanged, User } from 'firebase/auth';
 import Loader from '../components/Loader';
 import { useSnackbar } from 'notistack';
 import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router-dom';
+
+interface Error {
+    code: string;
+    message: string;
+}
 
 export type AuthContextData = {
-    // authenticated?: boolean;
-    // setAuthenticated: Dispatch<SetStateAction<boolean | undefined>>;
     user: User | null;
-    // setUser: Dispatch<SetStateAction<User | null>>;
-    // isAdmin: boolean | undefined;
-    // login: (username: string | undefined, password: string | undefined, resetForm: () => void) => void;
     logout: () => void;
+    loggedInSuccessfully: () => void;
+    loginFailed: (error: Error) => void;
 };
 
 export const AuthContext = createContext<AuthContextData | undefined>(undefined);
@@ -20,30 +23,41 @@ export const AuthContext = createContext<AuthContextData | undefined>(undefined)
 const AuthContextProvider: FC<PropsWithChildren<Record<string, unknown>>> = (
     props: PropsWithChildren<Record<string, unknown>>
 ) => {
+    const [user, setUser] = useState<User | null>(null);
+    const [authenticating, setAuthenticating] = useState<boolean>(true);
     const { t } = useTranslation();
     const { enqueueSnackbar } = useSnackbar();
+    const history = useHistory();
     const auth = getAuth();
-    // const [authenticated, setAuthenticated] = useState<boolean | undefined>(undefined);
-    const [user, setUser] = useState<User | null>(null);
-    const [pending, setPending] = useState<boolean>(true);
+
+    const loginFailed = (error: Error) => {
+        // Handle Errors here.
+        if (error) {
+            console.log(error);
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            enqueueSnackbar(t('auth.message.login.failure', { errorCode, errorMessage }), { variant: 'error' });
+        }
+    };
+
+    const loggedInSuccessfully = () => {
+        // The signed-in user info.
+        history.push('/home');
+        enqueueSnackbar(t('auth.message.login.successful'), { variant: 'success' });
+    };
 
     useEffect(() => {
         onAuthStateChanged(auth, (user: User | null) => {
-            // setAuthenticated(!!user);
-            // if (user) {
-            console.log(user);
             setUser(user);
-            // }
-            setPending(false);
+            setAuthenticating(false);
         });
     }, [auth]);
 
-    if (pending) {
+    if (authenticating) {
         return <Loader />;
     }
 
     const logout = () => {
-        // setAuthenticated(false);
         getAuth()
             .signOut()
             .then(() => {
@@ -56,7 +70,7 @@ const AuthContextProvider: FC<PropsWithChildren<Record<string, unknown>>> = (
     };
 
     return (
-        <AuthContext.Provider value={{ /*authenticated, setAuthenticated,*/ user, /* setUser,*/ logout }}>
+        <AuthContext.Provider value={{ user, loggedInSuccessfully, loginFailed, logout }}>
             {props.children}
         </AuthContext.Provider>
     );

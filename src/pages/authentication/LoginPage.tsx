@@ -4,43 +4,19 @@ import { signInWithFacebook, signInWithGoogle, signInWithTwitter } from '../../c
 import AuthContainer from '../../components/AuthContainer';
 import { Trans, useTranslation } from 'react-i18next';
 import { Grid, Link, Stack, Theme, Typography, useMediaQuery } from '@mui/material';
-import { useSnackbar } from 'notistack';
 import { UserCredential, getRedirectResult, getAuth } from 'firebase/auth';
 import { useAuth } from '../../contexts/AuthContextProvider';
-import { Redirect, useHistory } from 'react-router-dom';
+// import { Redirect } from 'react-router-dom';
 import { Twitter as TwitterIcon, Facebook as FacebookIcon, Google as GoogleIcon } from '@mui/icons-material';
 import IdpLoginButton from '../../components/idp/IdPLoginButton';
 import EmailLoginForm from './EmailLoginForm';
 import SwipingTabs from '../../components/views/SwipingTabs';
 
-interface Error {
-    code: string;
-    message: string;
-}
-
 const LoginPage: FC = (): JSX.Element => {
-    const { enqueueSnackbar } = useSnackbar();
-    const history = useHistory();
-    const { user } = useAuth();
-    const auth = getAuth();
+    const { loggedInSuccessfully, loginFailed } = useAuth();
     const { t, i18n } = useTranslation();
     const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
-
-    const loggedInSuccessfully = () => {
-        // The signed-in user info.
-        history.push('/home');
-        enqueueSnackbar(t('auth.message.login.successful'), { variant: 'success' });
-    };
-
-    const loginFailed = (error: Error) => {
-        // Handle Errors here.
-        if (error) {
-            console.log(error);
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            enqueueSnackbar(t('auth.message.login.failure', { errorCode, errorMessage }), { variant: 'error' });
-        }
-    };
+    const auth = getAuth();
 
     const handleGoogleSignIn = () => {
         auth.languageCode = i18n.language.split('-')[0];
@@ -109,10 +85,10 @@ const LoginPage: FC = (): JSX.Element => {
             </Typography>
         </Stack>
     );
-    console.log(user);
-    if (user) {
-        return <Redirect to={'/home'} />;
-    }
+    // not too sure if we need this still...
+    // if (user) {
+    //     return <Redirect to={'/home'} />;
+    // }
     return (
         <Grid
             container
