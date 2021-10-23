@@ -1,0 +1,44 @@
+{
+  "auth": {
+    "message": {
+      "login": {
+        "successful": "Sie haben sich erfolgreich angemeldet!",
+        "failure": "Sie konnten sich nicht anmelden! ({{errorCode}}: {{errorMessage}})"
+      },
+      "logout": {
+        "successful": "Sie haben sich erfolgreich abgemeldet!",
+        "failure": "Sie konnten sich nicht abmelden!"
+      }
+    }
+  },
+  "common": {
+    "email": "E-mail",
+    "password": "Kennwort"
+  },
+  "idp": {
+    "login": {
+      "button": "Mit {{idp}} anmelden",
+      "t&c": "Indem Sie fortfahren, stimmen Sie unseren <1>Nutzungsbedingungen</1> und unserer <3>Datenschutzerklärung</3> zu."
+    }
+  },
+  "page": {
+    "login": {
+      "header": "Anmeldung",
+      "button": {
+        "login": "Anmelden"
+      }
+    },
+    "home": {
+      "welcome": "Willkommen bei FSTG {{displayName}}!"
+    },
+    "register": {
+      "header": "Registrierung",
+      "label": {
+        "confirmPassword": "Kennwort bestätigen"
+      },
+      "button": {
+        "register": "Registrieren"
+      }
+    }
+  }
+}

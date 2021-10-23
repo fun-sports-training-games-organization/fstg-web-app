@@ -1,0 +1,44 @@
+{
+  "auth": {
+    "message": {
+      "login": {
+        "successful": "You have logged in successfully!",
+        "failure": "You have failed to log in! ({{errorCode}}: {{errorMessage}})"
+      },
+      "logout": {
+        "successful": "You have logged out successfully!",
+        "failure": "You have failed to log out!"
+      }
+    }
+  },
+  "common": {
+    "email": "Email",
+    "password": "Password"
+  },
+  "idp": {
+    "login": {
+      "button": "Login with {{idp}}",
+      "t&c": "By continuing, you are indicating that you accept our <1>Terms of Service</1> and <3>Privacy Policy</3>."
+    }
+  },
+  "page": {
+    "home": {
+      "welcome": "Welcome to FSTG {{displayName}}!"
+    },
+    "login": {
+      "header": "Login",
+      "button": {
+        "login": "Login"
+      }
+    },
+    "register": {
+      "header": "Registration",
+      "label": {
+        "confirmPassword": "Confirm Password"
+      },
+      "button": {
+        "register": "Register"
+      }
+    }
+  }
+}

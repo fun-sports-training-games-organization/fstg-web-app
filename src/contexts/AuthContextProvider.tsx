@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { /*Dispatch, SetStateAction,*/ useEffect } from 'react';
 import { createContext, FC, PropsWithChildren, useContext, useState } from 'react';
+import { getAuth, onAuthStateChanged, User } from 'firebase/auth';
+import Loader from '../components/Loader';
+import { useSnackbar } from 'notistack';
+import { useTranslation } from 'react-i18next';
 
 export type AuthContextData = {
-    authenticated: boolean | undefined;
-    isAdmin: boolean | undefined;
-    login: (username: string | undefined, password: string | undefined, resetForm: () => void) => void;
+    // authenticated?: boolean;
+    // setAuthenticated: Dispatch<SetStateAction<boolean | undefined>>;
+    user: User | null;
+    // setUser: Dispatch<SetStateAction<User | null>>;
+    // isAdmin: boolean | undefined;
+    // login: (username: string | undefined, password: string | undefined, resetForm: () => void) => void;
     logout: () => void;
 };
 
@@ -13,25 +20,45 @@ export const AuthContext = createContext<AuthContextData | undefined>(undefined)
 const AuthContextProvider: FC<PropsWithChildren<Record<string, unknown>>> = (
     props: PropsWithChildren<Record<string, unknown>>
 ) => {
-    const [authenticated, setAuthenticated] = useState<boolean | undefined>(undefined);
-    const [isAdmin, setIsAdmin] = useState<boolean | undefined>(undefined);
-    const login = async (
-        username: string | undefined,
-        password: string | undefined,
-        resetForm: () => void
-    ): Promise<void> => {
-        // TODO: this is unused at the moment... we can still discuss whether or not to use context provider or reducer to store user information
-        setAuthenticated(true);
-        setIsAdmin(true);
-        resetForm();
-    };
+    const { t } = useTranslation();
+    const { enqueueSnackbar } = useSnackbar();
+    const auth = getAuth();
+    // const [authenticated, setAuthenticated] = useState<boolean | undefined>(undefined);
+    const [user, setUser] = useState<User | null>(null);
+    const [pending, setPending] = useState<boolean>(true);
+
+    useEffect(() => {
+        onAuthStateChanged(auth, (user: User | null) => {
+            // setAuthenticated(!!user);
+            // if (user) {
+            console.log(user);
+            setUser(user);
+            // }
+            setPending(false);
+        });
+    }, [auth]);
+
+    if (pending) {
+        return <Loader />;
+    }
 
     const logout = () => {
-        // TODO : logout with firebase
+        // setAuthenticated(false);
+        getAuth()
+            .signOut()
+            .then(() => {
+                enqueueSnackbar(t('auth.message.logout.successful'), { variant: 'success' });
+                setUser(null);
+            })
+            .catch(() => {
+                enqueueSnackbar(t('auth.message.logout.failure'), { variant: 'error' });
+            });
     };
 
     return (
-        <AuthContext.Provider value={{ authenticated, isAdmin, login, logout }}>{props.children}</AuthContext.Provider>
+        <AuthContext.Provider value={{ /*authenticated, setAuthenticated,*/ user, /* setUser,*/ logout }}>
+            {props.children}
+        </AuthContext.Provider>
     );
 };
 

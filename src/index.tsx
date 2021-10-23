@@ -1,9 +1,10 @@
-import React from 'react';
+import { Suspense, StrictMode } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
+import './i18n';
 
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
@@ -11,17 +12,34 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 import thunk from 'redux-thunk';
 import rootReducer from './reducers';
+import { SnackbarProvider } from 'notistack';
+import AuthContextProvider from './contexts/AuthContextProvider';
+import { ThemeProvider } from '@mui/material';
+import theme from './theme/theme';
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
 
 ReactDOM.render(
-    <React.StrictMode>
-        <BrowserRouter>
-            <Provider store={store}>
-                <App />
-            </Provider>
-        </BrowserRouter>
-    </React.StrictMode>,
+    <Suspense fallback={<></>}>
+        <StrictMode>
+            <BrowserRouter>
+                <SnackbarProvider
+                    anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'center'
+                    }}
+                >
+                    <AuthContextProvider>
+                        <Provider store={store}>
+                            <ThemeProvider theme={theme}>
+                                <App />
+                            </ThemeProvider>
+                        </Provider>
+                    </AuthContextProvider>
+                </SnackbarProvider>
+            </BrowserRouter>
+        </StrictMode>
+    </Suspense>,
     document.getElementById('root')
 );
 

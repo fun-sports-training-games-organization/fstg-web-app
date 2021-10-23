@@ -1,12 +1,11 @@
 import { FC } from 'react';
 import { Redirect } from 'react-router-dom';
-import { auth } from '../config/firebase';
-import logger from '../logging/logger';
+import { useAuth } from '../contexts/AuthContextProvider';
 
 const AuthRoute: FC = (props) => {
+    const { user } = useAuth();
     const { children } = props;
-    if (!auth.currentUser) {
-        logger.warn('no user found! redirecting to login page...');
+    if (!user) {
         return <Redirect to={'/login'} />;
     }
     return <>{children}</>;

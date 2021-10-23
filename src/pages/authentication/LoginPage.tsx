@@ -1,61 +1,146 @@
-import { FC, useState } from 'react';
-import { auth } from '../../config/firebase';
-import PasswordField from '../../components/PasswordField';
-import { useHistory } from 'react-router-dom';
-import TextField from '../../components/TextField';
-import { Button } from '@material-ui/core';
+import { FC } from 'react';
+import { signInWithFacebook, signInWithGoogle, signInWithTwitter } from '../../config/firebase';
+
 import AuthContainer from '../../components/AuthContainer';
+import { Trans, useTranslation } from 'react-i18next';
+import { Grid, Link, Stack, Typography } from '@mui/material';
+import { useSnackbar } from 'notistack';
+import { UserCredential, getRedirectResult, getAuth, FacebookAuthProvider, TwitterAuthProvider } from 'firebase/auth';
+import { useAuth } from '../../contexts/AuthContextProvider';
+import { Redirect, useHistory } from 'react-router-dom';
+import { Twitter as TwitterIcon, Facebook as FacebookIcon, Google as GoogleIcon } from '@mui/icons-material';
+import IdpLoginButton from '../../components/idp/IdPLoginButton';
 
-const LoginPage: FC = () => {
-    // const [authenticating, setAuthenticating] = useState<boolean>(false);
-    const [email, setEmail] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
-    // const [confirmPassword, setConfirmPassword] = useState<string>('');
-    const [error, setError] = useState<string>('');
+interface Error {
+    code: string;
+    message: string;
+}
 
+const LoginPage: FC = (): JSX.Element => {
+    const { enqueueSnackbar } = useSnackbar();
     const history = useHistory();
+    const { user } = useAuth();
+    const auth = getAuth();
+    const { t, i18n } = useTranslation();
 
-    const signInWithEmailAndPassword = () => {
-        if (error !== '') {
-            setError('');
-        }
-        // setAuthenticating(true);
-        auth.signInWithEmailAndPassword(email, password)
-            .then((result) => {
-                // logging.info(result);
-                console.log(result);
-                // setAuthenticating(false);
-                history.push('/home');
-            })
-            .catch((error) => {
-                console.error(error);
-                // TODO : error handling...
-                // setAuthenticating(false);
-            });
+    const loggedInSuccessfully = () => {
+        // The signed-in user info.
+        history.push('/home');
+        enqueueSnackbar(t('auth.message.login.successful'), { variant: 'success' });
     };
 
+    const loginFailed = (error: Error) => {
+        // Handle Errors here.
+        if (error) {
+            console.log(error);
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            enqueueSnackbar(t('auth.message.login.failure', { errorCode, errorMessage }), { variant: 'error' });
+        }
+    };
+
+    const handleGoogleSignIn = () => {
+        auth.languageCode = i18n.language.split('-')[0];
+        signInWithGoogle().then(loggedInSuccessfully).catch(loginFailed);
+    };
+
+    const handleFacebookSignIn = () => {
+        auth.languageCode = i18n.language.split('-')[0];
+        signInWithFacebook()
+            .then((result: UserCredential) => {
+                // const user = result.user;
+
+                // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+                const credential = FacebookAuthProvider.credentialFromResult(result);
+                const accessToken = credential?.accessToken;
+                console.log(accessToken);
+                // ...
+
+                getRedirectRes();
+                loggedInSuccessfully();
+            })
+            .catch(loginFailed);
+    };
+
+    const handleTwitterSignIn = () => {
+        auth.languageCode = i18n.language.split('-')[0];
+        signInWithTwitter()
+            .then((result: UserCredential) => {
+                // This gives you a the Twitter OAuth 1.0 Access Token and Secret.
+                // You can use these server side with your app's credentials to access the Twitter API.
+                const credential = TwitterAuthProvider.credentialFromResult(result);
+                const token = credential?.accessToken;
+                const secret = credential?.secret;
+                console.log(token);
+                console.log(secret);
+                loggedInSuccessfully();
+            })
+            .catch(loginFailed);
+    };
+
+    const getRedirectRes = () => {
+        getRedirectResult(getAuth()).then((result: UserCredential | null) => console.log(result));
+    };
+
+    const LoginWithExternal = () => (
+        <Stack padding={2} spacing={2} alignItems={'center'}>
+            <IdpLoginButton color="#db4437" icon={<GoogleIcon />} onClick={handleGoogleSignIn}>
+                {t('idp.login.button', { idp: 'Google' })}
+            </IdpLoginButton>
+            <IdpLoginButton color="#3b5998" icon={<FacebookIcon />} onClick={handleFacebookSignIn}>
+                {t('idp.login.button', { idp: 'Facebook' })}
+            </IdpLoginButton>
+            <IdpLoginButton color="#55acee" icon={<TwitterIcon />} onClick={handleTwitterSignIn}>
+                {t('idp.login.button', { idp: 'Twitter' })}
+            </IdpLoginButton>
+            <Typography
+                sx={{ marginLeft: '50px !important', marginRight: '50px !important' }}
+                color={'textSecondary'}
+                variant="caption"
+                display="block"
+                gutterBottom
+            >
+                <Trans i18nKey={'idp.login.t&c'}>
+                    By continuing, you are indicating that you accept our
+                    <Link href={'/terms-of-service'} target="_blank" rel="noopener">
+                        Terms of Service
+                    </Link>
+                    and
+                    <Link href={'/privacy-policy'} target="_blank" rel="noopener">
+                        Privacy Policy
+                    </Link>
+                    .
+                </Trans>
+            </Typography>
+        </Stack>
+    );
+    console.log(user);
+    if (user) {
+        return <Redirect to={'/home'} />;
+    }
     return (
-        <AuthContainer header={'Login'}>
-            <TextField
-                id={'email-field'}
-                label={'Email'}
-                value={email}
-                onChange={(event) => {
-                    setEmail(event.target.value);
-                }}
-            />
-            <PasswordField
-                id={'password-field'}
-                label={'Password'}
-                value={password}
-                onChange={(event) => {
-                    setPassword(event.target.value);
-                }}
-            />
-            <Button onClick={signInWithEmailAndPassword} variant={'contained'} color={'primary'} fullWidth>
-                LOGIN
-            </Button>
-        </AuthContainer>
+        <Grid
+            container
+            spacing={0}
+            direction="column"
+            alignItems="center"
+            justifyContent="center"
+            style={{ minHeight: '100vh' }}
+        >
+            <Grid item xs={5}>
+                <AuthContainer header={t('page.login.header')}>
+                    <Stack padding={2} spacing={2} alignItems={'center'}>
+                        {LoginWithExternal()}
+                        {/*<SwipingTabs*/}
+                        {/*    tabs={[*/}
+                        {/*        { label: 'Social Media', content: LoginWithExternal() },*/}
+                        {/*        // { label: 'Email Sign-In', content: <EmailLoginForm /> }*/}
+                        {/*    ]}*/}
+                        {/*/>*/}
+                    </Stack>
+                </AuthContainer>
+            </Grid>
+        </Grid>
     );
 };
 

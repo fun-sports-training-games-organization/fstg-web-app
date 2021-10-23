@@ -1,0 +1,44 @@
+{
+  "auth": {
+    "message": {
+      "login": {
+        "successful": "Vous vous êtes connecté avec succès!",
+        "failure": "Vous n'avez pas réussi à vous connecter! ({{errorCode}}: {{errorMessage}})"
+      },
+      "logout": {
+        "successful": "Vous vous êtes déconnecté avec succès!",
+        "failure": "Vous n'avez pas réussi à vous déconnecter!"
+      }
+    }
+  },
+  "common": {
+    "email": "E-mail",
+    "password": "Mot de passe"
+  },
+  "idp": {
+    "login": {
+      "button": "Se connecter avec {{idp}}",
+      "t&c": "En continuant, vous acceptez les <1>Conditions d'utilisation</1> et les <3>Règles de confidentialité</3>."
+    }
+  },
+  "page": {
+    "home": {
+      "welcome": "Bienvenue sur FSTG {{displayName}}!"
+    },
+    "login": {
+      "header": "Connexion",
+      "button": {
+        "login": "Connexion"
+      }
+    },
+    "register": {
+      "header": "Enregistrement",
+      "label": {
+        "confirmPassword": "Confirmez le mot de passe"
+      },
+      "button": {
+        "register": "S'inscrire"
+      }
+    }
+  }
+}
