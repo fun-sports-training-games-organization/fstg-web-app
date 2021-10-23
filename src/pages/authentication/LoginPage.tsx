@@ -5,11 +5,13 @@ import AuthContainer from '../../components/AuthContainer';
 import { Trans, useTranslation } from 'react-i18next';
 import { Grid, Link, Stack, Typography } from '@mui/material';
 import { useSnackbar } from 'notistack';
-import { UserCredential, getRedirectResult, getAuth, FacebookAuthProvider, TwitterAuthProvider } from 'firebase/auth';
+import { UserCredential, getRedirectResult, getAuth } from 'firebase/auth';
 import { useAuth } from '../../contexts/AuthContextProvider';
 import { Redirect, useHistory } from 'react-router-dom';
 import { Twitter as TwitterIcon, Facebook as FacebookIcon, Google as GoogleIcon } from '@mui/icons-material';
 import IdpLoginButton from '../../components/idp/IdPLoginButton';
+import EmailLoginForm from './EmailLoginForm';
+import SwipingTabs from '../../components/views/SwipingTabs';
 
 interface Error {
     code: string;
@@ -47,15 +49,10 @@ const LoginPage: FC = (): JSX.Element => {
     const handleFacebookSignIn = () => {
         auth.languageCode = i18n.language.split('-')[0];
         signInWithFacebook()
-            .then((result: UserCredential) => {
-                // const user = result.user;
-
-                // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-                const credential = FacebookAuthProvider.credentialFromResult(result);
-                const accessToken = credential?.accessToken;
-                console.log(accessToken);
-                // ...
-
+            .then((/*result: UserCredential*/) => {
+                // we may need to re-enable this later...
+                // const credential = FacebookAuthProvider.credentialFromResult(result);
+                // const accessToken = credential?.accessToken;
                 getRedirectRes();
                 loggedInSuccessfully();
             })
@@ -65,14 +62,11 @@ const LoginPage: FC = (): JSX.Element => {
     const handleTwitterSignIn = () => {
         auth.languageCode = i18n.language.split('-')[0];
         signInWithTwitter()
-            .then((result: UserCredential) => {
-                // This gives you a the Twitter OAuth 1.0 Access Token and Secret.
-                // You can use these server side with your app's credentials to access the Twitter API.
-                const credential = TwitterAuthProvider.credentialFromResult(result);
-                const token = credential?.accessToken;
-                const secret = credential?.secret;
-                console.log(token);
-                console.log(secret);
+            .then((/*result: UserCredential*/) => {
+                // we may need to re-enable this later...
+                // const credential = TwitterAuthProvider.credentialFromResult(result);
+                // const token = credential?.accessToken;
+                // const secret = credential?.secret;
                 loggedInSuccessfully();
             })
             .catch(loginFailed);
@@ -127,16 +121,15 @@ const LoginPage: FC = (): JSX.Element => {
             justifyContent="center"
             style={{ minHeight: '100vh' }}
         >
-            <Grid item xs={5}>
-                <AuthContainer header={t('page.login.header')}>
+            <Grid item xs={3}>
+                <AuthContainer header={<Typography variant={'h4'}>{t('page.login.header')}</Typography>}>
                     <Stack padding={2} spacing={2} alignItems={'center'}>
-                        {LoginWithExternal()}
-                        {/*<SwipingTabs*/}
-                        {/*    tabs={[*/}
-                        {/*        { label: 'Social Media', content: LoginWithExternal() },*/}
-                        {/*        // { label: 'Email Sign-In', content: <EmailLoginForm /> }*/}
-                        {/*    ]}*/}
-                        {/*/>*/}
+                        <SwipingTabs
+                            tabs={[
+                                { label: 'Social Media', content: LoginWithExternal() },
+                                { label: 'Email Sign-In', content: <EmailLoginForm /> }
+                            ]}
+                        />
                     </Stack>
                 </AuthContainer>
             </Grid>

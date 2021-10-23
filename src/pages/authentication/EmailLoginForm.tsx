@@ -5,7 +5,6 @@ import { useHistory } from 'react-router-dom';
 import { Button, Stack, TextField } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useSnackbar } from 'notistack';
-import { useAuth } from '../../contexts/AuthContextProvider';
 
 const EmailLoginForm: FC = () => {
     const { t } = useTranslation();

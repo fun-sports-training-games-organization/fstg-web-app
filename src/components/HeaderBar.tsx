@@ -5,7 +5,7 @@ import LanguageMenu from './LanguageMenu';
 import React from 'react';
 import { useAuth } from '../contexts/AuthContextProvider';
 
-const HeaderBar = () => {
+const HeaderBar = (): JSX.Element => {
     const { user, logout } = useAuth();
     return (
         <AppBar position="static">
