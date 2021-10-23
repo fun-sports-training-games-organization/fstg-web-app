@@ -31,7 +31,7 @@ const AuthContextProvider: FC<PropsWithChildren<Record<string, unknown>>> = (
         onAuthStateChanged(auth, (user: User | null) => {
             // setAuthenticated(!!user);
             // if (user) {
-            //     console.log(user);
+            console.log(user);
             setUser(user);
             // }
             setPending(false);

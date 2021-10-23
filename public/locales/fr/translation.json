@@ -3,7 +3,7 @@
     "message": {
       "login": {
         "successful": "Vous vous êtes connecté avec succès!",
-        "failure": "Vous n'avez pas réussi à vous connecter!"
+        "failure": "Vous n'avez pas réussi à vous connecter! ({{errorCode}}: {{errorMessage}})"
       },
       "logout": {
         "successful": "Vous vous êtes déconnecté avec succès!",
@@ -22,6 +22,9 @@
     }
   },
   "page": {
+    "home": {
+      "welcome": "Bienvenue sur FSTG {{displayName}}!"
+    },
     "login": {
       "header": "Connexion",
       "button": {

@@ -22,7 +22,7 @@ export const Providers = {
 };
 
 Providers.google.setCustomParameters({ prompt: 'select_account' });
-Providers.facebook.setCustomParameters({ prompt: 'select_account' });
+Providers.facebook.setCustomParameters({ display: 'popup' });
 Providers.twitter.setCustomParameters({ prompt: 'select_account' });
 
 export const signInWithGoogle = (): Promise<UserCredential> => signInWithPopup(auth, Providers.google);

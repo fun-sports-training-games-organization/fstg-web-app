@@ -3,7 +3,7 @@
     "message": {
       "login": {
         "successful": "Sie haben sich erfolgreich angemeldet!",
-        "failure": "Sie konnten sich nicht anmelden!"
+        "failure": "Sie konnten sich nicht anmelden! ({{errorCode}}: {{errorMessage}})"
       },
       "logout": {
         "successful": "Sie haben sich erfolgreich abgemeldet!",
@@ -27,6 +27,9 @@
       "button": {
         "login": "Anmelden"
       }
+    },
+    "home": {
+      "welcome": "Willkommen bei FSTG {{displayName}}!"
     },
     "register": {
       "header": "Registrierung",

@@ -5,38 +5,81 @@ import AuthContainer from '../../components/AuthContainer';
 import { Trans, useTranslation } from 'react-i18next';
 import { Grid, Link, Stack, Typography } from '@mui/material';
 import { useSnackbar } from 'notistack';
-import { UserCredential } from 'firebase/auth';
+import { UserCredential, getRedirectResult, getAuth, FacebookAuthProvider, TwitterAuthProvider } from 'firebase/auth';
 import { useAuth } from '../../contexts/AuthContextProvider';
 import { Redirect, useHistory } from 'react-router-dom';
 import { Twitter as TwitterIcon, Facebook as FacebookIcon, Google as GoogleIcon } from '@mui/icons-material';
 import IdpLoginButton from '../../components/idp/IdPLoginButton';
 
-const LoginPage: FC = () => {
+interface Error {
+    code: string;
+    message: string;
+}
+
+const LoginPage: FC = (): JSX.Element => {
     const { enqueueSnackbar } = useSnackbar();
     const history = useHistory();
     const { user } = useAuth();
-    const { t } = useTranslation();
+    const auth = getAuth();
+    const { t, i18n } = useTranslation();
 
-    const loggedInSuccessfully = (result: UserCredential) => {
-        console.log(result.user);
+    const loggedInSuccessfully = () => {
+        // The signed-in user info.
         history.push('/home');
         enqueueSnackbar(t('auth.message.login.successful'), { variant: 'success' });
     };
 
-    const loginFailed = () => {
-        enqueueSnackbar(t('auth.message.login.failure'), { variant: 'error' });
+    const loginFailed = (error: Error) => {
+        // Handle Errors here.
+        if (error) {
+            console.log(error);
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            enqueueSnackbar(t('auth.message.login.failure', { errorCode, errorMessage }), { variant: 'error' });
+        }
     };
 
     const handleGoogleSignIn = () => {
+        auth.languageCode = i18n.language.split('-')[0];
         signInWithGoogle().then(loggedInSuccessfully).catch(loginFailed);
     };
 
     const handleFacebookSignIn = () => {
-        signInWithFacebook().then(loggedInSuccessfully).catch(loginFailed);
+        auth.languageCode = i18n.language.split('-')[0];
+        signInWithFacebook()
+            .then((result: UserCredential) => {
+                // const user = result.user;
+
+                // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+                const credential = FacebookAuthProvider.credentialFromResult(result);
+                const accessToken = credential?.accessToken;
+                console.log(accessToken);
+                // ...
+
+                getRedirectRes();
+                loggedInSuccessfully();
+            })
+            .catch(loginFailed);
     };
 
     const handleTwitterSignIn = () => {
-        signInWithTwitter().then(loggedInSuccessfully).catch(loginFailed);
+        auth.languageCode = i18n.language.split('-')[0];
+        signInWithTwitter()
+            .then((result: UserCredential) => {
+                // This gives you a the Twitter OAuth 1.0 Access Token and Secret.
+                // You can use these server side with your app's credentials to access the Twitter API.
+                const credential = TwitterAuthProvider.credentialFromResult(result);
+                const token = credential?.accessToken;
+                const secret = credential?.secret;
+                console.log(token);
+                console.log(secret);
+                loggedInSuccessfully();
+            })
+            .catch(loginFailed);
+    };
+
+    const getRedirectRes = () => {
+        getRedirectResult(getAuth()).then((result: UserCredential | null) => console.log(result));
     };
 
     const LoginWithExternal = () => (
@@ -71,6 +114,7 @@ const LoginPage: FC = () => {
             </Typography>
         </Stack>
     );
+    console.log(user);
     if (user) {
         return <Redirect to={'/home'} />;
     }
@@ -83,7 +127,7 @@ const LoginPage: FC = () => {
             justifyContent="center"
             style={{ minHeight: '100vh' }}
         >
-            <Grid item xs={3}>
+            <Grid item xs={5}>
                 <AuthContainer header={t('page.login.header')}>
                     <Stack padding={2} spacing={2} alignItems={'center'}>
                         {LoginWithExternal()}

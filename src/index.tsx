@@ -14,6 +14,8 @@ import thunk from 'redux-thunk';
 import rootReducer from './reducers';
 import { SnackbarProvider } from 'notistack';
 import AuthContextProvider from './contexts/AuthContextProvider';
+import { ThemeProvider } from '@mui/material';
+import theme from './theme/theme';
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
 
@@ -29,7 +31,9 @@ ReactDOM.render(
                 >
                     <AuthContextProvider>
                         <Provider store={store}>
-                            <App />
+                            <ThemeProvider theme={theme}>
+                                <App />
+                            </ThemeProvider>
                         </Provider>
                     </AuthContextProvider>
                 </SnackbarProvider>

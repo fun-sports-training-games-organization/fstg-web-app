@@ -37,7 +37,7 @@ const AuthContainer: FC<AuthContainerProps> = (props) => {
                 maxWidth: 500
             }}
         >
-            <CardHeader title={header} />
+            <CardHeader sx={{ textAlign: 'center' }} title={header} />
             <CardContent>{children}</CardContent>
         </Card>
     );

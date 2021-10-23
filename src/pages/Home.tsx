@@ -1,29 +1,24 @@
 import { FC } from 'react';
-import { Button, Stack } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
-import { AuthDispatcher } from '../reducers/authReducer';
 import { useAuth } from '../contexts/AuthContextProvider';
+import { Redirect } from 'react-router-dom';
 
 const HomePage: FC = () => {
-    const dispatch = useDispatch();
-    const authDispatcher = new AuthDispatcher(dispatch);
-    const { logout, user } = useAuth();
+    const { user } = useAuth();
     const { t } = useTranslation();
-    console.log('loading homepage...');
-    return (
-        <Stack>
-            {`Welcome to ${user?.displayName}!`}
-            <Button
-                onClick={() => {
-                    authDispatcher.logout();
-                    logout();
-                }}
-            >
-                {t('Logout')}
-            </Button>
-        </Stack>
-    );
+    if (user) {
+        const { displayName } = user;
+        return (
+            <Stack>
+                <Typography mt={3} ml={3} variant={'h3'} sx={{ textTransform: 'none' }}>
+                    {t('page.home.welcome', { displayName })}
+                </Typography>
+            </Stack>
+        );
+    } else {
+        return <Redirect to={'/login'} />;
+    }
 };
 
 export default HomePage;

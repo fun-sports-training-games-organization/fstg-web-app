@@ -3,7 +3,7 @@
     "message": {
       "login": {
         "successful": "You have logged in successfully!",
-        "failure": "You have failed to log in!"
+        "failure": "You have failed to log in! ({{errorCode}}: {{errorMessage}})"
       },
       "logout": {
         "successful": "You have logged out successfully!",
@@ -22,6 +22,9 @@
     }
   },
   "page": {
+    "home": {
+      "welcome": "Welcome to FSTG {{displayName}}!"
+    },
     "login": {
       "header": "Login",
       "button": {
