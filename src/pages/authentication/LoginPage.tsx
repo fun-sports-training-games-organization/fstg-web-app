@@ -121,26 +121,22 @@ const LoginPage: FC = (): JSX.Element => {
             alignItems="center"
             justifyContent="center"
             width={'100%'}
-            style={{ minHeight: smDown ? '50vh' : '100vh' }}
+            style={{ marginTop: smDown ? '50px' : '100px' }}
         >
-            <Grid item xs={12} sm={12} md={5} lg={3}>
-                <AuthContainer
-                    header={
-                        <Typography align={'center'} variant={'h4'}>
-                            {t('page.login.header')}
-                        </Typography>
-                    }
-                >
-                    {/*<Stack padding={2} spacing={2} alignItems={'center'}>*/}
-                    <SwipingTabs
-                        tabs={[
-                            { label: 'Social', content: LoginWithExternal() },
-                            { label: 'Email', content: <EmailLoginForm /> }
-                        ]}
-                    />
-                    {/*</Stack>*/}
-                </AuthContainer>
-            </Grid>
+            <AuthContainer
+                header={
+                    <Typography align={'center'} variant={'h4'}>
+                        {t('page.login.header')}
+                    </Typography>
+                }
+            >
+                <SwipingTabs
+                    tabs={[
+                        { label: 'Social', content: LoginWithExternal() },
+                        { label: 'Email', content: <EmailLoginForm /> }
+                    ]}
+                />
+            </AuthContainer>
         </Grid>
     );
 };
