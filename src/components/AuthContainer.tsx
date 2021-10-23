@@ -10,11 +10,21 @@ const AuthContainer: FC<AuthContainerProps> = (props) => {
     return (
         <Card
             sx={{
-                maxWidth: 500
+                maxWidth: 500,
+                width: '100%'
             }}
         >
-            <CardHeader sx={{ textAlign: 'center' }} title={header} />
-            <CardContent>{children}</CardContent>
+            <CardHeader title={header} />
+            <CardContent
+                sx={{
+                    padding: 0,
+                    '&:last-child': {
+                        paddingBottom: 0
+                    }
+                }}
+            >
+                {children}
+            </CardContent>
         </Card>
     );
 };

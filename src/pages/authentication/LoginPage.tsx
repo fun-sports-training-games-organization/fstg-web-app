@@ -3,7 +3,7 @@ import { signInWithFacebook, signInWithGoogle, signInWithTwitter } from '../../c
 
 import AuthContainer from '../../components/AuthContainer';
 import { Trans, useTranslation } from 'react-i18next';
-import { Grid, Link, Stack, Typography } from '@mui/material';
+import { Grid, Link, Stack, Theme, Typography, useMediaQuery } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import { UserCredential, getRedirectResult, getAuth } from 'firebase/auth';
 import { useAuth } from '../../contexts/AuthContextProvider';
@@ -24,6 +24,7 @@ const LoginPage: FC = (): JSX.Element => {
     const { user } = useAuth();
     const auth = getAuth();
     const { t, i18n } = useTranslation();
+    const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
     const loggedInSuccessfully = () => {
         // The signed-in user info.
@@ -119,18 +120,25 @@ const LoginPage: FC = (): JSX.Element => {
             direction="column"
             alignItems="center"
             justifyContent="center"
-            style={{ minHeight: '100vh' }}
+            width={'100%'}
+            style={{ minHeight: smDown ? '50vh' : '100vh' }}
         >
-            <Grid item xs={3}>
-                <AuthContainer header={<Typography variant={'h4'}>{t('page.login.header')}</Typography>}>
-                    <Stack padding={2} spacing={2} alignItems={'center'}>
-                        <SwipingTabs
-                            tabs={[
-                                { label: 'Social Media', content: LoginWithExternal() },
-                                { label: 'Email Sign-In', content: <EmailLoginForm /> }
-                            ]}
-                        />
-                    </Stack>
+            <Grid item xs={12} sm={12} md={5} lg={3}>
+                <AuthContainer
+                    header={
+                        <Typography align={'center'} variant={'h4'}>
+                            {t('page.login.header')}
+                        </Typography>
+                    }
+                >
+                    {/*<Stack padding={2} spacing={2} alignItems={'center'}>*/}
+                    <SwipingTabs
+                        tabs={[
+                            { label: 'Social', content: LoginWithExternal() },
+                            { label: 'Email', content: <EmailLoginForm /> }
+                        ]}
+                    />
+                    {/*</Stack>*/}
                 </AuthContainer>
             </Grid>
         </Grid>

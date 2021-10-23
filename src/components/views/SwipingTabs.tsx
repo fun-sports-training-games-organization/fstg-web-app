@@ -1,9 +1,8 @@
 import { useTheme } from '@mui/material/styles';
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import AppBar from '@mui/material/AppBar';
 import Tabs from '@mui/material/Tabs';
-import { Tab as MUITab } from '@mui/material';
+import { Box, Tab as MUITab } from '@mui/material';
 import TabPanel from './TabPanel';
 import SwipeableViews from 'react-swipeable-views';
 import { FC, ReactNode } from 'react';
@@ -38,7 +37,7 @@ export const FullWidthTabs: FC<Props> = (props): JSX.Element => {
     };
 
     return (
-        <Box sx={{ bgcolor: 'background.paper', width: 500 }}>
+        <Box>
             <AppBar position="static">
                 <Tabs
                     value={value}
