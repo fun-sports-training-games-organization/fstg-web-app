@@ -5,6 +5,7 @@ import Loader from '../components/Loader';
 import { useSnackbar } from 'notistack';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
+import { auth } from '../config/firebase';
 
 interface Error {
     code: string;
@@ -28,7 +29,6 @@ const AuthContextProvider: FC<PropsWithChildren<Record<string, unknown>>> = (
     const { t } = useTranslation();
     const { enqueueSnackbar } = useSnackbar();
     const history = useHistory();
-    const auth = getAuth();
 
     const loginFailed = (error: Error) => {
         // Handle Errors here.
@@ -51,7 +51,7 @@ const AuthContextProvider: FC<PropsWithChildren<Record<string, unknown>>> = (
             setUser(user);
             setAuthenticating(false);
         });
-    }, [auth]);
+    }, []);
 
     if (authenticating) {
         return <Loader />;

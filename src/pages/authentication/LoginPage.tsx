@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { signInWithFacebook, signInWithGoogle, signInWithTwitter } from '../../config/firebase';
+import { auth, signInWithFacebook, signInWithGoogle, signInWithTwitter } from '../../config/firebase';
 
 import AuthContainer from '../../components/AuthContainer';
 import { Trans, useTranslation } from 'react-i18next';
@@ -16,7 +16,6 @@ const LoginPage: FC = (): JSX.Element => {
     const { loggedInSuccessfully, loginFailed } = useAuth();
     const { t, i18n } = useTranslation();
     const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
-    const auth = getAuth();
 
     const handleGoogleSignIn = () => {
         auth.languageCode = i18n.language.split('-')[0];
