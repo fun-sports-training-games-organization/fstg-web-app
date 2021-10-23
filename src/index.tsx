@@ -25,7 +25,7 @@ ReactDOM.render(
             <BrowserRouter>
                 <SnackbarProvider
                     anchorOrigin={{
-                        vertical: 'top',
+                        vertical: 'bottom',
                         horizontal: 'center'
                     }}
                 >

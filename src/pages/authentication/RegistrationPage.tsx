@@ -1,5 +1,5 @@
 import { FC, useState } from 'react';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import PasswordField from '../../components/PasswordField';
 import { useHistory } from 'react-router-dom';
 // import TextField from '../../components/TextField';
@@ -8,6 +8,7 @@ import logger from '../../logging/logger';
 import AuthContainer from '../../components/AuthContainer';
 import { useTranslation } from 'react-i18next';
 import { useSnackbar } from 'notistack';
+import { auth } from '../../config/firebase';
 
 const RegistrationPage: FC = () => {
     const { t } = useTranslation();
@@ -24,7 +25,6 @@ const RegistrationPage: FC = () => {
         if (error !== '') {
             setError('');
         }
-        const auth = getAuth();
         // setRegistering(true);
 
         createUserWithEmailAndPassword(auth, email, password)

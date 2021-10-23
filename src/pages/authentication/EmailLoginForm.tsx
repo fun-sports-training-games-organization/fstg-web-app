@@ -1,48 +1,19 @@
 import { FC, useState } from 'react';
-import { getAuth, signInWithEmailAndPassword, UserCredential } from 'firebase/auth';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import PasswordField from '../../components/PasswordField';
-import { useHistory } from 'react-router-dom';
 import { Button, Stack, TextField } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useSnackbar } from 'notistack';
 import { useAuth } from '../../contexts/AuthContextProvider';
+import { auth } from '../../config/firebase';
 
 const EmailLoginForm: FC = () => {
     const { t } = useTranslation();
-    const { enqueueSnackbar } = useSnackbar();
-    // const {  } = useAuth();
+    const { loggedInSuccessfully, loginFailed } = useAuth();
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-    const [error, setError] = useState<string>('');
-
-    const history = useHistory();
 
     const signIn = () => {
-        if (error !== '') {
-            setError('');
-        }
-        const auth = getAuth();
-        // setRegistering(true);
-
-        signInWithEmailAndPassword(auth, email, password)
-            .then((user: UserCredential) => {
-                // setAuthenticated(true);
-                // setUser(user);
-                // logging.info(result);
-                console.log(user);
-                // setRegistering(false);
-                history.push('/login');
-            })
-            .catch((error) => {
-                console.error(error.code);
-                // 'auth/wrong-password'
-                if (error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
-                    enqueueSnackbar('Incorrect credentials', { variant: 'error' });
-                }
-
-                // TODO : error handling...
-                // setRegistering(false);
-            });
+        signInWithEmailAndPassword(auth, email, password).then(loggedInSuccessfully).catch(loginFailed);
     };
 
     return (
