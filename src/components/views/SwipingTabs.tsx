@@ -2,7 +2,7 @@ import { useTheme } from '@mui/material/styles';
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Tabs from '@mui/material/Tabs';
-import { Box, Tab as MUITab } from '@mui/material';
+import { Box, Tab as MUITab, Theme, useMediaQuery } from '@mui/material';
 import TabPanel from './TabPanel';
 import SwipeableViews from 'react-swipeable-views';
 import { FC, ReactNode } from 'react';
@@ -25,6 +25,7 @@ interface Props {
 
 export const FullWidthTabs: FC<Props> = (props): JSX.Element => {
     const theme = useTheme();
+    const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
     const [value, setValue] = React.useState(0);
     const { tabs } = props;
 
@@ -37,7 +38,7 @@ export const FullWidthTabs: FC<Props> = (props): JSX.Element => {
     };
 
     return (
-        <Box>
+        <Box sx={{ height: smDown ? '100vh' : '100%' }}>
             <AppBar position="static">
                 <Tabs
                     value={value}
