@@ -17,7 +17,7 @@ const PasswordField: FC<OutlinedInputProps> = (props) => {
     const inputAdornment = (
         <InputAdornment position="end">
             <IconButton
-                id={'show-hide-password-toggle-button'}
+                data-testid={'show-hide-password-toggle-button'}
                 aria-label="toggle password visibility"
                 onClick={handleClickShowPassword}
                 onMouseDown={handleMouseDownPassword}

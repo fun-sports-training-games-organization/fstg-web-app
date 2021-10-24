@@ -1,5 +1,5 @@
+import React, { FC, ReactNode } from 'react';
 import { Card, CardContent, CardHeader } from '@mui/material';
-import { FC, ReactNode } from 'react';
 
 export interface AuthContainerProps {
     header: string | ReactNode;
