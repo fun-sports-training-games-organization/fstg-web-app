@@ -3,11 +3,16 @@
     "deleteConfirmation": {
       "title": "Delete Confirmation",
       "message": "Are you sure you want to delete {{name}}?"
+    },
+    "editExercise": {
+      "title": "Edit Exercise",
+      "message": "Click save to update the name of your exercise or cancel to discard your changes."
     }
   },
   "global": {
     "confirm": "Confirm",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "save": "Save"
   },
   "auth": {
     "message": {

@@ -8,6 +8,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../config/firebase';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
     open: boolean;
@@ -15,9 +16,12 @@ type Props = {
     exerciseId: string;
     name: string;
     setName: Dispatch<SetStateAction<string | undefined>>;
+    title: string;
+    message: string;
 };
 
-const FormDialog = ({ open, setOpen, name, setName, exerciseId }: Props): JSX.Element => {
+const FormDialog = ({ open, setOpen, title, message, name, setName, exerciseId }: Props): JSX.Element => {
+    const { t } = useTranslation();
     const handleClose = () => {
         setOpen(false);
     };
@@ -34,9 +38,9 @@ const FormDialog = ({ open, setOpen, name, setName, exerciseId }: Props): JSX.El
             {/*    Open form dialog*/}
             {/*</Button>*/}
             <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>Edit Exercise</DialogTitle>
+                <DialogTitle>{title}</DialogTitle>
                 <DialogContent>
-                    <DialogContentText>You can update your exercise here.</DialogContentText>
+                    <DialogContentText>{message}</DialogContentText>
                     <TextField
                         autoFocus
                         margin="dense"
@@ -50,8 +54,8 @@ const FormDialog = ({ open, setOpen, name, setName, exerciseId }: Props): JSX.El
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleSave}>Save</Button>
+                    <Button onClick={handleClose}>{t('global.cancel')}</Button>
+                    <Button onClick={handleSave}>{t('global.save')}</Button>
                 </DialogActions>
             </Dialog>
         </div>

@@ -64,7 +64,15 @@ const ExerciseList: FC = (): JSX.Element => {
                 })}
             </List>
             {id && name && (
-                <FormDialog open={openDialog} setOpen={setOpenDialog} exerciseId={id} name={name} setName={setName} />
+                <FormDialog
+                    title={t('dialog.editExercise.title')}
+                    message={t('dialog.editExercise.message')}
+                    open={openDialog}
+                    setOpen={setOpenDialog}
+                    exerciseId={id}
+                    name={name}
+                    setName={setName}
+                />
             )}
             <ConfirmationDialog
                 open={openDeleteConfirmationDialog}
