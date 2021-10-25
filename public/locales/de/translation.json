@@ -1,4 +1,14 @@
 {
+  "dialog": {
+    "deleteConfirmation": {
+      "title": "Bestätigung löschen",
+      "message": "Möchten Sie {{name}} wirklich löschen?"
+    }
+  },
+  "global": {
+    "confirm": "Bestätigen",
+    "cancel": "Abbrechen"
+  },
   "auth": {
     "message": {
       "login": {

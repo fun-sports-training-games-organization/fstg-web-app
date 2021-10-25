@@ -1,4 +1,14 @@
 {
+  "dialog": {
+    "deleteConfirmation": {
+      "title": "Supprimer la confirmation",
+      "message": "Voulez-vous vraiment supprimer {{name}} ?"
+    }
+  },
+  "global": {
+    "confirm": "Confirmer",
+    "cancel": "Annuler"
+  },
   "auth": {
     "message": {
       "login": {
