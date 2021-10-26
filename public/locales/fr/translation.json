@@ -1,4 +1,19 @@
 {
+  "dialog": {
+    "deleteConfirmation": {
+      "title": "Supprimer la confirmation",
+      "message": "Voulez-vous vraiment supprimer {{name}}?"
+    },
+    "editExercise": {
+      "title": "Modifier l'exercice",
+      "message": "Cliquez sur Enregistrer pour mettre à jour le nom de votre exercice ou sur annuler pour annuler vos modifications."
+    }
+  },
+  "global": {
+    "confirm": "Confirmer",
+    "cancel": "Annuler",
+    "save": "Enregistrer"
+  },
   "auth": {
     "message": {
       "login": {
