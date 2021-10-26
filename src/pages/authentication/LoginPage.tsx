@@ -1,13 +1,13 @@
-import { FC } from 'react';
+import React, { FC } from 'react';
 import { auth, signInWithFacebook, signInWithGoogle, signInWithTwitter } from '../../config/firebase';
 
 import AuthContainer from '../../components/AuthContainer';
 import { Trans, useTranslation } from 'react-i18next';
 import { Grid, Link, Stack, Theme, Typography, useMediaQuery } from '@mui/material';
-import { UserCredential, getRedirectResult, getAuth } from 'firebase/auth';
+import { getAuth, getRedirectResult, UserCredential } from 'firebase/auth';
 import { useAuth } from '../../contexts/AuthContextProvider';
 // import { Redirect } from 'react-router-dom';
-import { Twitter as TwitterIcon, Facebook as FacebookIcon, Google as GoogleIcon } from '@mui/icons-material';
+import { Facebook as FacebookIcon, Google as GoogleIcon, Twitter as TwitterIcon } from '@mui/icons-material';
 import IdpLoginButton from '../../components/idp/IdPLoginButton';
 import EmailLoginForm from './EmailLoginForm';
 import SwipingTabs from '../../components/views/SwipingTabs';
