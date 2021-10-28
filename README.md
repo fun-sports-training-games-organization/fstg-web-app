@@ -50,3 +50,7 @@ https://miro.com/welcomeonboard/Z2N0eXNGbXQ3M3FPbkZXblFQRWY0ZW9qUUxqQ200MllOT3B3
 ### Deployed App
 
 https://fstg-edb94.firebaseapp.com
+
+### Initial Setup
+
+copy env.template and rename to env.local, fill in variables with values found here: https://console.firebase.google.com/u/1/project/fstg-edb94/settings/general/web:NDBhNGM1NDktMTUyZS00MGEyLTg1NDQtNjc4NTUxMWJlNjU0 (you will obviously need valid credentials) under the section "SDK setup and configuration" and select the config radio button
