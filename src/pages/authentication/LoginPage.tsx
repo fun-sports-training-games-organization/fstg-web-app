@@ -54,13 +54,28 @@ const LoginPage: FC = (): JSX.Element => {
 
     const LoginWithExternal = () => (
         <Stack padding={2} spacing={2} alignItems={'center'}>
-            <IdpLoginButton color="#db4437" icon={<GoogleIcon />} onClick={handleGoogleSignIn}>
+            <IdpLoginButton
+                data-cy="login-with-google"
+                color="#db4437"
+                icon={<GoogleIcon />}
+                onClick={handleGoogleSignIn}
+            >
                 {t('idp.login.button', { idp: 'Google' })}
             </IdpLoginButton>
-            <IdpLoginButton color="#3b5998" icon={<FacebookIcon />} onClick={handleFacebookSignIn}>
+            <IdpLoginButton
+                data-cy="login-with-facebook"
+                color="#3b5998"
+                icon={<FacebookIcon />}
+                onClick={handleFacebookSignIn}
+            >
                 {t('idp.login.button', { idp: 'Facebook' })}
             </IdpLoginButton>
-            <IdpLoginButton color="#55acee" icon={<TwitterIcon />} onClick={handleTwitterSignIn}>
+            <IdpLoginButton
+                data-cy="login-with-twitter"
+                color="#55acee"
+                icon={<TwitterIcon />}
+                onClick={handleTwitterSignIn}
+            >
                 {t('idp.login.button', { idp: 'Twitter' })}
             </IdpLoginButton>
             <Typography
