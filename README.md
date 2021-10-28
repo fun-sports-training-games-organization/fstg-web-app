@@ -53,4 +53,4 @@ https://fstg-edb94.firebaseapp.com
 
 ### Initial Setup
 
-copy env.template and rename to env.local, fill in variables with values found here: https://console.firebase.google.com/u/1/project/fstg-edb94/settings/general/web:NDBhNGM1NDktMTUyZS00MGEyLTg1NDQtNjc4NTUxMWJlNjU0 (you will obviously need valid credentials) under the section "SDK setup and configuration" and select the config radio button
+copy env.template and rename to env.local, go here: https://console.firebase.google.com/u/1/project/fstg-edb94/settings/general/web:NDBhNGM1NDktMTUyZS00MGEyLTg1NDQtNjc4NTUxMWJlNjU0 (you will obviously need valid credentials) and go to the section "SDK setup and configuration", select the config radio button there and fill in the variables in env.local with the variables in the const firebaseConfig.
