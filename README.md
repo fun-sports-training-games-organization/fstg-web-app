@@ -46,3 +46,7 @@ https://trello.com/b/ZLoRVBFX/project-2-fstg-cas-frontend-engineering
 ### Wireframing
 
 https://miro.com/welcomeonboard/Z2N0eXNGbXQ3M3FPbkZXblFQRWY0ZW9qUUxqQ200MllOT3B3VGFTbXNlODgwMlN0cXQ1MXltOFhYaDd0ZkZMOXwzMDc0NDU3MzQ2NjExODM4Njc1?invite_link_id=6699961836
+
+### Deployed App
+
+https://fstg-edb94.firebaseapp.com
