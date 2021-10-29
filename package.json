@@ -42,13 +42,19 @@
         "test": "jest --no-cache",
         "test:coverage": "jest --no-cache --collectCoverage=true",
         "test:watch": "jest --watch",
+        "e2e": "cypress run --spec cypress/integration/fstg/**/*spec.ts",
+        "e2e:watch": "cypress open --config ignoreTestFiles=**/cypress/integration/examples/**",
+        "e2e-examples": "cypress run --spec cypress/integration/examples/**/*spec.ts",
+        "e2e-examples:watch": "cypress open --config ignoreTestFiles=!**/cypress/integration/examples/**",
+        "e2e-all": "cypress run --spec cypress/integration/**/*spec.ts",
+        "e2e-all:watch": "cypress open --config ignoreTestFiles=!**/cypress/integration/**/*spec.ts",
         "lint": "CI=true && tsc --noEmit && eslint -f table 'src/**/*.{ts,tsx}'",
         "lint:html": "CI=true && tsc --noEmit && eslint -f html -o .doc/html-report/lint_report.html 'src/**/*.{ts,tsx}'",
         "lint:fix": "tsc --noEmit && eslint 'src/**/*.{ts,tsx}' --fix",
         "storybook": "start-storybook -p 6006",
         "storybook:export": "build-storybook",
         "eject": "react-scripts eject",
-        "cypress:open": "cypress open"
+        "update-browserlist-db": "npx browserslist@latest --update-db"
     },
     "eslintConfig": {
         "extends": [
