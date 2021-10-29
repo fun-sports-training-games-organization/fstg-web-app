@@ -8,6 +8,13 @@
 # testing
 /coverage
 
+##jest
+/.doc/html-report*
+
+## cypress
+/cypress/screenshots/*
+/cypress/videos/*
+
 # production
 /build
 storybook-static/
@@ -26,6 +33,4 @@ yarn-error.log*
 .idea
 .firebase
 
-# cypress
-/cypress/screenshots/*
-/cypress/videos/*
+
