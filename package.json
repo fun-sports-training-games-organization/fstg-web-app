@@ -104,5 +104,8 @@
         "prettier": "^2.3.2",
         "sass": "^1.42.1",
         "storybook-react-i18next": "^1.0.12"
+    },
+    "transform": {
+        "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     }
 }
