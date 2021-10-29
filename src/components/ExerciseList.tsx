@@ -1,21 +1,20 @@
-import { Grid, IconButton, List, ListItem } from '@mui/material';
+import { Button, Grid, IconButton, List, ListItem } from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
-import { Exercise } from '../pages/Home';
 import { FC, SyntheticEvent, useEffect, useState } from 'react';
 import { collection, deleteDoc, doc, onSnapshot } from 'firebase/firestore';
 import { db } from '../config/firebase';
 import FormDialog from './FormDialog';
 import ConfirmationDialog from './ConfirmationDialog';
 import { useTranslation } from 'react-i18next';
+import { Exercise } from '../model/exercise';
 
 const ExerciseList: FC = (): JSX.Element => {
     const { t } = useTranslation();
     const [exercises, setExercises] = useState<Exercise[]>([]);
     const [openDialog, setOpenDialog] = useState<boolean>(false);
     const [openDeleteConfirmationDialog, setOpenDeleteConfirmationDialog] = useState<boolean>(false);
-    const [id, setId] = useState<string>();
     const [exerciseToDelete, setExerciseToDelete] = useState<Exercise>();
-    const [name, setName] = useState<string>();
+    const [exercise, setExercise] = useState<Exercise>();
 
     const handleDelete = async (exercise: Exercise) => {
         setExerciseToDelete(exercise);
@@ -33,8 +32,7 @@ const ExerciseList: FC = (): JSX.Element => {
     }, []);
 
     const handleUpdate = (exercise: Exercise) => {
-        setName(exercise.name);
-        setId(exercise.id);
+        setExercise(exercise);
         setOpenDialog(true);
     };
 
@@ -63,24 +61,26 @@ const ExerciseList: FC = (): JSX.Element => {
                     );
                 })}
             </List>
-            {id && name && (
-                <FormDialog
-                    title={t('dialog.editExercise.title')}
-                    message={t('dialog.editExercise.message')}
-                    open={openDialog}
-                    setOpen={setOpenDialog}
-                    exerciseId={id}
-                    name={name}
-                    setName={setName}
-                />
-            )}
+            <Button variant="contained" onClick={() => setOpenDialog(true)}>
+                Add New Exercise
+            </Button>
+            <FormDialog
+                title={t('dialog.editExercise.title')}
+                message={t('dialog.editExercise.message')}
+                open={openDialog}
+                setOpen={setOpenDialog}
+                exercise={exercise}
+                setExercise={setExercise}
+            />
             <ConfirmationDialog
                 open={openDeleteConfirmationDialog}
                 title={t('dialog.deleteConfirmation.title')}
                 message={t('dialog.deleteConfirmation.message', { name: exerciseToDelete?.name })}
                 onClose={async (event: SyntheticEvent<HTMLButtonElement>) => {
                     if (event.currentTarget.value === 'confirm') {
-                        exerciseToDelete && (await deleteDoc(doc(db, 'exercises', exerciseToDelete.id)));
+                        exerciseToDelete &&
+                            exerciseToDelete.id &&
+                            (await deleteDoc(doc(db, 'exercises', exerciseToDelete.id)));
                     }
                     setOpenDeleteConfirmationDialog(false);
                 }}
