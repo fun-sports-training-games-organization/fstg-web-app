@@ -1,9 +1,9 @@
-name: Deploy to firebase
+name: Run all tests
 
 on:
-    release:
-        types:
-            - published
+    pull_request:
+        branches:
+            - main
 
 jobs:
     deploy:
@@ -16,6 +16,23 @@ jobs:
               run: npm install
             - name: Test the code
               run: npm test
+
+on:
+    push:
+        branches:
+            - main
+
+name: Deploy to Firebase
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js
+              uses: actions/setup-node@v1
+            - name: Setup the code
+              run: npm install
             - name: Deploy to Firebase
               uses: mohammed-atif/firebase-publish-react@v1.0
               with:
