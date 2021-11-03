@@ -48,6 +48,6 @@ describe('<PasswordField> component test with React Testing Library', () => {
         props.label = 'test-label';
         const { getByTestId } = renderComponent();
         const component = getByTestId('password-field');
-        expect(component).toHaveTextContent('test-label');
+        expect(component).toHaveTextContent('lest-label');
     });
 });
