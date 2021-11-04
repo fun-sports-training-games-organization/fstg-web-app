@@ -19,7 +19,6 @@ jobs:
 
     e2e-tests:
         runs-on: ubuntu-20.04
-        environment: fstg-edb94
         steps:
             - name: Checkout
               uses: actions/checkout@v2
@@ -27,10 +26,17 @@ jobs:
             # and run all Cypress tests
             - name: Cypress run
               uses: cypress-io/github-action@v2
-
+              env:
+                  REACT_APP_API_KEY: ${{secrets.FSTG_EDB94_REACT_APP_API_KEY}}
+                  REACT_APP_AUTH_DOMAIN: ${{secrets.FSTG_EDB94_REACT_APP_AUTH_DOMAIN}}
+                  REACT_APP_PROJECT_ID: ${{secrets.FSTG_EDB94_REACT_APP_PROJECT_ID}}
+                  REACT_APP_STORAGE_BUCKET: ${{secrets.FSTG_EDB94_REACT_APP_STORAGE_BUCKET}}
+                  REACT_APP_MESSAGING_SENDER_ID: ${{secrets.FSTG_EDB94_REACT_APP_MESSAGING_SENDER_ID}}
+                  REACT_APP_APP_ID: ${{secrets.FSTG_EDB94_REACT_APP_APP_ID}}
+                  REACT_APP_MEASUREMENT_ID: ${{secrets.FSTG_EDB94_REACT_APP_MEASUREMENT_ID}}
               with:
                   spec: cypress/integration/fstg/**/*spec.ts
-                  start: npm run start-gha
+                  start: npm start
                   browser: chrome
                   headless: true
                   wait-on: 'http://localhost:3000'
