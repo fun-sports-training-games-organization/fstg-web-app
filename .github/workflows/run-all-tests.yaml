@@ -30,7 +30,7 @@ jobs:
 
               with:
                   spec: cypress/integration/fstg/**/*spec.ts
-                  start: npm start-gha
+                  start: npm run start-gha
                   browser: chrome
                   headless: true
                   wait-on: 'http://localhost:3000'
