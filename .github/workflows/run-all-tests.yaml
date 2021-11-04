@@ -24,7 +24,7 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v2
             - name: Create env file
-                run: |
+              run: |
                   cat << EOF > .env.local
                   REACT_APP_API_KEY: ${{ secrets.FSTG_EDB94_REACT_APP_API_KEY }}
                   REACT_APP_AUTH_DOMAIN: ${{ secrets.FSTG_EDB94_REACT_APP_AUTH_DOMAIN }}
@@ -38,7 +38,7 @@ jobs:
             # and run all Cypress tests
             - name: Cypress run
               uses: cypress-io/github-action@v2
-            
+
               with:
                   spec: cypress/integration/fstg/**/*spec.ts
                   start: npm start
