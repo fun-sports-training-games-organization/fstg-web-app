@@ -23,19 +23,23 @@ jobs:
         steps:
             - name: Checkout
               uses: actions/checkout@v2
+            - name: Create env file
+                run: |
+                  cat << EOF > .env.local
+                  REACT_APP_API_KEY: ${{ secrets.FSTG_EDB94_REACT_APP_API_KEY }}
+                  REACT_APP_AUTH_DOMAIN: ${{ secrets.FSTG_EDB94_REACT_APP_AUTH_DOMAIN }}
+                  REACT_APP_PROJECT_ID: ${{ secrets.FSTG_EDB94_REACT_APP_PROJECT_ID }}
+                  REACT_APP_STORAGE_BUCKET: ${{ secrets.FSTG_EDB94_REACT_APP_STORAGE_BUCKET }}
+                  REACT_APP_MESSAGING_SENDER_ID: ${{ secrets.FSTG_EDB94_REACT_APP_MESSAGING_SENDER_ID }}
+                  REACT_APP_APP_ID: ${{ secrets.FSTG_EDB94_REACT_APP_APP_ID }}
+                  REACT_APP_MEASUREMENT_ID: ${{ secrets.FSTG_EDB94_REACT_APP_MEASUREMENT_ID }}
+                  EOF
             # Install NPM dependencies, cache them correctly
             # and run all Cypress tests
             - name: Cypress run
               uses: cypress-io/github-action@v2
+            
               with:
-                  env: # Or as an environment variable
-                      REACT_APP_API_KEY: ${{ secrets.REACT_APP_API_KEY }}
-                      REACT_APP_AUTH_DOMAIN: ${{ secrets.REACT_APP_AUTH_DOMAIN }}
-                      REACT_APP_PROJECT_ID: ${{ secrets.REACT_APP_PROJECT_ID }}
-                      REACT_APP_STORAGE_BUCKET: ${{ secrets.REACT_APP_STORAGE_BUCKET }}
-                      REACT_APP_MESSAGING_SENDER_ID: ${{ secrets.REACT_APP_MESSAGING_SENDER_ID }}
-                      REACT_APP_APP_ID: ${{ secrets.REACT_APP_APP_ID }}
-                      REACT_APP_MEASUREMENT_ID: ${{ secrets.REACT_APP_MEASUREMENT_ID }}
                   spec: cypress/integration/fstg/**/*spec.ts
                   start: npm start
                   browser: chrome
