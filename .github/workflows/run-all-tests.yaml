@@ -36,6 +36,10 @@ jobs:
                   REACT_APP_APP_ID: ${{ secrets.FSTG_EDB94_REACT_APP_APP_ID }}
                   REACT_APP_MEASUREMENT_ID: ${{ secrets.FSTG_EDB94_REACT_APP_MEASUREMENT_ID }}
                   EOF
+            - name: Check if .env.local was successfully created
+              run: ls
+            - name: read .env.local contents
+              run: cat .env.local
             # Install NPM dependencies, cache them correctly
             # and run all Cypress tests
             - name: Cypress run
