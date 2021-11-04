@@ -23,6 +23,8 @@ jobs:
         steps:
             - name: Checkout
               uses: actions/checkout@v2
+            - name: Check where I am
+              run: ls
             - name: Create env file
               run: |
                   cat << EOF > .env.local
