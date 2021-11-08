@@ -49,6 +49,7 @@ https://miro.com/welcomeonboard/Z2N0eXNGbXQ3M3FPbkZXblFQRWY0ZW9qUUxqQ200MllOT3B3
 
 ### Deployed App
 
+https://fun-sports-training-games.com
 https://fstg-edb94.firebaseapp.com
 
 ### Initial Setup
