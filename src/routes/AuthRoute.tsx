@@ -1,20 +1,13 @@
-import { User, UserCredential } from 'firebase/auth';
+import { User } from 'firebase/auth';
 import { FC } from 'react';
 import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { InitialState } from '../reducers/authReducer';
-
-interface StateProps {
-    user?: User | UserCredential;
-}
+import { RootReducerState } from '../reducers/authReducer';
 
 const AuthRoute: FC = (props) => {
-    const { user } = useSelector<InitialState, StateProps>((state: InitialState) => {
-        return {
-            user: state.user
-        };
+    const user = useSelector<RootReducerState, User | undefined>((state: RootReducerState) => {
+        return state.rootReducer.user;
     });
-    console.log(user);
 
     const { children } = props;
     if (!user) {

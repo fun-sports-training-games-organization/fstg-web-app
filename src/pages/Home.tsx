@@ -5,26 +5,20 @@ import { Redirect } from 'react-router-dom';
 import ExerciseList from '../components/ExerciseList';
 import { User } from 'firebase/auth';
 import { useSelector } from 'react-redux';
-import { InitialState } from '../reducers/authReducer';
-
-interface StateProps {
-    user?: User;
-}
+import { RootReducerState } from '../reducers/authReducer';
 
 const HomePage: FC = () => {
-    const { user } = useSelector<InitialState, StateProps>((state: InitialState) => {
-        return {
-            user: state.user
-        };
+    const user = useSelector<RootReducerState, User | undefined>((state: RootReducerState) => {
+        return state.rootReducer.user;
     });
-    console.log(user);
+
     const { t } = useTranslation();
 
     if (user) {
         return (
             <Stack padding={3} spacing={3}>
                 <Typography mt={3} ml={3} variant={'h3'} sx={{ textTransform: 'none' }}>
-                    {t('page.home.welcome', { user })}
+                    {t('page.home.welcome', user.displayName ? user.displayName : '')}
                 </Typography>
                 <ExerciseList />
             </Stack>

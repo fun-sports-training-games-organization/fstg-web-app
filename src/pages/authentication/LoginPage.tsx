@@ -30,7 +30,7 @@ const LoginPage: FC = (): JSX.Element => {
     const handleGoogleSignIn = () => {
         auth.languageCode = i18n.language.split('-')[0];
         // signInWithGoogle().then(loggedInSuccessfully).catch(loginFailed);
-
+        authDispatcher.signingIn();
         signInWithGoogle()
             .then((userCredential: UserCredential) => {
                 const { user } = userCredential;

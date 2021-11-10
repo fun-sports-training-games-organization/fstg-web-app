@@ -3,6 +3,10 @@ import { Dispatch } from 'react';
 import { User } from 'firebase/auth';
 
 // example taken from: https://dzone.com/articles/react-redux-hooks-with-typescript-in-2020
+export interface RootReducerState {
+    rootReducer: InitialState;
+}
+
 export interface InitialState {
     signingIn?: boolean;
     signedIn?: boolean;
@@ -29,15 +33,19 @@ export enum ActionType {
 const reducer: Reducer<InitialState, DispatchAction> = (state = initialState, action: DispatchAction) => {
     if (action.type) {
         switch (action.type) {
+            case ActionType.SigningIn:
+                return { ...state, signingIn: true };
             case ActionType.SignedIn:
-                return { ...state, user: action.payload.user || undefined };
+                return { ...state, signingIn: false, signedIn: true, user: action.payload.user || undefined };
             case ActionType.LoginFailed:
+                return { ...state, signingIn: false };
             case ActionType.Logout:
-                return { ...state, user: undefined };
+                return { ...state, signedIn: false, user: undefined };
             default:
                 return state;
         }
     }
+
     return state;
 };
 
@@ -47,7 +55,7 @@ export class AuthDispatcher {
         this.dispatch = dispatch;
     }
     signedIn = (user: User): void => this.dispatch({ type: ActionType.SignedIn, payload: { signedIn: true, user } });
-
+    signingIn = (): void => this.dispatch({ type: ActionType.SigningIn, payload: { signingIn: true } });
     loginFailed = (): void => this.dispatch({ type: ActionType.LoginFailed, payload: {} });
     logout = (): void => this.dispatch({ type: ActionType.Logout, payload: {} });
 }
