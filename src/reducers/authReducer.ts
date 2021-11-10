@@ -20,6 +20,7 @@ export interface DispatchAction extends Action {
 }
 
 export enum ActionType {
+    SigningIn,
     SignedIn,
     LoginFailed,
     Logout
@@ -33,6 +34,8 @@ const reducer: Reducer<InitialState, DispatchAction> = (state = initialState, ac
             case ActionType.LoginFailed:
             case ActionType.Logout:
                 return { ...state, user: undefined };
+            default:
+                return state;
         }
     }
     return state;

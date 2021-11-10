@@ -11,41 +11,79 @@ import { Facebook as FacebookIcon, Google as GoogleIcon, Twitter as TwitterIcon 
 import IdpLoginButton from '../../components/idp/IdPLoginButton';
 import EmailLoginForm from './EmailLoginForm';
 import SwipingTabs from '../../components/views/SwipingTabs';
+import { useDispatch } from 'react-redux';
+import { AuthDispatcher } from '../../reducers/authReducer';
+import { useSnackbar } from 'notistack';
+import { useHistory } from 'react-router-dom';
 
 const LoginPage: FC = (): JSX.Element => {
-    const { loggedInSuccessfully, loginFailed } = useAuth();
+    const { loggedInSuccessfully } = useAuth();
     const { t, i18n } = useTranslation();
+    const { enqueueSnackbar } = useSnackbar();
+    const history = useHistory();
+
     const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
+
+    const dispatch = useDispatch();
+    const authDispatcher = new AuthDispatcher(dispatch);
 
     const handleGoogleSignIn = () => {
         auth.languageCode = i18n.language.split('-')[0];
-        signInWithGoogle().then(loggedInSuccessfully).catch(loginFailed);
+        // signInWithGoogle().then(loggedInSuccessfully).catch(loginFailed);
+
+        signInWithGoogle()
+            .then((userCredential: UserCredential) => {
+                const { user } = userCredential;
+                authDispatcher.signedIn(user);
+                history.push('/home');
+                enqueueSnackbar(t('auth.message.login.successful'), { variant: 'success' });
+            })
+            .catch(authDispatcher.loginFailed);
     };
 
     const handleFacebookSignIn = () => {
         auth.languageCode = i18n.language.split('-')[0];
-        signInWithFacebook()
-            .then((/*result: UserCredential*/) => {
+        /*signInWithFacebook()
+            .then((/!*result: UserCredential*!/) => {
                 // we may need to re-enable this later...
                 // const credential = FacebookAuthProvider.credentialFromResult(result);
                 // const accessToken = credential?.accessToken;
                 getRedirectRes();
                 loggedInSuccessfully();
             })
-            .catch(loginFailed);
+            .catch(loginFailed); */
+
+        signInWithFacebook()
+            .then((userCredential: UserCredential) => {
+                // we may need to re-enable this later...
+                // const credential = FacebookAuthProvider.credentialFromResult(result);
+                // const accessToken = credential?.accessToken;
+                getRedirectRes();
+                const { user } = userCredential;
+                authDispatcher.signedIn(user);
+            })
+            .catch(authDispatcher.loginFailed);
     };
 
     const handleTwitterSignIn = () => {
         auth.languageCode = i18n.language.split('-')[0];
+        // signInWithTwitter()
+        //     .then((/*result: UserCredential*/) => {
+        //         // we may need to re-enable this later...
+        //         // const credential = TwitterAuthProvider.credentialFromResult(result);
+        //         // const token = credential?.accessToken;
+        //         // const secret = credential?.secret;
+        //         loggedInSuccessfully();
+        //     })
+        //     .catch(loginFailed);
+
         signInWithTwitter()
-            .then((/*result: UserCredential*/) => {
-                // we may need to re-enable this later...
-                // const credential = TwitterAuthProvider.credentialFromResult(result);
-                // const token = credential?.accessToken;
-                // const secret = credential?.secret;
+            .then((userCredential: UserCredential) => {
+                const { user } = userCredential;
+                authDispatcher.signedIn(user);
                 loggedInSuccessfully();
             })
-            .catch(loginFailed);
+            .catch(authDispatcher.loginFailed);
     };
 
     const getRedirectRes = () => {

@@ -1,9 +1,21 @@
+import { User, UserCredential } from 'firebase/auth';
 import { FC } from 'react';
+import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContextProvider';
+import { InitialState } from '../reducers/authReducer';
+
+interface StateProps {
+    user?: User | UserCredential;
+}
 
 const AuthRoute: FC = (props) => {
-    const { user } = useAuth();
+    const { user } = useSelector<InitialState, StateProps>((state: InitialState) => {
+        return {
+            user: state.user
+        };
+    });
+    console.log(user);
+
     const { children } = props;
     if (!user) {
         return <Redirect to={'/login'} />;
