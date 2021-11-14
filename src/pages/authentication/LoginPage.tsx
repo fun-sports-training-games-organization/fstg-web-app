@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { auth, signInWithFacebook, signInWithGoogle, signInWithTwitter } from '../../config/firebase';
+import { auth, signInWithFacebook, /*signInWithGoogle,*/ signInWithTwitter } from '../../config/firebase';
 
 import AuthContainer from '../../components/AuthContainer';
 import { Trans, useTranslation } from 'react-i18next';
@@ -15,6 +15,7 @@ import { useDispatch } from 'react-redux';
 import { AuthDispatcher } from '../../reducers/authReducer';
 import { useSnackbar } from 'notistack';
 import { useHistory } from 'react-router-dom';
+import { useFirebase } from 'react-redux-firebase';
 
 const LoginPage: FC = (): JSX.Element => {
     const { loggedInSuccessfully } = useAuth();
@@ -23,22 +24,30 @@ const LoginPage: FC = (): JSX.Element => {
     const history = useHistory();
 
     const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
-
+    const firebase = useFirebase();
     const dispatch = useDispatch();
     const authDispatcher = new AuthDispatcher(dispatch);
 
     const handleGoogleSignIn = () => {
-        auth.languageCode = i18n.language.split('-')[0];
-        // signInWithGoogle().then(loggedInSuccessfully).catch(loginFailed);
-        authDispatcher.signingIn();
-        signInWithGoogle()
-            .then((userCredential: UserCredential) => {
-                const { user } = userCredential;
-                authDispatcher.signedIn(user);
-                history.push('/home');
-                enqueueSnackbar(t('auth.message.login.successful'), { variant: 'success' });
+        firebase
+            .login({
+                provider: 'google',
+                type: 'popup'
             })
-            .catch(authDispatcher.loginFailed);
+            .then(() => {
+                history.push('/home');
+            });
+        // auth.languageCode = i18n.language.split('-')[0];
+        // signInWithGoogle().then(loggedInSuccessfully).catch(loginFailed);
+        // authDispatcher.signingIn();
+        // signInWithGoogle()
+        //     .then((userCredential: UserCredential) => {
+        //         const { user } = userCredential;
+        //         authDispatcher.signedIn(user);
+        //         history.push('/home');
+        //         enqueueSnackbar(t('auth.message.login.successful'), { variant: 'success' });
+        //     })
+        //     .catch(authDispatcher.loginFailed);
     };
 
     const handleFacebookSignIn = () => {

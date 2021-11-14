@@ -11,13 +11,36 @@ import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 import thunk from 'redux-thunk';
-import rootReducer from './reducers';
 import { SnackbarProvider } from 'notistack';
 import AuthContextProvider from './contexts/AuthContextProvider';
 import { ThemeProvider } from '@mui/material';
 import theme from './theme/theme';
+// import Firebase from './config/firebase';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
 
-const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
+import { createFirestoreInstance } from 'redux-firestore';
+import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
+import { rootReducer } from './reducers';
+import firebaseConfig from './config/firebaseConfig';
+
+const rrfConfig = {
+    userProfile: 'users',
+    useFirestoreForProfile: true
+};
+
+const initialState = {};
+const store = createStore(rootReducer, initialState, composeWithDevTools(applyMiddleware(thunk)));
+// https://stackoverflow.com/questions/68946446/how-do-i-fix-a-firebase-9-0-import-error-attempted-import-error-firebase-app/68967024#68967024
+firebase.initializeApp(firebaseConfig);
+
+const rrfProps = {
+    firebase,
+    config: rrfConfig,
+    dispatch: store.dispatch,
+    createFirestoreInstance
+};
 
 ReactDOM.render(
     <Suspense fallback={<></>}>
@@ -31,9 +54,11 @@ ReactDOM.render(
                 >
                     <AuthContextProvider>
                         <Provider store={store}>
-                            <ThemeProvider theme={theme}>
-                                <App />
-                            </ThemeProvider>
+                            <ReactReduxFirebaseProvider {...rrfProps}>
+                                <ThemeProvider theme={theme}>
+                                    <App />
+                                </ThemeProvider>
+                            </ReactReduxFirebaseProvider>
                         </Provider>
                     </AuthContextProvider>
                 </SnackbarProvider>

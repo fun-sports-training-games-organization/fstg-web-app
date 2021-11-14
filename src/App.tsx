@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { Route, RouteComponentProps, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import routes from './routes/Routes';
 import AuthRoute from './routes/AuthRoute';
 import { Box } from '@mui/system';
@@ -11,23 +11,23 @@ function App(): JSX.Element {
         <Box>
             <HeaderBar />
             <Switch>
-                {routes.map((route, index) => (
-                    <Route
-                        key={index}
-                        path={route.path}
-                        exact={route.exact}
-                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                        render={(routeProps: RouteComponentProps<any>) => {
-                            return route.protected ? (
-                                <AuthRoute>
-                                    <route.component {...routeProps} />
-                                </AuthRoute>
-                            ) : (
-                                <route.component {...routeProps} />
-                            );
-                        }}
-                    />
-                ))}
+                {routes.map((route, index) => {
+                    // <Route
+                    //     key={index}
+                    //     path={route.path}
+                    //     exact={route.exact}
+                    //     // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    //     render={(routeProps: RouteComponentProps<any>) => {
+                    return route.protected ? (
+                        <AuthRoute key={index} path={route.path} exact={route.exact}>
+                            <route.component />
+                        </AuthRoute>
+                    ) : (
+                        <Route key={index} path={route.path} exact={route.exact}>
+                            <route.component />
+                        </Route>
+                    );
+                })}
             </Switch>
         </Box>
     );
