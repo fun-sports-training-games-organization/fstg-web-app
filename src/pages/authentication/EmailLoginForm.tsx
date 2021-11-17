@@ -1,10 +1,8 @@
 import React, { FC, useState } from 'react';
-import { signInWithEmailAndPassword } from 'firebase/auth';
 import PasswordField from '../../components/PasswordField';
 import { Button, Stack, TextField } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContextProvider';
-import { auth } from '../../config/firebase';
 
 const EmailLoginForm: FC = () => {
     const { t } = useTranslation();
@@ -13,7 +11,7 @@ const EmailLoginForm: FC = () => {
     const [password, setPassword] = useState<string>('');
 
     const signIn = () => {
-        signInWithEmailAndPassword(auth, email, password).then(loggedInSuccessfully).catch(loginFailed);
+        // signInWithEmailAndPassword(auth, email, password).then(loggedInSuccessfully).catch(loginFailed);
     };
 
     return (

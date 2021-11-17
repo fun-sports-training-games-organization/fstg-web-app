@@ -5,6 +5,7 @@ import Loader from '../components/Loader';
 import { useSnackbar } from 'notistack';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
+import { useFirebase } from 'react-redux-firebase';
 import { auth } from '../config/firebase';
 
 interface Error {
@@ -24,6 +25,7 @@ export const AuthContext = createContext<AuthContextData | undefined>(undefined)
 const AuthContextProvider: FC<PropsWithChildren<Record<string, unknown>>> = (
     props: PropsWithChildren<Record<string, unknown>>
 ) => {
+    const firebase = useFirebase();
     const [user, setUser] = useState<User | null>(null);
     const [authenticating, setAuthenticating] = useState<boolean>(true);
     const { t } = useTranslation();
@@ -49,7 +51,6 @@ const AuthContextProvider: FC<PropsWithChildren<Record<string, unknown>>> = (
     useEffect(() => {
         console.log('use effect triggered from auth context provider');
         onAuthStateChanged(auth, (user: User | null) => {
-            console.log(user);
             setUser(user);
             setAuthenticating(false);
         });

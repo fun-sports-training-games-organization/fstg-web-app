@@ -1,10 +1,8 @@
 import React, { FC } from 'react';
-import { auth, signInWithFacebook, /*signInWithGoogle,*/ signInWithTwitter } from '../../config/firebase';
-
+// import { auth, signInWithFacebook, /*signInWithGoogle,*/ signInWithTwitter } from '../../config/firebase';
 import AuthContainer from '../../components/AuthContainer';
 import { Trans, useTranslation } from 'react-i18next';
 import { Grid, Link, Stack, Theme, Typography, useMediaQuery } from '@mui/material';
-import { getAuth, getRedirectResult, UserCredential } from 'firebase/auth';
 import { useAuth } from '../../contexts/AuthContextProvider';
 // import { Redirect } from 'react-router-dom';
 import { Facebook as FacebookIcon, Google as GoogleIcon, Twitter as TwitterIcon } from '@mui/icons-material';
@@ -30,76 +28,23 @@ const LoginPage: FC = (): JSX.Element => {
     const dbRequest = window.indexedDB.open('firebaseLocalStorageDb');
     console.log(dbRequest);
 
-    const handleGoogleSignIn = () => {
+    const handleExternalLogin = (provider: 'google' | 'facebook' | 'twitter') => {
         firebase
             .login({
-                provider: 'google',
+                provider,
                 type: 'popup'
             })
             .then(() => {
                 history.push('/home');
-            });
-        // auth.languageCode = i18n.language.split('-')[0];
-        // signInWithGoogle().then(loggedInSuccessfully).catch(loginFailed);
-        // authDispatcher.signingIn();
-        // signInWithGoogle()
-        //     .then((userCredential: UserCredential) => {
-        //         const { user } = userCredential;
-        //         authDispatcher.signedIn(user);
-        //         history.push('/home');
-        //         enqueueSnackbar(t('auth.message.login.successful'), { variant: 'success' });
-        //     })
-        //     .catch(authDispatcher.loginFailed);
-    };
 
-    const handleFacebookSignIn = () => {
-        auth.languageCode = i18n.language.split('-')[0];
-        /*signInWithFacebook()
-            .then((/!*result: UserCredential*!/) => {
-                // we may need to re-enable this later...
-                // const credential = FacebookAuthProvider.credentialFromResult(result);
-                // const accessToken = credential?.accessToken;
-                getRedirectRes();
-                loggedInSuccessfully();
-            })
-            .catch(loginFailed); */
-
-        signInWithFacebook()
-            .then((userCredential: UserCredential) => {
-                // we may need to re-enable this later...
-                // const credential = FacebookAuthProvider.credentialFromResult(result);
-                // const accessToken = credential?.accessToken;
-                getRedirectRes();
-                const { user } = userCredential;
-                authDispatcher.signedIn(user);
+                enqueueSnackbar(t('auth.message.login.successful'), { variant: 'success' });
             })
             .catch(authDispatcher.loginFailed);
     };
 
-    const handleTwitterSignIn = () => {
-        auth.languageCode = i18n.language.split('-')[0];
-        // signInWithTwitter()
-        //     .then((/*result: UserCredential*/) => {
-        //         // we may need to re-enable this later...
-        //         // const credential = TwitterAuthProvider.credentialFromResult(result);
-        //         // const token = credential?.accessToken;
-        //         // const secret = credential?.secret;
-        //         loggedInSuccessfully();
-        //     })
-        //     .catch(loginFailed);
-
-        signInWithTwitter()
-            .then((userCredential: UserCredential) => {
-                const { user } = userCredential;
-                authDispatcher.signedIn(user);
-                loggedInSuccessfully();
-            })
-            .catch(authDispatcher.loginFailed);
-    };
-
-    const getRedirectRes = () => {
-        getRedirectResult(getAuth()).then((result: UserCredential | null) => console.log(result));
-    };
+    const handleGoogleLogin = () => handleExternalLogin('google');
+    const handleFacebookLogin = () => handleExternalLogin('facebook');
+    const handleTwitterLogin = () => handleExternalLogin('twitter');
 
     const LoginWithExternal = () => (
         <Stack padding={2} spacing={2} alignItems={'center'}>
@@ -107,7 +52,7 @@ const LoginPage: FC = (): JSX.Element => {
                 data-cy="login-with-google"
                 color="#db4437"
                 icon={<GoogleIcon />}
-                onClick={handleGoogleSignIn}
+                onClick={handleGoogleLogin}
             >
                 {t('idp.login.button', { idp: 'Google' })}
             </IdpLoginButton>
@@ -115,7 +60,7 @@ const LoginPage: FC = (): JSX.Element => {
                 data-cy="login-with-facebook"
                 color="#3b5998"
                 icon={<FacebookIcon />}
-                onClick={handleFacebookSignIn}
+                onClick={handleFacebookLogin}
             >
                 {t('idp.login.button', { idp: 'Facebook' })}
             </IdpLoginButton>
@@ -123,7 +68,7 @@ const LoginPage: FC = (): JSX.Element => {
                 data-cy="login-with-twitter"
                 color="#55acee"
                 icon={<TwitterIcon />}
-                onClick={handleTwitterSignIn}
+                onClick={handleTwitterLogin}
             >
                 {t('idp.login.button', { idp: 'Twitter' })}
             </IdpLoginButton>
