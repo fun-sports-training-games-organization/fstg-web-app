@@ -1,8 +1,9 @@
 import { Button, Grid, IconButton, List, ListItem } from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
 import { FC, SyntheticEvent, useEffect, useState } from 'react';
-import { collection, deleteDoc, doc, onSnapshot } from 'firebase/firestore';
-import { db } from '../config/firebase';
+// import { db } from '../config/firebase';
+import { useFirestore } from 'react-redux-firebase';
+
 import FormDialog from './FormDialog';
 import ConfirmationDialog from './ConfirmationDialog';
 import { useTranslation } from 'react-i18next';
@@ -10,6 +11,8 @@ import { Exercise } from '../model/exercise';
 
 const ExerciseList: FC = (): JSX.Element => {
     const { t } = useTranslation();
+    const firestore = useFirestore();
+
     const [exercises, setExercises] = useState<Exercise[]>([]);
     const [openDialog, setOpenDialog] = useState<boolean>(false);
     const [openDeleteConfirmationDialog, setOpenDeleteConfirmationDialog] = useState<boolean>(false);
@@ -22,7 +25,7 @@ const ExerciseList: FC = (): JSX.Element => {
     };
 
     useEffect(() => {
-        onSnapshot(collection(db, 'exercises'), (snapshot) => {
+        firestore.collection('exercises').onSnapshot((snapshot) => {
             const exercises = snapshot.docs.map((doc) => {
                 const { id } = doc;
                 return { id, ...doc.data() };
@@ -80,7 +83,7 @@ const ExerciseList: FC = (): JSX.Element => {
                     if (event.currentTarget.value === 'confirm') {
                         exerciseToDelete &&
                             exerciseToDelete.id &&
-                            (await deleteDoc(doc(db, 'exercises', exerciseToDelete.id)));
+                            (await firestore.collection('exercises').doc(exerciseToDelete.id).delete());
                     }
                     setOpenDeleteConfirmationDialog(false);
                 }}

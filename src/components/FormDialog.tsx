@@ -1,7 +1,7 @@
 import React, { ChangeEvent, Dispatch, SetStateAction } from 'react';
-import { Button, Dialog, Stack, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
-import { addDoc, collection, doc, updateDoc } from 'firebase/firestore';
-import { db } from '../config/firebase';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Stack } from '@mui/material';
+// import { db } from '../config/firebase';
+import { useFirestore } from 'react-redux-firebase';
 import { useTranslation } from 'react-i18next';
 import { Exercise } from '../model/exercise';
 import { useSnackbar } from 'notistack';
@@ -29,22 +29,35 @@ const emptyExercise = {
 const FormDialog = ({ open, setOpen, title, message, exercise = emptyExercise, setExercise }: Props): JSX.Element => {
     const { t } = useTranslation();
     const { enqueueSnackbar } = useSnackbar();
+    const firestore = useFirestore();
     const handleClose = () => {
         setOpen(false);
     };
 
-    const handleUpdate = async () => {
+    const handleUpdate = () => {
         if (exercise?.id) {
-            const docRef = doc(db, 'exercises', exercise?.id);
-            await updateDoc(docRef, { exercise });
-            setOpen(false);
+            firestore
+                .collection('exercises')
+                .doc(exercise?.id)
+                .update(exercise)
+                .then(() => {
+                    enqueueSnackbar(`${exercise.name} was successfully updated`, { variant: 'success' });
+                    setOpen(false);
+                })
+                .catch(() => {
+                    enqueueSnackbar(`${exercise.name} could not be updated`, { variant: 'error' });
+                });
+            // .doc(exercise?.id).update({ exercise });
+            // firestore.update()
+            // const docRef = doc(db, 'exercises', exercise?.id);
+            // await updateDoc(docRef, { exercise });
         }
     };
 
     const handleCreate = () => {
-        const collectionRef = collection(db, 'exercises');
-        const payload = exercise;
-        addDoc(collectionRef, payload)
+        firestore
+            .collection('exercises')
+            .add(exercise)
             .then(() => {
                 enqueueSnackbar(`${exercise?.name} has been added successfully!`, { variant: 'success' });
                 setOpen(false);
@@ -53,6 +66,18 @@ const FormDialog = ({ open, setOpen, title, message, exercise = emptyExercise, s
             .catch(() => {
                 enqueueSnackbar(`${exercise.name} could not be created`, { variant: 'error' });
             }); // to add with auto generate id
+
+        // const collectionRef = collection(db, 'exercises');
+        // const payload = exercise;
+        // addDoc(collectionRef, payload)
+        //     .then(() => {
+        //         enqueueSnackbar(`${exercise?.name} has been added successfully!`, { variant: 'success' });
+        //         setOpen(false);
+        //         exercise = emptyExercise;
+        //     })
+        //     .catch(() => {
+        //         enqueueSnackbar(`${exercise.name} could not be created`, { variant: 'error' });
+        //     }); // to add with auto generate id
     };
 
     return (
