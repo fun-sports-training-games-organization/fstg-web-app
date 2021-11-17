@@ -47,7 +47,9 @@ const AuthContextProvider: FC<PropsWithChildren<Record<string, unknown>>> = (
     };
 
     useEffect(() => {
+        console.log('use effect triggered from auth context provider');
         onAuthStateChanged(auth, (user: User | null) => {
+            console.log(user);
             setUser(user);
             setAuthenticating(false);
         });

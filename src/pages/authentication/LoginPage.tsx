@@ -27,6 +27,8 @@ const LoginPage: FC = (): JSX.Element => {
     const firebase = useFirebase();
     const dispatch = useDispatch();
     const authDispatcher = new AuthDispatcher(dispatch);
+    const dbRequest = window.indexedDB.open('firebaseLocalStorageDb');
+    console.log(dbRequest);
 
     const handleGoogleSignIn = () => {
         firebase
