@@ -65,7 +65,7 @@ const ExerciseList: FC = (): JSX.Element => {
                 })}
             </List>
             <Button variant="contained" onClick={() => setOpenDialog(true)}>
-                Add New Exercise
+                {t('global.add')}
             </Button>
             <FormDialog
                 title={t('dialog.editExercise.title')}

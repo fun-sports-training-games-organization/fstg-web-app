@@ -3,28 +3,22 @@ import React, { FC } from 'react';
 import AuthContainer from '../../components/AuthContainer';
 import { Trans, useTranslation } from 'react-i18next';
 import { Grid, Link, Stack, Theme, Typography, useMediaQuery } from '@mui/material';
-import { useAuth } from '../../contexts/AuthContextProvider';
 // import { Redirect } from 'react-router-dom';
 import { Facebook as FacebookIcon, Google as GoogleIcon, Twitter as TwitterIcon } from '@mui/icons-material';
 import IdpLoginButton from '../../components/idp/IdPLoginButton';
 import EmailLoginForm from './EmailLoginForm';
 import SwipingTabs from '../../components/views/SwipingTabs';
-import { useDispatch } from 'react-redux';
-import { AuthDispatcher } from '../../reducers/authReducer';
 import { useSnackbar } from 'notistack';
 import { useHistory } from 'react-router-dom';
 import { useFirebase } from 'react-redux-firebase';
 
 const LoginPage: FC = (): JSX.Element => {
-    const { loggedInSuccessfully } = useAuth();
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
     const { enqueueSnackbar } = useSnackbar();
     const history = useHistory();
 
     const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
     const firebase = useFirebase();
-    const dispatch = useDispatch();
-    const authDispatcher = new AuthDispatcher(dispatch);
     const dbRequest = window.indexedDB.open('firebaseLocalStorageDb');
     console.log(dbRequest);
 
@@ -36,10 +30,9 @@ const LoginPage: FC = (): JSX.Element => {
             })
             .then(() => {
                 history.push('/home');
-
                 enqueueSnackbar(t('auth.message.login.successful'), { variant: 'success' });
             })
-            .catch(authDispatcher.loginFailed);
+            .catch(() => enqueueSnackbar(t('auth.message.login.failure'), { variant: 'error' }));
     };
 
     const handleGoogleLogin = () => handleExternalLogin('google');

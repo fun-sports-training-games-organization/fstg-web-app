@@ -1,59 +1,61 @@
 {
-  "dialog": {
-    "deleteConfirmation": {
-      "title": "Delete Confirmation",
-      "message": "Are you sure you want to delete {{name}}?"
+    "dialog": {
+        "deleteConfirmation": {
+            "title": "Delete Confirmation",
+            "message": "Are you sure you want to delete {{name}}?"
+        },
+        "editExercise": {
+            "title": "Edit Exercise",
+            "message": "Click save to update the name of your exercise or cancel to discard your changes."
+        }
     },
-    "editExercise": {
-      "title": "Edit Exercise",
-      "message": "Click save to update the name of your exercise or cancel to discard your changes."
-    }
-  },
-  "global": {
-    "confirm": "Confirm",
-    "cancel": "Cancel",
-    "save": "Save"
-  },
-  "auth": {
-    "message": {
-      "login": {
-        "successful": "You have logged in successfully!",
-        "failure": "You have failed to log in! ({{errorCode}}: {{errorMessage}})"
-      },
-      "logout": {
-        "successful": "You have logged out successfully!",
-        "failure": "You have failed to log out!"
-      }
-    }
-  },
-  "common": {
-    "email": "Email",
-    "password": "Password"
-  },
-  "idp": {
-    "login": {
-      "button": "Login with {{idp}}",
-      "t&c": "By continuing, you are indicating that you accept our <1>Terms of Service</1> and <3>Privacy Policy</3>."
-    }
-  },
-  "page": {
-    "home": {
-      "welcome": "Welcome to FSTG {{displayName}}!"
+    "global": {
+        "confirm": "Confirm",
+        "cancel": "Cancel",
+        "save": "Save",
+        "create": "Create",
+        "add": "Add"
     },
-    "login": {
-      "header": "Login",
-      "button": {
-        "login": "Login"
-      }
+    "auth": {
+        "message": {
+            "login": {
+                "successful": "You have logged in successfully!",
+                "failure": "You have failed to log in! ({{errorCode}}: {{errorMessage}})"
+            },
+            "logout": {
+                "successful": "You have logged out successfully!",
+                "failure": "You have failed to log out!"
+            }
+        }
     },
-    "register": {
-      "header": "Registration",
-      "label": {
-        "confirmPassword": "Confirm Password"
-      },
-      "button": {
-        "register": "Register"
-      }
+    "common": {
+        "email": "Email",
+        "password": "Password"
+    },
+    "idp": {
+        "login": {
+            "button": "Login with {{idp}}",
+            "t&c": "By continuing, you are indicating that you accept our <1>Terms of Service</1> and <3>Privacy Policy</3>."
+        }
+    },
+    "page": {
+        "home": {
+            "welcome": "Welcome to FSTG {{displayName}}!"
+        },
+        "login": {
+            "header": "Login",
+            "button": {
+                "login": "Login"
+            }
+        },
+        "register": {
+            "header": "Registration",
+            "label": {
+                "confirmPassword": "Confirm Password"
+            },
+            "button": {
+                "register": "Register"
+            }
+        }
     }
-  }
 }
