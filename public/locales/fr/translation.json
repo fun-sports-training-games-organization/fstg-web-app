@@ -14,7 +14,8 @@
         "cancel": "Annuler",
         "save": "Enregistrer",
         "create": "Créer",
-        "add": "Ajouter"
+        "add": "Ajouter",
+        "back": "Retour"
     },
     "auth": {
         "message": {
@@ -25,6 +26,13 @@
             "logout": {
                 "successful": "Vous vous êtes déconnecté avec succès!",
                 "failure": "Vous n'avez pas réussi à vous déconnecter!"
+            },
+            "registration": {
+                "emailAlreadyExists": "L'e-mail existe déjà!",
+                "failed": "L'enregistrement a échoué: {{code}}"
+            },
+            "resetPassword": {
+                "emailSent": "Le lien de réinitialisation du mot de passe a été envoyé! Veuillez vérifier votre courrier!"
             }
         }
     },
@@ -44,8 +52,10 @@
         },
         "login": {
             "header": "Connexion",
+            "forgotPassword": "Mot de passe oublié?",
             "button": {
-                "login": "Connexion"
+                "login": "Connexion",
+                "reset": "Réinitialiser le mot de passe"
             }
         },
         "register": {

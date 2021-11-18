@@ -32,7 +32,7 @@ const ExerciseList: FC = (): JSX.Element => {
             });
             setExercises(exercises as Exercise[]);
         });
-    }, []);
+    }, [firestore]);
 
     const handleUpdate = (exercise: Exercise) => {
         setExercise(exercise);

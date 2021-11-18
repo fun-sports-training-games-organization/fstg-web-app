@@ -14,7 +14,8 @@
         "cancel": "Abbrechen",
         "save": "Speichern",
         "create": "Erstellen",
-        "add": "Hinzufügen"
+        "add": "Hinzufügen",
+        "back": "Zurück"
     },
     "auth": {
         "message": {
@@ -25,6 +26,13 @@
             "logout": {
                 "successful": "Sie haben sich erfolgreich abgemeldet!",
                 "failure": "Sie konnten sich nicht abmelden!"
+            },
+            "registration": {
+                "emailAlreadyExists": "E-Mail existiert bereits!",
+                "failed": "Registrierung fehlgeschlagen: {{code}}"
+            },
+            "resetPassword": {
+                "emailSent": "Link zum Zurücksetzen des Passworts wurde gesendet! Bitte überprüfen Sie Ihre E-Mails!"
             }
         }
     },
@@ -41,8 +49,10 @@
     "page": {
         "login": {
             "header": "Anmeldung",
+            "forgotPassword": "Passwort vergessen?",
             "button": {
-                "login": "Anmelden"
+                "login": "Anmelden",
+                "reset": "Passwort zurücksetzen"
             }
         },
         "home": {

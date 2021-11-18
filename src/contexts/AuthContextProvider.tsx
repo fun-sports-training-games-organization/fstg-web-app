@@ -1,9 +1,9 @@
-import React, { /*Dispatch, SetStateAction,*/ useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { createContext, FC, PropsWithChildren, useContext, useState } from 'react';
 import {
     createUserWithEmailAndPassword,
-    getAuth,
     onAuthStateChanged,
+    sendPasswordResetEmail,
     signInWithEmailAndPassword,
     User
 } from 'firebase/auth';
@@ -39,6 +39,7 @@ export type AuthContextData = {
     loginWith: (provider: Provider) => void;
     loginWithEmail: (email: string, password: string) => void;
     registerWithEmail: (email: string, password: string) => void;
+    sendResetPasswordLink: (email: string) => void;
     loginFailed: (error: Error) => void;
 };
 
@@ -76,7 +77,6 @@ const AuthContextProvider: FC<PropsWithChildren<Record<string, unknown>>> = (
     };
 
     const loginWith = (provider: Provider) => {
-        console.log('login in with' + provider);
         firebase
             .login({
                 provider,
@@ -99,14 +99,20 @@ const AuthContextProvider: FC<PropsWithChildren<Record<string, unknown>>> = (
                 history.push('/login');
             })
             .catch((error) => {
-                console.error(error.code);
+                const { code } = error;
                 // 'auth/weak-password'
-                if (error.code === 'auth/email-already-in-use') {
-                    enqueueSnackbar('Email Already In Use', { variant: 'error' });
+                if (code === 'auth/email-already-in-use') {
+                    enqueueSnackbar('auth.message.registration.emailAlreadyExists', { variant: 'error' });
                 } else {
-                    enqueueSnackbar('Failed to register account', { variant: 'error' });
+                    enqueueSnackbar(t('auth.message.registration.failed', { code }), { variant: 'error' });
                 }
             });
+    };
+
+    const sendResetPasswordLink = (email: string) => {
+        sendPasswordResetEmail(auth, email)
+            .then(() => enqueueSnackbar(t('auth.message.resetPassword.emailSent'), { variant: 'success' }))
+            .catch(() => enqueueSnackbar(t('auth.message.resetPassword.emailSent'), { variant: 'success' }));
     };
 
     if (authenticating) {
@@ -114,19 +120,19 @@ const AuthContextProvider: FC<PropsWithChildren<Record<string, unknown>>> = (
     }
 
     const logout = () => {
-        getAuth()
-            .signOut()
+        firebase
+            .logout()
             .then(() => {
                 enqueueSnackbar(t('auth.message.logout.successful'), { variant: 'success' });
                 setUser(null);
             })
-            .catch(() => {
-                enqueueSnackbar(t('auth.message.logout.failure'), { variant: 'error' });
-            });
+            .catch(() => enqueueSnackbar(t('auth.message.logout.failure'), { variant: 'error' }));
     };
 
     return (
-        <AuthContext.Provider value={{ user, loginWith, loginWithEmail, registerWithEmail, loginFailed, logout }}>
+        <AuthContext.Provider
+            value={{ user, loginWith, loginWithEmail, registerWithEmail, sendResetPasswordLink, loginFailed, logout }}
+        >
             {props.children}
         </AuthContext.Provider>
     );

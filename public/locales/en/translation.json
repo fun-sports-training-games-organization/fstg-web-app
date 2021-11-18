@@ -14,7 +14,8 @@
         "cancel": "Cancel",
         "save": "Save",
         "create": "Create",
-        "add": "Add"
+        "add": "Add",
+        "back": "Back"
     },
     "auth": {
         "message": {
@@ -25,6 +26,13 @@
             "logout": {
                 "successful": "You have logged out successfully!",
                 "failure": "You have failed to log out!"
+            },
+            "registration": {
+                "emailAlreadyExists": "Email already exists!",
+                "failed": "Registration failed: {{code}}"
+            },
+            "resetPassword": {
+                "emailSent": "Password reset link has been sent! Please check your mail!"
             }
         }
     },
@@ -44,8 +52,10 @@
         },
         "login": {
             "header": "Login",
+            "forgotPassword": "Forgot password?",
             "button": {
-                "login": "Login"
+                "login": "Login",
+                "reset": "Reset Password"
             }
         },
         "register": {

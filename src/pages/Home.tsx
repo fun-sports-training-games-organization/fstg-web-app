@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Stack, Typography } from '@mui/material';
-import { useTranslation } from 'react-i18next';
+// import { useTranslation } from 'react-i18next';
 // import { Redirect } from 'react-router-dom';
 import ExerciseList from '../components/ExerciseList';
 // import { User } from 'firebase/auth';
@@ -12,7 +12,7 @@ const HomePage: FC = () => {
     //     return state.rootReducer.user;
     // });
     // const auth = useSelector((state: any) => state.firebase.auth);
-    const { t } = useTranslation();
+    // const { t } = useTranslation();
 
     // if (user) {
     return (
