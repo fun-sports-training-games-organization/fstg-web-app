@@ -1,13 +1,10 @@
 import React, { FC } from 'react';
 import { Button, ButtonProps } from '@mui/material';
+import { LoginProvider, useAuth } from '../../contexts/AuthContextProvider';
 
-type Props = {
-    color?: string;
-    icon?: React.ReactNode;
-};
-
-const IdpLoginButton: FC<Props & Omit<ButtonProps, 'color'>> = (props) => {
-    const { color, icon, ...rest } = props;
+const ProviderLoginButton: FC<LoginProvider & Omit<ButtonProps, 'color'>> = (props) => {
+    const { color, icon, name, ...rest } = props;
+    const { loginWith } = useAuth();
     return (
         <Button
             style={{
@@ -16,11 +13,13 @@ const IdpLoginButton: FC<Props & Omit<ButtonProps, 'color'>> = (props) => {
                 textTransform: 'none',
                 width: '250px'
             }}
+            data-cy={`login-with-${name}`}
             variant={'contained'}
             startIcon={icon}
+            onClick={() => loginWith(name)}
             {...rest}
         />
     );
 };
 
-export default IdpLoginButton;
+export default ProviderLoginButton;

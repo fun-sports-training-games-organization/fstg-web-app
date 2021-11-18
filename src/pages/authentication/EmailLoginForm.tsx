@@ -6,13 +6,11 @@ import { useAuth } from '../../contexts/AuthContextProvider';
 
 const EmailLoginForm: FC = () => {
     const { t } = useTranslation();
-    const { loggedInSuccessfully, loginFailed } = useAuth();
+    const { loginWithEmail } = useAuth();
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
 
-    const signIn = () => {
-        // signInWithEmailAndPassword(auth, email, password).then(loggedInSuccessfully).catch(loginFailed);
-    };
+    const signIn = () => loginWithEmail(email, password);
 
     return (
         <Stack padding={2} spacing={2} alignItems={'center'}>

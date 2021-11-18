@@ -27,15 +27,15 @@ ReactDOM.render(
                         horizontal: 'center'
                     }}
                 >
-                    <AuthContextProvider>
-                        <Provider store={store}>
-                            <ReactReduxFirebaseProvider {...rrfProps}>
+                    <Provider store={store}>
+                        <ReactReduxFirebaseProvider {...rrfProps}>
+                            <AuthContextProvider>
                                 <ThemeProvider theme={theme}>
                                     <App />
                                 </ThemeProvider>
-                            </ReactReduxFirebaseProvider>
-                        </Provider>
-                    </AuthContextProvider>
+                            </AuthContextProvider>
+                        </ReactReduxFirebaseProvider>
+                    </Provider>
                 </SnackbarProvider>
             </BrowserRouter>
         </StrictMode>

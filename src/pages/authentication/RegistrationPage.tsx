@@ -1,49 +1,21 @@
 import { FC, useState } from 'react';
-// import { createUserWithEmailAndPassword } from 'firebase/auth';
 import PasswordField from '../../components/PasswordField';
-import { useHistory } from 'react-router-dom';
-// import TextField from '../../components/TextField';
 import { Button, Stack, TextField } from '@mui/material';
 import logger from '../../logging/logger';
 import AuthContainer from '../../components/AuthContainer';
 import { useTranslation } from 'react-i18next';
-import { useSnackbar } from 'notistack';
-// import { auth } from '../../config/firebase';
 
 const RegistrationPage: FC = () => {
     const { t } = useTranslation();
-    const { enqueueSnackbar } = useSnackbar();
-    // const [registering, setRegistering] = useState<boolean>(false);
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [confirmPassword, setConfirmPassword] = useState<string>('');
     const [error, setError] = useState<string>('');
 
-    const history = useHistory();
-
     const signUpWithEmailAndPassword = () => {
         if (error !== '') {
             setError('');
         }
-        // setRegistering(true);
-
-        // createUserWithEmailAndPassword(auth, email, password)
-        //     .then((result) => {
-        //         // logging.info(result);
-        //         console.log(result);
-        //         // setRegistering(false);
-        //         history.push('/login');
-        //     })
-        //     .catch((error) => {
-        //         console.error(error.code);
-        //         // 'auth/weak-password'
-        //         if (error.code === 'auth/email-already-in-use') {
-        //             enqueueSnackbar('Email Already In Use', { variant: 'error' });
-        //         }
-        //
-        //         // TODO : error handling...
-        //         // setRegistering(false);
-        //     });
     };
 
     return (

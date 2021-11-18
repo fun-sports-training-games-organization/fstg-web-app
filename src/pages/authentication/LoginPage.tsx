@@ -1,70 +1,24 @@
 import React, { FC } from 'react';
-// import { auth, signInWithFacebook, /*signInWithGoogle,*/ signInWithTwitter } from '../../config/firebase';
 import AuthContainer from '../../components/AuthContainer';
 import { Trans, useTranslation } from 'react-i18next';
 import { Grid, Link, Stack, Theme, Typography, useMediaQuery } from '@mui/material';
-// import { Redirect } from 'react-router-dom';
-import { Facebook as FacebookIcon, Google as GoogleIcon, Twitter as TwitterIcon } from '@mui/icons-material';
-import IdpLoginButton from '../../components/idp/IdPLoginButton';
+import ProviderLoginButton from '../../components/idp/ProviderLoginButton';
 import EmailLoginForm from './EmailLoginForm';
 import SwipingTabs from '../../components/views/SwipingTabs';
-import { useSnackbar } from 'notistack';
-import { useHistory } from 'react-router-dom';
-import { useFirebase } from 'react-redux-firebase';
+import { LoginProvider, LoginProviders } from '../../contexts/AuthContextProvider';
+import { capitalize } from '../../util/string-util';
 
 const LoginPage: FC = (): JSX.Element => {
-    const { t } = useTranslation();
-    const { enqueueSnackbar } = useSnackbar();
-    const history = useHistory();
-
     const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
-    const firebase = useFirebase();
-    const dbRequest = window.indexedDB.open('firebaseLocalStorageDb');
-    console.log(dbRequest);
-
-    const handleExternalLogin = (provider: 'google' | 'facebook' | 'twitter') => {
-        firebase
-            .login({
-                provider,
-                type: 'popup'
-            })
-            .then(() => {
-                history.push('/home');
-                enqueueSnackbar(t('auth.message.login.successful'), { variant: 'success' });
-            })
-            .catch(() => enqueueSnackbar(t('auth.message.login.failure'), { variant: 'error' }));
-    };
-
-    const handleGoogleLogin = () => handleExternalLogin('google');
-    const handleFacebookLogin = () => handleExternalLogin('facebook');
-    const handleTwitterLogin = () => handleExternalLogin('twitter');
+    const { t } = useTranslation();
 
     const LoginWithExternal = () => (
         <Stack padding={2} spacing={2} alignItems={'center'}>
-            <IdpLoginButton
-                data-cy="login-with-google"
-                color="#db4437"
-                icon={<GoogleIcon />}
-                onClick={handleGoogleLogin}
-            >
-                {t('idp.login.button', { idp: 'Google' })}
-            </IdpLoginButton>
-            <IdpLoginButton
-                data-cy="login-with-facebook"
-                color="#3b5998"
-                icon={<FacebookIcon />}
-                onClick={handleFacebookLogin}
-            >
-                {t('idp.login.button', { idp: 'Facebook' })}
-            </IdpLoginButton>
-            <IdpLoginButton
-                data-cy="login-with-twitter"
-                color="#55acee"
-                icon={<TwitterIcon />}
-                onClick={handleTwitterLogin}
-            >
-                {t('idp.login.button', { idp: 'Twitter' })}
-            </IdpLoginButton>
+            {LoginProviders.map(({ name, color, icon }: LoginProvider) => (
+                <ProviderLoginButton key={name} name={name} color={color} icon={icon}>
+                    {t('idp.login.button', { idp: capitalize(name) })}
+                </ProviderLoginButton>
+            ))}
             <Typography
                 sx={{ marginLeft: '50px !important', marginRight: '50px !important' }}
                 color={'textSecondary'}
