@@ -4,7 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 import routes from './routes/Routes';
 import AuthRoute from './routes/AuthRoute';
 import { Box } from '@mui/system';
-import HeaderBar from './components/HeaderBar';
+import HeaderBar from './components/organisms/HeaderBar';
 
 function App(): JSX.Element {
     return (

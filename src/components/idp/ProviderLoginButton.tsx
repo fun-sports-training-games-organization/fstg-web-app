@@ -11,7 +11,7 @@ const ProviderLoginButton: FC<LoginProvider & Omit<ButtonProps, 'color'>> = (pro
                 backgroundColor: color,
                 borderRadius: 0,
                 textTransform: 'none',
-                width: '250px'
+                width: '100%'
             }}
             data-cy={`login-with-${name}`}
             variant={'contained'}

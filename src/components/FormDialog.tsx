@@ -5,7 +5,7 @@ import { useFirestore } from 'react-redux-firebase';
 import { useTranslation } from 'react-i18next';
 import { Exercise } from '../model/exercise';
 import { useSnackbar } from 'notistack';
-import TextField from './TextField';
+import TextField from './atoms/TextField';
 
 type Props = {
     open: boolean;

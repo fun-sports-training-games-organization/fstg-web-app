@@ -7,7 +7,7 @@ import {
     signInWithEmailAndPassword,
     User
 } from 'firebase/auth';
-import Loader from '../components/Loader';
+import Loader from '../components/atoms/Loader';
 import { useSnackbar } from 'notistack';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
@@ -96,13 +96,13 @@ const AuthContextProvider: FC<PropsWithChildren<Record<string, unknown>>> = (
                 // logging.info(result);
                 console.log(result);
                 // setRegistering(false);
-                history.push('/login');
+                // history.push('/');
             })
             .catch((error) => {
                 const { code } = error;
                 // 'auth/weak-password'
                 if (code === 'auth/email-already-in-use') {
-                    enqueueSnackbar('auth.message.registration.emailAlreadyExists', { variant: 'error' });
+                    enqueueSnackbar(t('auth.message.registration.emailAlreadyExists'), { variant: 'error' });
                 } else {
                     enqueueSnackbar(t('auth.message.registration.failed', { code }), { variant: 'error' });
                 }

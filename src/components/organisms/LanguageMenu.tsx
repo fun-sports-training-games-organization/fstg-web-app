@@ -4,8 +4,8 @@ import ListItemText from '@mui/material/ListItemText';
 // import Cookies from 'universal-cookie';
 import { useTranslation } from 'react-i18next';
 import { MenuItem, MenuList } from '@mui/material';
-import MenuIcon from './MenuIcon';
-import { Locale, locales } from '../config/Locales';
+import MenuIcon from '../MenuIcon';
+import { Locale, locales } from '../../config/Locales';
 
 const LanguageMenu: FC = () => {
     const { i18n } = useTranslation();

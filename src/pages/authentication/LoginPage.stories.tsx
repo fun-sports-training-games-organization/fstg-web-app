@@ -3,7 +3,7 @@ import { Meta } from '@storybook/react';
 import LoginPage from './LoginPage';
 import AuthContextProvider from '../../contexts/AuthContextProvider';
 import { SnackbarProvider } from 'notistack';
-import Loader from '../../components/Loader';
+import Loader from '../../components/atoms/Loader';
 
 export default {
     title: 'organism/LoginPage',

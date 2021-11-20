@@ -1,6 +1,6 @@
 import React, { ChangeEvent, FC, useState } from 'react';
-import PasswordField from '../../components/PasswordField';
-import { Button, Link, Stack, TextField } from '@mui/material';
+import PasswordField from '../../components/molecules/PasswordField';
+import { Stack, Button, Link, TextField } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContextProvider';
 
@@ -23,52 +23,54 @@ const EmailLoginForm: FC = () => {
     };
 
     return (
-        <Stack padding={2} spacing={2} alignItems={'flex-start'}>
-            <TextField
-                fullWidth
-                id={'email-field'}
-                label={t('common.email')}
-                value={email}
-                required
-                onChange={(event: ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)}
-            />
-            {!forgotPasswordMode && (
-                <PasswordField
-                    id={'password-field'}
-                    autoComplete={'new-password'}
-                    label={t('common.password')}
-                    value={password}
-                    required
-                    onChange={(event: ChangeEvent<HTMLInputElement>) => setPassword(event.target.value)}
-                />
-            )}
-            {!forgotPasswordMode && (
-                <Link onClick={() => setForgotPasswordMode(true)}>{t('page.login.forgotPassword')}</Link>
-            )}
-            {forgotPasswordMode && (
-                <Button
-                    variant={'contained'}
-                    color={'secondary'}
+        <form>
+            <Stack spacing={2}>
+                <TextField
                     fullWidth
-                    onClick={() => setForgotPasswordMode(false)}
+                    id={'email-field'}
+                    label={t('common.email')}
+                    value={email}
+                    required
+                    onChange={(event: ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)}
+                />
+                {!forgotPasswordMode && (
+                    <PasswordField
+                        id={'password-field'}
+                        autoComplete={'new-password'}
+                        label={t('common.password')}
+                        value={password}
+                        required
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => setPassword(event.target.value)}
+                    />
+                )}
+                {!forgotPasswordMode && (
+                    <Link onClick={() => setForgotPasswordMode(true)}>{t('page.login.forgotPassword')}</Link>
+                )}
+                {forgotPasswordMode && (
+                    <Button
+                        variant={'contained'}
+                        color={'secondary'}
+                        fullWidth
+                        onClick={() => setForgotPasswordMode(false)}
+                    >
+                        {t('global.back')}
+                    </Button>
+                )}
+                <Button
+                    type={'submit'}
+                    variant={'contained'}
+                    color={'primary'}
+                    fullWidth
+                    disabled={(!forgotPasswordMode && !email) || (!forgotPasswordMode && !password)}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        forgotPasswordMode ? resetPassword() : signIn();
+                    }}
                 >
-                    {t('global.back')}
+                    {t(forgotPasswordMode ? 'page.login.button.reset' : 'page.login.button.login')}
                 </Button>
-            )}
-            <Button
-                type={'submit'}
-                variant={'contained'}
-                color={'primary'}
-                fullWidth
-                disabled={(!forgotPasswordMode && !email) || (!forgotPasswordMode && !password)}
-                onClick={(e) => {
-                    e.preventDefault();
-                    forgotPasswordMode ? resetPassword() : signIn();
-                }}
-            >
-                {t(forgotPasswordMode ? 'page.login.button.reset' : 'page.login.button.login')}
-            </Button>
-        </Stack>
+            </Stack>
+        </form>
     );
 };
 
