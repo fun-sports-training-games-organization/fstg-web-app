@@ -29,6 +29,7 @@
             },
             "registration": {
                 "emailAlreadyExists": "L'e-mail existe déjà!",
+                "passwordTooWeak": "Votre mot de passe est trop faible! (au moins 6 caractères sont requis)",
                 "failed": "L'enregistrement a échoué: {{code}}"
             },
             "resetPassword": {

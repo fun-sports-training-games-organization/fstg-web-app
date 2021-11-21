@@ -1,11 +1,19 @@
 import React, { FC } from 'react';
-import { FormControl, InputLabel, OutlinedInput, OutlinedInputProps } from '@mui/material';
+import { FormControl, FormHelperText, InputLabel, OutlinedInput, OutlinedInputProps } from '@mui/material';
 
-const TextField: FC<OutlinedInputProps> = (props) => {
+type OwnProps = {
+    error?: boolean;
+    helperText?: string;
+};
+
+export type TextFieldProps = OwnProps & OutlinedInputProps;
+
+const TextField: FC<TextFieldProps> = ({ id, label, helperText, error, ...rest }: TextFieldProps) => {
     return (
         <FormControl fullWidth>
-            <InputLabel htmlFor={props.id}>{props.label}</InputLabel>
-            <OutlinedInput type={'text'} {...props} />
+            <InputLabel htmlFor={id}>{label}</InputLabel>
+            <OutlinedInput id={id} label={label} {...rest} />
+            <FormHelperText error={error}>{helperText}</FormHelperText>
         </FormControl>
     );
 };

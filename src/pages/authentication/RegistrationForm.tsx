@@ -1,10 +1,9 @@
-import { ChangeEvent, FC, useState } from 'react';
+import { ChangeEvent, FC, FormEvent, useState } from 'react';
 import PasswordField from '../../components/molecules/PasswordField';
-import { Button, Stack, TextField } from '@mui/material';
+import { Button, Stack } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContextProvider';
-import { useFirebase } from 'react-redux-firebase';
-import { useHistory } from 'react-router-dom';
+import TextField from '../../components/atoms/TextField';
 
 interface State {
     email: string;
@@ -12,7 +11,7 @@ interface State {
     confirmPassword: string;
 }
 
-interface ErrorState {
+export interface RegistrationErrorState {
     emailError: string;
     passwordError: string;
     confirmPasswordError: string;
@@ -20,41 +19,28 @@ interface ErrorState {
 
 const RegistrationForm: FC = () => {
     const { t } = useTranslation();
-    const firebase = useFirebase();
-    const history = useHistory();
     const { registerWithEmail } = useAuth();
 
     const [state, setState] = useState<State>({ email: '', password: '', confirmPassword: '' });
-    const [errorState, setErrorState] = useState<ErrorState>({
+    const [errorState, setErrorState] = useState<RegistrationErrorState>({
         emailError: '',
         passwordError: '',
         confirmPasswordError: ''
     });
 
-    const signUpWithEmailAndPassword = () => {
+    const signUpWithEmailAndPassword = (e: FormEvent) => {
+        e.preventDefault();
         const { email, password } = state;
-        // registerWithEmail(email, password);
-        firebase
-            .createUser({ email, password, signIn: false })
-            .then(() => {
-                console.log('');
-                // history.push('/');
-            })
-            .catch((error) => {
-                console.log(error);
-                const { code } = error;
-                if (code === 'auth/email-already-in-use') {
-                    setErrorState({ ...errorState, emailError: t('auth.message.registration.emailAlreadyExists') });
-                }
-            });
+        registerWithEmail(email, password, errorState, setErrorState);
     };
 
     const handleChangeEvent = (event: ChangeEvent<HTMLInputElement>) => {
         setState({ ...state, [event.target.name]: event.target.value });
+        setErrorState({ ...errorState, [`${event.target.name}Error`]: '' });
     };
 
     return (
-        <form>
+        <form onSubmit={signUpWithEmailAndPassword}>
             <Stack padding={2} spacing={2} alignItems={'center'}>
                 <TextField
                     fullWidth
@@ -64,8 +50,8 @@ const RegistrationForm: FC = () => {
                     name={'email'}
                     required
                     onChange={handleChangeEvent}
-                    // error={!!errorState.emailError}
-                    // helperText={'email already in use!'}
+                    error={!!errorState.emailError}
+                    helperText={errorState.emailError}
                 />
                 <PasswordField
                     id={'password-field'}
@@ -75,7 +61,8 @@ const RegistrationForm: FC = () => {
                     value={state.password}
                     required
                     onChange={handleChangeEvent}
-                    // error={!!errorState.passwordError}
+                    error={!!errorState.passwordError}
+                    helperText={errorState.passwordError}
                 />
                 <PasswordField
                     id={'confirm-password-field'}
@@ -85,7 +72,8 @@ const RegistrationForm: FC = () => {
                     name={'confirmPassword'}
                     required
                     onChange={handleChangeEvent}
-                    // error={!!errorState.confirmPasswordError}
+                    error={!!errorState.confirmPasswordError}
+                    helperText={errorState.confirmPasswordError}
                 />
                 <Button
                     type={'submit'}
@@ -93,7 +81,6 @@ const RegistrationForm: FC = () => {
                     color={'primary'}
                     fullWidth
                     disabled={!state.email || !state.password || !state.confirmPassword}
-                    onClick={signUpWithEmailAndPassword}
                 >
                     {t('page.register.button.register')}
                 </Button>

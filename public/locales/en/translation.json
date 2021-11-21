@@ -29,6 +29,7 @@
             },
             "registration": {
                 "emailAlreadyExists": "Email already exists!",
+                "passwordTooWeak": "Your password is too weak! (minimum 6 characters is required)",
                 "failed": "Registration failed: {{code}}"
             },
             "resetPassword": {

@@ -1,12 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import { createContext, FC, PropsWithChildren, useContext, useState } from 'react';
-import {
-    createUserWithEmailAndPassword,
-    onAuthStateChanged,
-    sendPasswordResetEmail,
-    signInWithEmailAndPassword,
-    User
-} from 'firebase/auth';
+import { onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, User } from 'firebase/auth';
 import Loader from '../components/atoms/Loader';
 import { useSnackbar } from 'notistack';
 import { useTranslation } from 'react-i18next';
@@ -14,6 +8,7 @@ import { useHistory } from 'react-router-dom';
 import { useFirebase } from 'react-redux-firebase';
 import { auth } from '../config/firebase';
 import { Facebook as FacebookIcon, Google as GoogleIcon, Twitter as TwitterIcon } from '@mui/icons-material';
+import { RegistrationErrorState } from '../pages/authentication/RegistrationForm';
 
 interface Error {
     code: string;
@@ -38,7 +33,12 @@ export type AuthContextData = {
     logout: () => void;
     loginWith: (provider: Provider) => void;
     loginWithEmail: (email: string, password: string) => void;
-    registerWithEmail: (email: string, password: string) => void;
+    registerWithEmail: (
+        email: string,
+        password: string,
+        errorState: RegistrationErrorState,
+        setErrorState: Dispatch<SetStateAction<RegistrationErrorState>>
+    ) => void;
     sendResetPasswordLink: (email: string) => void;
     loginFailed: (error: Error) => void;
 };
@@ -90,21 +90,26 @@ const AuthContextProvider: FC<PropsWithChildren<Record<string, unknown>>> = (
         signInWithEmailAndPassword(auth, email, password).then(loggedInSuccessfully).catch(loginFailed);
     };
 
-    const registerWithEmail = (email: string, password: string) => {
-        createUserWithEmailAndPassword(auth, email, password)
-            .then((result) => {
-                // logging.info(result);
-                console.log(result);
-                // setRegistering(false);
-                // history.push('/');
+    const registerWithEmail = async (
+        email: string,
+        password: string,
+        errorState: RegistrationErrorState,
+        setErrorState: Dispatch<SetStateAction<RegistrationErrorState>>
+    ) => {
+        firebase
+            .createUser({ email, password })
+            .then(() => {
+                history.push('/');
             })
             .catch((error) => {
+                console.log(error);
                 const { code } = error;
-                // 'auth/weak-password'
+                console.log(code);
                 if (code === 'auth/email-already-in-use') {
-                    enqueueSnackbar(t('auth.message.registration.emailAlreadyExists'), { variant: 'error' });
-                } else {
-                    enqueueSnackbar(t('auth.message.registration.failed', { code }), { variant: 'error' });
+                    setErrorState({ ...errorState, emailError: t('auth.message.registration.emailAlreadyExists') });
+                }
+                if (code === 'auth/weak-password') {
+                    setErrorState({ ...errorState, passwordError: t('auth.message.registration.passwordTooWeak') });
                 }
             });
     };
