@@ -64,7 +64,13 @@ const ExerciseList: FC = (): JSX.Element => {
                     );
                 })}
             </List>
-            <Button variant="contained" onClick={() => setOpenDialog(true)}>
+            <Button
+                variant="contained"
+                onClick={() => {
+                    setExercise(undefined);
+                    setOpenDialog(true);
+                }}
+            >
                 {t('global.add')}
             </Button>
             <FormDialog

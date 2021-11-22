@@ -7,6 +7,7 @@ import { useAuth } from '../../contexts/AuthContextProvider';
 
 const HeaderBar = (): JSX.Element => {
     const { user, logout } = useAuth();
+    console.log(user?.photoURL);
     return (
         <AppBar position="static">
             <Toolbar>

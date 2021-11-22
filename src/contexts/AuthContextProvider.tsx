@@ -56,6 +56,10 @@ const AuthContextProvider: FC<PropsWithChildren<Record<string, unknown>>> = (
     const history = useHistory();
 
     useEffect(() => {
+        // console.log('user loaded...');
+    }, [user]);
+
+    useEffect(() => {
         onAuthStateChanged(auth, (user: User | null) => {
             setUser(user);
             setAuthenticating(false);
