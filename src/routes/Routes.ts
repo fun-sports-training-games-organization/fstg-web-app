@@ -5,6 +5,7 @@ import LoginPage from '../pages/authentication/LoginPage';
 import HomePage from '../pages/Home';
 import PrivacyPolicyPage from '../pages/PrivacyPolicyPage';
 import TermsOfServicePage from '../pages/TermsOfServicePage';
+import ManageExercises from '../pages/ManageExercises';
 
 const routes: IRoute[] = [
     {
@@ -19,6 +20,13 @@ const routes: IRoute[] = [
         exact: true,
         component: LoginPage,
         name: 'Login Page',
+        protected: false
+    },
+    {
+        path: '/exercises',
+        exact: true,
+        component: ManageExercises,
+        name: 'Manage Exercises',
         protected: false
     },
     {
