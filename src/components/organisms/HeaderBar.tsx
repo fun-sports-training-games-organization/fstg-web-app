@@ -3,7 +3,7 @@ import { Logout as LogoutIcon, Menu as MenuIcon } from '@mui/icons-material';
 import { Box } from '@mui/system';
 import LanguageMenu from './LanguageMenu';
 import React from 'react';
-import { useAuth } from '../contexts/AuthContextProvider';
+import { useAuth } from '../../contexts/AuthContextProvider';
 
 const HeaderBar = (): JSX.Element => {
     const { user, logout } = useAuth();

@@ -1,21 +1,45 @@
-import React, { /*Dispatch, SetStateAction,*/ useEffect } from 'react';
+import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import { createContext, FC, PropsWithChildren, useContext, useState } from 'react';
-import { getAuth, onAuthStateChanged, User } from 'firebase/auth';
-import Loader from '../components/Loader';
+import { onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, User } from 'firebase/auth';
+import Loader from '../components/atoms/Loader';
 import { useSnackbar } from 'notistack';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
+import { useFirebase } from 'react-redux-firebase';
 import { auth } from '../config/firebase';
+import { Facebook as FacebookIcon, Google as GoogleIcon, Twitter as TwitterIcon } from '@mui/icons-material';
+import { RegistrationErrorState } from '../pages/authentication/RegistrationForm';
 
 interface Error {
     code: string;
     message: string;
 }
 
+export type Provider = 'google' | 'facebook' | 'twitter';
+export type LoginProvider = {
+    name: Provider;
+    icon: React.ReactNode;
+    color: string;
+};
+
+export const LoginProviders: LoginProvider[] = [
+    { name: 'google', color: '#db4437', icon: <GoogleIcon /> },
+    { name: 'facebook', color: '#3b5998', icon: <FacebookIcon /> },
+    { name: 'twitter', color: '#55acee', icon: <TwitterIcon /> }
+];
+
 export type AuthContextData = {
     user: User | null;
     logout: () => void;
-    loggedInSuccessfully: () => void;
+    loginWith: (provider: Provider) => void;
+    loginWithEmail: (email: string, password: string) => void;
+    registerWithEmail: (
+        email: string,
+        password: string,
+        errorState: RegistrationErrorState,
+        setErrorState: Dispatch<SetStateAction<RegistrationErrorState>>
+    ) => void;
+    sendResetPasswordLink: (email: string) => void;
     loginFailed: (error: Error) => void;
 };
 
@@ -28,23 +52,8 @@ const AuthContextProvider: FC<PropsWithChildren<Record<string, unknown>>> = (
     const [authenticating, setAuthenticating] = useState<boolean>(true);
     const { t } = useTranslation();
     const { enqueueSnackbar } = useSnackbar();
+    const firebase = useFirebase();
     const history = useHistory();
-
-    const loginFailed = (error: Error) => {
-        // Handle Errors here.
-        if (error) {
-            console.log(error);
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            enqueueSnackbar(t('auth.message.login.failure', { errorCode, errorMessage }), { variant: 'error' });
-        }
-    };
-
-    const loggedInSuccessfully = () => {
-        // The signed-in user info.
-        history.push('/home');
-        enqueueSnackbar(t('auth.message.login.successful'), { variant: 'success' });
-    };
 
     useEffect(() => {
         onAuthStateChanged(auth, (user: User | null) => {
@@ -53,24 +62,82 @@ const AuthContextProvider: FC<PropsWithChildren<Record<string, unknown>>> = (
         });
     }, []);
 
+    const loginFailed = (error: Error) => {
+        // Handle Errors here.
+        if (error) {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            enqueueSnackbar(t('auth.message.login.failure', { errorCode, errorMessage }), { variant: 'error' });
+        }
+    };
+
+    const loggedInSuccessfully = () => {
+        history.push('/home');
+        enqueueSnackbar(t('auth.message.login.successful'), { variant: 'success' });
+    };
+
+    const loginWith = (provider: Provider) => {
+        firebase
+            .login({
+                provider,
+                type: 'popup'
+            })
+            .then(loggedInSuccessfully)
+            .catch(loginFailed);
+    };
+
+    const loginWithEmail = (email: string, password: string) => {
+        signInWithEmailAndPassword(auth, email, password).then(loggedInSuccessfully).catch(loginFailed);
+    };
+
+    const registerWithEmail = async (
+        email: string,
+        password: string,
+        errorState: RegistrationErrorState,
+        setErrorState: Dispatch<SetStateAction<RegistrationErrorState>>
+    ) => {
+        firebase
+            .createUser({ email, password })
+            .then(() => {
+                history.push('/');
+            })
+            .catch((error) => {
+                console.log(error);
+                const { code } = error;
+                console.log(code);
+                if (code === 'auth/email-already-in-use') {
+                    setErrorState({ ...errorState, emailError: t('auth.message.registration.emailAlreadyExists') });
+                }
+                if (code === 'auth/weak-password') {
+                    setErrorState({ ...errorState, passwordError: t('auth.message.registration.passwordTooWeak') });
+                }
+            });
+    };
+
+    const sendResetPasswordLink = (email: string) => {
+        sendPasswordResetEmail(auth, email)
+            .then(() => enqueueSnackbar(t('auth.message.resetPassword.emailSent'), { variant: 'success' }))
+            .catch(() => enqueueSnackbar(t('auth.message.resetPassword.emailSent'), { variant: 'success' }));
+    };
+
     if (authenticating) {
         return <Loader />;
     }
 
     const logout = () => {
-        getAuth()
-            .signOut()
+        firebase
+            .logout()
             .then(() => {
                 enqueueSnackbar(t('auth.message.logout.successful'), { variant: 'success' });
                 setUser(null);
             })
-            .catch(() => {
-                enqueueSnackbar(t('auth.message.logout.failure'), { variant: 'error' });
-            });
+            .catch(() => enqueueSnackbar(t('auth.message.logout.failure'), { variant: 'error' }));
     };
 
     return (
-        <AuthContext.Provider value={{ user, loggedInSuccessfully, loginFailed, logout }}>
+        <AuthContext.Provider
+            value={{ user, loginWith, loginWithEmail, registerWithEmail, sendResetPasswordLink, loginFailed, logout }}
+        >
             {props.children}
         </AuthContext.Provider>
     );

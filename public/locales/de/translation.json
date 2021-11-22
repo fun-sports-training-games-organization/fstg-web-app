@@ -1,59 +1,72 @@
 {
-  "dialog": {
-    "deleteConfirmation": {
-      "title": "Bestätigung löschen",
-      "message": "Möchten Sie {{name}} wirklich löschen?"
+    "dialog": {
+        "deleteConfirmation": {
+            "title": "Bestätigung löschen",
+            "message": "Möchten Sie {{name}} wirklich löschen?"
+        },
+        "editExercise": {
+            "title": "Übung bearbeiten",
+            "message": "Klicken Sie auf Speichern, um den Namen Ihrer Übung zu aktualisieren, oder auf Abbrechen, um Ihre Änderungen zu verwerfen."
+        }
     },
-    "editExercise": {
-      "title": "Übung bearbeiten",
-      "message": "Klicken Sie auf Speichern, um den Namen Ihrer Übung zu aktualisieren, oder auf Abbrechen, um Ihre Änderungen zu verwerfen."
-    }
-  },
-  "global": {
-    "confirm": "Bestätigen",
-    "cancel": "Abbrechen",
-    "save": "Speichern"
-  },
-  "auth": {
-    "message": {
-      "login": {
-        "successful": "Sie haben sich erfolgreich angemeldet!",
-        "failure": "Sie konnten sich nicht anmelden! ({{errorCode}}: {{errorMessage}})"
-      },
-      "logout": {
-        "successful": "Sie haben sich erfolgreich abgemeldet!",
-        "failure": "Sie konnten sich nicht abmelden!"
-      }
-    }
-  },
-  "common": {
-    "email": "E-mail",
-    "password": "Kennwort"
-  },
-  "idp": {
-    "login": {
-      "button": "Mit {{idp}} anmelden",
-      "t&c": "Indem Sie fortfahren, stimmen Sie unseren <1>Nutzungsbedingungen</1> und unserer <3>Datenschutzerklärung</3> zu."
-    }
-  },
-  "page": {
-    "login": {
-      "header": "Anmeldung",
-      "button": {
-        "login": "Anmelden"
-      }
+    "global": {
+        "confirm": "Bestätigen",
+        "cancel": "Abbrechen",
+        "save": "Speichern",
+        "create": "Erstellen",
+        "add": "Hinzufügen",
+        "back": "Zurück"
     },
-    "home": {
-      "welcome": "Willkommen bei FSTG {{displayName}}!"
+    "auth": {
+        "message": {
+            "login": {
+                "successful": "Sie haben sich erfolgreich angemeldet!",
+                "failure": "Sie konnten sich nicht anmelden! ({{errorCode}}: {{errorMessage}})"
+            },
+            "logout": {
+                "successful": "Sie haben sich erfolgreich abgemeldet!",
+                "failure": "Sie konnten sich nicht abmelden!"
+            },
+            "registration": {
+                "emailAlreadyExists": "E-Mail existiert bereits!",
+                "passwordTooWeak": "Ihr Passwort ist zu schwach! (mindestens 6 Zeichen erforderlich)",
+                "failed": "Registrierung fehlgeschlagen: {{code}}"
+            },
+            "resetPassword": {
+                "emailSent": "Link zum Zurücksetzen des Passworts wurde gesendet! Bitte überprüfen Sie Ihre E-Mails!"
+            }
+        }
     },
-    "register": {
-      "header": "Registrierung",
-      "label": {
-        "confirmPassword": "Kennwort bestätigen"
-      },
-      "button": {
-        "register": "Registrieren"
-      }
+    "common": {
+        "email": "E-mail",
+        "password": "Kennwort"
+    },
+    "idp": {
+        "login": {
+            "button": "Mit {{idp}} anmelden",
+            "t&c": "Indem Sie fortfahren, stimmen Sie unseren <1>Nutzungsbedingungen</1> und unserer <3>Datenschutzerklärung</3> zu."
+        }
+    },
+    "page": {
+        "login": {
+            "header": "Anmeldung",
+            "forgotPassword": "Passwort vergessen?",
+            "button": {
+                "login": "Anmelden",
+                "reset": "Passwort zurücksetzen"
+            }
+        },
+        "home": {
+            "welcome": "Willkommen bei FSTG {{displayName}}!"
+        },
+        "register": {
+            "header": "Registrierung",
+            "label": {
+                "confirmPassword": "Kennwort bestätigen"
+            },
+            "button": {
+                "register": "Registrieren"
+            }
+        }
     }
-  }
 }

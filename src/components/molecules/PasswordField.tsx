@@ -1,8 +1,9 @@
 import React, { FC } from 'react';
 import { Visibility as VisibilityIcon, VisibilityOff as VisibilityOffIcon } from '@mui/icons-material';
-import { FormControl, InputLabel, OutlinedInput, OutlinedInputProps, IconButton, InputAdornment } from '@mui/material';
+import { IconButton, InputAdornment } from '@mui/material';
+import TextField, { TextFieldProps } from '../atoms/TextField';
 
-const PasswordField: FC<OutlinedInputProps> = (props) => {
+const PasswordField: FC<TextFieldProps> = (props) => {
     const [showPassword, setShowPassword] = React.useState<boolean>(false);
 
     const handleClickShowPassword = (event: React.MouseEvent<HTMLButtonElement>): void => {
@@ -31,12 +32,7 @@ const PasswordField: FC<OutlinedInputProps> = (props) => {
         </InputAdornment>
     );
 
-    return (
-        <FormControl fullWidth>
-            <InputLabel htmlFor={props.id}>{props.label}</InputLabel>
-            <OutlinedInput endAdornment={inputAdornment} type={showPassword ? 'text' : 'password'} {...props} />
-        </FormControl>
-    );
+    return <TextField endAdornment={inputAdornment} type={showPassword ? 'text' : 'password'} {...props} />;
 };
 
 export default PasswordField;

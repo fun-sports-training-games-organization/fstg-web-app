@@ -1,6 +1,6 @@
 import IRoute from './route.interface';
 
-import RegistrationPage from '../pages/authentication/RegistrationPage';
+import RegistrationForm from '../pages/authentication/RegistrationForm';
 import LoginPage from '../pages/authentication/LoginPage';
 import HomePage from '../pages/Home';
 import PrivacyPolicyPage from '../pages/PrivacyPolicyPage';
@@ -10,7 +10,7 @@ const routes: IRoute[] = [
     {
         path: '/register',
         exact: true,
-        component: RegistrationPage,
+        component: RegistrationForm,
         name: 'Registration Page',
         protected: false
     },

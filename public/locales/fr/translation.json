@@ -1,59 +1,72 @@
 {
-  "dialog": {
-    "deleteConfirmation": {
-      "title": "Supprimer la confirmation",
-      "message": "Voulez-vous vraiment supprimer {{name}}?"
+    "dialog": {
+        "deleteConfirmation": {
+            "title": "Supprimer la confirmation",
+            "message": "Voulez-vous vraiment supprimer {{name}}?"
+        },
+        "editExercise": {
+            "title": "Modifier l'exercice",
+            "message": "Cliquez sur Enregistrer pour mettre à jour le nom de votre exercice ou sur annuler pour annuler vos modifications."
+        }
     },
-    "editExercise": {
-      "title": "Modifier l'exercice",
-      "message": "Cliquez sur Enregistrer pour mettre à jour le nom de votre exercice ou sur annuler pour annuler vos modifications."
-    }
-  },
-  "global": {
-    "confirm": "Confirmer",
-    "cancel": "Annuler",
-    "save": "Enregistrer"
-  },
-  "auth": {
-    "message": {
-      "login": {
-        "successful": "Vous vous êtes connecté avec succès!",
-        "failure": "Vous n'avez pas réussi à vous connecter! ({{errorCode}}: {{errorMessage}})"
-      },
-      "logout": {
-        "successful": "Vous vous êtes déconnecté avec succès!",
-        "failure": "Vous n'avez pas réussi à vous déconnecter!"
-      }
-    }
-  },
-  "common": {
-    "email": "E-mail",
-    "password": "Mot de passe"
-  },
-  "idp": {
-    "login": {
-      "button": "Se connecter avec {{idp}}",
-      "t&c": "En continuant, vous acceptez les <1>Conditions d'utilisation</1> et les <3>Règles de confidentialité</3>."
-    }
-  },
-  "page": {
-    "home": {
-      "welcome": "Bienvenue sur FSTG {{displayName}}!"
+    "global": {
+        "confirm": "Confirmer",
+        "cancel": "Annuler",
+        "save": "Enregistrer",
+        "create": "Créer",
+        "add": "Ajouter",
+        "back": "Retour"
     },
-    "login": {
-      "header": "Connexion",
-      "button": {
-        "login": "Connexion"
-      }
+    "auth": {
+        "message": {
+            "login": {
+                "successful": "Vous vous êtes connecté avec succès!",
+                "failure": "Vous n'avez pas réussi à vous connecter! ({{errorCode}}: {{errorMessage}})"
+            },
+            "logout": {
+                "successful": "Vous vous êtes déconnecté avec succès!",
+                "failure": "Vous n'avez pas réussi à vous déconnecter!"
+            },
+            "registration": {
+                "emailAlreadyExists": "L'e-mail existe déjà!",
+                "passwordTooWeak": "Votre mot de passe est trop faible! (au moins 6 caractères sont requis)",
+                "failed": "L'enregistrement a échoué: {{code}}"
+            },
+            "resetPassword": {
+                "emailSent": "Le lien de réinitialisation du mot de passe a été envoyé! Veuillez vérifier votre courrier!"
+            }
+        }
     },
-    "register": {
-      "header": "Enregistrement",
-      "label": {
-        "confirmPassword": "Confirmez le mot de passe"
-      },
-      "button": {
-        "register": "S'inscrire"
-      }
+    "common": {
+        "email": "E-mail",
+        "password": "Mot de passe"
+    },
+    "idp": {
+        "login": {
+            "button": "Se connecter avec {{idp}}",
+            "t&c": "En continuant, vous acceptez les <1>Conditions d'utilisation</1> et les <3>Règles de confidentialité</3>."
+        }
+    },
+    "page": {
+        "home": {
+            "welcome": "Bienvenue sur FSTG {{displayName}}!"
+        },
+        "login": {
+            "header": "Connexion",
+            "forgotPassword": "Mot de passe oublié?",
+            "button": {
+                "login": "Connexion",
+                "reset": "Réinitialiser le mot de passe"
+            }
+        },
+        "register": {
+            "header": "Enregistrement",
+            "label": {
+                "confirmPassword": "Confirmez le mot de passe"
+            },
+            "button": {
+                "register": "S'inscrire"
+            }
+        }
     }
-  }
 }
