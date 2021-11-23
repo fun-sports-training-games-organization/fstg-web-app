@@ -5,7 +5,7 @@ import { useFirestore } from 'react-redux-firebase';
 import { useTranslation } from 'react-i18next';
 import { Exercise } from '../model/exercise';
 import { useSnackbar } from 'notistack';
-import CreateEditForm from './CreateEditForm';
+import CreateEditExerciseForm from './CreateEditExerciseForm';
 
 type Props = {
     open: boolean;
@@ -86,7 +86,7 @@ const FormDialog = ({ open, setOpen, title, message, exercise = emptyExercise, s
                 <DialogTitle>{title}</DialogTitle>
                 <DialogContent>
                     <DialogContentText>{message}</DialogContentText>
-                    <CreateEditForm entity={exercise} setEntity={setExercise} />
+                    <CreateEditExerciseForm entity={exercise} setEntity={setExercise} />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>{t('global.cancel')}</Button>
