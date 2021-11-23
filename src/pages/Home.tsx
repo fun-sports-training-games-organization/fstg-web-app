@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useFirestore } from 'react-redux-firebase';
 import { Workout } from '../model/workout';
 import AddIcon from '@mui/icons-material/Add';
+import SettingsIcon from '@mui/icons-material/Settings';
 import { ExerciseWorkoutSettings } from '../model/exercise-workout-settings';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -65,6 +66,13 @@ const HomePage: FC = () => {
                                 label={'Exercise ' + (index + 1)}
                                 type="text"
                                 value={exercise.name}
+                                InputProps={{
+                                    endAdornment: (
+                                        <IconButton>
+                                            <SettingsIcon />
+                                        </IconButton>
+                                    )
+                                }}
                                 onChange={(event: ChangeEvent<HTMLInputElement>) =>
                                     setWorkout({
                                         ...workout,
