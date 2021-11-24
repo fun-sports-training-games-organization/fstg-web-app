@@ -10,6 +10,7 @@ import EditWorkoutExercisesList from '../../components/EditWorkoutExercisesList'
 import EditWorkoutSubmitButton from '../../components/EditWorkoutSubmitButton';
 
 const EditWorkout: FC = () => {
+    const idPrefix = 'fstg__edit_workout__';
     const { enqueueSnackbar } = useSnackbar();
     const firestore = useFirestore();
 
@@ -74,12 +75,12 @@ const EditWorkout: FC = () => {
     const onSubmit = () => (!workout.hasBeenCreated ? handleCreate() : handleUpdate());
 
     return (
-        <>
+        <div data-testid="edit_workout">
             <Stack spacing={2} mt={2} ml={2} mr={2}>
                 <TextField
                     autoFocus
                     margin="dense"
-                    id="name"
+                    id={idPrefix + 'name'}
                     label="Workout Name"
                     type="text"
                     fullWidth
@@ -88,13 +89,17 @@ const EditWorkout: FC = () => {
                         setWorkout({ ...workout, name: event.target.value })
                     }
                 />
-                <EditWorkoutExercisesList workout={workout} setWorkout={setWorkout} />
-                <EditWorkoutAddExerciseButton addExerciseToWorkout={addExerciseToWorkout} />
+                <EditWorkoutExercisesList parentIdPrefix={idPrefix} workout={workout} setWorkout={setWorkout} />
+                <EditWorkoutAddExerciseButton parentIdPrefix={idPrefix} addExerciseToWorkout={addExerciseToWorkout} />
             </Stack>
             <Stack spacing={2} mt={5} ml={2} mr={2}>
-                <EditWorkoutSubmitButton isCreate={!workout.hasBeenCreated} onSubmit={onSubmit} />
+                <EditWorkoutSubmitButton
+                    parentIdPrefix={idPrefix}
+                    isCreate={!workout.hasBeenCreated}
+                    onSubmit={onSubmit}
+                />
             </Stack>
-        </>
+        </div>
     );
 };
 

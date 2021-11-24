@@ -4,11 +4,12 @@ import AddIcon from '@mui/icons-material/Add';
 type Props = {
     clickFunction: () => void;
     fontSize: 'small' | 'inherit' | 'large' | 'medium' | undefined;
+    testId?: string;
 };
 
-const AddButton = ({ clickFunction, fontSize }: Props): JSX.Element => {
+const AddButton = ({ testId = 'add_button', clickFunction, fontSize }: Props): JSX.Element => {
     return (
-        <IconButton onClick={clickFunction}>
+        <IconButton data-testid={testId} onClick={clickFunction}>
             <AddIcon fontSize={fontSize} />
         </IconButton>
     );

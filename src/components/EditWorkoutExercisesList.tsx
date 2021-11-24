@@ -5,11 +5,14 @@ import { Workout } from '../model/workout';
 import { ExerciseWorkoutSettings } from '../model/exercise-workout-settings';
 
 type Props = {
+    parentIdPrefix: string;
     workout: Workout;
     setWorkout: Dispatch<SetStateAction<Workout>>;
 };
 
-const EditWorkoutExercisesList = ({ workout, setWorkout }: Props): JSX.Element => {
+const EditWorkoutExercisesList = ({ parentIdPrefix, workout, setWorkout }: Props): JSX.Element => {
+    const idPrefix = `${parentIdPrefix}exercise_list__`;
+    const exerciseItemPrefix = `${idPrefix}item_`;
     const updateExerciseName = (
         workout: Workout,
         exerciseToUpdate: ExerciseWorkoutSettings,
@@ -32,6 +35,7 @@ const EditWorkoutExercisesList = ({ workout, setWorkout }: Props): JSX.Element =
                         fullWidth
                         margin="dense"
                         key={exercise.id}
+                        id={exerciseItemPrefix + index}
                         label={'Exercise ' + (index + 1)}
                         type="text"
                         value={exercise.name}
