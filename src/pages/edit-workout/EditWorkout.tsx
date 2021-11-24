@@ -4,13 +4,13 @@ import { useFirestore } from 'react-redux-firebase';
 import { Workout } from '../../model/workout';
 import { ExerciseWorkoutSettings } from '../../model/exercise-workout-settings';
 import { v4 as uuidv4 } from 'uuid';
-import EditWorkoutAddExerciseButton from '../../components/edit-workout/EditWorkoutAddExerciseButton';
 import { useSnackbar } from 'notistack';
 import { getPageIdPrefix } from '../../util/id-util';
-import EditWorkoutExercisesList from '../../components/edit-workout/EditWorkoutExercisesList';
-import EditWorkoutSubmitButton from '../../components/edit-workout/EditWorkoutSubmitButton';
+import ManageWorkoutExercises from '../../components/ManageWorkoutExercises';
 import { useParams } from 'react-router-dom';
 import { Id } from '../../model/basics';
+import AddButton from '../../components/atoms/AddButton';
+import SubmitButton from '../../components/atoms/SubmitButton';
 
 const EditWorkout: FC = () => {
     const pageName = 'edit_workout';
@@ -106,12 +106,12 @@ const EditWorkout: FC = () => {
                         setWorkout({ ...workout, name: event.target.value })
                     }
                 />
-                <EditWorkoutExercisesList parentIdPrefix={idPrefix} workout={workout} setWorkout={setWorkout} />
-                <EditWorkoutAddExerciseButton parentIdPrefix={idPrefix} addExerciseToWorkout={addExerciseToWorkout} />
+                <ManageWorkoutExercises parentIdPrefix={idPrefix} workout={workout} setWorkout={setWorkout} />
+                <AddButton onClick={addExerciseToWorkout} testId={`${idPrefix}add_exercise_button`} />
             </Stack>
             <Stack spacing={2} mt={5} ml={2} mr={2}>
-                <EditWorkoutSubmitButton
-                    parentIdPrefix={idPrefix}
+                <SubmitButton
+                    testId={`${idPrefix}submit_button`}
                     isCreate={!workout.hasBeenCreated}
                     onSubmit={onSubmit}
                 />

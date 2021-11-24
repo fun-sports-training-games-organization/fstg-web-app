@@ -1,11 +1,12 @@
 import { FC, useEffect, useState } from 'react';
-import { Grid, IconButton, List, ListItem } from '@mui/material';
+import { Grid, IconButton, List, ListItem, Stack } from '@mui/material';
 import { useFirestore } from 'react-redux-firebase';
 import { Workout } from '../../model/workout';
 import { getPageIdPrefix } from '../../util/id-util';
 import { Delete, Edit } from '@mui/icons-material';
 import { useHistory } from 'react-router-dom';
 import DeleteConfirmationDialog from '../../components/DeleteConfirmationDialog';
+import AddButton from '../../components/atoms/AddButton';
 
 const ManageWorkouts: FC = () => {
     const pageName = 'manage_workouts';
@@ -37,39 +38,44 @@ const ManageWorkouts: FC = () => {
 
     return (
         <div data-testid={pageName}>
-            <List>
-                {workouts.map((workout: Workout, index: number) => {
-                    return (
-                        <Grid container key={workout.id} display={'flex'} flexDirection={'row'}>
-                            <Grid item>
-                                <ListItem key={workout.id}>{workout.name}</ListItem>
+            <Stack ml={2} mr={2}>
+                <AddButton onClick={() => navigateToEditWorkout(undefined)} testId={`${idPrefix}add_workout_button`} />
+                <List>
+                    {workouts.map((workout: Workout, index: number) => {
+                        return (
+                            <Grid container key={workout.id} display={'flex'} flexDirection={'row'}>
+                                <Grid item xs={8}>
+                                    <ListItem key={workout.id}>{workout.name}</ListItem>
+                                </Grid>
+                                <Grid item xs={2}>
+                                    <IconButton
+                                        data-testid={`${idPrefix}edit_item_${index}`}
+                                        onClick={() => navigateToEditWorkout(workout.id)}
+                                    >
+                                        <Edit htmlColor={'steelblue'} />
+                                    </IconButton>
+                                </Grid>
+                                <Grid item xs={2}>
+                                    <IconButton
+                                        data-testid={`${idPrefix}delete_item_${index}`}
+                                        onClick={() => {
+                                            handleDelete(workout);
+                                        }}
+                                    >
+                                        <Delete htmlColor={'palevioletred'} />
+                                    </IconButton>
+                                </Grid>
                             </Grid>
-                            <Grid item>
-                                <IconButton
-                                    data-testid={`${idPrefix}edit_item_${index}`}
-                                    onClick={() => navigateToEditWorkout(workout.id)}
-                                >
-                                    <Edit htmlColor={'steelblue'} />
-                                </IconButton>
-                                <IconButton
-                                    data-testid={`${idPrefix}delete_item_${index}`}
-                                    onClick={() => {
-                                        handleDelete(workout);
-                                    }}
-                                >
-                                    <Delete htmlColor={'palevioletred'} />
-                                </IconButton>
-                            </Grid>
-                        </Grid>
-                    );
-                })}
-            </List>
-            <DeleteConfirmationDialog
-                openDeleteConfirmationDialog={openDeleteConfirmationDialog}
-                itemToDelete={workoutToDelete}
-                collection="workouts"
-                closeDialog={() => setOpenDeleteConfirmationDialog(false)}
-            />
+                        );
+                    })}
+                </List>
+                <DeleteConfirmationDialog
+                    openDeleteConfirmationDialog={openDeleteConfirmationDialog}
+                    itemToDelete={workoutToDelete}
+                    collection="workouts"
+                    closeDialog={() => setOpenDeleteConfirmationDialog(false)}
+                />
+            </Stack>
         </div>
     );
 };

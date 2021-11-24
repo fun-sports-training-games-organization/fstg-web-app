@@ -2,14 +2,14 @@ import { IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 
 type Props = {
-    clickFunction: () => void;
-    fontSize: 'small' | 'inherit' | 'large' | 'medium' | undefined;
+    onClick: () => void;
     testId?: string;
+    fontSize?: 'small' | 'inherit' | 'large' | 'medium' | undefined;
 };
 
-const AddButton = ({ testId = 'add_button', clickFunction, fontSize }: Props): JSX.Element => {
+const AddButton = ({ onClick, testId = 'add_button', fontSize = 'large' }: Props): JSX.Element => {
     return (
-        <IconButton data-testid={testId} onClick={clickFunction}>
+        <IconButton data-testid={testId} onClick={onClick}>
             <AddIcon fontSize={fontSize} />
         </IconButton>
     );

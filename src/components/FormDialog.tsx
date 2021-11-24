@@ -32,6 +32,7 @@ const FormDialog = ({ open, setOpen, title, message, exercise = emptyExercise, s
     const firestore = useFirestore();
     const handleClose = () => {
         setOpen(false);
+        exercise = emptyExercise;
     };
 
     const handleUpdate = () => {

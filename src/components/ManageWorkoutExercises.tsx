@@ -1,8 +1,8 @@
 import { ChangeEvent, Dispatch, SetStateAction } from 'react';
 import { IconButton, List, TextField } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { Workout } from '../../model/workout';
-import { ExerciseWorkoutSettings } from '../../model/exercise-workout-settings';
+import { Workout } from '../model/workout';
+import { ExerciseWorkoutSettings } from '../model/exercise-workout-settings';
 
 type Props = {
     parentIdPrefix: string;
@@ -10,7 +10,7 @@ type Props = {
     setWorkout: Dispatch<SetStateAction<Workout>>;
 };
 
-const EditWorkoutExercisesList = ({ parentIdPrefix, workout, setWorkout }: Props): JSX.Element => {
+const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout }: Props): JSX.Element => {
     const idPrefix = `${parentIdPrefix}exercise_list__`;
     const exerciseItemPrefix = `${idPrefix}item_`;
     const updateExerciseName = (
@@ -59,4 +59,4 @@ const EditWorkoutExercisesList = ({ parentIdPrefix, workout, setWorkout }: Props
     );
 };
 
-export default EditWorkoutExercisesList;
+export default ManageWorkoutExercises;
