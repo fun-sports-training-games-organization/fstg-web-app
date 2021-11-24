@@ -1,7 +1,7 @@
-export interface ExerciseWorkoutSettings {
-    id?: string;
+import { IdName } from './basics';
+
+export interface ExerciseWorkoutSettings extends IdName {
     exerciseId?: string;
-    name?: string;
     amountType: TypeOptions;
     amount?: number;
     recordResults: boolean;

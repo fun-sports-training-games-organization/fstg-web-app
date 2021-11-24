@@ -1,20 +1,16 @@
-import { FC, SyntheticEvent, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Grid, IconButton, List, ListItem } from '@mui/material';
 import { useFirestore } from 'react-redux-firebase';
 import { Workout } from '../../model/workout';
-import { useSnackbar } from 'notistack';
 import { getPageIdPrefix } from '../../util/id-util';
 import { Delete, Edit } from '@mui/icons-material';
-import ConfirmationDialog from '../../components/organisms/ConfirmationDialog';
-import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
+import DeleteConfirmationDialog from '../../components/DeleteConfirmationDialog';
 
 const ManageWorkouts: FC = () => {
-    const pageName = 'workouts_dashboard';
+    const pageName = 'manage_workouts';
     const idPrefix = getPageIdPrefix(pageName);
     const history = useHistory();
-    const { enqueueSnackbar } = useSnackbar();
-    const { t } = useTranslation();
     const firestore = useFirestore();
 
     const [workouts, setWorkouts] = useState<Workout[]>([]);
@@ -42,17 +38,21 @@ const ManageWorkouts: FC = () => {
     return (
         <div data-testid={pageName}>
             <List>
-                {workouts.map((workout: Workout) => {
+                {workouts.map((workout: Workout, index: number) => {
                     return (
                         <Grid container key={workout.id} display={'flex'} flexDirection={'row'}>
                             <Grid item>
                                 <ListItem key={workout.id}>{workout.name}</ListItem>
                             </Grid>
                             <Grid item>
-                                <IconButton onClick={() => navigateToEditWorkout(workout.id)}>
+                                <IconButton
+                                    data-testid={`${idPrefix}edit_item_${index}`}
+                                    onClick={() => navigateToEditWorkout(workout.id)}
+                                >
                                     <Edit htmlColor={'steelblue'} />
                                 </IconButton>
                                 <IconButton
+                                    data-testid={`${idPrefix}delete_item_${index}`}
                                     onClick={() => {
                                         handleDelete(workout);
                                     }}
@@ -64,18 +64,11 @@ const ManageWorkouts: FC = () => {
                     );
                 })}
             </List>
-            <ConfirmationDialog
-                open={openDeleteConfirmationDialog}
-                title={t('dialog.deleteConfirmation.title')}
-                message={t('dialog.deleteConfirmation.message', { name: workoutToDelete?.name })}
-                onClose={async (event: SyntheticEvent<HTMLButtonElement>) => {
-                    if (event.currentTarget.value === 'confirm') {
-                        workoutToDelete &&
-                            workoutToDelete.id &&
-                            (await firestore.collection('workouts').doc(workoutToDelete.id).delete());
-                    }
-                    setOpenDeleteConfirmationDialog(false);
-                }}
+            <DeleteConfirmationDialog
+                openDeleteConfirmationDialog={openDeleteConfirmationDialog}
+                itemToDelete={workoutToDelete}
+                collection="workouts"
+                closeDialog={() => setOpenDeleteConfirmationDialog(false)}
             />
         </div>
     );

@@ -1,13 +1,12 @@
 import { Button, Grid, IconButton, List, ListItem } from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
-import { FC, SyntheticEvent, useEffect, useState } from 'react';
-// import { db } from '../config/firebase';
+import { FC, useEffect, useState } from 'react';
 import { useFirestore } from 'react-redux-firebase';
 
 import FormDialog from './FormDialog';
-import ConfirmationDialog from './organisms/ConfirmationDialog';
 import { useTranslation } from 'react-i18next';
 import { Exercise } from '../model/exercise';
+import DeleteConfirmationDialog from './DeleteConfirmationDialog';
 
 const ExerciseList: FC = (): JSX.Element => {
     const { t } = useTranslation();
@@ -75,18 +74,11 @@ const ExerciseList: FC = (): JSX.Element => {
                 exercise={exercise}
                 setExercise={setExercise}
             />
-            <ConfirmationDialog
-                open={openDeleteConfirmationDialog}
-                title={t('dialog.deleteConfirmation.title')}
-                message={t('dialog.deleteConfirmation.message', { name: exerciseToDelete?.name })}
-                onClose={async (event: SyntheticEvent<HTMLButtonElement>) => {
-                    if (event.currentTarget.value === 'confirm') {
-                        exerciseToDelete &&
-                            exerciseToDelete.id &&
-                            (await firestore.collection('exercises').doc(exerciseToDelete.id).delete());
-                    }
-                    setOpenDeleteConfirmationDialog(false);
-                }}
+            <DeleteConfirmationDialog
+                openDeleteConfirmationDialog={openDeleteConfirmationDialog}
+                itemToDelete={exerciseToDelete}
+                collection="exercises"
+                closeDialog={() => setOpenDeleteConfirmationDialog(false)}
             />
         </>
     );

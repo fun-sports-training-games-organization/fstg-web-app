@@ -35,8 +35,8 @@ const EditWorkoutExercisesList = ({ parentIdPrefix, workout, setWorkout }: Props
                         fullWidth
                         margin="dense"
                         key={exercise.id}
-                        id={exerciseItemPrefix + index}
-                        label={'Exercise ' + (index + 1)}
+                        id={`${exerciseItemPrefix}${index}`}
+                        label={`Exercise ${index + 1}`}
                         type="text"
                         value={exercise.name}
                         InputProps={{

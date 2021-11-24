@@ -10,7 +10,7 @@ import { getPageIdPrefix } from '../../util/id-util';
 import EditWorkoutExercisesList from '../../components/edit-workout/EditWorkoutExercisesList';
 import EditWorkoutSubmitButton from '../../components/edit-workout/EditWorkoutSubmitButton';
 import { useParams } from 'react-router-dom';
-import { Id } from '../../model/id';
+import { Id } from '../../model/basics';
 
 const EditWorkout: FC = () => {
     const pageName = 'edit_workout';
@@ -97,7 +97,7 @@ const EditWorkout: FC = () => {
                 <TextField
                     autoFocus
                     margin="dense"
-                    id={idPrefix + 'name'}
+                    id={`${idPrefix}name`}
                     label="Workout Name"
                     type="text"
                     fullWidth
