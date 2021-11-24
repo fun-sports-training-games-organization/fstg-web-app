@@ -1,15 +1,17 @@
-import { Button, Grid, IconButton, List, ListItem } from '@mui/material';
+import { Grid, IconButton, List, ListItem, Stack } from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
-import { FC, SyntheticEvent, useEffect, useState } from 'react';
-// import { db } from '../config/firebase';
+import { FC, useEffect, useState } from 'react';
 import { useFirestore } from 'react-redux-firebase';
-
-import FormDialog from './FormDialog';
-import ConfirmationDialog from './organisms/ConfirmationDialog';
+import { Exercise } from '../../model/exercise';
+import EditExerciseDialog from '../../components/EditExerciseDialog';
+import DeleteConfirmationDialog from '../../components/DeleteConfirmationDialog';
 import { useTranslation } from 'react-i18next';
-import { Exercise } from '../model/exercise';
+import { getPageIdPrefix } from '../../util/id-util';
+import AddButton from '../../components/atoms/AddButton';
 
-const ExerciseList: FC = (): JSX.Element => {
+const ManageExercises: FC = (): JSX.Element => {
+    const pageName = 'manage_exercises';
+    const idPrefix = getPageIdPrefix(pageName);
     const { t } = useTranslation();
     const firestore = useFirestore();
 
@@ -40,18 +42,21 @@ const ExerciseList: FC = (): JSX.Element => {
     };
 
     return (
-        <>
+        <Stack ml={2} mr={2} mt={3}>
+            <AddButton onClick={() => setOpenDialog(true)} testId={`${idPrefix}add_exercise_button`} />
             <List>
                 {exercises.map((exercise: Exercise) => {
                     return (
                         <Grid container key={exercise.id} display={'flex'} flexDirection={'row'}>
-                            <Grid item>
+                            <Grid item xs={8}>
                                 <ListItem key={exercise.id}>{exercise.name}</ListItem>
                             </Grid>
-                            <Grid item>
+                            <Grid item xs={2}>
                                 <IconButton onClick={() => handleUpdate(exercise)}>
                                     <Edit htmlColor={'steelblue'} />
                                 </IconButton>
+                            </Grid>
+                            <Grid item xs={2}>
                                 <IconButton
                                     onClick={() => {
                                         handleDelete(exercise);
@@ -64,10 +69,7 @@ const ExerciseList: FC = (): JSX.Element => {
                     );
                 })}
             </List>
-            <Button variant="contained" onClick={() => setOpenDialog(true)}>
-                {t('global.add')}
-            </Button>
-            <FormDialog
+            <EditExerciseDialog
                 title={t('dialog.editExercise.title')}
                 message={t('dialog.editExercise.message')}
                 open={openDialog}
@@ -75,20 +77,13 @@ const ExerciseList: FC = (): JSX.Element => {
                 exercise={exercise}
                 setExercise={setExercise}
             />
-            <ConfirmationDialog
-                open={openDeleteConfirmationDialog}
-                title={t('dialog.deleteConfirmation.title')}
-                message={t('dialog.deleteConfirmation.message', { name: exerciseToDelete?.name })}
-                onClose={async (event: SyntheticEvent<HTMLButtonElement>) => {
-                    if (event.currentTarget.value === 'confirm') {
-                        exerciseToDelete &&
-                            exerciseToDelete.id &&
-                            (await firestore.collection('exercises').doc(exerciseToDelete.id).delete());
-                    }
-                    setOpenDeleteConfirmationDialog(false);
-                }}
+            <DeleteConfirmationDialog
+                openDeleteConfirmationDialog={openDeleteConfirmationDialog}
+                itemToDelete={exerciseToDelete}
+                collection="exercises"
+                closeDialog={() => setOpenDeleteConfirmationDialog(false)}
             />
-        </>
+        </Stack>
     );
 };
-export default ExerciseList;
+export default ManageExercises;

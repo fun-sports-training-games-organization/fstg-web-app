@@ -1,8 +1,8 @@
 import { FC } from 'react';
-import EditWorkout from './edit-workout/EditWorkout';
+import ManageWorkouts from './manage-workouts/ManageWorkouts';
 
 const HomePage: FC = () => {
-    return <EditWorkout></EditWorkout>;
+    return <ManageWorkouts></ManageWorkouts>;
 };
 
 export default HomePage;

@@ -1,8 +1,7 @@
 import { ExerciseWorkoutSettings } from './exercise-workout-settings';
+import { IdName } from './basics';
 
-export interface Workout {
-    id?: string;
-    name: string;
+export interface Workout extends IdName {
     exercises: ExerciseWorkoutSettings[];
     hasBeenCreated: boolean;
 }

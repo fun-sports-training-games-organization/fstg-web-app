@@ -10,7 +10,7 @@ type Props = {
     setWorkout: Dispatch<SetStateAction<Workout>>;
 };
 
-const EditWorkoutExercisesList = ({ parentIdPrefix, workout, setWorkout }: Props): JSX.Element => {
+const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout }: Props): JSX.Element => {
     const idPrefix = `${parentIdPrefix}exercise_list__`;
     const exerciseItemPrefix = `${idPrefix}item_`;
     const updateExerciseName = (
@@ -35,8 +35,8 @@ const EditWorkoutExercisesList = ({ parentIdPrefix, workout, setWorkout }: Props
                         fullWidth
                         margin="dense"
                         key={exercise.id}
-                        id={exerciseItemPrefix + index}
-                        label={'Exercise ' + (index + 1)}
+                        id={`${exerciseItemPrefix}${index}`}
+                        label={`Exercise ${index + 1}`}
                         type="text"
                         value={exercise.name}
                         InputProps={{
@@ -59,4 +59,4 @@ const EditWorkoutExercisesList = ({ parentIdPrefix, workout, setWorkout }: Props
     );
 };
 
-export default EditWorkoutExercisesList;
+export default ManageWorkoutExercises;

@@ -1,18 +1,24 @@
-import { ChangeEvent, FC, useState } from 'react';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
 import { Stack, TextField } from '@mui/material';
 import { useFirestore } from 'react-redux-firebase';
 import { Workout } from '../../model/workout';
 import { ExerciseWorkoutSettings } from '../../model/exercise-workout-settings';
 import { v4 as uuidv4 } from 'uuid';
-import EditWorkoutAddExerciseButton from '../../components/EditWorkoutAddExerciseButton';
 import { useSnackbar } from 'notistack';
-import EditWorkoutExercisesList from '../../components/EditWorkoutExercisesList';
-import EditWorkoutSubmitButton from '../../components/EditWorkoutSubmitButton';
+import { getPageIdPrefix } from '../../util/id-util';
+import ManageWorkoutExercises from '../../components/ManageWorkoutExercises';
+import { useParams } from 'react-router-dom';
+import { Id } from '../../model/basics';
+import AddButton from '../../components/atoms/AddButton';
+import SubmitButton from '../../components/atoms/SubmitButton';
 
 const EditWorkout: FC = () => {
-    const idPrefix = 'fstg__edit_workout__';
+    const pageName = 'edit_workout';
+    const idPrefix = getPageIdPrefix(pageName);
     const { enqueueSnackbar } = useSnackbar();
     const firestore = useFirestore();
+    const params = useParams() as Id;
+    const workoutId = params?.id ? params.id : undefined;
 
     const emptyExerciseWorkoutSettings: ExerciseWorkoutSettings = {
         name: '',
@@ -41,6 +47,17 @@ const EditWorkout: FC = () => {
         });
 
     const [workout, setWorkout] = useState<Workout>(getNewEmptyWorkout());
+
+    useEffect(() => {
+        if (workoutId) {
+            firestore
+                .collection('workouts')
+                .doc(workoutId)
+                .onSnapshot((snapshot) => {
+                    setWorkout({ id: workoutId, hasBeenCreated: true, ...snapshot.data() } as Workout);
+                });
+        }
+    }, [firestore, workoutId]);
 
     const handleUpdate = () => {
         // eslint-disable-next-line
@@ -75,12 +92,12 @@ const EditWorkout: FC = () => {
     const onSubmit = () => (!workout.hasBeenCreated ? handleCreate() : handleUpdate());
 
     return (
-        <div data-testid="edit_workout">
+        <div data-testid={pageName}>
             <Stack spacing={2} mt={2} ml={2} mr={2}>
                 <TextField
                     autoFocus
                     margin="dense"
-                    id={idPrefix + 'name'}
+                    id={`${idPrefix}name`}
                     label="Workout Name"
                     type="text"
                     fullWidth
@@ -89,12 +106,12 @@ const EditWorkout: FC = () => {
                         setWorkout({ ...workout, name: event.target.value })
                     }
                 />
-                <EditWorkoutExercisesList parentIdPrefix={idPrefix} workout={workout} setWorkout={setWorkout} />
-                <EditWorkoutAddExerciseButton parentIdPrefix={idPrefix} addExerciseToWorkout={addExerciseToWorkout} />
+                <ManageWorkoutExercises parentIdPrefix={idPrefix} workout={workout} setWorkout={setWorkout} />
+                <AddButton onClick={addExerciseToWorkout} testId={`${idPrefix}add_exercise_button`} />
             </Stack>
             <Stack spacing={2} mt={5} ml={2} mr={2}>
-                <EditWorkoutSubmitButton
-                    parentIdPrefix={idPrefix}
+                <SubmitButton
+                    testId={`${idPrefix}submit_button`}
                     isCreate={!workout.hasBeenCreated}
                     onSubmit={onSubmit}
                 />

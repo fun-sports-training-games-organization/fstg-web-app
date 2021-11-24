@@ -1,6 +1,6 @@
-export interface Exercise {
-    id?: string;
-    name: string;
+import { IdName } from './basics';
+
+export interface Exercise extends IdName {
     imageOrGif?: any;
     defaultType?: string;
     defaultValue?: number;
