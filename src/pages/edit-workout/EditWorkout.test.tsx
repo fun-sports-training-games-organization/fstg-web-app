@@ -14,6 +14,11 @@ jest.mock('notistack', () => ({
 jest.mock('react-i18next', () => ({
     useTranslation: () => ({ t: (key: string) => key })
 }));
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'),
+    useParams: jest.fn().mockReturnValue({ id: undefined })
+}));
+
 const workoutNameInputSelector = 'input#fstg__edit_workout__name';
 const getExerciseItemSelector = (index: number): string => `input#fstg__edit_workout__exercise_list__item_${index}`;
 const addExerciseButtonTestId = 'fstg__edit_workout__add_exercise_button';
