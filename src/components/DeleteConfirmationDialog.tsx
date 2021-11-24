@@ -3,10 +3,11 @@ import { useFirestore } from 'react-redux-firebase';
 
 import ConfirmationDialog from './organisms/ConfirmationDialog';
 import { useTranslation } from 'react-i18next';
+import { IdName } from '../model/basics';
 
 type Props = {
     openDeleteConfirmationDialog: boolean;
-    itemToDelete: any;
+    itemToDelete: IdName | undefined;
     collection: string;
     closeDialog: () => void;
 };

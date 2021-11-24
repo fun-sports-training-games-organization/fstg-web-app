@@ -57,7 +57,7 @@ const EditWorkout: FC = () => {
                     setWorkout({ id: workoutId, hasBeenCreated: true, ...snapshot.data() } as Workout);
                 });
         }
-    }, [firestore]);
+    }, [firestore, workoutId]);
 
     const handleUpdate = () => {
         // eslint-disable-next-line
