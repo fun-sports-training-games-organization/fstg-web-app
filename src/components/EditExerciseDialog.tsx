@@ -1,6 +1,5 @@
-import React, { ChangeEvent, Dispatch, SetStateAction } from 'react';
+import { ChangeEvent, Dispatch, SetStateAction } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Stack } from '@mui/material';
-// import { db } from '../config/firebase';
 import { useFirestore } from 'react-redux-firebase';
 import { useTranslation } from 'react-i18next';
 import { Exercise } from '../model/exercise';
@@ -26,13 +25,20 @@ const emptyExercise = {
     defaultTargetSize: 0
 };
 
-const FormDialog = ({ open, setOpen, title, message, exercise = emptyExercise, setExercise }: Props): JSX.Element => {
+const EditExerciseDialog = ({
+    open,
+    setOpen,
+    title,
+    message,
+    exercise = emptyExercise,
+    setExercise
+}: Props): JSX.Element => {
     const { t } = useTranslation();
     const { enqueueSnackbar } = useSnackbar();
     const firestore = useFirestore();
     const handleClose = () => {
         setOpen(false);
-        exercise = emptyExercise;
+        setExercise(emptyExercise);
     };
 
     const handleUpdate = () => {
@@ -48,10 +54,6 @@ const FormDialog = ({ open, setOpen, title, message, exercise = emptyExercise, s
                 .catch(() => {
                     enqueueSnackbar(`${exercise.name} could not be updated`, { variant: 'error' });
                 });
-            // .doc(exercise?.id).update({ exercise });
-            // firestore.update()
-            // const docRef = doc(db, 'exercises', exercise?.id);
-            // await updateDoc(docRef, { exercise });
         }
     };
 
@@ -62,30 +64,15 @@ const FormDialog = ({ open, setOpen, title, message, exercise = emptyExercise, s
             .then(() => {
                 enqueueSnackbar(`${exercise?.name} has been added successfully!`, { variant: 'success' });
                 setOpen(false);
-                exercise = emptyExercise;
+                setExercise(emptyExercise);
             })
             .catch(() => {
                 enqueueSnackbar(`${exercise.name} could not be created`, { variant: 'error' });
-            }); // to add with auto generate id
-
-        // const collectionRef = collection(db, 'exercises');
-        // const payload = exercise;
-        // addDoc(collectionRef, payload)
-        //     .then(() => {
-        //         enqueueSnackbar(`${exercise?.name} has been added successfully!`, { variant: 'success' });
-        //         setOpen(false);
-        //         exercise = emptyExercise;
-        //     })
-        //     .catch(() => {
-        //         enqueueSnackbar(`${exercise.name} could not be created`, { variant: 'error' });
-        //     }); // to add with auto generate id
+            });
     };
 
     return (
         <div>
-            {/*<Button variant="outlined" onClick={handleClickOpen}>*/}
-            {/*    Open form dialog*/}
-            {/*</Button>*/}
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle>{title}</DialogTitle>
                 <DialogContent>
@@ -182,4 +169,4 @@ const FormDialog = ({ open, setOpen, title, message, exercise = emptyExercise, s
         </div>
     );
 };
-export default FormDialog;
+export default EditExerciseDialog;

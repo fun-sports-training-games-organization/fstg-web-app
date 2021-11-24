@@ -3,7 +3,7 @@ import { Delete, Edit } from '@mui/icons-material';
 import { FC, useEffect, useState } from 'react';
 import { useFirestore } from 'react-redux-firebase';
 import { Exercise } from '../../model/exercise';
-import FormDialog from '../../components/FormDialog';
+import EditExerciseDialog from '../../components/EditExerciseDialog';
 import DeleteConfirmationDialog from '../../components/DeleteConfirmationDialog';
 import { useTranslation } from 'react-i18next';
 import { getPageIdPrefix } from '../../util/id-util';
@@ -69,7 +69,7 @@ const ManageExercises: FC = (): JSX.Element => {
                     );
                 })}
             </List>
-            <FormDialog
+            <EditExerciseDialog
                 title={t('dialog.editExercise.title')}
                 message={t('dialog.editExercise.message')}
                 open={openDialog}
