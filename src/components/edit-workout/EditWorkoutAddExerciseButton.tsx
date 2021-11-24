@@ -1,4 +1,4 @@
-import AddButton from './atoms/AddButton';
+import AddButton from '../atoms/AddButton';
 
 type Props = {
     parentIdPrefix: string;

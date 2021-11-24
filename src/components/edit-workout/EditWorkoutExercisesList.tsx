@@ -1,8 +1,8 @@
 import { ChangeEvent, Dispatch, SetStateAction } from 'react';
 import { IconButton, List, TextField } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { Workout } from '../model/workout';
-import { ExerciseWorkoutSettings } from '../model/exercise-workout-settings';
+import { Workout } from '../../model/workout';
+import { ExerciseWorkoutSettings } from '../../model/exercise-workout-settings';
 
 type Props = {
     parentIdPrefix: string;

@@ -1,4 +1,4 @@
-import SubmitButton from './atoms/SubmitButton';
+import SubmitButton from '../atoms/SubmitButton';
 
 type Props = {
     parentIdPrefix: string;

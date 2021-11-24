@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { Stack, Typography } from '@mui/material';
 // import { useTranslation } from 'react-i18next';
 // import { Redirect } from 'react-router-dom';
-import ExerciseList from '../components/ExerciseList';
+import ExerciseList from '../../components/ExerciseList';
 // import { User } from 'firebase/auth';
 // import { useSelector } from 'react-redux';
 // import { RootReducerState } from '../reducers/authReducer';
