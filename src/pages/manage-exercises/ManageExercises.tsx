@@ -1,4 +1,4 @@
-import { Grid, IconButton, List, ListItem, Stack, Typography } from '@mui/material';
+import { Grid, IconButton, List, ListItem, Stack } from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
 import { FC, useEffect, useState } from 'react';
 import { useFirestore } from 'react-redux-firebase';
@@ -7,7 +7,7 @@ import EditExerciseDialog from '../../components/EditExerciseDialog';
 import DeleteConfirmationDialog from '../../components/DeleteConfirmationDialog';
 import { useTranslation } from 'react-i18next';
 import { getPageIdPrefix } from '../../util/id-util';
-import AddButton from '../../components/atoms/AddButton';
+import TitleAdd from '../../components/molecules/TitleAdd';
 
 const ManageExercises: FC = (): JSX.Element => {
     const pageName = 'manage_exercises';
@@ -43,16 +43,11 @@ const ManageExercises: FC = (): JSX.Element => {
 
     return (
         <>
-            <Stack ml={2} mr={2} mt={3}>
-                <Grid container direction="row" justifyContent="center" alignItems="center">
-                    <Grid item xs={9}>
-                        <Typography variant="h4">Exercises</Typography>
-                    </Grid>
-                    <Grid item xs={2}>
-                        <AddButton onClick={() => setOpenDialog(true)} testId={`${idPrefix}add_exercise_button`} />
-                    </Grid>
-                </Grid>
-            </Stack>
+            <TitleAdd
+                onClick={() => setOpenDialog(true)}
+                titleTranslationKey="page.manageExercises.exercises"
+                idPrefix={idPrefix}
+            ></TitleAdd>
             <Stack ml={2} mr={2} mt={3} mb={3}>
                 <List>
                     {exercises.map((exercise: Exercise) => {

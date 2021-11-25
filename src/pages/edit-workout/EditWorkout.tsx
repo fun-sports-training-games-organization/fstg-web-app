@@ -11,6 +11,7 @@ import { useParams } from 'react-router-dom';
 import { Id } from '../../model/basics';
 import AddButton from '../../components/atoms/AddButton';
 import SubmitButton from '../../components/atoms/SubmitButton';
+import Title from '../../components/atoms/Title';
 
 const EditWorkout: FC = () => {
     const pageName = 'edit_workout';
@@ -94,6 +95,11 @@ const EditWorkout: FC = () => {
     return (
         <div data-testid={pageName}>
             <Stack spacing={2} mt={2} ml={2} mr={2}>
+                <Title
+                    translationKey={
+                        !workout.hasBeenCreated ? 'page.editWorkout.createWorkout' : 'page.editWorkout.editWorkout'
+                    }
+                ></Title>
                 <TextField
                     autoFocus
                     margin="dense"

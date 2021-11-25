@@ -6,7 +6,7 @@ import { getPageIdPrefix } from '../../util/id-util';
 import { Delete, Edit } from '@mui/icons-material';
 import { useHistory } from 'react-router-dom';
 import DeleteConfirmationDialog from '../../components/DeleteConfirmationDialog';
-import AddButton from '../../components/atoms/AddButton';
+import TitleAdd from '../../components/molecules/TitleAdd';
 
 const ManageWorkouts: FC = () => {
     const pageName = 'manage_workouts';
@@ -38,8 +38,12 @@ const ManageWorkouts: FC = () => {
 
     return (
         <div data-testid={pageName}>
-            <Stack ml={2} mr={2}>
-                <AddButton onClick={() => navigateToEditWorkout(undefined)} testId={`${idPrefix}add_workout_button`} />
+            <TitleAdd
+                onClick={() => navigateToEditWorkout(undefined)}
+                titleTranslationKey="page.manageWorkouts.workouts"
+                idPrefix={idPrefix}
+            ></TitleAdd>
+            <Stack ml={2} mr={2} mt={3} mb={3}>
                 <List>
                     {workouts.map((workout: Workout, index: number) => {
                         return (
