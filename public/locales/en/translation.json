@@ -33,7 +33,8 @@
                 "failed": "Registration failed: {{code}}"
             },
             "resetPassword": {
-                "emailSent": "Password reset link has been sent! Please check your mail!"
+                "emailSent": "Password reset link has been sent! Please check your mail!",
+                "emailError": "Password reset link could not be sent. Please wait a moment and try again."
             }
         }
     },

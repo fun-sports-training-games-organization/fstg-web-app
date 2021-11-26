@@ -33,7 +33,8 @@
                 "failed": "Registrierung fehlgeschlagen: {{code}}"
             },
             "resetPassword": {
-                "emailSent": "Link zum Zurücksetzen des Passworts wurde gesendet! Bitte überprüfen Sie Ihre E-Mails!"
+                "emailSent": "Link zum Zurücksetzen des Passworts wurde gesendet! Bitte überprüfen Sie Ihre E-Mails!",
+                "emailError": "Der Link zum Zurücksetzen des Passworts konnte nicht gesendet werden. Bitte warten Sie einen Moment und versuchen Sie es erneut."
             }
         }
     },

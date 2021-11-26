@@ -1,13 +1,13 @@
 import IRoute from './route.interface';
 
-import RegistrationForm from '../pages/authentication/RegistrationForm';
-import LoginPage from '../pages/authentication/LoginPage';
-import HomePage from '../pages/Home';
-import PrivacyPolicyPage from '../pages/PrivacyPolicyPage';
-import TermsOfServicePage from '../pages/TermsOfServicePage';
-import ManageExercises from '../pages/manage-exercises/ManageExercises';
-import EditWorkout from '../pages/edit-workout/EditWorkout';
-import ManageWorkouts from '../pages/manage-workouts/ManageWorkouts';
+import RegistrationForm from '../pages/authentication/registration-form/RegistrationForm';
+import HomePage from '../pages/home/Home';
+import PrivacyPolicyPage from '../pages/legal/PrivacyPolicyPage';
+import ManageExercises from '../pages/exercises/manage/ManageExercises';
+import LoginPage from '../pages/authentication/login-page/LoginPage';
+import TermsOfServicePage from '../pages/legal/TermsOfServicePage';
+import EditWorkout from '../pages/workouts/edit/EditWorkout';
+import ManageWorkouts from '../pages/workouts/manage/ManageWorkouts';
 
 const routes: IRoute[] = [
     {

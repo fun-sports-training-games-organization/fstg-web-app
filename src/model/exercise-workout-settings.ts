@@ -1,6 +1,6 @@
-import { IdName } from './basics';
+import { CreateAndModifyInfo, IdName } from './basics';
 
-export interface ExerciseWorkoutSettings extends IdName {
+export interface ExerciseWorkoutSettings extends IdName, CreateAndModifyInfo {
     exerciseId?: string;
     amountType: TypeOptions;
     amount?: number;

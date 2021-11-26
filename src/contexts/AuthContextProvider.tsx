@@ -1,14 +1,16 @@
 import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import { createContext, FC, PropsWithChildren, useContext, useState } from 'react';
 import { onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, User } from 'firebase/auth';
-import Loader from '../components/atoms/Loader';
+import Loader from '../components/atoms/loader/Loader';
 import { useSnackbar } from 'notistack';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { useFirebase } from 'react-redux-firebase';
 import { auth } from '../config/firebase';
 import { Facebook as FacebookIcon, Google as GoogleIcon, Twitter as TwitterIcon } from '@mui/icons-material';
-import { RegistrationErrorState } from '../pages/authentication/RegistrationForm';
+import { RegistrationErrorState } from '../pages/authentication/registration-form/RegistrationForm';
+import * as notification from '../util/notifications-util';
+import * as navigate from '../util/navigation-util';
 
 interface Error {
     code: string;
@@ -67,13 +69,13 @@ const AuthContextProvider: FC<PropsWithChildren<Record<string, unknown>>> = (
         if (error) {
             const errorCode = error.code;
             const errorMessage = error.message;
-            enqueueSnackbar(t('auth.message.login.failure', { errorCode, errorMessage }), { variant: 'error' });
+            notification.loginError(enqueueSnackbar, t, { errorCode, errorMessage });
         }
     };
 
     const loggedInSuccessfully = () => {
-        history.push('/home');
-        enqueueSnackbar(t('auth.message.login.successful'), { variant: 'success' });
+        navigate.toHome(history);
+        notification.loginSuccess(enqueueSnackbar, t);
     };
 
     const loginWith = (provider: Provider) => {
@@ -99,7 +101,7 @@ const AuthContextProvider: FC<PropsWithChildren<Record<string, unknown>>> = (
         firebase
             .createUser({ email, password })
             .then(() => {
-                history.push('/');
+                navigate.toBase(history);
             })
             .catch((error) => {
                 console.log(error);
@@ -116,8 +118,8 @@ const AuthContextProvider: FC<PropsWithChildren<Record<string, unknown>>> = (
 
     const sendResetPasswordLink = (email: string) => {
         sendPasswordResetEmail(auth, email)
-            .then(() => enqueueSnackbar(t('auth.message.resetPassword.emailSent'), { variant: 'success' }))
-            .catch(() => enqueueSnackbar(t('auth.message.resetPassword.emailSent'), { variant: 'success' }));
+            .then(() => notification.passwordResetEmailSuccess(enqueueSnackbar, t))
+            .catch(() => notification.passwordResetEmailError(enqueueSnackbar, t));
     };
 
     if (authenticating) {
@@ -128,10 +130,10 @@ const AuthContextProvider: FC<PropsWithChildren<Record<string, unknown>>> = (
         firebase
             .logout()
             .then(() => {
-                enqueueSnackbar(t('auth.message.logout.successful'), { variant: 'success' });
+                notification.logoutSuccess(enqueueSnackbar, t);
                 setUser(null);
             })
-            .catch(() => enqueueSnackbar(t('auth.message.logout.failure'), { variant: 'error' }));
+            .catch(() => notification.logoutError(enqueueSnackbar, t));
     };
 
     return (
