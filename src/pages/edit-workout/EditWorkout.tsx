@@ -27,7 +27,6 @@ const EditWorkout: FC = () => {
     const firebase = useFirebase();
     const params = useParams() as Id;
     const workoutId = params?.id ? params.id : undefined;
-    console.log({ history });
 
     const emptyExerciseWorkoutSettings: ExerciseWorkoutSettings = {
         name: '',
