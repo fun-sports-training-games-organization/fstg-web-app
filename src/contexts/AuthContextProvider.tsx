@@ -1,14 +1,14 @@
 import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import { createContext, FC, PropsWithChildren, useContext, useState } from 'react';
 import { onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, User } from 'firebase/auth';
-import Loader from '../components/atoms/Loader';
+import Loader from '../components/atoms/loader/Loader';
 import { useSnackbar } from 'notistack';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { useFirebase } from 'react-redux-firebase';
 import { auth } from '../config/firebase';
 import { Facebook as FacebookIcon, Google as GoogleIcon, Twitter as TwitterIcon } from '@mui/icons-material';
-import { RegistrationErrorState } from '../pages/authentication/RegistrationForm';
+import { RegistrationErrorState } from '../pages/authentication/registration-form/RegistrationForm';
 import * as notification from '../util/notifications-util';
 import * as navigate from '../util/navigation-util';
 
