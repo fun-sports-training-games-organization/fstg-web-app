@@ -20,7 +20,8 @@ jest.mock('react-router-dom', () => ({
 }));
 
 const workoutNameInputSelector = 'input#fstg__edit_workout__name';
-const getExerciseItemSelector = (index: number): string => `input#fstg__edit_workout__exercise_list__item_${index}`;
+const getExerciseItemSelector = (index: number): string =>
+    `input#fstg__edit_workout__manage_exercise_list__item_${index}`;
 const addExerciseButtonTestId = 'fstg__edit_workout__add_exercise_button';
 
 describe('<EditWorkout> component test with React Testing Library', () => {
