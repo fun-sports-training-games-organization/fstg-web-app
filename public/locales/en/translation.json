@@ -67,6 +67,17 @@
             "button": {
                 "register": "Register"
             }
+        },
+        "manageExercises": {
+            "exercises": "Exercises"
+        
+        },
+        "manageWorkouts": {
+            "workouts": "Workouts"
+        },
+        "editWorkout": {
+            "createWorkout": "Create workout",
+            "editWorkout": "Edit workout"
         }
     }
 }

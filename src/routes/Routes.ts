@@ -5,6 +5,9 @@ import LoginPage from '../pages/authentication/LoginPage';
 import HomePage from '../pages/Home';
 import PrivacyPolicyPage from '../pages/PrivacyPolicyPage';
 import TermsOfServicePage from '../pages/TermsOfServicePage';
+import ManageExercises from '../pages/manage-exercises/ManageExercises';
+import EditWorkout from '../pages/edit-workout/EditWorkout';
+import ManageWorkouts from '../pages/manage-workouts/ManageWorkouts';
 
 const routes: IRoute[] = [
     {
@@ -20,6 +23,34 @@ const routes: IRoute[] = [
         component: LoginPage,
         name: 'Login Page',
         protected: false
+    },
+    {
+        path: '/exercises',
+        exact: true,
+        component: ManageExercises,
+        name: 'Manage Exercises',
+        protected: true
+    },
+    {
+        path: '/workout/:id',
+        exact: true,
+        component: EditWorkout,
+        name: 'Edit Workout',
+        protected: true
+    },
+    {
+        path: '/workout',
+        exact: true,
+        component: EditWorkout,
+        name: 'Create Workout',
+        protected: true
+    },
+    {
+        path: '/workouts',
+        exact: true,
+        component: ManageWorkouts,
+        name: 'Manage Workouts',
+        protected: true
     },
     {
         path: '/home',

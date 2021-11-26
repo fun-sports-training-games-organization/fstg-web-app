@@ -67,6 +67,17 @@
             "button": {
                 "register": "Registrieren"
             }
+        },
+        "manageExercises": {
+            "exercises": "Übungen"
+        
+        },
+        "manageWorkouts": {
+            "workouts": "Workouts"
+        },
+        "editWorkout": {
+            "createWorkout": "Workout erstellen",
+            "editWorkout": "Workout editieren"
         }
     }
 }
