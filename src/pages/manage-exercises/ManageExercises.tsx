@@ -7,7 +7,7 @@ import EditExerciseDialog from '../../components/EditExerciseDialog';
 import DeleteConfirmationDialog from '../../components/DeleteConfirmationDialog';
 import { useTranslation } from 'react-i18next';
 import { getPageIdPrefix } from '../../util/id-util';
-import TitleAdd from '../../components/molecules/TitleAdd';
+import PageTitleAdd from '../../components/molecules/PageTitleAdd';
 
 const ManageExercises: FC = (): JSX.Element => {
     const pageName = 'manage_exercises';
@@ -43,11 +43,11 @@ const ManageExercises: FC = (): JSX.Element => {
 
     return (
         <>
-            <TitleAdd
+            <PageTitleAdd
                 onClick={() => setOpenDialog(true)}
                 titleTranslationKey="page.manageExercises.exercises"
                 idPrefix={idPrefix}
-            ></TitleAdd>
+            ></PageTitleAdd>
             <Stack ml={2} mr={2} mt={3} mb={3}>
                 <List>
                     {exercises.map((exercise: Exercise) => {

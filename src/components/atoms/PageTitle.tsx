@@ -5,7 +5,7 @@ type Props = {
     translationKey: string;
 };
 
-const Title = ({ translationKey }: Props): JSX.Element => {
+const PageTitle = ({ translationKey }: Props): JSX.Element => {
     const { t } = useTranslation();
 
     return (
@@ -15,4 +15,4 @@ const Title = ({ translationKey }: Props): JSX.Element => {
     );
 };
 
-export default Title;
+export default PageTitle;

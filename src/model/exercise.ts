@@ -1,7 +1,7 @@
-import { IdName } from './basics';
+import { CreateAndModifyInfo, IdName } from './basics';
 
-export interface Exercise extends IdName {
-    imageOrGif?: any;
+export interface Exercise extends IdName, CreateAndModifyInfo {
+    imageUrl?: string;
     defaultType?: string;
     defaultValue?: number;
     defaultResult?: number;

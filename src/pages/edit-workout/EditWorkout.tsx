@@ -1,16 +1,17 @@
 import { ChangeEvent, FC, useEffect, useState } from 'react';
 import { Stack, TextField } from '@mui/material';
-import { useFirestore } from 'react-redux-firebase';
+import { useFirebase, useFirestore } from 'react-redux-firebase';
 import { Workout } from '../../model/workout';
 import { ExerciseWorkoutSettings } from '../../model/exercise-workout-settings';
 import { v4 as uuidv4 } from 'uuid';
 import { useSnackbar } from 'notistack';
 import { getPageIdPrefix } from '../../util/id-util';
+import { prepareToSend } from '../../util/data-prep-util';
 import { useHistory, useParams } from 'react-router-dom';
 import { Id } from '../../model/basics';
 import AddButton from '../../components/atoms/AddButton';
 import SubmitButton from '../../components/atoms/SubmitButton';
-import Title from '../../components/atoms/Title';
+import PageTitle from '../../components/atoms/PageTitle';
 import WorkoutExercises from '../../components/WorkoutExercises';
 import { useTranslation } from 'react-i18next';
 
@@ -21,6 +22,7 @@ const EditWorkout: FC = () => {
     const { t } = useTranslation();
     const { enqueueSnackbar } = useSnackbar();
     const firestore = useFirestore();
+    const firebase = useFirebase();
     const params = useParams() as Id;
     const workoutId = params?.id ? params.id : undefined;
 
@@ -64,12 +66,10 @@ const EditWorkout: FC = () => {
     }, [firestore, workoutId]);
 
     const handleUpdate = () => {
-        // eslint-disable-next-line
-        const { id, hasBeenCreated, ...workoutToSend } = workout;
         firestore
             .collection('workouts')
             .doc(workout?.id)
-            .update(workoutToSend)
+            .update(prepareToSend(workout, firebase.auth().currentUser))
             .then(() => {
                 enqueueSnackbar(t('notifications.updateSuccess', { item: workout.name }), { variant: 'success' });
                 navigateToManageWorkouts();
@@ -80,14 +80,11 @@ const EditWorkout: FC = () => {
     };
 
     const handleCreate = () => {
-        // eslint-disable-next-line
-        const { id, hasBeenCreated, ...workoutToSend } = workout;
         firestore
             .collection('workouts')
-            .add(workoutToSend)
-            .then((docRef) => {
+            .add(prepareToSend(workout, firebase.auth().currentUser))
+            .then(() => {
                 enqueueSnackbar(t('notifications.createSuccess', { item: workout.name }), { variant: 'success' });
-                setWorkout({ ...workout, hasBeenCreated: true, id: docRef.id });
                 navigateToManageWorkouts();
             })
             .catch(() => {
@@ -104,11 +101,11 @@ const EditWorkout: FC = () => {
     return (
         <div data-testid={pageName}>
             <Stack spacing={2} mt={2} ml={2} mr={2}>
-                <Title
+                <PageTitle
                     translationKey={
                         !workout.hasBeenCreated ? 'page.editWorkout.createWorkout' : 'page.editWorkout.editWorkout'
                     }
-                ></Title>
+                ></PageTitle>
                 <TextField
                     autoFocus
                     margin="dense"

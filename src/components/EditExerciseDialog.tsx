@@ -96,9 +96,9 @@ const EditExerciseDialog = ({
                             label="Image or GIF URL"
                             type="text"
                             fullWidth
-                            value={exercise?.imageOrGif}
+                            value={exercise?.imageUrl}
                             onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                                exercise && setExercise({ ...exercise, imageOrGif: event.target.value })
+                                exercise && setExercise({ ...exercise, imageUrl: event.target.value })
                             }
                         />
                         <TextField
