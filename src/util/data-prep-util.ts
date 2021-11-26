@@ -26,6 +26,6 @@ export const prepareDataToSend = (updateData: UpdateData, currentUser: User | nu
 
 const removeUnnecessaryProps = (updateData: UpdateData): UpdateData => {
     // eslint-disable-next-line
-    const { id, hasBeenCreated, ...workoutPropsRemoved } = updateData;
-    return workoutPropsRemoved;
+    const { id, hasBeenCreated, ...updateDataPropsRemoved } = updateData;
+    return updateDataPropsRemoved;
 };
