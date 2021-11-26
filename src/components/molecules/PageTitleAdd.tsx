@@ -1,5 +1,5 @@
 import { Grid, Stack } from '@mui/material';
-import AddButton from '../atoms/AddButton';
+import AddButton from '../atoms/AddButton/AddButton';
 import PageTitle from '../atoms/PageTitle';
 
 type Props = {

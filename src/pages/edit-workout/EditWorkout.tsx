@@ -9,7 +9,7 @@ import { getPageIdPrefix } from '../../util/id-util';
 import { prepareDataToSend } from '../../util/data-prep-util';
 import { useHistory, useParams } from 'react-router-dom';
 import { Id } from '../../model/basics';
-import AddButton from '../../components/atoms/AddButton';
+import AddButton from '../../components/atoms/AddButton/AddButton';
 import SubmitButton from '../../components/atoms/SubmitButton';
 import PageTitle from '../../components/atoms/PageTitle';
 import WorkoutExercises from '../../components/WorkoutExercises';
