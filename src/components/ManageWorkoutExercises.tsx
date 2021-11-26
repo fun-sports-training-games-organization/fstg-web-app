@@ -1,5 +1,5 @@
 import { ChangeEvent, Dispatch, SetStateAction } from 'react';
-import { IconButton, List, TextField } from '@mui/material';
+import { IconButton, TextField } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Workout } from '../model/workout';
 import { ExerciseWorkoutSettings } from '../model/exercise-workout-settings';
@@ -11,7 +11,7 @@ type Props = {
 };
 
 const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout }: Props): JSX.Element => {
-    const idPrefix = `${parentIdPrefix}exercise_list__`;
+    const idPrefix = `${parentIdPrefix}manage_exercise_list__`;
     const exerciseItemPrefix = `${idPrefix}item_`;
     const updateExerciseName = (
         workout: Workout,
@@ -28,7 +28,7 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout }: Props):
     };
 
     return (
-        <List style={{ maxHeight: '100%', overflow: 'auto' }}>
+        <>
             {workout.exercises?.map((exercise, index) => {
                 return (
                     <TextField
@@ -55,7 +55,7 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout }: Props):
                     />
                 );
             })}
-        </List>
+        </>
     );
 };
 

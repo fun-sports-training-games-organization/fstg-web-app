@@ -37,6 +37,12 @@
             }
         }
     },
+    "notifications": {
+        "updateSuccess": "{{item}} wurde erfolgreich aktualisiert",
+        "updateFailure": "{{item}} konnte nicht aktualisiert werden",
+        "createSuccess": "{{item}} wurde erfolgreich erstellt",
+        "createFailure": "{{item}} konnte nicht erstellt werden"
+    },
     "common": {
         "email": "E-mail",
         "password": "Kennwort"

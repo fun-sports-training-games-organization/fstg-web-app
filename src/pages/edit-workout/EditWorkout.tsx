@@ -6,16 +6,19 @@ import { ExerciseWorkoutSettings } from '../../model/exercise-workout-settings';
 import { v4 as uuidv4 } from 'uuid';
 import { useSnackbar } from 'notistack';
 import { getPageIdPrefix } from '../../util/id-util';
-import ManageWorkoutExercises from '../../components/ManageWorkoutExercises';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { Id } from '../../model/basics';
 import AddButton from '../../components/atoms/AddButton';
 import SubmitButton from '../../components/atoms/SubmitButton';
 import Title from '../../components/atoms/Title';
+import WorkoutExercises from '../../components/WorkoutExercises';
+import { useTranslation } from 'react-i18next';
 
 const EditWorkout: FC = () => {
     const pageName = 'edit_workout';
     const idPrefix = getPageIdPrefix(pageName);
+    const history = useHistory();
+    const { t } = useTranslation();
     const { enqueueSnackbar } = useSnackbar();
     const firestore = useFirestore();
     const params = useParams() as Id;
@@ -68,10 +71,11 @@ const EditWorkout: FC = () => {
             .doc(workout?.id)
             .update(workoutToSend)
             .then(() => {
-                enqueueSnackbar(`${workout.name} was successfully updated`, { variant: 'success' });
+                enqueueSnackbar(t('notifications.updateSuccess', { item: workout.name }), { variant: 'success' });
+                navigateToManageWorkouts();
             })
             .catch(() => {
-                enqueueSnackbar(`${workout.name} could not be updated`, { variant: 'error' });
+                enqueueSnackbar(t('notifications.updateFailure', { item: workout.name }), { variant: 'error' });
             });
     };
 
@@ -82,15 +86,20 @@ const EditWorkout: FC = () => {
             .collection('workouts')
             .add(workoutToSend)
             .then((docRef) => {
-                enqueueSnackbar(`${workout?.name} has been added successfully!`, { variant: 'success' });
+                enqueueSnackbar(t('notifications.createSuccess', { item: workout.name }), { variant: 'success' });
                 setWorkout({ ...workout, hasBeenCreated: true, id: docRef.id });
+                navigateToManageWorkouts();
             })
             .catch(() => {
-                enqueueSnackbar(`${workout.name} could not be created`, { variant: 'error' });
+                enqueueSnackbar(t('notifications.createFailure', { item: workout.name }), { variant: 'error' });
             });
     };
 
     const onSubmit = () => (!workout.hasBeenCreated ? handleCreate() : handleUpdate());
+
+    const navigateToManageWorkouts = (): void => {
+        history.push('/workouts');
+    };
 
     return (
         <div data-testid={pageName}>
@@ -112,7 +121,7 @@ const EditWorkout: FC = () => {
                         setWorkout({ ...workout, name: event.target.value })
                     }
                 />
-                <ManageWorkoutExercises parentIdPrefix={idPrefix} workout={workout} setWorkout={setWorkout} />
+                <WorkoutExercises parentIdPrefix={idPrefix} workout={workout} setWorkout={setWorkout} />
                 <AddButton onClick={addExerciseToWorkout} testId={`${idPrefix}add_exercise_button`} />
             </Stack>
             <Stack spacing={2} mt={5} ml={2} mr={2}>

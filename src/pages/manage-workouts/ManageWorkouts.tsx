@@ -7,6 +7,7 @@ import { Delete, Edit } from '@mui/icons-material';
 import { useHistory } from 'react-router-dom';
 import DeleteConfirmationDialog from '../../components/DeleteConfirmationDialog';
 import TitleAdd from '../../components/molecules/TitleAdd';
+import WorkoutExercises from '../../components/WorkoutExercises';
 
 const ManageWorkouts: FC = () => {
     const pageName = 'manage_workouts';
@@ -50,6 +51,7 @@ const ManageWorkouts: FC = () => {
                             <Grid container key={workout.id} display={'flex'} flexDirection={'row'}>
                                 <Grid item xs={8}>
                                     <ListItem key={workout.id}>{workout.name}</ListItem>
+                                    <WorkoutExercises parentIdPrefix={idPrefix} workout={workout} />
                                 </Grid>
                                 <Grid item xs={2}>
                                     <IconButton
