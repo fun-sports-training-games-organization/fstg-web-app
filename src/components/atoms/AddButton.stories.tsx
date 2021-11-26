@@ -1,11 +1,10 @@
 import React from 'react';
 import { Meta } from '@storybook/react';
 import AddButton, { AddButtonProps } from './AddButton';
-import Loader from './Loader';
 
 export default {
     title: 'atoms/AddButton',
-    component: Loader,
+    component: AddButton,
     args: {
         onClick: () => console.log('AddButton was clicked!'),
         testId: 'testId',
