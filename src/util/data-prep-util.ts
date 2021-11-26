@@ -2,7 +2,7 @@ import { User } from '@firebase/auth-types';
 import { UpdateData } from '@firebase/firestore-types';
 import { CreateInfo, ModifyInfo } from '../model/basics';
 
-export const prepareToSend = (updateData: UpdateData, currentUser: User | null): UpdateData => {
+export const prepareDataToSend = (updateData: UpdateData, currentUser: User | null): UpdateData => {
     const modifyInfo: ModifyInfo = {
         ...updateData,
         lastModifiedByDisplayName: currentUser?.displayName,

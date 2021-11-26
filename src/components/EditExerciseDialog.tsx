@@ -1,10 +1,12 @@
 import { ChangeEvent, Dispatch, SetStateAction } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Stack } from '@mui/material';
-import { useFirestore } from 'react-redux-firebase';
+import { useFirebase, useFirestore } from 'react-redux-firebase';
 import { useTranslation } from 'react-i18next';
 import { Exercise } from '../model/exercise';
 import { useSnackbar } from 'notistack';
 import TextField from './atoms/TextField';
+import * as notification from '../util/notifications-util';
+import { prepareDataToSend } from '../util/data-prep-util';
 
 type Props = {
     open: boolean;
@@ -36,6 +38,7 @@ const EditExerciseDialog = ({
     const { t } = useTranslation();
     const { enqueueSnackbar } = useSnackbar();
     const firestore = useFirestore();
+    const firebase = useFirebase();
     const handleClose = () => {
         setOpen(false);
         setExercise(emptyExercise);
@@ -46,13 +49,13 @@ const EditExerciseDialog = ({
             firestore
                 .collection('exercises')
                 .doc(exercise?.id)
-                .update(exercise)
+                .update(prepareDataToSend(exercise, firebase.auth().currentUser))
                 .then(() => {
-                    enqueueSnackbar(`${exercise.name} was successfully updated`, { variant: 'success' });
+                    notification.updateSuccess(enqueueSnackbar, t, exercise.name);
                     setOpen(false);
                 })
                 .catch(() => {
-                    enqueueSnackbar(`${exercise.name} could not be updated`, { variant: 'error' });
+                    notification.updateError(enqueueSnackbar, t, exercise.name);
                 });
         }
     };
@@ -60,14 +63,14 @@ const EditExerciseDialog = ({
     const handleCreate = () => {
         firestore
             .collection('exercises')
-            .add(exercise)
+            .add(prepareDataToSend(exercise, firebase.auth().currentUser))
             .then(() => {
-                enqueueSnackbar(`${exercise?.name} has been added successfully!`, { variant: 'success' });
+                notification.createSuccess(enqueueSnackbar, t, exercise.name);
                 setOpen(false);
                 setExercise(emptyExercise);
             })
             .catch(() => {
-                enqueueSnackbar(`${exercise.name} could not be created`, { variant: 'error' });
+                notification.createError(enqueueSnackbar, t, exercise.name);
             });
     };
 

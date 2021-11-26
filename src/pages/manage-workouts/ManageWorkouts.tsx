@@ -8,6 +8,7 @@ import { useHistory } from 'react-router-dom';
 import DeleteConfirmationDialog from '../../components/DeleteConfirmationDialog';
 import PageTitleAdd from '../../components/molecules/PageTitleAdd';
 import WorkoutExercises from '../../components/WorkoutExercises';
+import * as navigate from '../../util/navigation-util';
 
 const ManageWorkouts: FC = () => {
     const pageName = 'manage_workouts';
@@ -33,14 +34,11 @@ const ManageWorkouts: FC = () => {
             setWorkouts(workouts as Workout[]);
         });
     }, [firestore]);
-    const navigateToEditWorkout = (workoutId?: string): void => {
-        history.push(`/workout${workoutId ? `/${workoutId}` : ''}`);
-    };
 
     return (
         <div data-testid={pageName}>
             <PageTitleAdd
-                onClick={() => navigateToEditWorkout(undefined)}
+                onClick={() => navigate.toEditWorkout(history, undefined)}
                 titleTranslationKey="page.manageWorkouts.workouts"
                 idPrefix={idPrefix}
             ></PageTitleAdd>
@@ -56,7 +54,7 @@ const ManageWorkouts: FC = () => {
                                 <Grid item xs={2}>
                                     <IconButton
                                         data-testid={`${idPrefix}edit_item_${index}`}
-                                        onClick={() => navigateToEditWorkout(workout.id)}
+                                        onClick={() => navigate.toEditWorkout(history, workout.id)}
                                     >
                                         <Edit htmlColor={'steelblue'} />
                                     </IconButton>

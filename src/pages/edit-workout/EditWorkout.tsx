@@ -6,7 +6,7 @@ import { ExerciseWorkoutSettings } from '../../model/exercise-workout-settings';
 import { v4 as uuidv4 } from 'uuid';
 import { useSnackbar } from 'notistack';
 import { getPageIdPrefix } from '../../util/id-util';
-import { prepareToSend } from '../../util/data-prep-util';
+import { prepareDataToSend } from '../../util/data-prep-util';
 import { useHistory, useParams } from 'react-router-dom';
 import { Id } from '../../model/basics';
 import AddButton from '../../components/atoms/AddButton';
@@ -14,6 +14,8 @@ import SubmitButton from '../../components/atoms/SubmitButton';
 import PageTitle from '../../components/atoms/PageTitle';
 import WorkoutExercises from '../../components/WorkoutExercises';
 import { useTranslation } from 'react-i18next';
+import * as notification from '../../util/notifications-util';
+import * as navigate from '../../util/navigation-util';
 
 const EditWorkout: FC = () => {
     const pageName = 'edit_workout';
@@ -25,6 +27,7 @@ const EditWorkout: FC = () => {
     const firebase = useFirebase();
     const params = useParams() as Id;
     const workoutId = params?.id ? params.id : undefined;
+    console.log({ history });
 
     const emptyExerciseWorkoutSettings: ExerciseWorkoutSettings = {
         name: '',
@@ -69,34 +72,30 @@ const EditWorkout: FC = () => {
         firestore
             .collection('workouts')
             .doc(workout?.id)
-            .update(prepareToSend(workout, firebase.auth().currentUser))
+            .update(prepareDataToSend(workout, firebase.auth().currentUser))
             .then(() => {
-                enqueueSnackbar(t('notifications.updateSuccess', { item: workout.name }), { variant: 'success' });
-                navigateToManageWorkouts();
+                notification.updateSuccess(enqueueSnackbar, t, workout.name);
+                navigate.toManageWorkouts(history);
             })
             .catch(() => {
-                enqueueSnackbar(t('notifications.updateFailure', { item: workout.name }), { variant: 'error' });
+                notification.updateError(enqueueSnackbar, t, workout.name);
             });
     };
 
     const handleCreate = () => {
         firestore
             .collection('workouts')
-            .add(prepareToSend(workout, firebase.auth().currentUser))
+            .add(prepareDataToSend(workout, firebase.auth().currentUser))
             .then(() => {
-                enqueueSnackbar(t('notifications.createSuccess', { item: workout.name }), { variant: 'success' });
-                navigateToManageWorkouts();
+                notification.createSuccess(enqueueSnackbar, t, workout.name);
+                navigate.toManageWorkouts(history);
             })
             .catch(() => {
-                enqueueSnackbar(t('notifications.createFailure', { item: workout.name }), { variant: 'error' });
+                notification.createError(enqueueSnackbar, t, workout.name);
             });
     };
 
     const onSubmit = () => (!workout.hasBeenCreated ? handleCreate() : handleUpdate());
-
-    const navigateToManageWorkouts = (): void => {
-        history.push('/workouts');
-    };
 
     return (
         <div data-testid={pageName}>
