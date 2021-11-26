@@ -1,13 +1,16 @@
-import { IconButton } from '@mui/material';
+import React from 'react';
+import { IconButton, OutlinedInputProps } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 
-type Props = {
+type OwnProps = {
     onClick: () => void;
     testId?: string;
     fontSize?: 'small' | 'inherit' | 'large' | 'medium' | undefined;
 };
 
-const AddButton = ({ onClick, testId = 'add_button', fontSize = 'large' }: Props): JSX.Element => {
+export type AddButtonProps = OwnProps & OutlinedInputProps;
+
+const AddButton = ({ onClick, testId = 'add_button', fontSize = 'large' }: AddButtonProps): JSX.Element => {
     return (
         <IconButton data-testid={testId} onClick={onClick}>
             <AddIcon fontSize={fontSize} />
