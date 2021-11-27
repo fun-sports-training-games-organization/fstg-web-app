@@ -1,12 +1,10 @@
 import React from 'react';
-import { Grid, OutlinedInputProps } from '@mui/material';
+import { Grid } from '@mui/material';
 import './Loader.scss';
 
-type OwnProps = {
+export type LoaderProps = {
     testId?: string;
 };
-
-export type LoaderProps = OwnProps & OutlinedInputProps;
 
 const Loader = ({ testId }: LoaderProps): JSX.Element => (
     <Grid

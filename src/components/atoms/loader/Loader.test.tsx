@@ -1,6 +1,5 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import Loader from './Loader';
 
 const loaderTestId = 'loader';
@@ -15,6 +14,5 @@ describe('<Loader> component test with React Testing Library', () => {
         expect(component).toHaveClass('MuiGrid-container MuiGrid-direction-xs-column');
         expect(component.querySelector('.spinning-loader-container')).toBeVisible();
         expect(component.querySelector('.spinning-loader')).toBeVisible();
-        userEvent.click(component);
     });
 });
