@@ -1,10 +1,17 @@
-import React, { FC } from 'react';
-import { Grid } from '@mui/material';
+import React from 'react';
+import { Grid, OutlinedInputProps } from '@mui/material';
 import './Loader.scss';
 
-const Loader: FC = () => (
+type OwnProps = {
+    testId?: string;
+};
+
+export type LoaderProps = OwnProps & OutlinedInputProps;
+
+const Loader = ({ testId }: LoaderProps): JSX.Element => (
     <Grid
         container
+        data-testid={testId}
         spacing={0}
         direction="column"
         alignItems="center"
