@@ -4,10 +4,10 @@ import { FC, SyntheticEvent, useEffect, useState } from 'react';
 // import { db } from '../config/firebase';
 import { useFirestore } from 'react-redux-firebase';
 
-import FormDialog from './FormDialog';
-import ConfirmationDialog from './organisms/ConfirmationDialog';
 import { useTranslation } from 'react-i18next';
 import { Exercise } from '../model/exercise';
+import ConfirmationDialog from './organisms/confirmation-dialog/ConfirmationDialog';
+import EditExerciseDialog from './organisms/edit-exercise-dialog/EditExerciseDialog';
 
 const ExerciseList: FC = (): JSX.Element => {
     const { t } = useTranslation();
@@ -73,7 +73,7 @@ const ExerciseList: FC = (): JSX.Element => {
             >
                 {t('global.add')}
             </Button>
-            <FormDialog
+            <EditExerciseDialog
                 title={t('dialog.editExercise.title')}
                 message={t('dialog.editExercise.message')}
                 open={openDialog}

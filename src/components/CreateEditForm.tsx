@@ -1,7 +1,7 @@
 import React, { ChangeEvent, Dispatch, SetStateAction } from 'react';
 import { Stack } from '@mui/material';
-import TextField from './atoms/TextField';
 import { FirestoreReducer } from 'redux-firestore';
+import TextField from './atoms/text-field/TextField';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Entity = FirestoreReducer.Entity<any>;
