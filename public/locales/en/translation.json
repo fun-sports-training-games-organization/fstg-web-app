@@ -33,9 +33,16 @@
                 "failed": "Registration failed: {{code}}"
             },
             "resetPassword": {
-                "emailSent": "Password reset link has been sent! Please check your mail!"
+                "emailSent": "Password reset link has been sent! Please check your mail!",
+                "emailError": "Password reset link could not be sent. Please wait a moment and try again."
             }
         }
+    },
+    "notifications": {
+        "updateSuccess": "{{item}} was successfully updated",
+        "updateFailure": "{{item}} could not be updated",
+        "createSuccess": "{{item}} has been created successfully",
+        "createFailure": "{{item}} could not be created"
     },
     "common": {
         "email": "Email",
@@ -67,6 +74,17 @@
             "button": {
                 "register": "Register"
             }
+        },
+        "manageExercises": {
+            "exercises": "Exercises"
+        
+        },
+        "manageWorkouts": {
+            "workouts": "Workouts"
+        },
+        "editWorkout": {
+            "createWorkout": "Create workout",
+            "editWorkout": "Edit workout"
         }
     }
 }

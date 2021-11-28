@@ -1,9 +1,9 @@
 import { ChangeEvent, FC, FormEvent, useState } from 'react';
-import PasswordField from '../../components/molecules/PasswordField';
 import { Button, Stack } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useAuth } from '../../contexts/AuthContextProvider';
-import TextField from '../../components/atoms/TextField';
+import { useAuth } from '../../../contexts/AuthContextProvider';
+import TextField from '../../../components/atoms/text-field/TextField';
+import PasswordField from '../../../components/molecules/password-field/PasswordField';
 
 interface State {
     email: string;

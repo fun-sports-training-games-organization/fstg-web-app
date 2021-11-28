@@ -79,6 +79,11 @@ const theme = {
             ...fontHeader,
             fontSize: 36
         },
+        h4_5: {
+            ...rawTheme.typography.h5,
+            fontSize: 26,
+            fontWeight: 600
+        },
         h5: {
             ...rawTheme.typography.h5,
             fontSize: 20,

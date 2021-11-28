@@ -1,8 +1,8 @@
 import React, { ChangeEvent, FC, useState } from 'react';
-import PasswordField from '../../components/molecules/PasswordField';
 import { Stack, Button, Link, TextField } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useAuth } from '../../contexts/AuthContextProvider';
+import { useAuth } from '../../../contexts/AuthContextProvider';
+import PasswordField from '../../../components/molecules/password-field/PasswordField';
 
 const EmailLoginForm: FC = () => {
     const { t } = useTranslation();

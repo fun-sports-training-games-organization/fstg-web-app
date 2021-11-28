@@ -1,13 +1,12 @@
 import React, { FC } from 'react';
-import AuthContainer from '../../components/organisms/AuthContainer';
 import { Trans, useTranslation } from 'react-i18next';
-import { Divider, Grid, Link, Stack, Theme, Typography, useMediaQuery } from '@mui/material';
-import ProviderLoginButton from '../../components/idp/ProviderLoginButton';
-import EmailLoginForm from './EmailLoginForm';
-import SwipingTabs from '../../components/organisms/SwipingTabs';
-import { LoginProvider, LoginProviders } from '../../contexts/AuthContextProvider';
-import { capitalize } from '../../util/string-util';
-import RegistrationForm from './RegistrationForm';
+import { capitalize, Divider, Grid, Link, Stack, Theme, Typography, useMediaQuery } from '@mui/material';
+import EmailLoginForm from '../email-login-form/EmailLoginForm';
+import ProviderLoginButton from '../../../components/atoms/provider-login-button/ProviderLoginButton';
+import AuthContainer from '../../../components/organisms/auth-container/AuthContainer';
+import SwipingTabs from '../../../components/organisms/swiping-tabs/SwipingTabs';
+import { LoginProviders, LoginProvider } from '../../../contexts/AuthContextProvider';
+import RegistrationForm from '../registration-form/RegistrationForm';
 
 const LoginPage: FC = (): JSX.Element => {
     const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));

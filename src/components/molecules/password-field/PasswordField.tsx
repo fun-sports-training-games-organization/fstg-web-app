@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Visibility as VisibilityIcon, VisibilityOff as VisibilityOffIcon } from '@mui/icons-material';
 import { IconButton, InputAdornment } from '@mui/material';
-import TextField, { TextFieldProps } from '../atoms/TextField';
+import TextField, { TextFieldProps } from '../../atoms/text-field/TextField';
 
 const PasswordField: FC<TextFieldProps> = (props) => {
     const [showPassword, setShowPassword] = React.useState<boolean>(false);

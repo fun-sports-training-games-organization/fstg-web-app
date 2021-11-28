@@ -1,10 +1,10 @@
+import { CreateAndModifyInfo, IdName } from './basics';
 import { RecordType } from './ExerciseClass';
 
-export interface Exercise {
+export interface Exercise extends IdName, CreateAndModifyInfo {
     id?: string;
     name: string;
     imageOrGifUrl?: string;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     amountType?: RecordType;
     amountValue?: number | string;
     resultType?: RecordType;

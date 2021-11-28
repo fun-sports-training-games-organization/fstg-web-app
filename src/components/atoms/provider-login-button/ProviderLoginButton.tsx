@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { Button, ButtonProps } from '@mui/material';
-import { LoginProvider, useAuth } from '../../contexts/AuthContextProvider';
+import { LoginProvider, useAuth } from '../../../contexts/AuthContextProvider';
 
 const ProviderLoginButton: FC<LoginProvider & Omit<ButtonProps, 'color'>> = (props) => {
     const { color, icon, name, ...rest } = props;

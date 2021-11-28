@@ -3,7 +3,7 @@ import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Tabs from '@mui/material/Tabs';
 import { Box, Tab as MUITab, Theme, useMediaQuery } from '@mui/material';
-import TabPanel from './TabPanel';
+import TabPanel from '../tab-panel/TabPanel';
 import SwipeableViews from 'react-swipeable-views';
 import { FC, ReactNode } from 'react';
 

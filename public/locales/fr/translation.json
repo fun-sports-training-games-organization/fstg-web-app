@@ -33,9 +33,16 @@
                 "failed": "L'enregistrement a échoué: {{code}}"
             },
             "resetPassword": {
-                "emailSent": "Le lien de réinitialisation du mot de passe a été envoyé! Veuillez vérifier votre courrier!"
+                "emailSent": "Le lien de réinitialisation du mot de passe a été envoyé! Veuillez vérifier votre courrier!",
+                "emailError": "Le lien de réinitialisation du mot de passe n'a pas pu être envoyé. Veuillez attendre un moment et réessayer."
             }
         }
+    },
+    "notifications": {
+        "updateSuccess": "{{item}} a été mis à jour avec succès",
+        "updateFailure": "{{item}} n'a pas pu être mis à jour",
+        "createSuccess": "{{item}} a été créé avec succès",
+        "createFailure": "{{item}} n'a pas pu être créé"
     },
     "common": {
         "email": "E-mail",
@@ -67,6 +74,17 @@
             "button": {
                 "register": "S'inscrire"
             }
+        },
+        "manageExercises": {
+            "exercises": "Exercices"
+        
+        },
+        "manageWorkouts": {
+            "workouts": "Entraînements"
+        },
+        "editWorkout": {
+            "createWorkout": "Créer l'entraînement",
+            "editWorkout": "Modifier l'entraînement"
         }
     }
 }

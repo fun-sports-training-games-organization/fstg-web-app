@@ -1,9 +1,9 @@
+import React from 'react';
 import { AppBar, Avatar, IconButton, Toolbar } from '@mui/material';
 import { Logout as LogoutIcon, Menu as MenuIcon } from '@mui/icons-material';
 import { Box } from '@mui/system';
-import LanguageMenu from './LanguageMenu';
-import React from 'react';
-import { useAuth } from '../../contexts/AuthContextProvider';
+import LanguageMenu from '../language-menu/LanguageMenu';
+import { useAuth } from '../../../contexts/AuthContextProvider';
 
 const HeaderBar = (): JSX.Element => {
     const { user, logout } = useAuth();
