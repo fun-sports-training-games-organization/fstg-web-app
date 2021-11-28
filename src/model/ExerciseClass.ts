@@ -9,28 +9,20 @@
 //     defaultTargetSize?: number;
 // }
 
-export type RecordType = 'CountBased' | 'TimeBased';
-
-export type RecordValue = {
-    record: number | string; // number is count-based, and string is time-based
-};
+export type RecordType = 'COUNT_BASED' | 'TIME_BASED';
 
 class Exercise {
     constructor(
         public id?: string,
         public name = '',
         public imageOrGif = '',
-        public defaultType: RecordType = 'CountBased',
+        public defaultType: RecordType = 'COUNT_BASED',
         public defaultValue: number | string = 0,
         public recordResultByDefault = false,
-        public defaultResultType: RecordType = 'CountBased',
+        public defaultResultType: RecordType = 'COUNT_BASED',
         public useDefaultResult = false,
         public defaultResultValue: number | string = 0
     ) {}
-
-    public getInputType(fieldName: string): string {
-        return fieldName === 'name' ? 'string' : 'number';
-    }
 }
 
 export default Exercise;

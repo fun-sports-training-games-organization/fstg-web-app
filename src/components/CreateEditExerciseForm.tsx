@@ -1,10 +1,10 @@
-import React, { ChangeEvent, Dispatch, SetStateAction, SyntheticEvent, useState } from 'react';
-import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Stack } from '@mui/material';
-import TextField from './atoms/TextField';
+import React, { ChangeEvent, Dispatch, SetStateAction, SyntheticEvent } from 'react';
+import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Stack, TextField } from '@mui/material';
 import { FirestoreReducer } from 'redux-firestore';
 import { useTranslation } from 'react-i18next';
 import TimeField from './molecules/TimeField';
 import CountField from './molecules/CountField';
+import LabeledCheckbox from './molecules/LabeledCheckbox';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Entity = FirestoreReducer.Entity<any>;
@@ -13,69 +13,141 @@ type Props = {
     setEntity: Dispatch<SetStateAction<Entity>>;
 };
 
-type ValueType = 'CountBased' | 'TimeBased';
 const CreateEditExerciseForm = ({ entity, setEntity }: Props): JSX.Element => {
     const { t } = useTranslation();
     const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
         setEntity({ ...entity, [event.target.name]: event.target.value });
     };
-    const [valueType, setValueType] = useState<ValueType>('CountBased');
-    const [defaultTimeAmount, setDefaultTimeAmount] = useState<Date | null | unknown>(null);
-    const [defaultCountAmount, setDefaultCountAmount] = useState<number>(0);
+
+    const onCheckboxChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, checked?: boolean): void => {
+        setEntity({ ...entity, [event.target.name]: checked });
+    };
+
     return (
         <form>
             <Stack spacing={2} mt={2}>
                 <TextField
                     id={`exercise.name`}
-                    label={t('exercise.name')}
+                    label={t('Exercise Name')}
                     type={'text'}
                     value={entity.name}
                     fullWidth
                     onChange={handleChange}
-                    name={entity.name}
+                    name={'name'}
                 />
                 <TextField
                     id={`exercise.imageOrGifUrl`}
-                    label={t('exercise.imageOrGifUrl')}
+                    label={t('Image/GIF URL')}
                     type={'text'}
                     value={entity.imageOrGifUrl}
                     fullWidth
                     onChange={handleChange}
-                    name={entity.imageOrGifUrl}
+                    name={'imageOrGifUrl'}
                 />
 
                 <FormControl component="fieldset">
-                    <FormLabel component="legend">Value Type</FormLabel>
-                    <RadioGroup row aria-label="defaulAmountType" name="row-radio-buttons-group">
+                    <FormLabel component="legend">Default Amount Type</FormLabel>
+                    <RadioGroup row aria-label="defaultAmountType" name="row-radio-buttons-group">
                         <FormControlLabel
-                            value="CountBased"
+                            value="COUNT_BASED"
                             control={
                                 <Radio
-                                    onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                                        setValueType(e.target.value as ValueType)
-                                    }
+                                    checked={entity.amountType === 'COUNT_BASED'}
+                                    name={'amountType'}
+                                    onChange={handleChange}
                                 />
                             }
                             label="Count-based"
                         />
                         <FormControlLabel
-                            onChange={(e: SyntheticEvent) => console.log(e)}
-                            value="TimeBased"
+                            value="TIME_BASED"
                             control={
                                 <Radio
-                                    onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                                        setValueType(e.target.value as ValueType)
-                                    }
+                                    checked={entity.amountType === 'TIME_BASED'}
+                                    name={'amountType'}
+                                    onChange={handleChange}
                                 />
                             }
                             label="Time-based"
                         />
                     </RadioGroup>
                 </FormControl>
-                {valueType === 'TimeBased' ? (
-                    <TimeField value={defaultTimeAmount} setValue={setDefaultTimeAmount} />
+                {entity.amountType === 'TIME_BASED' ? (
+                    <TimeField
+                        label={'Default Time'}
+                        value={entity.amountValue}
+                        onChange={(date) => {
+                            setEntity({ ...entity, amountValue: date });
+                        }}
+                    />
                 ) : (
-                    <CountField min={0} max={100} value={defaultCountAmount} setValue={setDefaultCountAmount} />
+                    <CountField
+                        min={0}
+                        max={100}
+                        value={entity.amountValue}
+                        setValue={(value: number) => setEntity({ ...entity, amountValue: value })}
+                    />
+                )}
+                <LabeledCheckbox
+                    checked={entity.recordResultsByDefault}
+                    onChange={onCheckboxChange}
+                    name={'recordResultsByDefault'}
+                    label={'Record Results By Default'}
+                />
+                {entity.recordResultsByDefault && (
+                    <>
+                        <FormControl component="fieldset">
+                            <FormLabel component="legend">Default Result Type</FormLabel>
+                            <RadioGroup row aria-label="defaultAmountType" name="row-radio-buttons-group">
+                                <FormControlLabel
+                                    value="COUNT_BASED"
+                                    control={
+                                        <Radio
+                                            checked={entity.resultType === 'COUNT_BASED'}
+                                            name={'resultType'}
+                                            onChange={handleChange}
+                                        />
+                                    }
+                                    label="Count-based"
+                                />
+                                <FormControlLabel
+                                    onChange={(e: SyntheticEvent) => console.log(e)}
+                                    value="TIME_BASED"
+                                    control={
+                                        <Radio
+                                            checked={entity.resultType === 'TIME_BASED'}
+                                            name={'resultType'}
+                                            onChange={handleChange}
+                                        />
+                                    }
+                                    label="Time-based"
+                                />
+                            </RadioGroup>
+                        </FormControl>
+                        <LabeledCheckbox
+                            checked={entity.useDefaultResults}
+                            name={'useDefaultResults'}
+                            onChange={onCheckboxChange}
+                            label={'Use Default Results'}
+                        />
+                        {entity.useDefaultResults &&
+                            (entity.resultType === 'TIME_BASED' ? (
+                                <TimeField
+                                    label={'Default Results'}
+                                    value={entity.resultValue}
+                                    onChange={(date) => {
+                                        setEntity({ ...entity, resultValue: date });
+                                    }}
+                                />
+                            ) : (
+                                <CountField
+                                    min={0}
+                                    max={100}
+                                    value={entity.resultValue}
+                                    setValue={(value: number) => setEntity({ ...entity, resultValue: value })}
+                                />
+                            ))}
+                    </>
                 )}
             </Stack>
         </form>

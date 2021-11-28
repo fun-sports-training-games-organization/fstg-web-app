@@ -16,14 +16,15 @@ type Props = {
     message: string;
 };
 
-const emptyExercise = {
+const emptyExercise: Exercise = {
     name: '',
-    imageOrGif: '',
-    defaultType: '',
-    defaultValue: 0,
-    defaultResult: 0,
-    defaultDistance: 0,
-    defaultTargetSize: 0
+    imageOrGifUrl: '',
+    amountType: 'COUNT_BASED',
+    amountValue: 0,
+    resultType: 'COUNT_BASED',
+    resultValue: 0,
+    recordResultsByDefault: false,
+    useDefaultResults: false
 };
 
 const FormDialog = ({ open, setOpen, title, message, exercise = emptyExercise, setExercise }: Props): JSX.Element => {

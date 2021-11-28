@@ -1,4 +1,4 @@
-import React, { Dispatch, FC, SetStateAction } from 'react';
+import React, { FC } from 'react';
 import { Button, ButtonGroup } from '@mui/material';
 import { Add as AddIcon, Remove as RemoveIcon } from '@mui/icons-material';
 
@@ -6,7 +6,7 @@ export type OwnProps = {
     min?: number;
     max?: number;
     value: number;
-    setValue: Dispatch<SetStateAction<number>>;
+    setValue: (value: number) => void;
 };
 const CountField: FC<OwnProps> = ({
     min = Number.MIN_SAFE_INTEGER,
@@ -14,15 +14,16 @@ const CountField: FC<OwnProps> = ({
     value = 0,
     setValue
 }: OwnProps) => {
+    // const [val, setVal] = useState<number>(value);
     const handleDecrement = () => {
         if (value > min) {
-            setValue((value: number) => value - 1);
+            setValue(value - 1);
         }
     };
 
     const handleIncrement = () => {
         if (value < max) {
-            setValue((value: number) => value + 1);
+            setValue(value + 1);
         }
     };
 
@@ -31,7 +32,7 @@ const CountField: FC<OwnProps> = ({
             <Button color={'primary'} onClick={handleDecrement}>
                 <RemoveIcon />
             </Button>
-            <Button style={{ color: '#1976d2', border: '1px solid #1976d290' }} color={'primary'} disabled>
+            <Button style={{ color: '#00000080', border: '1px solid #00000080' }} color={'primary'} disabled>
                 {value}
             </Button>
             <Button color={'primary'} onClick={handleIncrement}>
