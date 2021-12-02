@@ -1,12 +1,12 @@
-import { ChangeEvent, Dispatch, SetStateAction } from 'react';
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Stack } from '@mui/material';
+import React, { Dispatch, SetStateAction } from 'react';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { useFirebase, useFirestore } from 'react-redux-firebase';
 import { useTranslation } from 'react-i18next';
 import { Exercise } from '../../../model/exercise';
 import { useSnackbar } from 'notistack';
-import * as notification from '../../../util/notifications-util';
 import { prepareDataToSend } from '../../../util/data-prep-util';
-import TextField from '../../atoms/text-field/TextField';
+import CreateEditExerciseForm from '../../CreateEditExerciseForm';
+import * as notification from '../../../util/notifications-util';
 
 type Props = {
     open: boolean;
@@ -17,14 +17,15 @@ type Props = {
     message: string;
 };
 
-const emptyExercise = {
+const emptyExercise: Exercise = {
     name: '',
-    imageOrGif: '',
-    defaultType: '',
-    defaultValue: 0,
-    defaultResult: 0,
-    defaultDistance: 0,
-    defaultTargetSize: 0
+    imageOrGifUrl: '',
+    amountType: 'COUNT_BASED',
+    amountValue: 0,
+    resultType: 'COUNT_BASED',
+    resultValue: 0,
+    recordResultsByDefault: false,
+    useDefaultResults: false
 };
 
 const EditExerciseDialog = ({
@@ -80,87 +81,7 @@ const EditExerciseDialog = ({
                 <DialogTitle>{title}</DialogTitle>
                 <DialogContent>
                     <DialogContentText>{message}</DialogContentText>
-                    <Stack spacing={2} mt={2}>
-                        <TextField
-                            autoFocus
-                            margin="dense"
-                            id="name"
-                            label="Exercise Name"
-                            type="text"
-                            fullWidth
-                            value={exercise?.name}
-                            onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                                setExercise({ ...exercise, name: event.target.value })
-                            }
-                        />
-                        <TextField
-                            margin="dense"
-                            id="imageOrGif"
-                            label="Image or GIF URL"
-                            type="text"
-                            fullWidth
-                            value={exercise?.imageUrl}
-                            onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                                exercise && setExercise({ ...exercise, imageUrl: event.target.value })
-                            }
-                        />
-                        <TextField
-                            margin="dense"
-                            id="defaultType"
-                            label="Default type"
-                            type="text"
-                            fullWidth
-                            value={exercise?.defaultType}
-                            onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                                exercise && setExercise({ ...exercise, defaultType: event.target.value })
-                            }
-                        />
-                        <TextField
-                            margin="dense"
-                            id="defaultValue"
-                            label="Default value"
-                            type="number"
-                            fullWidth
-                            value={exercise?.defaultValue}
-                            onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                                exercise && setExercise({ ...exercise, defaultValue: parseInt(event.target.value) })
-                            }
-                        />
-                        <TextField
-                            margin="dense"
-                            id="defaultResult"
-                            label="Default result"
-                            type="number"
-                            fullWidth
-                            value={exercise?.defaultResult}
-                            onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                                exercise && setExercise({ ...exercise, defaultResult: parseInt(event.target.value) })
-                            }
-                        />
-                        <TextField
-                            margin="dense"
-                            id="defaultDistance"
-                            label="Default distance"
-                            type="number"
-                            fullWidth
-                            value={exercise?.defaultDistance}
-                            onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                                exercise && setExercise({ ...exercise, defaultDistance: parseInt(event.target.value) })
-                            }
-                        />
-                        <TextField
-                            margin="dense"
-                            id="defaultTargetSize"
-                            label="Default target size"
-                            type="number"
-                            fullWidth
-                            value={exercise?.defaultTargetSize}
-                            onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                                exercise &&
-                                setExercise({ ...exercise, defaultTargetSize: parseInt(event.target.value) })
-                            }
-                        />
-                    </Stack>
+                    <CreateEditExerciseForm entity={exercise} setEntity={setExercise} />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>{t('global.cancel')}</Button>

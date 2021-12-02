@@ -4,7 +4,7 @@ import PasswordField from './PasswordField';
 import { OutlinedInputProps } from '@mui/material';
 
 export default {
-    title: 'atoms/PasswordField',
+    title: 'molecules/PasswordField',
     component: PasswordField,
     args: {
         label: 'Password',
