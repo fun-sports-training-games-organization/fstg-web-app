@@ -6,8 +6,11 @@ import AuthRoute from './routes/AuthRoute';
 import { Box } from '@mui/system';
 import PersistentDrawer from './components/organisms/persistant-drawer/PersistentDrawer';
 import { MenuListItem } from './components/organisms/persistant-drawer/PersistentDrawer.types';
+import { useAuth } from './contexts/AuthContextProvider';
 
 function App(): JSX.Element {
+    const { logout } = useAuth();
+
     const topMenuListItems: MenuListItem[] = [
         { key: 'home', text: 'Home', icon: 'home', path: '/home' },
         { key: 'dashboard', text: 'Dashboard', icon: 'dashboard', path: '/dashboard' },
@@ -17,20 +20,13 @@ function App(): JSX.Element {
 
     const bottomMenuList: MenuListItem[] = [
         { key: 'account', text: 'Account', icon: 'person', path: '/account' },
-        { key: 'logout', text: 'Logout', icon: 'logout', path: '/logout' }
+        { key: 'logout', text: 'Logout', icon: 'logout', onClick: () => logout() }
     ];
     return (
         <Box>
-            {/*<HeaderBar />*/}
             <PersistentDrawer topMenuListItems={topMenuListItems} bottomMenuListItems={bottomMenuList}>
                 <Switch>
                     {routes.map((route, index) => {
-                        // <Route
-                        //     key={index}
-                        //     path={route.path}
-                        //     exact={route.exact}
-                        //     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                        //     render={(routeProps: RouteComponentProps<any>) => {
                         return route.protected ? (
                             <AuthRoute key={index} path={route.path} exact={route.exact}>
                                 <route.component />

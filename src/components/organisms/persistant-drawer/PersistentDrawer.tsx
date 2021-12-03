@@ -18,6 +18,8 @@ import ListItemText from '@mui/material/ListItemText';
 import { MenuListItem, PersistentDrawerProps } from './PersistentDrawer.types';
 import { Icon } from '@mui/material';
 import { useHistory } from 'react-router-dom';
+import HeaderBar from '../header-bar/HeaderBar';
+import { useAuth } from '../../../contexts/AuthContextProvider';
 
 const drawerWidth = 240;
 
@@ -77,6 +79,7 @@ const PersistentDrawer: FC<PersistentDrawerProps> = ({
     bottomMenuListItems
 }: PersistentDrawerProps) => {
     const history = useHistory();
+    const { user } = useAuth();
     const [open, setOpen] = useState(false);
     const [appBarText, setAppBarText] = useState<string>();
 
@@ -116,20 +119,24 @@ const PersistentDrawer: FC<PersistentDrawerProps> = ({
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
             <AppBar position="fixed" open={open}>
-                <Toolbar>
-                    <Typography color={'white'} variant="h6" noWrap sx={{ flexGrow: 1 }} component="div">
-                        {appBarText}
-                    </Typography>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        edge="end"
-                        onClick={handleDrawerOpen}
-                        sx={{ ...(open && { display: 'none' }) }}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                </Toolbar>
+                {user ? (
+                    <Toolbar>
+                        <Typography color={'white'} variant="h6" noWrap sx={{ flexGrow: 1 }} component="div">
+                            {appBarText}
+                        </Typography>
+                        <IconButton
+                            color="inherit"
+                            aria-label="open drawer"
+                            edge="end"
+                            onClick={handleDrawerOpen}
+                            sx={{ ...(open && { display: 'none' }) }}
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                    </Toolbar>
+                ) : (
+                    <HeaderBar />
+                )}
             </AppBar>
             <Main open={open}>
                 <DrawerHeader />
