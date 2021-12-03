@@ -9,7 +9,7 @@
 /coverage
 
 ##jest
-/.doc/html-report*
+/.doc
 
 ## cypress
 /cypress/screenshots/*
@@ -32,5 +32,3 @@ yarn-error.log*
 
 .idea
 .firebase
-
-
