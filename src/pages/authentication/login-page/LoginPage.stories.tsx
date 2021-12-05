@@ -6,7 +6,7 @@ import { SnackbarProvider } from 'notistack';
 import Loader from '../../../components/atoms/loader/Loader';
 
 export default {
-    title: 'organism/LoginPage',
+    title: 'pages/LoginPage',
     component: LoginPage
 } as Meta;
 

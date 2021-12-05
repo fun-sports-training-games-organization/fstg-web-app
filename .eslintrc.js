@@ -3,12 +3,13 @@ module.exports = {
     plugins: ['unused-imports'],
     extends: [
         'react-app',
-        'plugin:react/recommended', // Uses the recommended rules from @eslint-plugin-react
-        'plugin:@typescript-eslint/recommended', // Uses the recommended rules from the @typescript-eslint/eslint-plugin
-        'plugin:prettier/recommended' // Enables eslint-plugin-prettier and eslint-config-prettier. This will display prettier errors as ESLint errors. Make sure this is always the last config in the extends array.
+        'plugin:react/recommended',
+        'plugin:@typescript-eslint/recommended',
+        'plugin:prettier/recommended'
     ],
     parserOptions: {
-        ecmaVersion: 2020, // Allows for the parsing of modern ECMAScript features
+        ecmaVersion: 2020,
+        // Allows for the parsing of modern ECMAScript features
         sourceType: 'module' // Allows for the use of imports
     },
     rules: {
@@ -26,8 +27,10 @@ module.exports = {
                 endOfLine: 'auto'
             }
         ],
-        '@typescript-eslint/camelcase': ['off'], // turn camelcase checking off for now...
-        'no-use-before-define': 'off', // https://stackoverflow.com/a/64024916/1892214
+        '@typescript-eslint/camelcase': ['off'],
+        // turn camelcase checking off for now...
+        'no-use-before-define': 'off',
+        // https://stackoverflow.com/a/64024916/1892214
         '@typescript-eslint/no-use-before-define': ['error']
     },
     settings: {
@@ -47,5 +50,6 @@ module.exports = {
                 i18n: true
             }
         }
-    ]
+    ],
+    ignorePatterns: ['src/**/*.test.tsx']
 };
