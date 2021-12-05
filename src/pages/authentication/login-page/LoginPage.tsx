@@ -5,7 +5,7 @@ import EmailLoginForm from '../email-login-form/EmailLoginForm';
 import ProviderLoginButton from '../../../components/atoms/provider-login-button/ProviderLoginButton';
 import AuthContainer from '../../../components/organisms/auth-container/AuthContainer';
 import SwipingTabs from '../../../components/organisms/swiping-tabs/SwipingTabs';
-import { LoginProviders, LoginProvider } from '../../../contexts/AuthContextProvider';
+import { LoginProviders, LoginProvider, useAuth } from '../../../contexts/AuthContextProvider';
 import RegistrationForm from '../registration-form/RegistrationForm';
 
 const LoginPage: FC = (): JSX.Element => {
@@ -18,7 +18,7 @@ const LoginPage: FC = (): JSX.Element => {
             <Stack spacing={2}>
                 <Divider sx={{ marginTop: 2 }}>OR</Divider>
                 {LoginProviders.map(({ name, color, icon }: LoginProvider) => (
-                    <ProviderLoginButton key={name} name={name} color={color} icon={icon}>
+                    <ProviderLoginButton useAuth={useAuth} key={name} name={name} color={color} icon={icon}>
                         {t('idp.login.button', { idp: capitalize(name) })}
                     </ProviderLoginButton>
                 ))}
