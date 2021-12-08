@@ -1,13 +1,11 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { AppBar, Avatar, IconButton, Toolbar } from '@mui/material';
 import { Logout as LogoutIcon, Menu as MenuIcon } from '@mui/icons-material';
 import { Box } from '@mui/system';
 import LanguageMenu from '../language-menu/LanguageMenu';
-import { useAuth } from '../../../contexts/AuthContextProvider';
+import { HeaderBarProps } from './HeaderBar.types';
 
-const HeaderBar = (): JSX.Element => {
-    const { user, logout } = useAuth();
-    console.log(user?.photoURL);
+const HeaderBar: FC<HeaderBarProps> = ({ user, logout }: HeaderBarProps): JSX.Element => {
     return (
         <AppBar position="static">
             <Toolbar>

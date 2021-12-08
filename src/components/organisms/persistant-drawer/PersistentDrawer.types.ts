@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { User } from 'firebase/auth';
 
 export type MenuListItem = {
     key?: string | number;
@@ -12,4 +13,6 @@ export type PersistentDrawerProps = {
     children: JSX.Element;
     topMenuListItems: MenuListItem[];
     bottomMenuListItems?: MenuListItem[];
+    user?: Partial<User>;
+    logout?: () => void;
 };

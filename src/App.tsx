@@ -9,7 +9,7 @@ import { MenuListItem } from './components/organisms/persistant-drawer/Persisten
 import { useAuth } from './contexts/AuthContextProvider';
 
 function App(): JSX.Element {
-    const { logout } = useAuth();
+    const { logout, user } = useAuth();
 
     const topMenuListItems: MenuListItem[] = [
         { key: 'home', text: 'Home', icon: 'home', path: '/home' },
@@ -24,7 +24,11 @@ function App(): JSX.Element {
     ];
     return (
         <Box>
-            <PersistentDrawer topMenuListItems={topMenuListItems} bottomMenuListItems={bottomMenuList}>
+            <PersistentDrawer
+                user={user ? user : undefined}
+                topMenuListItems={topMenuListItems}
+                bottomMenuListItems={bottomMenuList}
+            >
                 <Switch>
                     {routes.map((route, index) => {
                         return route.protected ? (

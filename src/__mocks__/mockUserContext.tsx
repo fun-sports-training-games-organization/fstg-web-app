@@ -9,7 +9,7 @@ export const mockUser = {
             phoneNumber: '+1 23456789',
             providerId: '1wwet34g34T34',
             uid: 'aa243r344aAWEEwaf',
-            photoURL: ''
+            photoURL: 'https://picsum.photos/200'
         }
     ],
     refreshToken: ''
