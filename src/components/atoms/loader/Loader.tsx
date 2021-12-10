@@ -1,10 +1,15 @@
-import React, { FC } from 'react';
+import React from 'react';
 import { Grid } from '@mui/material';
 import './Loader.scss';
 
-const Loader: FC = () => (
+export type LoaderProps = {
+    testId?: string;
+};
+
+const Loader = ({ testId }: LoaderProps): JSX.Element => (
     <Grid
         container
+        data-testid={testId}
         spacing={0}
         direction="column"
         alignItems="center"

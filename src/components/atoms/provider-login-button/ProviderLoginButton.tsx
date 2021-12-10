@@ -1,9 +1,15 @@
 import React, { FC } from 'react';
 import { Button, ButtonProps } from '@mui/material';
-import { LoginProvider, useAuth } from '../../../contexts/AuthContextProvider';
+import { LoginProvider, Provider } from '../../../contexts/AuthContextProvider';
 
-const ProviderLoginButton: FC<LoginProvider & Omit<ButtonProps, 'color'>> = (props) => {
-    const { color, icon, name, ...rest } = props;
+type OwnProps = {
+    useAuth: () => { loginWith: (provider: Provider) => void };
+};
+
+export type ProviderLoginProps = OwnProps & LoginProvider & Omit<ButtonProps, 'color'>;
+
+const ProviderLoginButton: FC<ProviderLoginProps> = (props) => {
+    const { color, icon, name, useAuth, ...rest } = props;
     const { loginWith } = useAuth();
     return (
         <Button
