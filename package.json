@@ -81,10 +81,15 @@
     },
     "devDependencies": {
         "@firebase/rules-unit-testing": "^1.1.4",
-        "@storybook/addon-essentials": "6.3.12",
-        "@storybook/addon-links": "6.3.12",
-        "@storybook/addons": "6.3.12",
-        "@storybook/react": "6.3.12",
+        "@react-theming/storybook-addon": "^1.1.1",
+        "@storybook/addon-backgrounds": "^6.3.12",
+        "@storybook/addon-controls": "^6.3.12",
+        "@storybook/addon-docs": "^6.3.12",
+        "@storybook/addon-essentials": "^6.3.12",
+        "@storybook/addon-links": "^6.3.12",
+        "@storybook/addon-viewport": "^6.3.12",
+        "@storybook/react": "^6.3.12",
+        "@storybook/theming": "^6.3.12",
         "@testing-library/cypress": "^8.0.1",
         "@testing-library/jest-dom": "^5.14.1",
         "@testing-library/react": "^11.2.7",
@@ -104,11 +109,11 @@
         "eslint-plugin-prettier": "^4.0.0",
         "eslint-plugin-react": "^7.25.1",
         "eslint-plugin-unused-imports": "^1.1.4",
-        "firebase-mock": "^2.3.2",
         "jest-environment-jsdom": "^27.0.6",
         "jest-stare": "^2.3.0",
         "prettier": "^2.3.2",
         "sass": "^1.42.1",
+        "storybook-react-i18next": "^1.0.12",
         "ts-jest": "^26.0.0"
     }
 }

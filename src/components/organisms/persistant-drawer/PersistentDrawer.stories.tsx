@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import PersistentDrawer from './PersistentDrawer';
 import { PersistentDrawerProps } from './PersistentDrawer.types';
-import { Stack } from '@mui/material';
+import { mockUser } from '../../../__mocks__/mockUserContext';
 import { AuthContext } from '../../../contexts/AuthContextProvider';
 import { SnackbarProvider } from 'notistack';
-import { mockUser } from '../../../__mocks__/mockUserContext';
 
 export default {
     title: 'organisms/PersistentDrawer',
@@ -20,31 +19,30 @@ export default {
             { key: 'account', text: 'Account', icon: 'person', path: '/account' },
             { key: 'logout', text: 'Logout', icon: 'logout', onClick: () => console.log('logout clicked') }
         ],
-        authenticated: false
+        user: mockUser,
+        logout: () => console.log('logout clicked!')
     }
 };
 
 export const Drawer = (args: PersistentDrawerProps & { authenticated: boolean }): JSX.Element => {
     return (
-        <Stack>
-            <SnackbarProvider>
-                <AuthContext.Provider
-                    value={{
-                        user: args.authenticated ? mockUser : null,
-                        loginWith: () => console.log(''),
-                        loginWithEmail: () => console.log(''),
-                        registerWithEmail: () => console.log(''),
-                        sendResetPasswordLink: () => console.log(''),
-                        loginFailed: () => console.log(''),
-                        logout: () => console.log('')
-                    }}
-                >
-                    <PersistentDrawer {...args}>
-                        <>Main Content</>
-                    </PersistentDrawer>
-                </AuthContext.Provider>
-            </SnackbarProvider>
-        </Stack>
+        <SnackbarProvider>
+            <AuthContext.Provider
+                value={{
+                    user: args.authenticated ? mockUser : null,
+                    loginWith: () => console.log(''),
+                    loginWithEmail: () => console.log(''),
+                    registerWithEmail: () => console.log(''),
+                    sendResetPasswordLink: () => console.log(''),
+                    loginFailed: () => console.log(''),
+                    logout: () => console.log('')
+                }}
+            >
+                <PersistentDrawer {...args}>
+                    <>Main Content</>
+                </PersistentDrawer>
+            </AuthContext.Provider>
+        </SnackbarProvider>
     );
 };
 
