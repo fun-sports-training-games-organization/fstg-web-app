@@ -76,8 +76,8 @@ const CreateEditExerciseForm = ({ entity, setEntity }: Props): JSX.Element => {
                     <TimeField
                         label={'Default Time'}
                         value={entity.amountValue}
-                        onChange={(date) => {
-                            setEntity({ ...entity, amountValue: date });
+                        setValue={(seconds: number) => {
+                            setEntity({ ...entity, amountValue: seconds });
                         }}
                     />
                 ) : (
@@ -135,8 +135,8 @@ const CreateEditExerciseForm = ({ entity, setEntity }: Props): JSX.Element => {
                                 <TimeField
                                     label={'Default Results'}
                                     value={entity.resultValue}
-                                    onChange={(date) => {
-                                        setEntity({ ...entity, resultValue: date });
+                                    setValue={(seconds: number) => {
+                                        setEntity({ ...entity, resultValue: seconds });
                                     }}
                                 />
                             ) : (
