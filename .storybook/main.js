@@ -1,4 +1,5 @@
 const path = require('path');
+const toPath = (filePath) => path.join(process.cwd(), filePath);
 
 module.exports = {
     stories: ['./Introduction.stories.mdx', '../src/**/*.stories.tsx'],
@@ -28,6 +29,19 @@ module.exports = {
         });
         config.resolve.extensions.push('.ts', '.tsx');
 
-        return config;
+        return {
+            ...config,
+            resolve: {
+                ...config.resolve,
+                alias: {
+                    ...config.resolve.alias,
+                    '@emotion/core': toPath('node_modules/@emotion/react'),
+                    'emotion-theming': toPath('node_modules/@emotion/react')
+                }
+            }
+        };
+    },
+    typescript: {
+        check: true // type-check stories during Storybook build
     }
 };

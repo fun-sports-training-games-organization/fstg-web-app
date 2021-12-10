@@ -19,7 +19,6 @@ import { MenuListItem, PersistentDrawerProps } from './PersistentDrawer.types';
 import { Icon } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import HeaderBar from '../header-bar/HeaderBar';
-import { useAuth } from '../../../contexts/AuthContextProvider';
 
 const drawerWidth = 240;
 
@@ -76,10 +75,11 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 const PersistentDrawer: FC<PersistentDrawerProps> = ({
     children,
     topMenuListItems,
-    bottomMenuListItems
+    bottomMenuListItems,
+    user,
+    logout
 }: PersistentDrawerProps) => {
     const history = useHistory();
-    const { user } = useAuth();
     const [open, setOpen] = useState(false);
     const [appBarText, setAppBarText] = useState<string>();
 
@@ -107,7 +107,7 @@ const PersistentDrawer: FC<PersistentDrawerProps> = ({
                 const { key, text, icon } = menuListItem;
                 return (
                     <ListItem button key={key} onClick={() => handleMenuClick(menuListItem)}>
-                        <ListItemIcon>{typeof icon === 'string' ? <Icon>{icon}</Icon> : { icon }}</ListItemIcon>
+                        <ListItemIcon>{typeof icon === 'string' ? <Icon>{icon}</Icon> : icon}</ListItemIcon>
                         <ListItemText primary={text} />
                     </ListItem>
                 );
@@ -135,7 +135,7 @@ const PersistentDrawer: FC<PersistentDrawerProps> = ({
                         </IconButton>
                     </Toolbar>
                 ) : (
-                    <HeaderBar />
+                    <HeaderBar user={user} logout={logout} />
                 )}
             </AppBar>
             <Main open={open}>

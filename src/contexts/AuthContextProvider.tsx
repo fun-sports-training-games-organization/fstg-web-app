@@ -31,7 +31,7 @@ export const LoginProviders: LoginProvider[] = [
 ];
 
 export type AuthContextData = {
-    user: User | null;
+    user: Partial<User> | null;
     logout: () => void;
     loginWith: (provider: Provider) => void;
     loginWithEmail: (email: string, password: string) => void;
