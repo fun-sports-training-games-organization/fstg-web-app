@@ -1,4 +1,12 @@
 {
+    "nav": {
+        "home": "Startseite",
+        "dashboard": "Dashboard",
+        "exercises": "Übungen",
+        "workouts": "Training",
+        "account": "Konto",
+        "logout": "Abmelden"
+    },
     "dialog": {
         "deleteConfirmation": {
             "title": "Bestätigung löschen",
@@ -77,7 +85,6 @@
         },
         "manageExercises": {
             "exercises": "Übungen"
-        
         },
         "manageWorkouts": {
             "workouts": "Workouts"
@@ -85,6 +92,22 @@
         "editWorkout": {
             "createWorkout": "Workout erstellen",
             "editWorkout": "Workout editieren"
+        }
+    },
+    "form": {
+        "label": {
+            "exercise": {
+                "name": "Name der Übung",
+                "imgUrl": "Bild-/GIF-URL",
+                "defaultAmountType": "Standardbetragstyp",
+                "countBased": "Count-based",
+                "timeBased": "zeitbasiert",
+                "defaultTime": "Standardzeit",
+                "recordResultsByDefault": "Ergebnisse standardmäßig aufzeichnen",
+                "defaultResultType": "Standardergebnistyp",
+                "useDefaultResults": "Standardergebnisse verwenden",
+                "defaultResults": "Standardergebnisse"
+            }
         }
     }
 }

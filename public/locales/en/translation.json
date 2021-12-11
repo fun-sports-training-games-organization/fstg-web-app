@@ -1,4 +1,12 @@
 {
+    "nav": {
+        "home": "Home",
+        "dashboard": "Dashboard",
+        "exercises": "Exercises",
+        "workouts": "Workouts",
+        "account": "Account",
+        "logout": "Logout"
+    },
     "dialog": {
         "deleteConfirmation": {
             "title": "Delete Confirmation",
@@ -77,7 +85,6 @@
         },
         "manageExercises": {
             "exercises": "Exercises"
-        
         },
         "manageWorkouts": {
             "workouts": "Workouts"
@@ -85,6 +92,22 @@
         "editWorkout": {
             "createWorkout": "Create workout",
             "editWorkout": "Edit workout"
+        }
+    },
+    "form": {
+        "label": {
+            "exercise": {
+                "name": "Exercise Name",
+                "imgUrl": "Image/GIF URL",
+                "defaultAmountType": "Default Amount Type",
+                "countBased": "Count-based",
+                "timeBased": "Time-based",
+                "defaultTime": "Default Time",
+                "recordResultsByDefault": "Record Results By Default",
+                "defaultResultType": "Default Result Type",
+                "useDefaultResults": "Use Default Results",
+                "defaultResults": "Default Results"
+            }
         }
     }
 }
