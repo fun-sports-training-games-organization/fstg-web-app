@@ -10,7 +10,7 @@ import LabeledCheckbox from './molecules/LabeledCheckbox';
 type Entity = FirestoreReducer.Entity<any>;
 type Props = {
     entity: Entity;
-    setEntity: Dispatch<SetStateAction<Entity>>;
+    setEntity: Dispatch<SetStateAction<Entity>> | ((entity: Entity) => void);
     inWorkout?: boolean;
 };
 

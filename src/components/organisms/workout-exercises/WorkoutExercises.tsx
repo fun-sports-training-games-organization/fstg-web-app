@@ -8,9 +8,17 @@ type Props = {
     parentIdPrefix: string;
     workout: Workout;
     setWorkout?: Dispatch<SetStateAction<Workout>>;
+    save?: () => void;
 };
 
-const WorkoutExercises = ({ parentIdPrefix, workout, setWorkout }: Props): JSX.Element => {
+const WorkoutExercises = ({
+    parentIdPrefix,
+    workout,
+    setWorkout,
+    save = () => {
+        console.log('save');
+    }
+}: Props): JSX.Element => {
     return (
         <List style={{ maxHeight: '100%', overflow: 'auto' }}>
             {setWorkout ? (
@@ -18,6 +26,7 @@ const WorkoutExercises = ({ parentIdPrefix, workout, setWorkout }: Props): JSX.E
                     parentIdPrefix={parentIdPrefix}
                     workout={workout}
                     setWorkout={setWorkout}
+                    save={save}
                 ></ManageWorkoutExercises>
             ) : (
                 <DisplayWorkoutExercises parentIdPrefix={parentIdPrefix} workout={workout}></DisplayWorkoutExercises>

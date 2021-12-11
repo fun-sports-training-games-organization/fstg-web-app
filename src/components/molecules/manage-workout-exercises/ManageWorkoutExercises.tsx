@@ -4,20 +4,16 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import { Workout } from '../../../model/workout';
 import { ExerciseWorkoutSettings } from '../../../model/exercise-workout-settings';
 import EditWorkoutExerciseSettingsDialog from '../../organisms/edit-workout-exercise-settings-dialog/EditWorkoutExerciseSettingsDialog';
-import { v4 as uuidv4 } from 'uuid';
 import { useTranslation } from 'react-i18next';
-import { useFirebase, useFirestore } from 'react-redux-firebase';
-import { useParams } from 'react-router-dom';
-import { Id } from '../../../model/basics';
-import { useSnackbar } from 'notistack';
 
 type Props = {
     parentIdPrefix: string;
     workout: Workout;
     setWorkout: Dispatch<SetStateAction<Workout>>;
+    save: () => void;
 };
 
-const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout }: Props): JSX.Element => {
+const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: Props): JSX.Element => {
     const idPrefix = `${parentIdPrefix}manage_exercise_list__`;
     const exerciseItemPrefix = `${idPrefix}item_`;
     const updateExerciseName = (
@@ -34,11 +30,6 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout }: Props):
         });
     };
     const { t } = useTranslation();
-    const { enqueueSnackbar } = useSnackbar();
-    const firestore = useFirestore();
-    const firebase = useFirebase();
-    const params = useParams() as Id;
-    const workoutId = params?.id ? params.id : undefined;
 
     const emptyExerciseWorkoutSettings: ExerciseWorkoutSettings = {
         name: '',
@@ -47,12 +38,8 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout }: Props):
         resultType: 'number',
         useDefaultResult: false
     };
-    const getNewEmptyExerciseWorkoutSettings = (): ExerciseWorkoutSettings => {
-        return { ...emptyExerciseWorkoutSettings, id: uuidv4() };
-    };
 
     const [openDialog, setOpenDialog] = useState<boolean>(false);
-    const [exerciseWorkoutSettings, setExerciseWorkoutSettings] = useState<ExerciseWorkoutSettings>();
     const [selectedExercise, setSelectedExercise] = useState<ExerciseWorkoutSettings>(emptyExerciseWorkoutSettings);
 
     return (
@@ -99,8 +86,18 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout }: Props):
                 })}
                 open={openDialog}
                 setOpen={setOpenDialog}
-                exerciseWorkoutSettings={exerciseWorkoutSettings}
-                setWorkoutExerciseSettings={setExerciseWorkoutSettings}
+                exercise={selectedExercise}
+                setExercise={(exercise: ExerciseWorkoutSettings) => {
+                    setSelectedExercise(exercise);
+                    setWorkout({
+                        ...workout,
+                        exercises: [
+                            ...workout.exercises.filter((exercise) => exercise.id !== selectedExercise.id),
+                            selectedExercise
+                        ]
+                    });
+                }}
+                save={save}
             />
         </>
     );
