@@ -11,9 +11,11 @@ type Entity = FirestoreReducer.Entity<any>;
 type Props = {
     entity: Entity;
     setEntity: Dispatch<SetStateAction<Entity>>;
+    inWorkout?: boolean;
 };
 
-const CreateEditExerciseForm = ({ entity, setEntity }: Props): JSX.Element => {
+const CreateEditExerciseForm = ({ entity, setEntity, inWorkout = false }: Props): JSX.Element => {
+    console.log({ inWorkout });
     const { t } = useTranslation();
     const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
         setEntity({ ...entity, [event.target.name]: event.target.value });
@@ -26,24 +28,29 @@ const CreateEditExerciseForm = ({ entity, setEntity }: Props): JSX.Element => {
     return (
         <form>
             <Stack spacing={2} mt={2}>
-                <TextField
-                    id={`exercise.name`}
-                    label={t('Exercise Name')}
-                    type={'text'}
-                    value={entity.name}
-                    fullWidth
-                    onChange={handleChange}
-                    name={'name'}
-                />
-                <TextField
-                    id={`exercise.imageOrGifUrl`}
-                    label={t('Image/GIF URL')}
-                    type={'text'}
-                    value={entity.imageOrGifUrl}
-                    fullWidth
-                    onChange={handleChange}
-                    name={'imageOrGifUrl'}
-                />
+                {!inWorkout ? (
+                    <>
+                        <TextField
+                            id={`exercise.name`}
+                            label={t('Exercise Name')}
+                            type={'text'}
+                            value={entity.name}
+                            fullWidth
+                            onChange={handleChange}
+                            name={'name'}
+                        />
+                        <TextField
+                            id={`exercise.imageOrGifUrl`}
+                            label={t('Image/GIF URL')}
+                            type={'text'}
+                            value={entity.imageOrGifUrl}
+                            fullWidth
+                            onChange={handleChange}
+                            name={'imageOrGifUrl'}
+                            hidden={inWorkout}
+                        />
+                    </>
+                ) : null}
 
                 <FormControl component="fieldset">
                     <FormLabel component="legend">Default Amount Type</FormLabel>

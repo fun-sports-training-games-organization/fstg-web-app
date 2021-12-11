@@ -7,6 +7,10 @@
         "editExercise": {
             "title": "Modifier l'exercice",
             "message": "Cliquez sur Enregistrer pour mettre à jour le nom de votre exercice ou sur annuler pour annuler vos modifications."
+        },
+        "editWorkoutExerciseSettings": {
+            "title": "Modifier les paramètres de l'exercice ({{exerciseName}}) pour la séance d'entraînement ({{workoutName}})",
+            "message": "Cliquez sur Enregistrer pour mettre à jour les paramètres d'exercice ({{exerciseName}}) de cette séance d'entraînement ({{workoutName}}) ou sur Annuler pour annuler vos modifications."
         }
     },
     "global": {
@@ -77,7 +81,6 @@
         },
         "manageExercises": {
             "exercises": "Exercices"
-        
         },
         "manageWorkouts": {
             "workouts": "Entraînements"

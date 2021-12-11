@@ -16,7 +16,6 @@ import { ExerciseWorkoutSettings } from '../../../model/exercise-workout-setting
 import { Workout } from '../../../model/workout';
 import { prepareDataToSend } from '../../../util/data-prep-util';
 import { getPageIdPrefix } from '../../../util/id-util';
-import EditWorkoutExerciseSettingsDialog from '../../../components/organisms/edit-workout-exercise-settings-dialog/EditWorkoutExerciseSettingsDialog';
 
 const EditWorkout: FC = () => {
     const pageName = 'edit_workout';
@@ -56,8 +55,6 @@ const EditWorkout: FC = () => {
         });
 
     const [workout, setWorkout] = useState<Workout>(getNewEmptyWorkout());
-    const [openDialog, setOpenDialog] = useState<boolean>(false);
-    const [exerciseWorkoutSettings, setExerciseWorkoutSettings] = useState<ExerciseWorkoutSettings>();
 
     useEffect(() => {
         if (workoutId) {
@@ -129,14 +126,6 @@ const EditWorkout: FC = () => {
                     onSubmit={onSubmit}
                 />
             </Stack>
-            <EditWorkoutExerciseSettingsDialog
-                title={t('dialog.editExercise.title')}
-                message={t('dialog.editExercise.message')}
-                open={openDialog}
-                setOpen={setOpenDialog}
-                exerciseWorkoutSettings={exerciseWorkoutSettings}
-                setWorkoutExerciseSettings={setExerciseWorkoutSettings}
-            />
         </div>
     );
 };

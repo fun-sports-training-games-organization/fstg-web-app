@@ -12,7 +12,7 @@ type Props = {
     open: boolean;
     setOpen: Dispatch<SetStateAction<boolean>>;
     exerciseWorkoutSettings?: ExerciseWorkoutSettings;
-    setExerciseWorkoutSettings: Dispatch<SetStateAction<ExerciseWorkoutSettings | undefined>>;
+    setWorkoutExerciseSettings: Dispatch<SetStateAction<ExerciseWorkoutSettings | undefined>>;
     title: string;
     message: string;
 };
@@ -31,7 +31,7 @@ const EditWorkoutExerciseSettingsDialog = ({
     title,
     message,
     exerciseWorkoutSettings = emptyExerciseWorkoutSettings,
-    setExerciseWorkoutSettings
+    setWorkoutExerciseSettings
 }: Props): JSX.Element => {
     const { t } = useTranslation();
     const { enqueueSnackbar } = useSnackbar();
@@ -39,7 +39,7 @@ const EditWorkoutExerciseSettingsDialog = ({
     const firebase = useFirebase();
     const handleClose = () => {
         setOpen(false);
-        setExerciseWorkoutSettings(emptyExerciseWorkoutSettings);
+        setWorkoutExerciseSettings(emptyExerciseWorkoutSettings);
     };
 
     const handleUpdate = () => {
@@ -58,33 +58,21 @@ const EditWorkoutExerciseSettingsDialog = ({
         }
     };
 
-    const handleCreate = () => {
-        firestore
-            .collection('exercises')
-            .add(prepareDataToSend(exerciseWorkoutSettings, firebase.auth().currentUser))
-            .then(() => {
-                notification.createSuccess(enqueueSnackbar, t, exerciseWorkoutSettings.name);
-                setOpen(false);
-                setExerciseWorkoutSettings(emptyExerciseWorkoutSettings);
-            })
-            .catch(() => {
-                notification.createError(enqueueSnackbar, t, exerciseWorkoutSettings.name);
-            });
-    };
-
     return (
         <div>
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle>{title}</DialogTitle>
                 <DialogContent>
                     <DialogContentText>{message}</DialogContentText>
-                    <CreateEditExerciseForm entity={exerciseWorkoutSettings} setEntity={setExerciseWorkoutSettings} />
+                    <CreateEditExerciseForm
+                        entity={exerciseWorkoutSettings}
+                        setEntity={setWorkoutExerciseSettings}
+                        inWorkout={true}
+                    />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>{t('global.cancel')}</Button>
-                    <Button onClick={() => (exerciseWorkoutSettings?.id ? handleUpdate() : handleCreate())}>
-                        {t(exerciseWorkoutSettings?.id ? 'global.save' : 'global.create')}
-                    </Button>
+                    <Button onClick={() => handleUpdate()}>{t('global.save')}</Button>
                 </DialogActions>
             </Dialog>
         </div>

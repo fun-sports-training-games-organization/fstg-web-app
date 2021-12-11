@@ -1,8 +1,15 @@
-import { ChangeEvent, Dispatch, SetStateAction } from 'react';
+import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
 import { IconButton, TextField } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Workout } from '../../../model/workout';
 import { ExerciseWorkoutSettings } from '../../../model/exercise-workout-settings';
+import EditWorkoutExerciseSettingsDialog from '../../organisms/edit-workout-exercise-settings-dialog/EditWorkoutExerciseSettingsDialog';
+import { v4 as uuidv4 } from 'uuid';
+import { useTranslation } from 'react-i18next';
+import { useFirebase, useFirestore } from 'react-redux-firebase';
+import { useParams } from 'react-router-dom';
+import { Id } from '../../../model/basics';
+import { useSnackbar } from 'notistack';
 
 type Props = {
     parentIdPrefix: string;
@@ -26,6 +33,27 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout }: Props):
             return exercise;
         });
     };
+    const { t } = useTranslation();
+    const { enqueueSnackbar } = useSnackbar();
+    const firestore = useFirestore();
+    const firebase = useFirebase();
+    const params = useParams() as Id;
+    const workoutId = params?.id ? params.id : undefined;
+
+    const emptyExerciseWorkoutSettings: ExerciseWorkoutSettings = {
+        name: '',
+        amountType: 'number',
+        recordResults: false,
+        resultType: 'number',
+        useDefaultResult: false
+    };
+    const getNewEmptyExerciseWorkoutSettings = (): ExerciseWorkoutSettings => {
+        return { ...emptyExerciseWorkoutSettings, id: uuidv4() };
+    };
+
+    const [openDialog, setOpenDialog] = useState<boolean>(false);
+    const [exerciseWorkoutSettings, setExerciseWorkoutSettings] = useState<ExerciseWorkoutSettings>();
+    const [selectedExercise, setSelectedExercise] = useState<ExerciseWorkoutSettings>(emptyExerciseWorkoutSettings);
 
     return (
         <>
@@ -42,7 +70,12 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout }: Props):
                         InputProps={{
                             endAdornment: (
                                 <IconButton>
-                                    <SettingsIcon />
+                                    <SettingsIcon
+                                        onClick={() => {
+                                            setSelectedExercise(exercise);
+                                            setOpenDialog(true);
+                                        }}
+                                    />
                                 </IconButton>
                             )
                         }}
@@ -55,6 +88,20 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout }: Props):
                     />
                 );
             })}
+            <EditWorkoutExerciseSettingsDialog
+                title={t('dialog.editWorkoutExerciseSettings.title', {
+                    exerciseName: selectedExercise.name,
+                    workoutName: workout.name
+                })}
+                message={t('dialog.editWorkoutExerciseSettings.message', {
+                    exerciseName: selectedExercise.name,
+                    workoutName: workout.name
+                })}
+                open={openDialog}
+                setOpen={setOpenDialog}
+                exerciseWorkoutSettings={exerciseWorkoutSettings}
+                setWorkoutExerciseSettings={setExerciseWorkoutSettings}
+            />
         </>
     );
 };
