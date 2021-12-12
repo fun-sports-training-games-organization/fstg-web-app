@@ -1,4 +1,12 @@
 {
+    "nav": {
+        "home": "Page d'accueil ",
+        "dashboard": "Tableau de bord",
+        "exercises": "Exercices",
+        "workouts": "Entraînements",
+        "account": "Compte",
+        "logout": "Logout"
+    },
     "dialog": {
         "deleteConfirmation": {
             "title": "Supprimer la confirmation",
@@ -88,6 +96,22 @@
         "editWorkout": {
             "createWorkout": "Créer l'entraînement",
             "editWorkout": "Modifier l'entraînement"
+        }
+    },
+    "form": {
+        "label": {
+            "exercise": {
+                "name": "Nom de l'exercice",
+                "imgUrl": "URL de l'image/GIF",
+                "defaultAmountType": "Type de montant par défaut",
+                "countBased": "Basé sur le nombre",
+                "timeBased": "Basé sur le temps",
+                "defaultTime": "Heure par défaut",
+                "recordResultsByDefault": "Enregistrer les résultats par défaut",
+                "defaultResultType": "Type de résultat par défaut",
+                "useDefaultResults": "Utiliser les résultats par défaut",
+                "defaultResults": "Résultats par défaut"
+            }
         }
     }
 }

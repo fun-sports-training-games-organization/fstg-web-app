@@ -91,11 +91,7 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: P
                     setSelectedExercise(exercise);
                     setWorkout({
                         ...workout,
-                        exercises: [
-                            ...workout.exercises.map((exercise) =>
-                                exercise.id === selectedExercise.id ? selectedExercise : exercise
-                            )
-                        ]
+                        exercises: [...workout.exercises.map((e) => (e.id === selectedExercise.id ? exercise : e))]
                     });
                 }}
                 save={save}

@@ -16,27 +16,13 @@ type Props = {
 
 const CreateEditExerciseForm = ({ entity, setEntity, inWorkout = false }: Props): JSX.Element => {
     const { t } = useTranslation();
+    const PREFIX = 'form.label.exercise';
     const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
         setEntity({ ...entity, [event.target.name]: event.target.value });
     };
 
     const onCheckboxChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, checked?: boolean): void => {
         setEntity({ ...entity, [event.target.name]: checked });
-    };
-
-    const getAmountValueInSeconds = (date: unknown): number => {
-        const dateValue = (date as Date).valueOf();
-        const d = new Date();
-        d.setMinutes(0, 0, 0);
-        return Math.round((dateValue < 86400000 ? dateValue : dateValue - d.valueOf()) / 1000);
-    };
-
-    const getDateFromSeconds = (seconds: number): Date => {
-        const date = new Date();
-        const minutes = seconds < 60 ? 0 : Math.floor(seconds / 60);
-        const displaySeconds = seconds < 60 ? seconds : seconds % 60;
-        date.setMinutes(minutes, displaySeconds, 0);
-        return date;
     };
 
     return (
@@ -46,7 +32,7 @@ const CreateEditExerciseForm = ({ entity, setEntity, inWorkout = false }: Props)
                     <>
                         <TextField
                             id={`exercise.name`}
-                            label={t('Exercise Name')}
+                            label={t(`${PREFIX}.name`)}
                             type={'text'}
                             value={entity.name}
                             fullWidth
@@ -54,25 +40,20 @@ const CreateEditExerciseForm = ({ entity, setEntity, inWorkout = false }: Props)
                             name={'name'}
                         />
                         <TextField
-                            id={`exercise.imageOrGifUrl`}
-                            label={t('Image/GIF URL')}
+                            id={`${PREFIX}.imgUrl`}
+                            label={t(`${PREFIX}.defaultAmountType`)}
                             type={'text'}
                             value={entity.imageOrGifUrl}
                             fullWidth
                             onChange={handleChange}
                             name={'imageOrGifUrl'}
-                            hidden={inWorkout}
                         />
                     </>
                 ) : null}
 
                 <FormControl component="fieldset">
-                    <FormLabel component="legend">{inWorkout ? '' : 'Default '}Amount Type</FormLabel>
-                    <RadioGroup
-                        row
-                        aria-label={inWorkout ? 'amountType' : 'defaultAmountType '}
-                        name="row-radio-buttons-group"
-                    >
+                    <FormLabel component="legend">{t(`${PREFIX}.defaultAmountType`)}</FormLabel>
+                    <RadioGroup row aria-label="defaultAmountType" name="row-radio-buttons-group">
                         <FormControlLabel
                             value="COUNT_BASED"
                             control={
@@ -82,7 +63,7 @@ const CreateEditExerciseForm = ({ entity, setEntity, inWorkout = false }: Props)
                                     onChange={handleChange}
                                 />
                             }
-                            label="Count-based"
+                            label={t(`${PREFIX}.countBased`)}
                         />
                         <FormControlLabel
                             value="TIME_BASED"
@@ -93,16 +74,16 @@ const CreateEditExerciseForm = ({ entity, setEntity, inWorkout = false }: Props)
                                     onChange={handleChange}
                                 />
                             }
-                            label="Time-based"
+                            label={t(`${PREFIX}.timeBased`)}
                         />
                     </RadioGroup>
                 </FormControl>
                 {entity.amountType === 'TIME_BASED' ? (
                     <TimeField
-                        label={`${inWorkout ? '' : 'Default '}Time`}
-                        value={getDateFromSeconds(entity.amountValue)}
-                        onChange={(date: unknown) => {
-                            setEntity({ ...entity, amountValue: getAmountValueInSeconds(date) });
+                        label={`${PREFIX}.defaultTime`}
+                        value={entity.amountValue}
+                        setValue={(seconds: number) => {
+                            setEntity({ ...entity, amountValue: seconds });
                         }}
                     />
                 ) : (
@@ -116,18 +97,14 @@ const CreateEditExerciseForm = ({ entity, setEntity, inWorkout = false }: Props)
                 <LabeledCheckbox
                     checked={inWorkout ? entity.recordResults : entity.recordResultsByDefault}
                     onChange={onCheckboxChange}
-                    name={inWorkout ? 'recordResults' : 'recordResultsByDefault'}
-                    label={inWorkout ? 'Record Results' : 'Record Results By Default'}
+                    name={'recordResultsByDefault'}
+                    label={t(`${PREFIX}.recordResultsByDefault`)}
                 />
                 {(inWorkout ? entity.recordResults : entity.recordResultsByDefault) && (
                     <>
                         <FormControl component="fieldset">
-                            <FormLabel component="legend">{inWorkout ? '' : 'Default '}Result Type</FormLabel>
-                            <RadioGroup
-                                row
-                                aria-label={inWorkout ? 'amountType' : 'defaultAmountType '}
-                                name="row-radio-buttons-group"
-                            >
+                            <FormLabel component="legend">{t(`${PREFIX}.defaultResultType`)}</FormLabel>
+                            <RadioGroup row aria-label="defaultAmountType" name="row-radio-buttons-group">
                                 <FormControlLabel
                                     value="COUNT_BASED"
                                     control={
@@ -137,7 +114,7 @@ const CreateEditExerciseForm = ({ entity, setEntity, inWorkout = false }: Props)
                                             onChange={handleChange}
                                         />
                                     }
-                                    label="Count-based"
+                                    label={t(`${PREFIX}.countBased`)}
                                 />
                                 <FormControlLabel
                                     onChange={(e: SyntheticEvent) => console.log(e)}
@@ -149,7 +126,7 @@ const CreateEditExerciseForm = ({ entity, setEntity, inWorkout = false }: Props)
                                             onChange={handleChange}
                                         />
                                     }
-                                    label="Time-based"
+                                    label={t(`${PREFIX}.timeBased`)}
                                 />
                             </RadioGroup>
                         </FormControl>
@@ -157,15 +134,15 @@ const CreateEditExerciseForm = ({ entity, setEntity, inWorkout = false }: Props)
                             checked={entity.useDefaultResult}
                             name={'useDefaultResult'}
                             onChange={onCheckboxChange}
-                            label={'Use Default Result'}
+                            label={t(`${PREFIX}.useDefaultResults`)}
                         />
                         {entity.useDefaultResult &&
                             (entity.resultType === 'TIME_BASED' ? (
                                 <TimeField
-                                    label={'Default Result'}
-                                    value={getDateFromSeconds(entity.resultValue)}
-                                    onChange={(date: unknown) => {
-                                        setEntity({ ...entity, resultValue: getAmountValueInSeconds(date) });
+                                    label={t(`${PREFIX}.defaultResults`)}
+                                    value={entity.resultValue}
+                                    setValue={(seconds: number) => {
+                                        setEntity({ ...entity, resultValue: seconds });
                                     }}
                                 />
                             ) : (
