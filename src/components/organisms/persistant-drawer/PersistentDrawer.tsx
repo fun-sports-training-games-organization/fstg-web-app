@@ -82,7 +82,7 @@ const PersistentDrawer: FC<PersistentDrawerProps> = ({
 }: PersistentDrawerProps) => {
     const history = useHistory();
     const [open, setOpen] = useState(false);
-    const [appBarText, setAppBarText] = useState<string>();
+    // const [appBarText, setAppBarText] = useState<string>();
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -92,11 +92,11 @@ const PersistentDrawer: FC<PersistentDrawerProps> = ({
         setOpen(false);
     };
 
-    const handleMenuClick = ({ path, text, onClick }: MenuListItem) => {
+    const handleMenuClick = ({ path, /*text, */ onClick }: MenuListItem) => {
         path && history.push(path);
         onClick && onClick();
         handleDrawerClose();
-        setAppBarText(text);
+        // setAppBarText(text);
     };
 
     type MenuListProps = {
