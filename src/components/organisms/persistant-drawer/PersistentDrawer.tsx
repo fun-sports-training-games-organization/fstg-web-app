@@ -16,9 +16,10 @@ import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { MenuListItem, PersistentDrawerProps } from './PersistentDrawer.types';
-import { Icon } from '@mui/material';
+import { Icon, Stack } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import HeaderBar from '../header-bar/HeaderBar';
+import LanguageMenu from '../language-menu/LanguageMenu';
 
 const drawerWidth = 240;
 
@@ -122,7 +123,8 @@ const PersistentDrawer: FC<PersistentDrawerProps> = ({
                 {user ? (
                     <Toolbar>
                         <Typography color={'white'} variant="h6" noWrap sx={{ flexGrow: 1 }} component="div">
-                            {appBarText}
+                            {/*{appBarText}*/}
+                            Fun Sports Training Games
                         </Typography>
                         <IconButton
                             color="inherit"
@@ -155,9 +157,18 @@ const PersistentDrawer: FC<PersistentDrawerProps> = ({
                 open={open}
             >
                 <DrawerHeader>
-                    <IconButton onClick={handleDrawerClose}>
-                        <CloseIcon />
-                    </IconButton>
+                    <Stack
+                        style={{ width: '100%' }}
+                        spacing={2}
+                        direction={'row'}
+                        alignItems={'center'}
+                        justifyContent={'space-between'}
+                    >
+                        <LanguageMenu color={'#00000087'} />
+                        <IconButton onClick={handleDrawerClose}>
+                            <CloseIcon />
+                        </IconButton>
+                    </Stack>
                 </DrawerHeader>
                 <Divider />
                 <List>
