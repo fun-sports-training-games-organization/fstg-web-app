@@ -26,6 +26,7 @@ const EmailLoginForm: FC = () => {
         <form>
             <Stack spacing={2}>
                 <TextField
+                    autoFocus
                     fullWidth
                     id={'email-field'}
                     label={t('common.email')}

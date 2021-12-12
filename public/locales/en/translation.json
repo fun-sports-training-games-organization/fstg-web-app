@@ -52,10 +52,6 @@
         "createSuccess": "{{item}} has been created successfully",
         "createFailure": "{{item}} could not be created"
     },
-    "common": {
-        "email": "Email",
-        "password": "Password"
-    },
     "idp": {
         "login": {
             "button": "Login with {{idp}}",
@@ -96,6 +92,14 @@
     },
     "form": {
         "label": {
+            "registration": {
+                "username": "Username (Optional)",
+                "firstName": "First Name",
+                "lastName": "Last Name",
+                "email": "Email",
+                "password": "Password",
+                "confirmPassword": "Confirm Password"
+            },
             "exercise": {
                 "name": "Exercise Name",
                 "imgUrl": "Image/GIF URL",
@@ -107,6 +111,11 @@
                 "defaultResultType": "Default Result Type",
                 "useDefaultResults": "Use Default Results",
                 "defaultResults": "Default Results"
+            }
+        },
+        "button": {
+            "registration": {
+                "register": "Register"
             }
         }
     }

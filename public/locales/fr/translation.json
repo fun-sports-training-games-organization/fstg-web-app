@@ -52,10 +52,6 @@
         "createSuccess": "{{item}} a été créé avec succès",
         "createFailure": "{{item}} n'a pas pu être créé"
     },
-    "common": {
-        "email": "E-mail",
-        "password": "Mot de passe"
-    },
     "idp": {
         "login": {
             "button": "Se connecter avec {{idp}}",
@@ -96,6 +92,14 @@
     },
     "form": {
         "label": {
+            "registration": {
+                "username": "Nom d'utilisateur (facultatif)",
+                "firstName": "Prénom",
+                "lastName": "Nom de famille ",
+                "email": "E-mail",
+                "password": "Mot de passe",
+                "confirmPassword": "Confirmer le mot de passe"
+            },
             "exercise": {
                 "name": "Nom de l'exercice",
                 "imgUrl": "URL de l'image/GIF",
@@ -107,6 +111,11 @@
                 "defaultResultType": "Type de résultat par défaut",
                 "useDefaultResults": "Utiliser les résultats par défaut",
                 "defaultResults": "Résultats par défaut"
+            }
+        },
+        "button": {
+            "registration": {
+                "register": "S'inscrire"
             }
         }
     }

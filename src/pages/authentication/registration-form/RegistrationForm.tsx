@@ -6,12 +6,18 @@ import TextField from '../../../components/atoms/text-field/TextField';
 import PasswordField from '../../../components/molecules/password-field/PasswordField';
 
 interface State {
+    username?: string;
+    firstName: string;
+    lastName: string;
     email: string;
     password: string;
     confirmPassword: string;
 }
 
 export interface RegistrationErrorState {
+    usernameError: string;
+    firstNameError: string;
+    lastNameError: string;
     emailError: string;
     passwordError: string;
     confirmPasswordError: string;
@@ -21,8 +27,18 @@ const RegistrationForm: FC = () => {
     const { t } = useTranslation();
     const { registerWithEmail } = useAuth();
 
-    const [state, setState] = useState<State>({ email: '', password: '', confirmPassword: '' });
+    const [state, setState] = useState<State>({
+        firstName: '',
+        lastName: '',
+        username: '',
+        email: '',
+        password: '',
+        confirmPassword: ''
+    });
     const [errorState, setErrorState] = useState<RegistrationErrorState>({
+        firstNameError: '',
+        lastNameError: '',
+        usernameError: '',
         emailError: '',
         passwordError: '',
         confirmPasswordError: ''
@@ -44,8 +60,41 @@ const RegistrationForm: FC = () => {
             <Stack padding={2} spacing={2} alignItems={'center'}>
                 <TextField
                     fullWidth
+                    autoFocus
+                    id={'username-field'}
+                    label={t('form.label.registration.username')}
+                    value={state.username}
+                    name={'username'}
+                    onChange={handleChangeEvent}
+                    error={!!errorState.usernameError}
+                    helperText={errorState.usernameError}
+                />
+                <TextField
+                    fullWidth
+                    id={'first-name-field'}
+                    label={t('form.label.registration.firstName')}
+                    value={state.firstName}
+                    name={'firstName'}
+                    required
+                    onChange={handleChangeEvent}
+                    error={!!errorState.firstNameError}
+                    helperText={errorState.firstNameError}
+                />
+                <TextField
+                    fullWidth
+                    id={'last-name-field'}
+                    label={t('form.label.registration.lastName')}
+                    value={state.lastName}
+                    name={'lastName'}
+                    required
+                    onChange={handleChangeEvent}
+                    error={!!errorState.lastNameError}
+                    helperText={errorState.lastNameError}
+                />
+                <TextField
+                    fullWidth
                     id={'email-field'}
-                    label={t('common.email')}
+                    label={t('form.label.registration.email')}
                     value={state.email}
                     name={'email'}
                     required
@@ -56,7 +105,7 @@ const RegistrationForm: FC = () => {
                 <PasswordField
                     id={'password-field'}
                     autoComplete={'new-password'}
-                    label={t('common.password')}
+                    label={t('form.label.registration.password')}
                     name={'password'}
                     value={state.password}
                     required
@@ -67,7 +116,7 @@ const RegistrationForm: FC = () => {
                 <PasswordField
                     id={'confirm-password-field'}
                     autoComplete={'new-password'}
-                    label={t('page.register.label.confirmPassword')}
+                    label={t('form.label.registration.confirmPassword')}
                     value={state.confirmPassword}
                     name={'confirmPassword'}
                     required
@@ -82,7 +131,7 @@ const RegistrationForm: FC = () => {
                     fullWidth
                     disabled={!state.email || !state.password || !state.confirmPassword}
                 >
-                    {t('page.register.button.register')}
+                    {t('form.button.registration.register')}
                 </Button>
             </Stack>
         </form>
