@@ -52,8 +52,14 @@ const CreateEditExerciseForm = ({ entity, setEntity, inWorkout = false }: Props)
                 ) : null}
 
                 <FormControl component="fieldset">
-                    <FormLabel component="legend">{t(`${PREFIX}.defaultAmountType`)}</FormLabel>
-                    <RadioGroup row aria-label="defaultAmountType" name="row-radio-buttons-group">
+                    <FormLabel component="legend">
+                        {t(`${PREFIX}.${inWorkout ? 'amountType' : 'defaultAmountType'}`)}
+                    </FormLabel>
+                    <RadioGroup
+                        row
+                        aria-label={inWorkout ? 'amountType' : 'defaultAmountType'}
+                        name="row-radio-buttons-group"
+                    >
                         <FormControlLabel
                             value="COUNT_BASED"
                             control={
@@ -80,7 +86,7 @@ const CreateEditExerciseForm = ({ entity, setEntity, inWorkout = false }: Props)
                 </FormControl>
                 {entity.amountType === 'TIME_BASED' ? (
                     <TimeField
-                        label={`${PREFIX}.defaultTime`}
+                        label={t(`${PREFIX}.${inWorkout ? 'time' : 'defaultTime'}`)}
                         value={entity.amountValue}
                         setValue={(seconds: number) => {
                             setEntity({ ...entity, amountValue: seconds });
@@ -97,14 +103,20 @@ const CreateEditExerciseForm = ({ entity, setEntity, inWorkout = false }: Props)
                 <LabeledCheckbox
                     checked={inWorkout ? entity.recordResults : entity.recordResultsByDefault}
                     onChange={onCheckboxChange}
-                    name={'recordResultsByDefault'}
-                    label={t(`${PREFIX}.recordResultsByDefault`)}
+                    name={inWorkout ? 'recordResults' : 'recordResultsByDefault'}
+                    label={t(`${PREFIX}.${inWorkout ? 'recordResults' : 'recordResultsByDefault'}`)}
                 />
                 {(inWorkout ? entity.recordResults : entity.recordResultsByDefault) && (
                     <>
                         <FormControl component="fieldset">
-                            <FormLabel component="legend">{t(`${PREFIX}.defaultResultType`)}</FormLabel>
-                            <RadioGroup row aria-label="defaultAmountType" name="row-radio-buttons-group">
+                            <FormLabel component="legend">
+                                {t(`${PREFIX}.${inWorkout ? 'resultType' : 'defaultResultType'}`)}
+                            </FormLabel>
+                            <RadioGroup
+                                row
+                                aria-label={inWorkout ? 'resultType' : 'defaultResultType'}
+                                name="row-radio-buttons-group"
+                            >
                                 <FormControlLabel
                                     value="COUNT_BASED"
                                     control={
@@ -134,12 +146,12 @@ const CreateEditExerciseForm = ({ entity, setEntity, inWorkout = false }: Props)
                             checked={entity.useDefaultResult}
                             name={'useDefaultResult'}
                             onChange={onCheckboxChange}
-                            label={t(`${PREFIX}.useDefaultResults`)}
+                            label={t(`${PREFIX}.useDefaultResult`)}
                         />
                         {entity.useDefaultResult &&
                             (entity.resultType === 'TIME_BASED' ? (
                                 <TimeField
-                                    label={t(`${PREFIX}.defaultResults`)}
+                                    label={t(`${PREFIX}.defaultResult`)}
                                     value={entity.resultValue}
                                     setValue={(seconds: number) => {
                                         setEntity({ ...entity, resultValue: seconds });

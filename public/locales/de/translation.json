@@ -104,13 +104,17 @@
                 "name": "Name der Übung",
                 "imgUrl": "Bild-/GIF-URL",
                 "defaultAmountType": "Standardbetragstyp",
+                "amountType": "Betragstyp",
                 "countBased": "Count-based",
                 "timeBased": "zeitbasiert",
                 "defaultTime": "Standardzeit",
+                "time": "Zeit",
                 "recordResultsByDefault": "Ergebnisse standardmäßig aufzeichnen",
+                "recordResults": "Ergebnisse aufzeichnen",
                 "defaultResultType": "Standardergebnistyp",
-                "useDefaultResults": "Standardergebnisse verwenden",
-                "defaultResults": "Standardergebnisse"
+                "resultType": "Ergebnistyp",
+                "useDefaultResult": "Standardergebnis verwenden",
+                "defaultResult": "Standardergebnis"
             }
         }
     }

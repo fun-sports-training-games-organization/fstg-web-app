@@ -104,13 +104,17 @@
                 "name": "Nom de l'exercice",
                 "imgUrl": "URL de l'image/GIF",
                 "defaultAmountType": "Type de montant par défaut",
+                "amountType": "Type de montant",
                 "countBased": "Basé sur le nombre",
                 "timeBased": "Basé sur le temps",
                 "defaultTime": "Heure par défaut",
+                "time": "Heure",
                 "recordResultsByDefault": "Enregistrer les résultats par défaut",
+                "recordResults": "Enregistrer les résultats",
                 "defaultResultType": "Type de résultat par défaut",
-                "useDefaultResults": "Utiliser les résultats par défaut",
-                "defaultResults": "Résultats par défaut"
+                "resultType": "Type de résultat",
+                "useDefaultResult": "Utiliser le résultat par défaut",
+                "defaultResult": "Résultat par défaut"
             }
         }
     }
