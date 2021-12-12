@@ -56,13 +56,13 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: P
                         value={exercise.name}
                         InputProps={{
                             endAdornment: (
-                                <IconButton>
-                                    <SettingsIcon
-                                        onClick={() => {
-                                            setSelectedExercise(exercise);
-                                            setOpenDialog(true);
-                                        }}
-                                    />
+                                <IconButton
+                                    onClick={() => {
+                                        setSelectedExercise(exercise);
+                                        setOpenDialog(true);
+                                    }}
+                                >
+                                    <SettingsIcon />
                                 </IconButton>
                             )
                         }}
