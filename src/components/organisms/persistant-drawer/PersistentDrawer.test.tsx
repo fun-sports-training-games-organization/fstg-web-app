@@ -46,8 +46,7 @@ describe('<PersistentDrawer> component test with React Testing Library', () => {
 
     it('should render Persistent Drawer with unauthenticated status', () => {
         const { container } = renderComponent();
-        expect(container).toBeInTheDocument();
-        expect(screen.getByTestId('LanguageIcon')).toBeInTheDocument();
+        expect(container).toHaveTextContent('Main Content');
     });
 
     it('should render Persistent Drawer with mock user and clicking on menuIcon should bring up the side menu', async () => {
