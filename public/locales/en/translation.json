@@ -17,8 +17,8 @@
             "message": "Click save to update the name of your exercise or cancel to discard your changes."
         },
         "editWorkoutExerciseSettings": {
-            "title": "Edit exercise ({{exerciseName}}) settings for workout ({{workoutName}})",
-            "message": "Click save to update the exercise ({{exerciseName}}) settings for this workout ({{workoutName}}) or cancel to discard your changes."
+            "title": "Edit {{workoutName}} - {{exerciseName}} settings",
+            "message": "Click save to update the settings for {{workoutName}} - {{exerciseName}} or cancel to discard your changes."
         }
     },
     "global": {

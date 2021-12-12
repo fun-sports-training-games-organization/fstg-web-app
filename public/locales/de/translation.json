@@ -17,8 +17,8 @@
             "message": "Klicken Sie auf Speichern, um den Namen Ihrer Übung zu aktualisieren, oder auf Abbrechen, um Ihre Änderungen zu verwerfen."
         },
         "editWorkoutExerciseSettings": {
-            "title": "Einstellungen der Übung ({{exerciseName}}) für das Workout ({{workoutName}}) bearbeiten",
-            "message": "Klicken Sie auf Speichern, um die Einstellungen der Übung ({{exerciseName}}) für dieses Workout ({{workoutName}}) zu aktualisieren, oder auf Abbrechen, um Ihre Änderungen zu verwerfen."
+            "title": "{{workoutName}} - {{exerciseName}} Einstellungen bearbeiten",
+            "message": "Klicken Sie auf Speichern, um die {{workoutName}} - {{exerciseName}} Einstellungen zu aktualisieren, oder auf Abbrechen, um Ihre Änderungen zu verwerfen."
         }
     },
     "global": {
