@@ -15,7 +15,6 @@ type Props = {
 };
 
 const CreateEditExerciseForm = ({ entity, setEntity, inWorkout = false }: Props): JSX.Element => {
-    console.log({ inWorkout });
     const { t } = useTranslation();
     const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
         setEntity({ ...entity, [event.target.name]: event.target.value });
@@ -23,6 +22,21 @@ const CreateEditExerciseForm = ({ entity, setEntity, inWorkout = false }: Props)
 
     const onCheckboxChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, checked?: boolean): void => {
         setEntity({ ...entity, [event.target.name]: checked });
+    };
+
+    const getAmountValueInSeconds = (date: unknown): number => {
+        const dateValue = (date as Date).valueOf();
+        const d = new Date();
+        d.setMinutes(0, 0, 0);
+        return Math.round((dateValue < 86400000 ? dateValue : dateValue - d.valueOf()) / 1000);
+    };
+
+    const getDateFromSeconds = (seconds: number): Date => {
+        const date = new Date();
+        const minutes = seconds < 60 ? 0 : Math.floor(seconds / 60);
+        const displaySeconds = seconds < 60 ? seconds : seconds % 60;
+        date.setMinutes(minutes, displaySeconds, 0);
+        return date;
     };
 
     return (
@@ -53,8 +67,12 @@ const CreateEditExerciseForm = ({ entity, setEntity, inWorkout = false }: Props)
                 ) : null}
 
                 <FormControl component="fieldset">
-                    <FormLabel component="legend">Default Amount Type</FormLabel>
-                    <RadioGroup row aria-label="defaultAmountType" name="row-radio-buttons-group">
+                    <FormLabel component="legend">{inWorkout ? '' : 'Default '}Amount Type</FormLabel>
+                    <RadioGroup
+                        row
+                        aria-label={inWorkout ? 'amountType' : 'defaultAmountType '}
+                        name="row-radio-buttons-group"
+                    >
                         <FormControlLabel
                             value="COUNT_BASED"
                             control={
@@ -81,10 +99,10 @@ const CreateEditExerciseForm = ({ entity, setEntity, inWorkout = false }: Props)
                 </FormControl>
                 {entity.amountType === 'TIME_BASED' ? (
                     <TimeField
-                        label={'Default Time'}
-                        value={entity.amountValue}
-                        onChange={(date) => {
-                            setEntity({ ...entity, amountValue: date });
+                        label={`${inWorkout ? '' : 'Default '}Time`}
+                        value={getDateFromSeconds(entity.amountValue)}
+                        onChange={(date: unknown) => {
+                            setEntity({ ...entity, amountValue: getAmountValueInSeconds(date) });
                         }}
                     />
                 ) : (
@@ -96,16 +114,20 @@ const CreateEditExerciseForm = ({ entity, setEntity, inWorkout = false }: Props)
                     />
                 )}
                 <LabeledCheckbox
-                    checked={entity.recordResultsByDefault}
+                    checked={inWorkout ? entity.recordResults : entity.recordResultsByDefault}
                     onChange={onCheckboxChange}
-                    name={'recordResultsByDefault'}
-                    label={'Record Results By Default'}
+                    name={inWorkout ? 'recordResults' : 'recordResultsByDefault'}
+                    label={inWorkout ? 'Record Results' : 'Record Results By Default'}
                 />
-                {entity.recordResultsByDefault && (
+                {(inWorkout ? entity.recordResults : entity.recordResultsByDefault) && (
                     <>
                         <FormControl component="fieldset">
-                            <FormLabel component="legend">Default Result Type</FormLabel>
-                            <RadioGroup row aria-label="defaultAmountType" name="row-radio-buttons-group">
+                            <FormLabel component="legend">{inWorkout ? '' : 'Default '}Result Type</FormLabel>
+                            <RadioGroup
+                                row
+                                aria-label={inWorkout ? 'amountType' : 'defaultAmountType '}
+                                name="row-radio-buttons-group"
+                            >
                                 <FormControlLabel
                                     value="COUNT_BASED"
                                     control={
@@ -132,18 +154,18 @@ const CreateEditExerciseForm = ({ entity, setEntity, inWorkout = false }: Props)
                             </RadioGroup>
                         </FormControl>
                         <LabeledCheckbox
-                            checked={entity.useDefaultResults}
-                            name={'useDefaultResults'}
+                            checked={entity.useDefaultResult}
+                            name={'useDefaultResult'}
                             onChange={onCheckboxChange}
-                            label={'Use Default Results'}
+                            label={'Use Default Result'}
                         />
-                        {entity.useDefaultResults &&
+                        {entity.useDefaultResult &&
                             (entity.resultType === 'TIME_BASED' ? (
                                 <TimeField
-                                    label={'Default Results'}
-                                    value={entity.resultValue}
-                                    onChange={(date) => {
-                                        setEntity({ ...entity, resultValue: date });
+                                    label={'Default Result'}
+                                    value={getDateFromSeconds(entity.resultValue)}
+                                    onChange={(date: unknown) => {
+                                        setEntity({ ...entity, resultValue: getAmountValueInSeconds(date) });
                                     }}
                                 />
                             ) : (

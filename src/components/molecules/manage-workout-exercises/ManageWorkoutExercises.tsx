@@ -92,8 +92,9 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: P
                     setWorkout({
                         ...workout,
                         exercises: [
-                            ...workout.exercises.filter((exercise) => exercise.id !== selectedExercise.id),
-                            selectedExercise
+                            ...workout.exercises.map((exercise) =>
+                                exercise.id === selectedExercise.id ? selectedExercise : exercise
+                            )
                         ]
                     });
                 }}
