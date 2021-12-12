@@ -54,7 +54,6 @@ describe('<PersistentDrawer> component test with React Testing Library', () => {
         props.user = mockUser;
         const { container } = renderComponent();
         expect(container).toBeInTheDocument();
-        expect(screen.queryByTestId('LanguageIcon')).not.toBeInTheDocument();
         const menuIcon = await screen.findByTestId('MenuIcon');
         expect(menuIcon).toBeInTheDocument();
         menuIcon && userEvent.click(menuIcon);
@@ -73,7 +72,6 @@ describe('<PersistentDrawer> component test with React Testing Library', () => {
         props.user = mockUser;
         const { container } = renderComponent();
         expect(container).toBeInTheDocument();
-        expect(screen.queryByTestId('LanguageIcon')).not.toBeInTheDocument();
         const menuIcon = await screen.findByTestId('MenuIcon');
         expect(menuIcon).toBeInTheDocument();
         menuIcon && userEvent.click(menuIcon);
