@@ -10,5 +10,5 @@ export interface Exercise extends IdName, CreateAndModifyInfo {
     resultType?: RecordType;
     resultValue?: number | string;
     recordResultsByDefault?: boolean;
-    useDefaultResults?: boolean;
+    useDefaultResult?: boolean;
 }

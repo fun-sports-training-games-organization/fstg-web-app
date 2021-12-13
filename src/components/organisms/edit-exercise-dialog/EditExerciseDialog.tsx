@@ -25,7 +25,7 @@ const emptyExercise: Exercise = {
     resultType: 'COUNT_BASED',
     resultValue: 0,
     recordResultsByDefault: false,
-    useDefaultResults: false
+    useDefaultResult: false
 };
 
 const EditExerciseDialog = ({

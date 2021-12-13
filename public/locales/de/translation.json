@@ -15,6 +15,10 @@
         "editExercise": {
             "title": "Übung bearbeiten",
             "message": "Klicken Sie auf Speichern, um den Namen Ihrer Übung zu aktualisieren, oder auf Abbrechen, um Ihre Änderungen zu verwerfen."
+        },
+        "editWorkoutExerciseSettings": {
+            "title": "{{workoutName}} - {{exerciseName}} Einstellungen bearbeiten",
+            "message": "Klicken Sie auf Speichern, um die {{workoutName}} - {{exerciseName}} Einstellungen zu aktualisieren, oder auf Abbrechen, um Ihre Änderungen zu verwerfen."
         }
     },
     "global": {
@@ -100,13 +104,17 @@
                 "name": "Name der Übung",
                 "imgUrl": "Bild-/GIF-URL",
                 "defaultAmountType": "Standardbetragstyp",
+                "amountType": "Betragstyp",
                 "countBased": "Count-based",
                 "timeBased": "zeitbasiert",
                 "defaultTime": "Standardzeit",
+                "time": "Zeit",
                 "recordResultsByDefault": "Ergebnisse standardmäßig aufzeichnen",
+                "recordResults": "Ergebnisse aufzeichnen",
                 "defaultResultType": "Standardergebnistyp",
-                "useDefaultResults": "Standardergebnisse verwenden",
-                "defaultResults": "Standardergebnisse"
+                "resultType": "Ergebnistyp",
+                "useDefaultResult": "Standardergebnis verwenden",
+                "defaultResult": "Standardergebnis"
             }
         }
     }
