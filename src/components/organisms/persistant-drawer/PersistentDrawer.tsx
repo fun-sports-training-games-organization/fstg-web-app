@@ -123,7 +123,7 @@ const PersistentDrawer: FC<PersistentDrawerProps> = ({
                 {user ? (
                     <Toolbar>
                         <Typography color={'white'} variant="h6" noWrap sx={{ flexGrow: 1 }} component="div">
-                            {/*{appBarText}*/}
+                            {/* {appBarText} */}
                             Fun Sports Training Games
                         </Typography>
                         <IconButton

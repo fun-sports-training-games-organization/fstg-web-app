@@ -1,16 +1,19 @@
-import { ChangeEvent, Dispatch, SetStateAction } from 'react';
+import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
 import { IconButton, TextField } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Workout } from '../../../model/workout';
 import { ExerciseWorkoutSettings } from '../../../model/exercise-workout-settings';
+import EditWorkoutExerciseSettingsDialog from '../../organisms/edit-workout-exercise-settings-dialog/EditWorkoutExerciseSettingsDialog';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
     parentIdPrefix: string;
     workout: Workout;
     setWorkout: Dispatch<SetStateAction<Workout>>;
+    save: () => void;
 };
 
-const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout }: Props): JSX.Element => {
+const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: Props): JSX.Element => {
     const idPrefix = `${parentIdPrefix}manage_exercise_list__`;
     const exerciseItemPrefix = `${idPrefix}item_`;
     const updateExerciseName = (
@@ -26,6 +29,18 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout }: Props):
             return exercise;
         });
     };
+    const { t } = useTranslation();
+
+    const emptyExerciseWorkoutSettings: ExerciseWorkoutSettings = {
+        name: '',
+        amountType: 'number',
+        recordResults: false,
+        resultType: 'number',
+        useDefaultResult: false
+    };
+
+    const [openDialog, setOpenDialog] = useState<boolean>(false);
+    const [selectedExercise, setSelectedExercise] = useState<ExerciseWorkoutSettings>(emptyExerciseWorkoutSettings);
 
     return (
         <>
@@ -41,7 +56,12 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout }: Props):
                         value={exercise.name}
                         InputProps={{
                             endAdornment: (
-                                <IconButton>
+                                <IconButton
+                                    onClick={() => {
+                                        setSelectedExercise(exercise);
+                                        setOpenDialog(true);
+                                    }}
+                                >
                                     <SettingsIcon />
                                 </IconButton>
                             )
@@ -55,6 +75,27 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout }: Props):
                     />
                 );
             })}
+            <EditWorkoutExerciseSettingsDialog
+                title={t('dialog.editWorkoutExerciseSettings.title', {
+                    exerciseName: selectedExercise.name,
+                    workoutName: workout.name
+                })}
+                message={t('dialog.editWorkoutExerciseSettings.message', {
+                    exerciseName: selectedExercise.name,
+                    workoutName: workout.name
+                })}
+                open={openDialog}
+                setOpen={setOpenDialog}
+                exercise={selectedExercise}
+                setExercise={(exercise: ExerciseWorkoutSettings) => {
+                    setSelectedExercise(exercise);
+                    setWorkout({
+                        ...workout,
+                        exercises: [...workout.exercises.map((e) => (e.id === selectedExercise.id ? exercise : e))]
+                    });
+                }}
+                save={save}
+            />
         </>
     );
 };

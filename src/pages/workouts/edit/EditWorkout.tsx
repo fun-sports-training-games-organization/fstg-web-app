@@ -67,27 +67,33 @@ const EditWorkout: FC = () => {
         }
     }, [firestore, workoutId]);
 
-    const handleUpdate = () => {
+    const handleUpdate = (shouldNavigate = true) => {
         firestore
             .collection('workouts')
             .doc(workout?.id)
             .update(prepareDataToSend(workout, firebase.auth().currentUser))
             .then(() => {
                 notification.updateSuccess(enqueueSnackbar, t, workout.name);
-                navigate.toManageWorkouts(history);
+
+                if (shouldNavigate) {
+                    navigate.toManageWorkouts(history);
+                }
             })
             .catch(() => {
                 notification.updateError(enqueueSnackbar, t, workout.name);
             });
     };
 
-    const handleCreate = () => {
+    const handleCreate = (shouldNavigate = true) => {
         firestore
             .collection('workouts')
             .add(prepareDataToSend(workout, firebase.auth().currentUser))
             .then(() => {
                 notification.createSuccess(enqueueSnackbar, t, workout.name);
-                navigate.toManageWorkouts(history);
+
+                if (shouldNavigate) {
+                    navigate.toManageWorkouts(history);
+                }
             })
             .catch(() => {
                 notification.createError(enqueueSnackbar, t, workout.name);
@@ -116,7 +122,12 @@ const EditWorkout: FC = () => {
                         setWorkout({ ...workout, name: event.target.value })
                     }
                 />
-                <WorkoutExercises parentIdPrefix={idPrefix} workout={workout} setWorkout={setWorkout} />
+                <WorkoutExercises
+                    parentIdPrefix={idPrefix}
+                    workout={workout}
+                    setWorkout={setWorkout}
+                    save={!workout.hasBeenCreated ? handleCreate : handleUpdate}
+                />
                 <AddButton onClick={addExerciseToWorkout} testId={`${idPrefix}add_exercise_button`} />
             </Stack>
             <Stack spacing={2} mt={5} ml={2} mr={2}>

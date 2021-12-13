@@ -15,6 +15,10 @@
         "editExercise": {
             "title": "Modifier l'exercice",
             "message": "Cliquez sur Enregistrer pour mettre à jour le nom de votre exercice ou sur annuler pour annuler vos modifications."
+        },
+        "editWorkoutExerciseSettings": {
+            "title": "Modifier les paramètres de {{workoutName}} - {{exerciseName}}",
+            "message": "Cliquez sur Enregistrer pour mettre à jour les paramètres de {{workoutName}} - {{exerciseName}} ou sur Annuler pour annuler vos modifications."
         }
     },
     "global": {
@@ -104,13 +108,17 @@
                 "name": "Nom de l'exercice",
                 "imgUrl": "URL de l'image/GIF",
                 "defaultAmountType": "Type de montant par défaut",
+                "amountType": "Type de montant",
                 "countBased": "Basé sur le nombre",
                 "timeBased": "Basé sur le temps",
                 "defaultTime": "Heure par défaut",
+                "time": "Heure",
                 "recordResultsByDefault": "Enregistrer les résultats par défaut",
+                "recordResults": "Enregistrer les résultats",
                 "defaultResultType": "Type de résultat par défaut",
-                "useDefaultResults": "Utiliser les résultats par défaut",
-                "defaultResults": "Résultats par défaut"
+                "resultType": "Type de résultat",
+                "useDefaultResult": "Utiliser le résultat par défaut",
+                "defaultResult": "Résultat par défaut"
             }
         },
         "button": {

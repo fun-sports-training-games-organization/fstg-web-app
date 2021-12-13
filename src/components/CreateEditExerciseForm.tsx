@@ -10,10 +10,11 @@ import LabeledCheckbox from './molecules/LabeledCheckbox';
 type Entity = FirestoreReducer.Entity<any>;
 type Props = {
     entity: Entity;
-    setEntity: Dispatch<SetStateAction<Entity>>;
+    setEntity: Dispatch<SetStateAction<Entity>> | ((entity: Entity) => void);
+    inWorkout?: boolean;
 };
 
-const CreateEditExerciseForm = ({ entity, setEntity }: Props): JSX.Element => {
+const CreateEditExerciseForm = ({ entity, setEntity, inWorkout = false }: Props): JSX.Element => {
     const { t } = useTranslation();
     const PREFIX = 'form.label.exercise';
     const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
@@ -27,28 +28,38 @@ const CreateEditExerciseForm = ({ entity, setEntity }: Props): JSX.Element => {
     return (
         <form>
             <Stack spacing={2} mt={2}>
-                <TextField
-                    id={`exercise.name`}
-                    label={t(`${PREFIX}.name`)}
-                    type={'text'}
-                    value={entity.name}
-                    fullWidth
-                    onChange={handleChange}
-                    name={'name'}
-                />
-                <TextField
-                    id={`${PREFIX}.imgUrl`}
-                    label={t(`${PREFIX}.defaultAmountType`)}
-                    type={'text'}
-                    value={entity.imageOrGifUrl}
-                    fullWidth
-                    onChange={handleChange}
-                    name={'imageOrGifUrl'}
-                />
+                {!inWorkout ? (
+                    <>
+                        <TextField
+                            id={`exercise.name`}
+                            label={t(`${PREFIX}.name`)}
+                            type={'text'}
+                            value={entity.name}
+                            fullWidth
+                            onChange={handleChange}
+                            name={'name'}
+                        />
+                        <TextField
+                            id={`${PREFIX}.imgUrl`}
+                            label={t(`${PREFIX}.defaultAmountType`)}
+                            type={'text'}
+                            value={entity.imageOrGifUrl}
+                            fullWidth
+                            onChange={handleChange}
+                            name={'imageOrGifUrl'}
+                        />
+                    </>
+                ) : null}
 
                 <FormControl component="fieldset">
-                    <FormLabel component="legend">{t(`${PREFIX}.defaultAmountType`)}</FormLabel>
-                    <RadioGroup row aria-label="defaultAmountType" name="row-radio-buttons-group">
+                    <FormLabel component="legend">
+                        {t(`${PREFIX}.${inWorkout ? 'amountType' : 'defaultAmountType'}`)}
+                    </FormLabel>
+                    <RadioGroup
+                        row
+                        aria-label={inWorkout ? 'amountType' : 'defaultAmountType'}
+                        name="row-radio-buttons-group"
+                    >
                         <FormControlLabel
                             value="COUNT_BASED"
                             control={
@@ -75,7 +86,7 @@ const CreateEditExerciseForm = ({ entity, setEntity }: Props): JSX.Element => {
                 </FormControl>
                 {entity.amountType === 'TIME_BASED' ? (
                     <TimeField
-                        label={`${PREFIX}.defaultTime`}
+                        label={t(`${PREFIX}.${inWorkout ? 'time' : 'defaultTime'}`)}
                         value={entity.amountValue}
                         setValue={(seconds: number) => {
                             setEntity({ ...entity, amountValue: seconds });
@@ -90,16 +101,22 @@ const CreateEditExerciseForm = ({ entity, setEntity }: Props): JSX.Element => {
                     />
                 )}
                 <LabeledCheckbox
-                    checked={entity.recordResultsByDefault}
+                    checked={inWorkout ? entity.recordResults : entity.recordResultsByDefault}
                     onChange={onCheckboxChange}
-                    name={'recordResultsByDefault'}
-                    label={t(`${PREFIX}.recordResultsByDefault`)}
+                    name={inWorkout ? 'recordResults' : 'recordResultsByDefault'}
+                    label={t(`${PREFIX}.${inWorkout ? 'recordResults' : 'recordResultsByDefault'}`)}
                 />
-                {entity.recordResultsByDefault && (
+                {(inWorkout ? entity.recordResults : entity.recordResultsByDefault) && (
                     <>
                         <FormControl component="fieldset">
-                            <FormLabel component="legend">{t(`${PREFIX}.defaultResultType`)}</FormLabel>
-                            <RadioGroup row aria-label="defaultAmountType" name="row-radio-buttons-group">
+                            <FormLabel component="legend">
+                                {t(`${PREFIX}.${inWorkout ? 'resultType' : 'defaultResultType'}`)}
+                            </FormLabel>
+                            <RadioGroup
+                                row
+                                aria-label={inWorkout ? 'resultType' : 'defaultResultType'}
+                                name="row-radio-buttons-group"
+                            >
                                 <FormControlLabel
                                     value="COUNT_BASED"
                                     control={
@@ -126,15 +143,15 @@ const CreateEditExerciseForm = ({ entity, setEntity }: Props): JSX.Element => {
                             </RadioGroup>
                         </FormControl>
                         <LabeledCheckbox
-                            checked={entity.useDefaultResults}
-                            name={'useDefaultResults'}
+                            checked={entity.useDefaultResult}
+                            name={'useDefaultResult'}
                             onChange={onCheckboxChange}
-                            label={t(`${PREFIX}.useDefaultResults`)}
+                            label={t(`${PREFIX}.useDefaultResult`)}
                         />
-                        {entity.useDefaultResults &&
+                        {entity.useDefaultResult &&
                             (entity.resultType === 'TIME_BASED' ? (
                                 <TimeField
-                                    label={t(`${PREFIX}.defaultResults`)}
+                                    label={t(`${PREFIX}.defaultResult`)}
                                     value={entity.resultValue}
                                     setValue={(seconds: number) => {
                                         setEntity({ ...entity, resultValue: seconds });

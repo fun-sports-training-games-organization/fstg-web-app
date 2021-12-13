@@ -15,6 +15,10 @@
         "editExercise": {
             "title": "Edit Exercise",
             "message": "Click save to update the name of your exercise or cancel to discard your changes."
+        },
+        "editWorkoutExerciseSettings": {
+            "title": "Edit {{workoutName}} - {{exerciseName}} settings",
+            "message": "Click save to update the settings for {{workoutName}} - {{exerciseName}} or cancel to discard your changes."
         }
     },
     "global": {
@@ -104,13 +108,17 @@
                 "name": "Exercise Name",
                 "imgUrl": "Image/GIF URL",
                 "defaultAmountType": "Default Amount Type",
+                "amountType": "Amount Type",
                 "countBased": "Count-based",
                 "timeBased": "Time-based",
                 "defaultTime": "Default Time",
+                "time": "Time",
                 "recordResultsByDefault": "Record Results By Default",
+                "recordResults": "Record Results",
                 "defaultResultType": "Default Result Type",
-                "useDefaultResults": "Use Default Results",
-                "defaultResults": "Default Results"
+                "resultType": "Result Type",
+                "useDefaultResult": "Use Default Result",
+                "defaultResult": "Default Result"
             }
         },
         "button": {
