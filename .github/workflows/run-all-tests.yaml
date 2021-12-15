@@ -15,7 +15,7 @@ jobs:
             - name: Setup the code
               run: npm install
             - name: Test the code
-              run: npm test
+              run: npm run test
 
     e2e-tests:
         runs-on: ubuntu-latest
@@ -28,8 +28,7 @@ jobs:
               run: npm install
             # Install NPM dependencies, cache them correctly
             # and run all Cypress tests
-            - name: Cypress run
-              uses: cypress-io/github-action@v2
+            - name: npm run e2e
               env:
                   REACT_APP_API_KEY: ${{secrets.FSTG_EDB94_REACT_APP_API_KEY}}
                   REACT_APP_AUTH_DOMAIN: ${{secrets.FSTG_EDB94_REACT_APP_AUTH_DOMAIN}}
@@ -40,7 +39,7 @@ jobs:
                   REACT_APP_MEASUREMENT_ID: ${{secrets.FSTG_EDB94_REACT_APP_MEASUREMENT_ID}}
               with:
                   spec: cypress/integration/fstg/**/*spec.ts
-                  start: npm start
+                  start: npm run start
                   browser: chrome
                   headless: true
                   wait-on: 'http://localhost:3000'
