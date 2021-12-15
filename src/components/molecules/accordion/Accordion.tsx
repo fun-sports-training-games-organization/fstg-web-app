@@ -51,7 +51,11 @@ const Accordion: FC<AccordionProps> = (props) => {
                             <Typography sx={{ marginLeft: '2rem' }}>{accordion.title}</Typography>
 
                             {accordion.subtitle ? (
-                                <Typography sx={{ color: 'text.secondary' }}>{accordion.subtitle}</Typography>
+                                typeof accordion.subtitle === 'string' ? (
+                                    <Typography sx={{ color: 'text.secondary' }}>{accordion.subtitle}</Typography>
+                                ) : (
+                                    accordion.subtitle
+                                )
                             ) : null}
                             {accordion.actionsButton ? (
                                 <Typography sx={{ color: 'text.secondary' }}>{accordion.actionsButton}</Typography>

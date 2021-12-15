@@ -82,6 +82,7 @@ const PersistentDrawer: FC<PersistentDrawerProps> = ({
 }: PersistentDrawerProps) => {
     const history = useHistory();
     const [open, setOpen] = useState(false);
+    // eslint-disable-next-line
     const [appBarText, setAppBarText] = useState<string>();
 
     const handleDrawerOpen = () => {

@@ -13,6 +13,7 @@ import Accordion from '../../../components/molecules/accordion/Accordion';
 import { AccordionProp } from '../../../components/molecules/accordion/Accordion.types';
 import { ExerciseWorkoutSettings } from '../../../model/exercise-workout-settings';
 import MenuIcon from '../../../components/atoms/menu-icon/MenuIcon';
+import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 
 const ManageWorkouts: FC = () => {
     const pageName = 'manage_workouts';
@@ -94,6 +95,14 @@ const ManageWorkouts: FC = () => {
 
         return {
             title: workout.name,
+            subtitle: (
+                <Stack direction="row" alignItems="end" spacing={1} display={{ xs: 'none', sm: 'flex' }}>
+                    <Typography key={workout.id} id={`${exerciseItemPrefix}${index}`}>
+                        {workout.exercises.length}
+                    </Typography>
+                    <FitnessCenterIcon></FitnessCenterIcon>
+                </Stack>
+            ),
             actionsButton: getActionsButton(),
             content: getContent()
         };
