@@ -1,12 +1,11 @@
 import { FC, useEffect, useState } from 'react';
-import { Grid, IconButton, List, MenuItem, MenuList, Stack, Typography } from '@mui/material';
+import { IconButton, MenuItem, MenuList, Stack, Typography } from '@mui/material';
 import { useFirestore } from 'react-redux-firebase';
 import { Delete, Edit } from '@mui/icons-material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useHistory } from 'react-router-dom';
 import DeleteConfirmationDialog from '../../../components/molecules/delete-confirmation-dialog/DeleteConfirmationDialog';
 import PageTitleAdd from '../../../components/molecules/page-title-add/PageTitleAdd';
-// import WorkoutExercises from '../../../components/organisms/workout-exercises/WorkoutExercises';
 import { Workout } from '../../../model/workout';
 import { getPageIdPrefix } from '../../../util/id-util';
 import * as navigate from '../../../util/navigation-util';
@@ -41,8 +40,8 @@ const ManageWorkouts: FC = () => {
         });
     }, [firestore]);
 
-    const getAccordionProp = (workout: Workout, exerciseItemPrefix: string, index: number): AccordionProp[] => {
-        const getExerciseItem = (exercise: ExerciseWorkoutSettings) => {
+    const getAccordionProp = (workout: Workout, exerciseItemPrefix: string, index: number): AccordionProp => {
+        const getExerciseItem = (exercise: ExerciseWorkoutSettings): JSX.Element => {
             return (
                 <Typography
                     key={exercise.id}
@@ -56,9 +55,9 @@ const ManageWorkouts: FC = () => {
             );
         };
 
-        const getAccordionContent = workout.exercises.map((exercise) => getExerciseItem(exercise));
+        const getContent = (): JSX.Element[] => workout.exercises.map((exercise) => getExerciseItem(exercise));
 
-        const getActionsButton = () => {
+        const getActionsButton = (): JSX.Element => {
             return (
                 <MenuIcon icon={<MoreVertIcon style={{ color: 'black' }} />}>
                     <MenuList>
@@ -93,13 +92,11 @@ const ManageWorkouts: FC = () => {
             );
         };
 
-        return [
-            {
-                title: workout.name,
-                actionsButton: getActionsButton(),
-                content: getAccordionContent
-            }
-        ];
+        return {
+            title: workout.name,
+            actionsButton: getActionsButton(),
+            content: getContent()
+        };
     };
 
     return (
@@ -110,22 +107,9 @@ const ManageWorkouts: FC = () => {
                 idPrefix={idPrefix}
             ></PageTitleAdd>
             <Stack ml={2} mr={2} mt={3} mb={3}>
-                <List>
-                    {workouts.map((workout: Workout, index: number) => {
-                        return (
-                            <Grid container key={workout.id} display={'flex'} flexDirection={'row'}>
-                                <Grid item xs={11}>
-                                    {/* <ListItem key={workout.id}>{workout.name}</ListItem>
-                                    <WorkoutExercises parentIdPrefix={idPrefix} workout={workout} /> */}
-                                    <Accordion
-                                        accordions={getAccordionProp(workout, exerciseItemPrefix, index)}
-                                    ></Accordion>
-                                </Grid>
-                                <Grid item xs={1}></Grid>
-                            </Grid>
-                        );
-                    })}
-                </List>
+                <Accordion
+                    accordions={workouts.map((workout, index) => getAccordionProp(workout, exerciseItemPrefix, index))}
+                ></Accordion>
                 <DeleteConfirmationDialog
                     openDeleteConfirmationDialog={openDeleteConfirmationDialog}
                     itemToDelete={workoutToDelete}
