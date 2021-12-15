@@ -18,7 +18,7 @@ jobs:
               run: npm test
 
     e2e-tests:
-        runs-on: ubuntu-20.04
+        runs-on: ubuntu-latest
         steps:
             - name: Checkout
               uses: actions/checkout@v2
