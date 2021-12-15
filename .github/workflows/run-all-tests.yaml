@@ -36,7 +36,8 @@ jobs:
                   REACT_APP_MEASUREMENT_ID: ${{secrets.FSTG_EDB94_REACT_APP_MEASUREMENT_ID}}
               with:
                   spec: cypress/integration/fstg/**/*spec.ts
-                  start: npm start
+                  start: npm run start
                   browser: chrome
                   headless: true
-                  wait-on: 'http://localhost:3000'
+                  wait-on: 'http://localhost:3000/login'
+                  wait-on-timeout: 240
