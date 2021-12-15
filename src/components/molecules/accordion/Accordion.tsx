@@ -44,13 +44,18 @@ const Accordion: FC<AccordionProps> = (props) => {
                             aria-controls={`panel${tabNumber}bh-content`}
                             // id={`panel${tabNumber}bh-header`}
                         >
-                            <Typography sx={{ width: '33%', flexShrink: 0, marginLeft: '2rem' }}>
+                            <Typography
+                                sx={{ width: accordion.subtitle ? '33%' : '100%', flexShrink: 0, marginLeft: '2rem' }}
+                            >
                                 {accordion.title}
                             </Typography>
-                            <Typography sx={{ color: 'text.secondary' }}>{accordion.subtitle}</Typography>
+
+                            {accordion.subtitle ? (
+                                <Typography sx={{ color: 'text.secondary' }}>{accordion.subtitle}</Typography>
+                            ) : null}
                         </AccordionSummary>
-                        <AccordionDetails sx={{ backgroundColor: 'white' }}>
-                            <Typography sx={{ marginLeft: '4rem', lineHeight: 2.2 }}>{accordion.content}</Typography>
+                        <AccordionDetails sx={{ backgroundColor: 'white', paddingTop: 0 }}>
+                            <Typography sx={{ marginLeft: '4rem' }}>{accordion.content}</Typography>
                         </AccordionDetails>
                     </MUIAccordion>
                 );

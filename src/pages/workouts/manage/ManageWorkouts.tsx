@@ -44,7 +44,13 @@ const ManageWorkouts: FC = () => {
     const getAccordionProp = (workout: Workout, exerciseItemPrefix: string, index: number): AccordionProp[] => {
         const getExerciseItem = (exercise: ExerciseWorkoutSettings) => {
             return (
-                <Typography key={exercise.id} id={`${exerciseItemPrefix}${index}`} align="left" variant="body2">
+                <Typography
+                    key={exercise.id}
+                    id={`${exerciseItemPrefix}${index}`}
+                    align="left"
+                    variant="body2"
+                    sx={{ lineHeight: 2.2 }}
+                >
                     {exercise.name}
                 </Typography>
             );
