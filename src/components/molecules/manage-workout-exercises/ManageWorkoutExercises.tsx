@@ -33,9 +33,9 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: P
 
     const emptyExerciseWorkoutSettings: ExerciseWorkoutSettings = {
         name: '',
-        amountType: 'number',
+        amountType: 'COUNT_BASED',
         recordResults: false,
-        resultType: 'number',
+        resultType: 'COUNT_BASED',
         useDefaultResult: false
     };
 

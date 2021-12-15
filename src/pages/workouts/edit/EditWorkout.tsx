@@ -30,9 +30,9 @@ const EditWorkout: FC = () => {
 
     const emptyExerciseWorkoutSettings: ExerciseWorkoutSettings = {
         name: '',
-        amountType: 'number',
+        amountType: 'COUNT_BASED',
         recordResults: false,
-        resultType: 'number',
+        resultType: 'COUNT_BASED',
         useDefaultResult: false
     };
     const getNewEmptyExerciseWorkoutSettings = (): ExerciseWorkoutSettings => {

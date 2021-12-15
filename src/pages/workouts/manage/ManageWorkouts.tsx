@@ -14,6 +14,9 @@ import { AccordionProp } from '../../../components/molecules/accordion/Accordion
 import { ExerciseWorkoutSettings } from '../../../model/exercise-workout-settings';
 import MenuIcon from '../../../components/atoms/menu-icon/MenuIcon';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
+import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
+import { Exercise } from '../../../model/exercise';
+import { addLeadingZero } from '../../../util/number-util';
 
 const ManageWorkouts: FC = () => {
     const pageName = 'manage_workouts';
@@ -42,7 +45,7 @@ const ManageWorkouts: FC = () => {
     }, [firestore]);
 
     const getAccordionProp = (workout: Workout, exerciseItemPrefix: string, index: number): AccordionProp => {
-        const getExerciseItem = (exercise: ExerciseWorkoutSettings): JSX.Element => {
+        const getExerciseItem = (exercise: ExerciseWorkoutSettings | Exercise): JSX.Element => {
             return (
                 <Typography
                     key={exercise.id}
@@ -93,16 +96,51 @@ const ManageWorkouts: FC = () => {
             );
         };
 
+        const getSubtitle = (): JSX.Element => {
+            const getFormattedTotalWorkoutTime = (): string => {
+                const getTotalWorkoutSeconds = (): number => {
+                    const getNumber = (val: string | number | undefined): number => {
+                        if (typeof val === 'number') {
+                            return val;
+                        } else if (typeof val === 'string') {
+                            return parseInt(val);
+                        }
+
+                        return 0;
+                    };
+
+                    return workout.exercises
+                        .map((exercise) =>
+                            exercise.amountType === 'TIME_BASED' ? getNumber((exercise as Exercise).amountValue) : 0
+                        )
+                        .reduce((a, b) => a + b);
+                };
+                const totalWorkoutSeconds = getTotalWorkoutSeconds();
+                const formattedWorkoutMinutes = addLeadingZero(Math.floor(totalWorkoutSeconds / 60));
+                const formattedWorkoutSeconds = addLeadingZero(totalWorkoutSeconds % 60);
+                return `${formattedWorkoutMinutes}:${formattedWorkoutSeconds}`;
+            };
+
+            return (
+                <>
+                    <Stack direction="row" alignItems="end" spacing={1} display={{ xs: 'none', sm: 'flex' }}>
+                        <Typography key={workout.id} id={`${exerciseItemPrefix}${index}`}>
+                            {workout.exercises.length}
+                        </Typography>
+                        <FitnessCenterIcon></FitnessCenterIcon>
+                    </Stack>
+                    <Stack direction="row" alignItems="end" spacing={1} display={{ xs: 'none', sm: 'flex' }}>
+                        <Typography key={workout.id} id={`${exerciseItemPrefix}${index}`}>
+                            {getFormattedTotalWorkoutTime()}
+                        </Typography>
+                        <QueryBuilderIcon></QueryBuilderIcon>
+                    </Stack>
+                </>
+            );
+        };
         return {
             title: workout.name,
-            subtitle: (
-                <Stack direction="row" alignItems="end" spacing={1} display={{ xs: 'none', sm: 'flex' }}>
-                    <Typography key={workout.id} id={`${exerciseItemPrefix}${index}`}>
-                        {workout.exercises.length}
-                    </Typography>
-                    <FitnessCenterIcon></FitnessCenterIcon>
-                </Stack>
-            ),
+            subtitle: getSubtitle(),
             actionsButton: getActionsButton(),
             content: getContent()
         };

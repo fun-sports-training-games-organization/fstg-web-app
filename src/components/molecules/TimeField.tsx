@@ -2,13 +2,13 @@ import React, { ChangeEvent, useState } from 'react';
 import { FC } from 'react';
 import TextField from '@mui/material/TextField';
 import { Divider, FormLabel, Stack } from '@mui/material';
+import { addLeadingZero } from '../../util/number-util';
 
 type OwnProps = {
     label?: string;
     value?: number;
     setValue: (seconds: number) => void;
 };
-const addLeadingZero = (val: number) => val.toString(10).padStart(2, '0');
 const TimePicker: FC<OwnProps> = ({ label, value, setValue }: OwnProps): JSX.Element => {
     const totalSeconds = value || 0;
     const hr = Math.floor(totalSeconds / 3600); // get hours - in case we need it some time...
