@@ -4,6 +4,7 @@ import { ReactNode } from 'react';
 export interface AccordionProp {
     title: string | ReactNode;
     subtitle?: string | ReactNode;
+    actionsButton?: string | ReactNode;
     content: string | ReactNode;
 }
 export interface CustomProps {

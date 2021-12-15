@@ -25,6 +25,10 @@ const Accordion: FC<AccordionProps> = (props) => {
         flexDirection: 'row-reverse',
         '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
             transform: 'rotate(90deg)'
+        },
+        '& .MuiAccordionSummary-content': {
+            justifyContent: 'space-between',
+            alignItems: 'center'
         }
     }));
 
@@ -44,14 +48,13 @@ const Accordion: FC<AccordionProps> = (props) => {
                             aria-controls={`panel${tabNumber}bh-content`}
                             // id={`panel${tabNumber}bh-header`}
                         >
-                            <Typography
-                                sx={{ width: accordion.subtitle ? '33%' : '100%', flexShrink: 0, marginLeft: '2rem' }}
-                            >
-                                {accordion.title}
-                            </Typography>
+                            <Typography sx={{ marginLeft: '2rem' }}>{accordion.title}</Typography>
 
                             {accordion.subtitle ? (
                                 <Typography sx={{ color: 'text.secondary' }}>{accordion.subtitle}</Typography>
+                            ) : null}
+                            {accordion.actionsButton ? (
+                                <Typography sx={{ color: 'text.secondary' }}>{accordion.actionsButton}</Typography>
                             ) : null}
                         </AccordionSummary>
                         <AccordionDetails sx={{ backgroundColor: 'white', paddingTop: 0 }}>

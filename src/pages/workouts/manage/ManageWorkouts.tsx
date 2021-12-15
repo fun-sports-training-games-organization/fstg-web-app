@@ -58,9 +58,45 @@ const ManageWorkouts: FC = () => {
 
         const getAccordionContent = workout.exercises.map((exercise) => getExerciseItem(exercise));
 
+        const getActionsButton = () => {
+            return (
+                <MenuIcon icon={<MoreVertIcon style={{ color: 'black' }} />}>
+                    <MenuList>
+                        <MenuItem
+                            key={`${idPrefix}edit_item_${index}`}
+                            onClick={() => navigate.toEditWorkout(history, workout.id)}
+                        >
+                            <IconButton
+                                data-testid={`${idPrefix}edit_item_${index}`}
+                                onClick={() => navigate.toEditWorkout(history, workout.id)}
+                            >
+                                <Edit htmlColor={'steelblue'} />
+                            </IconButton>
+                        </MenuItem>
+                        <MenuItem
+                            key={`${idPrefix}delete_item_${index}`}
+                            onClick={() => {
+                                handleDelete(workout);
+                            }}
+                        >
+                            <IconButton
+                                data-testid={`${idPrefix}delete_item_${index}`}
+                                onClick={() => {
+                                    handleDelete(workout);
+                                }}
+                            >
+                                <Delete htmlColor={'palevioletred'} />
+                            </IconButton>
+                        </MenuItem>
+                    </MenuList>
+                </MenuIcon>
+            );
+        };
+
         return [
             {
                 title: workout.name,
+                actionsButton: getActionsButton(),
                 content: getAccordionContent
             }
         ];
@@ -85,38 +121,7 @@ const ManageWorkouts: FC = () => {
                                         accordions={getAccordionProp(workout, exerciseItemPrefix, index)}
                                     ></Accordion>
                                 </Grid>
-                                <Grid item xs={1}>
-                                    <MenuIcon icon={<MoreVertIcon style={{ color: 'black' }} />}>
-                                        <MenuList>
-                                            <MenuItem
-                                                key={`${idPrefix}edit_item_${index}`}
-                                                onClick={() => navigate.toEditWorkout(history, workout.id)}
-                                            >
-                                                <IconButton
-                                                    data-testid={`${idPrefix}edit_item_${index}`}
-                                                    onClick={() => navigate.toEditWorkout(history, workout.id)}
-                                                >
-                                                    <Edit htmlColor={'steelblue'} />
-                                                </IconButton>
-                                            </MenuItem>
-                                            <MenuItem
-                                                key={`${idPrefix}delete_item_${index}`}
-                                                onClick={() => {
-                                                    handleDelete(workout);
-                                                }}
-                                            >
-                                                <IconButton
-                                                    data-testid={`${idPrefix}delete_item_${index}`}
-                                                    onClick={() => {
-                                                        handleDelete(workout);
-                                                    }}
-                                                >
-                                                    <Delete htmlColor={'palevioletred'} />
-                                                </IconButton>
-                                            </MenuItem>
-                                        </MenuList>
-                                    </MenuIcon>
-                                </Grid>
+                                <Grid item xs={1}></Grid>
                             </Grid>
                         );
                     })}
