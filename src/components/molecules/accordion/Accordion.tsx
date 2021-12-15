@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { Accordion as MUIAccordion } from '@mui/material';
+import { Accordion as MUIAccordion, styled } from '@mui/material';
 import AccordionDetails from '@mui/material/AccordionDetails';
-import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import { FC } from 'react';
 import { AccordionProps } from './Accordion.types';
+import MuiAccordionSummary from '@mui/material/AccordionSummary';
 
 const Accordion: FC<AccordionProps> = (props) => {
     const { accordions, ...rest } = props;
@@ -14,6 +14,19 @@ const Accordion: FC<AccordionProps> = (props) => {
     const handleChange = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
         setExpanded(isExpanded ? panel : false);
     };
+
+    const AccordionSummary = styled((props) => (
+        <MuiAccordionSummary
+            sx={{ backgroundColor: 'white' }}
+            expandIcon={<ArrowForwardIosSharpIcon sx={{ fontSize: '0.9rem' }} />}
+            {...props}
+        />
+    ))(() => ({
+        flexDirection: 'row-reverse',
+        '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
+            transform: 'rotate(90deg)'
+        }
+    }));
 
     return (
         <div>
@@ -28,16 +41,16 @@ const Accordion: FC<AccordionProps> = (props) => {
                         {...rest}
                     >
                         <AccordionSummary
-                            sx={{ backgroundColor: 'white' }}
-                            expandIcon={<ExpandMoreIcon />}
                             aria-controls={`panel${tabNumber}bh-content`}
-                            id={`panel${tabNumber}bh-header`}
+                            // id={`panel${tabNumber}bh-header`}
                         >
-                            <Typography sx={{ width: '33%', flexShrink: 0 }}>{accordion.title}</Typography>
+                            <Typography sx={{ width: '33%', flexShrink: 0, marginLeft: '2rem' }}>
+                                {accordion.title}
+                            </Typography>
                             <Typography sx={{ color: 'text.secondary' }}>{accordion.subtitle}</Typography>
                         </AccordionSummary>
                         <AccordionDetails sx={{ backgroundColor: 'white' }}>
-                            <Typography>{accordion.content}</Typography>
+                            <Typography sx={{ marginLeft: '4rem', lineHeight: 2.2 }}>{accordion.content}</Typography>
                         </AccordionDetails>
                     </MUIAccordion>
                 );
