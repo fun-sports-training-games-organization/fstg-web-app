@@ -15,10 +15,10 @@ jobs:
             - name: Setup the code
               run: npm install
             - name: Test the code
-              run: npm run test
+              run: npm test
 
     e2e-tests:
-        runs-on: ubuntu-latest
+        runs-on: ubuntu-20.04
         steps:
             - name: Checkout
               uses: actions/checkout@v2
@@ -28,8 +28,8 @@ jobs:
               run: npm install
             # Install NPM dependencies, cache them correctly
             # and run all Cypress tests
-            - name: Run E2E Tests
-              run: npm run e2e
+            - name: Cypress run
+              uses: cypress-io/github-action@v2
               env:
                   REACT_APP_API_KEY: ${{secrets.FSTG_EDB94_REACT_APP_API_KEY}}
                   REACT_APP_AUTH_DOMAIN: ${{secrets.FSTG_EDB94_REACT_APP_AUTH_DOMAIN}}
@@ -43,4 +43,5 @@ jobs:
                   start: npm run start
                   browser: chrome
                   headless: true
-                  wait-on: 'http://localhost:3000'
+                  wait-on: 'http://localhost:3000/login'
+                  wait-on-timeout: 240
