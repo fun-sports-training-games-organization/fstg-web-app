@@ -28,7 +28,8 @@ jobs:
               run: npm install
             # Install NPM dependencies, cache them correctly
             # and run all Cypress tests
-            - name: npm run e2e
+            - name: Run E2E Tests
+              run: npm run e2e
               env:
                   REACT_APP_API_KEY: ${{secrets.FSTG_EDB94_REACT_APP_API_KEY}}
                   REACT_APP_AUTH_DOMAIN: ${{secrets.FSTG_EDB94_REACT_APP_AUTH_DOMAIN}}
