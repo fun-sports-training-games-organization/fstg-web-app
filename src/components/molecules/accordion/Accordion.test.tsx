@@ -1,11 +1,16 @@
 import React from 'react';
-import { act, fireEvent, render } from '@testing-library/react';
+import { act, fireEvent, Matcher, render } from '@testing-library/react';
 
 import Accordion from './Accordion';
 import { AccordionProps } from './Accordion.types';
 import { wait } from '@testing-library/user-event/dist/utils';
 
 const expandIconTestId = 'ArrowForwardIosSharpIcon';
+// 1st tab number is 1
+const getAccordionPanelId = (tabNumber: number): string => `#panel${tabNumber}bh-header`;
+// 1st index is 0
+const getExpandIcon = (get: (text: Matcher) => HTMLElement[], index: number): HTMLElement =>
+    get(expandIconTestId)[index];
 
 describe('<Accordion> component test with React Testing Library', () => {
     let props: AccordionProps;
@@ -36,14 +41,14 @@ describe('<Accordion> component test with React Testing Library', () => {
         const { container, queryAllByTestId } = renderComponent();
         expect(container).toBeInTheDocument();
         await act(async () => {
-            fireEvent.click(queryAllByTestId(expandIconTestId)[0]);
+            fireEvent.click(getExpandIcon(queryAllByTestId, 0));
             await wait();
             // check that the accordion panel 1 is expanded
-            expect(container.querySelector('#panel1bh-header')).toHaveAttribute('aria-expanded', 'true');
-            fireEvent.click(queryAllByTestId(expandIconTestId)[0]);
+            expect(container.querySelector(getAccordionPanelId(1))).toHaveAttribute('aria-expanded', 'true');
+            fireEvent.click(getExpandIcon(queryAllByTestId, 0));
             await wait();
             // check that the accordion panel 1 is collapsed
-            expect(container.querySelector('#panel1bh-header')).toHaveAttribute('aria-expanded', 'false');
+            expect(container.querySelector(getAccordionPanelId(1))).toHaveAttribute('aria-expanded', 'false');
         });
     });
 });
