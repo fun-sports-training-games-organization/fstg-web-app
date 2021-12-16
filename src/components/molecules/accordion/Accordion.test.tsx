@@ -5,6 +5,8 @@ import Accordion from './Accordion';
 import { AccordionProps } from './Accordion.types';
 import { wait } from '@testing-library/user-event/dist/utils';
 
+const expandIconTestId = 'ArrowForwardIosSharpIcon';
+
 describe('<Accordion> component test with React Testing Library', () => {
     let props: AccordionProps;
 
@@ -34,11 +36,11 @@ describe('<Accordion> component test with React Testing Library', () => {
         const { container, queryAllByTestId } = renderComponent();
         expect(container).toBeInTheDocument();
         await act(async () => {
-            fireEvent.click(queryAllByTestId('ExpandMoreIcon')[0]);
+            fireEvent.click(queryAllByTestId(expandIconTestId)[0]);
             await wait();
             // check that the accordion panel 1 is expanded
             expect(container.querySelector('#panel1bh-header')).toHaveAttribute('aria-expanded', 'true');
-            fireEvent.click(queryAllByTestId('ExpandMoreIcon')[0]);
+            fireEvent.click(queryAllByTestId(expandIconTestId)[0]);
             await wait();
             // check that the accordion panel 1 is collapsed
             expect(container.querySelector('#panel1bh-header')).toHaveAttribute('aria-expanded', 'false');

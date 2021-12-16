@@ -15,7 +15,11 @@ const Accordion: FC<AccordionProps> = (props) => {
         setExpanded(isExpanded ? panel : false);
     };
 
-    const AccordionSummary = styled((props) => (
+    type Id = {
+        id: string;
+    };
+
+    const AccordionSummary: FC<Id> = styled((props) => (
         <MuiAccordionSummary
             sx={{ backgroundColor: 'white' }}
             expandIcon={<ArrowForwardIosSharpIcon sx={{ fontSize: '0.9rem' }} />}
@@ -46,7 +50,7 @@ const Accordion: FC<AccordionProps> = (props) => {
                     >
                         <AccordionSummary
                             aria-controls={`panel${tabNumber}bh-content`}
-                            // id={`panel${tabNumber}bh-header`}
+                            id={`panel${tabNumber}bh-header`}
                         >
                             <Typography sx={{ marginLeft: '2rem' }}>{accordion.title}</Typography>
 
