@@ -6,16 +6,15 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useHistory } from 'react-router-dom';
 import DeleteConfirmationDialog from '../../../components/molecules/delete-confirmation-dialog/DeleteConfirmationDialog';
 import PageTitleAdd from '../../../components/molecules/page-title-add/PageTitleAdd';
-import { Workout } from '../../../model/workout';
+import { Workout } from '../../../model/Workout.model';
 import { getPageIdPrefix } from '../../../util/id-util';
 import * as navigate from '../../../util/navigation-util';
 import Accordion from '../../../components/molecules/accordion/Accordion';
 import { AccordionProp } from '../../../components/molecules/accordion/Accordion.types';
-import { ExerciseWorkoutSettings } from '../../../model/exercise-workout-settings';
 import MenuIcon from '../../../components/atoms/menu-icon/MenuIcon';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
-import { Exercise } from '../../../model/exercise';
+import { Exercise, ExerciseWorkoutSettings } from '../../../model/Exercise.model';
 import { addLeadingZero } from '../../../util/number-util';
 
 const ManageWorkouts: FC = () => {

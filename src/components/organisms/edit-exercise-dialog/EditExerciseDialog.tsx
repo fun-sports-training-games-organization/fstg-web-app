@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { useFirebase, useFirestore } from 'react-redux-firebase';
 import { useTranslation } from 'react-i18next';
-import { Exercise } from '../../../model/exercise';
+import { Exercise } from '../../../model/Exercise.model';
 import { useSnackbar } from 'notistack';
 import { prepareDataToSend } from '../../../util/data-prep-util';
 import CreateEditExerciseForm from '../../CreateEditExerciseForm';
@@ -24,7 +24,7 @@ const emptyExercise: Exercise = {
     amountValue: 0,
     resultType: 'COUNT_BASED',
     resultValue: 0,
-    recordResultsByDefault: false,
+    recordResults: false,
     useDefaultResult: false
 };
 

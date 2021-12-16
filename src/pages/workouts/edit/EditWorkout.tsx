@@ -11,11 +11,11 @@ import AddButton from '../../../components/atoms/add-button/AddButton';
 import PageTitle from '../../../components/atoms/page-title/PageTitle';
 import SubmitButton from '../../../components/atoms/submit-button/SubmitButton';
 import WorkoutExercises from '../../../components/organisms/workout-exercises/WorkoutExercises';
-import { Id } from '../../../model/basics';
-import { ExerciseWorkoutSettings } from '../../../model/exercise-workout-settings';
-import { Workout } from '../../../model/workout';
+import { Id } from '../../../model/Basics.model';
+import { Workout } from '../../../model/Workout.model';
 import { prepareDataToSend } from '../../../util/data-prep-util';
 import { getPageIdPrefix } from '../../../util/id-util';
+import { ExerciseWorkoutSettings } from '../../../model/Exercise.model';
 
 const EditWorkout: FC = () => {
     const pageName = 'edit_workout';

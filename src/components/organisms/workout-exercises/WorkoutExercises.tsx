@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
-import { Workout } from '../../../model/workout';
+import { Workout } from '../../../model/Workout.model';
 import ManageWorkoutExercises from '../../molecules/manage-workout-exercises/ManageWorkoutExercises';
 import DisplayWorkoutExercises from '../../molecules/display-workout-exercises/DisplayWorkoutExercises';
 import { List } from '@mui/material';

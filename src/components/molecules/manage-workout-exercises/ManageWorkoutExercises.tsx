@@ -1,10 +1,10 @@
 import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
 import { IconButton, TextField } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { Workout } from '../../../model/workout';
-import { ExerciseWorkoutSettings } from '../../../model/exercise-workout-settings';
+import { Workout } from '../../../model/Workout.model';
 import EditWorkoutExerciseSettingsDialog from '../../organisms/edit-workout-exercise-settings-dialog/EditWorkoutExerciseSettingsDialog';
 import { useTranslation } from 'react-i18next';
+import { ExerciseWorkoutSettings } from '../../../model/Exercise.model';
 
 type Props = {
     parentIdPrefix: string;

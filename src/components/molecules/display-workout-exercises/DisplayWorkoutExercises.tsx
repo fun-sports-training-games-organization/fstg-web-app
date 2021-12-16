@@ -1,5 +1,5 @@
 import { Stack, Typography } from '@mui/material';
-import { Workout } from '../../../model/workout';
+import { Workout } from '../../../model/Workout.model';
 
 type Props = {
     parentIdPrefix: string;
