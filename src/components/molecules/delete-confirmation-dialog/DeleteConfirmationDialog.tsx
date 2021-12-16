@@ -1,25 +1,25 @@
 import { SyntheticEvent } from 'react';
-import { useFirestore } from 'react-redux-firebase';
 
 import ConfirmationDialog from '../../organisms/confirmation-dialog/ConfirmationDialog';
 import { useTranslation } from 'react-i18next';
 import { IdName } from '../../../model/basics';
+import useEntityManager, { EntityWithId } from '../../../hooks/useEntityManager';
 
 type Props = {
     openDeleteConfirmationDialog: boolean;
     itemToDelete: IdName | undefined;
-    collection: string;
+    entityName: string;
     closeDialog: () => void;
 };
 
 const DeleteConfirmationDialog = ({
     openDeleteConfirmationDialog,
     itemToDelete,
-    collection,
-    closeDialog
+    closeDialog,
+    entityName
 }: Props): JSX.Element => {
     const { t } = useTranslation();
-    const firestore = useFirestore();
+    const { deleteEntityById } = useEntityManager<EntityWithId<never>>(entityName);
 
     return (
         <ConfirmationDialog
@@ -30,7 +30,8 @@ const DeleteConfirmationDialog = ({
                 if (event.currentTarget.value === 'confirm') {
                     itemToDelete &&
                         itemToDelete.id &&
-                        (await firestore.collection(collection).doc(itemToDelete.id).delete());
+                        // (await new CRUDService('exercise', firestore).delete(itemToDelete.id));
+                        (await deleteEntityById(itemToDelete.id));
                 }
                 closeDialog();
             }}

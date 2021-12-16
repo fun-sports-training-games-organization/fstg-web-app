@@ -76,7 +76,7 @@ const ManageWorkouts: FC = () => {
                 <DeleteConfirmationDialog
                     openDeleteConfirmationDialog={openDeleteConfirmationDialog}
                     itemToDelete={workoutToDelete}
-                    collection="workouts"
+                    entityName="workouts"
                     closeDialog={() => setOpenDeleteConfirmationDialog(false)}
                 />
             </Stack>

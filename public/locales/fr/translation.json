@@ -96,6 +96,10 @@
     },
     "form": {
         "label": {
+            "login": {
+                "email": "E-mail",
+                "password": "Mot de passe"
+            },
             "registration": {
                 "username": "Nom d'utilisateur (facultatif)",
                 "firstName": "Prénom",

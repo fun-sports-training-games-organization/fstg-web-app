@@ -1,19 +1,19 @@
 import { Grid, IconButton, List, ListItem, Stack } from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
 import { FC, useEffect, useState } from 'react';
-import { useFirestore } from 'react-redux-firebase';
 import { Exercise } from '../../../model/exercise';
 import EditExerciseDialog from '../../../components/organisms/edit-exercise-dialog/EditExerciseDialog';
 import DeleteConfirmationDialog from '../../../components/molecules/delete-confirmation-dialog/DeleteConfirmationDialog';
 import { useTranslation } from 'react-i18next';
 import { getPageIdPrefix } from '../../../util/id-util';
 import PageTitleAdd from '../../../components/molecules/page-title-add/PageTitleAdd';
+import useEntityManager from '../../../hooks/useEntityManager';
 
 const ManageExercises: FC = (): JSX.Element => {
     const pageName = 'manage_exercises';
     const idPrefix = getPageIdPrefix(pageName);
     const { t } = useTranslation();
-    const firestore = useFirestore();
+    const { entities } = useEntityManager<Exercise>('exercises');
 
     const [exercises, setExercises] = useState<Exercise[]>([]);
     const [openDialog, setOpenDialog] = useState<boolean>(false);
@@ -27,14 +27,8 @@ const ManageExercises: FC = (): JSX.Element => {
     };
 
     useEffect(() => {
-        firestore.collection('exercises').onSnapshot((snapshot) => {
-            const exercises = snapshot.docs.map((doc) => {
-                const { id } = doc;
-                return { id, ...doc.data() };
-            });
-            setExercises(exercises as Exercise[]);
-        });
-    }, [firestore]);
+        setExercises(entities);
+    }, [entities]);
 
     const handleUpdate = (exercise: Exercise) => {
         setExercise(exercise);
@@ -85,7 +79,7 @@ const ManageExercises: FC = (): JSX.Element => {
                 <DeleteConfirmationDialog
                     openDeleteConfirmationDialog={openDeleteConfirmationDialog}
                     itemToDelete={exerciseToDelete}
-                    collection="exercises"
+                    entityName="exercises"
                     closeDialog={() => setOpenDeleteConfirmationDialog(false)}
                 />
             </Stack>

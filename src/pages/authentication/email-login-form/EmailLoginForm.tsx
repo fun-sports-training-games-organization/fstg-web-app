@@ -29,7 +29,8 @@ const EmailLoginForm: FC = () => {
                     autoFocus
                     fullWidth
                     id={'email-field'}
-                    label={t('common.email')}
+                    autoComplete={'email'}
+                    label={t('form.label.login.email')}
                     value={email}
                     required
                     onChange={(event: ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)}
@@ -37,8 +38,8 @@ const EmailLoginForm: FC = () => {
                 {!forgotPasswordMode && (
                     <PasswordField
                         id={'password-field'}
-                        autoComplete={'new-password'}
-                        label={t('common.password')}
+                        autoComplete={'current-password'}
+                        label={t('form.label.login.password')}
                         value={password}
                         required
                         onChange={(event: ChangeEvent<HTMLInputElement>) => setPassword(event.target.value)}
