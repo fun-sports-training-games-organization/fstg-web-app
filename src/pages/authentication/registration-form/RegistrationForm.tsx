@@ -46,8 +46,8 @@ const RegistrationForm: FC = () => {
 
     const signUpWithEmailAndPassword = (e: FormEvent) => {
         e.preventDefault();
-        const { email, password } = state;
-        registerWithEmail(email, password, errorState, setErrorState);
+        const { email, password, firstName, lastName, username } = state;
+        registerWithEmail(email, password, firstName, lastName, errorState, setErrorState, username);
     };
 
     const handleChangeEvent = (event: ChangeEvent<HTMLInputElement>) => {
