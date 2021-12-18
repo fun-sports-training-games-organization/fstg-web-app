@@ -8,8 +8,10 @@ import { MemoryRouter } from 'react-router-dom';
 import { mockUser } from '../../../__mocks__/mockUserContext';
 import userEvent from '@testing-library/user-event';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
-import i18n from '../../../i18n';
-import { I18nextProvider } from 'react-i18next';
+
+jest.mock('react-i18next', () => ({
+    useTranslation: () => ({ t: (key: string) => key })
+}));
 
 describe('<PersistentDrawer> component test with React Testing Library', () => {
     let props: PersistentDrawerProps;

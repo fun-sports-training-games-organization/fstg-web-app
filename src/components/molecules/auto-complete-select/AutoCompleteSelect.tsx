@@ -25,6 +25,7 @@ const AutoCompleteSelect: React.FC<AutoCompleteSelectorProps> = (props) => {
             className="auto-complete-selector"
             multiple={multiple}
             id={id || 'single-autocomplete'}
+            key={id}
             options={options}
             noOptionsText={noOptionsText}
             value={value}

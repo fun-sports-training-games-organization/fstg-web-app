@@ -15,7 +15,10 @@ const MenuIcon: React.FC<MenuIconProps> = (props) => {
             <div style={{ textAlign: 'right' }} className="menu-icon">
                 <IconButton
                     style={{ marginRight: '-13px' }} // this is necessary so that it's on the edge of the xs column, while not affecting the hover effect
-                    onClick={(event: React.MouseEvent<HTMLElement>) => setAnchorEl(event.currentTarget)}
+                    onClick={(event: React.MouseEvent<HTMLElement>) => {
+                        event.stopPropagation();
+                        setAnchorEl(event.currentTarget);
+                    }}
                 >
                     {props.icon}
                 </IconButton>
@@ -31,7 +34,10 @@ const MenuIcon: React.FC<MenuIconProps> = (props) => {
                     }}
                     keepMounted
                     open={Boolean(anchorEl)}
-                    onClose={() => setAnchorEl(null)}
+                    onClose={(event: React.MouseEvent<HTMLElement>) => {
+                        event.stopPropagation();
+                        setAnchorEl(null);
+                    }}
                 >
                     <div onClick={() => setAnchorEl(null)}>{props.children}</div>
                 </Menu>

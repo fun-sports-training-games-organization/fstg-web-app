@@ -1,6 +1,6 @@
 import { User } from '@firebase/auth-types';
 import { UpdateData } from '@firebase/firestore-types';
-import { CreateInfo, ModifyInfo } from '../model/basics';
+import { CreateInfo, ModifyInfo } from '../model/Basics.model';
 
 export const prepareDataToSend = (updateData: UpdateData, currentUser: User | null): UpdateData => {
     const modifyInfo: ModifyInfo = {

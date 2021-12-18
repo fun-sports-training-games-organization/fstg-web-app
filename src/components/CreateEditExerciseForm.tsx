@@ -41,7 +41,7 @@ const CreateEditExerciseForm = ({ entity, setEntity, inWorkout = false }: Props)
                         />
                         <TextField
                             id={`${PREFIX}.imgUrl`}
-                            label={t(`${PREFIX}.defaultAmountType`)}
+                            label={t(`${PREFIX}.imgUrl`)}
                             type={'text'}
                             value={entity.imageOrGifUrl}
                             fullWidth
@@ -101,12 +101,12 @@ const CreateEditExerciseForm = ({ entity, setEntity, inWorkout = false }: Props)
                     />
                 )}
                 <LabeledCheckbox
-                    checked={inWorkout ? entity.recordResults : entity.recordResultsByDefault}
+                    checked={entity.recordResults}
                     onChange={onCheckboxChange}
-                    name={inWorkout ? 'recordResults' : 'recordResultsByDefault'}
+                    name="recordResults"
                     label={t(`${PREFIX}.${inWorkout ? 'recordResults' : 'recordResultsByDefault'}`)}
                 />
-                {(inWorkout ? entity.recordResults : entity.recordResultsByDefault) && (
+                {entity.recordResults && (
                     <>
                         <FormControl component="fieldset">
                             <FormLabel component="legend">

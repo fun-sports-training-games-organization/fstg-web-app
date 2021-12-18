@@ -10,12 +10,12 @@ import * as navigate from '../../../util/navigation-util';
 import AddButton from '../../../components/atoms/add-button/AddButton';
 import PageTitle from '../../../components/atoms/page-title/PageTitle';
 import SubmitButton from '../../../components/atoms/submit-button/SubmitButton';
-import WorkoutExercises from '../../../components/organisms/workout-exercises/WorkoutExercises';
-import { Id } from '../../../model/basics';
-import { ExerciseWorkoutSettings } from '../../../model/exercise-workout-settings';
-import { Workout } from '../../../model/workout';
+import { Id } from '../../../model/Basics.model';
+import { Workout } from '../../../model/Workout.model';
 import { prepareDataToSend } from '../../../util/data-prep-util';
 import { getPageIdPrefix } from '../../../util/id-util';
+import { ExerciseWorkoutSettings } from '../../../model/Exercise.model';
+import ManageWorkoutExercises from '../../../components/molecules/manage-workout-exercises/ManageWorkoutExercises';
 
 const EditWorkout: FC = () => {
     const pageName = 'edit_workout';
@@ -30,9 +30,9 @@ const EditWorkout: FC = () => {
 
     const emptyExerciseWorkoutSettings: ExerciseWorkoutSettings = {
         name: '',
-        amountType: 'number',
+        amountType: 'COUNT_BASED',
         recordResults: false,
-        resultType: 'number',
+        resultType: 'COUNT_BASED',
         useDefaultResult: false
     };
     const getNewEmptyExerciseWorkoutSettings = (): ExerciseWorkoutSettings => {
@@ -122,12 +122,12 @@ const EditWorkout: FC = () => {
                         setWorkout({ ...workout, name: event.target.value })
                     }
                 />
-                <WorkoutExercises
+                <ManageWorkoutExercises
                     parentIdPrefix={idPrefix}
                     workout={workout}
                     setWorkout={setWorkout}
                     save={!workout.hasBeenCreated ? handleCreate : handleUpdate}
-                />
+                ></ManageWorkoutExercises>
                 <AddButton onClick={addExerciseToWorkout} testId={`${idPrefix}add_exercise_button`} />
             </Stack>
             <Stack spacing={2} mt={5} ml={2} mr={2}>

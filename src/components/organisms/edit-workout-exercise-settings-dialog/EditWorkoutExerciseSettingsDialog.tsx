@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import CreateEditExerciseForm from '../../CreateEditExerciseForm';
-import { ExerciseWorkoutSettings } from '../../../model/exercise-workout-settings';
+import { ExerciseWorkoutSettings } from '../../../model/Exercise.model';
 
 type Props = {
     open: boolean;

@@ -2,7 +2,7 @@ import { Grid, IconButton, List, ListItem, Stack } from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
 import { FC, useEffect, useState } from 'react';
 import { useFirestore } from 'react-redux-firebase';
-import { Exercise } from '../../../model/exercise';
+import { Exercise } from '../../../model/Exercise.model';
 import EditExerciseDialog from '../../../components/organisms/edit-exercise-dialog/EditExerciseDialog';
 import DeleteConfirmationDialog from '../../../components/molecules/delete-confirmation-dialog/DeleteConfirmationDialog';
 import { useTranslation } from 'react-i18next';
