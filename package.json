@@ -47,6 +47,7 @@
         "test": "jest --no-cache",
         "test:coverage": "jest --no-cache --collectCoverage=true",
         "test:watch": "jest --watch",
+        "test:debug": "jest --no-cache --detect-open-handles",
         "e2e": "cypress run --spec cypress/integration/fstg/**/*spec.ts",
         "e2e:watch": "cypress open --config ignoreTestFiles=**/cypress/integration/examples/**",
         "e2e-examples": "cypress run --spec cypress/integration/examples/**/*spec.ts",

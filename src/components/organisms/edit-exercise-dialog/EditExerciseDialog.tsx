@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { Exercise } from '../../../model/exercise';
+import { Exercise } from '../../../model/Exercise.model';
 import { useSnackbar } from 'notistack';
 import CreateEditExerciseForm from '../../CreateEditExerciseForm';
 import * as notification from '../../../util/notifications-util';
@@ -23,7 +23,7 @@ const emptyExercise: Exercise = {
     amountValue: 0,
     resultType: 'COUNT_BASED',
     resultValue: 0,
-    recordResultsByDefault: false,
+    recordResults: false,
     useDefaultResult: false
 };
 

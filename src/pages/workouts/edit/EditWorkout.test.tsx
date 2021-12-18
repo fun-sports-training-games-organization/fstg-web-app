@@ -16,7 +16,38 @@ jest.mock('react-i18next', () => ({
 }));
 jest.mock('react-router-dom', () => ({
     ...jest.requireActual('react-router-dom'),
-    useParams: jest.fn().mockReturnValue({ id: undefined })
+    useParams: jest.fn().mockReturnValue({ id: undefined }),
+    useHistory: jest.fn().mockReturnValue({})
+}));
+
+jest.mock('react-redux-firebase', () => ({
+    useFirestore: () => {
+        return {
+            collection: () => {
+                return {
+                    onSnapshot: () => {
+                        return { docs: [] };
+                    }
+                };
+            }
+        };
+    },
+    useFirebase: () => {
+        return {
+            auth: () => {
+                return {
+                    currentUser: {
+                        displayName: 'testuser',
+                        email: 'testuser@gmail.com',
+                        phoneNumber: null,
+                        photoURL: null,
+                        providerId: 'google',
+                        uid: 'test-user-uid'
+                    }
+                };
+            }
+        };
+    }
 }));
 
 const workoutNameInputSelector = 'input#fstg__edit_workout__name';
@@ -76,12 +107,11 @@ describe('<EditWorkout> component test with React Testing Library', () => {
         const { getByTestId } = renderComponent();
 
         const component = getByTestId('edit_workout');
-        userEvent.click(component.querySelector(getExerciseItemSelector(0)) as Element);
         userEvent.type(component.querySelector(getExerciseItemSelector(0)) as Element, '1st exercise');
-        userEvent.click(getByTestId(addExerciseButtonTestId));
-        userEvent.click(component.querySelector(getExerciseItemSelector(1)) as Element);
-        userEvent.type(component.querySelector(getExerciseItemSelector(1)) as Element, '2nd exercise');
         expect(component.querySelector(getExerciseItemSelector(0)) as Element).toHaveValue('1st exercise');
+        userEvent.click(getByTestId(addExerciseButtonTestId));
+        userEvent.type(component.querySelector(getExerciseItemSelector(1)) as Element, '2nd exercise');
+        expect(component.querySelector(getExerciseItemSelector(0)) as Element).toHaveValue('');
         expect(component.querySelector(getExerciseItemSelector(1)) as Element).toHaveValue('2nd exercise');
     });
 });

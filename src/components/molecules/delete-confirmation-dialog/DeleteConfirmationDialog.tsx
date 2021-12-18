@@ -2,7 +2,7 @@ import { SyntheticEvent } from 'react';
 
 import ConfirmationDialog from '../../organisms/confirmation-dialog/ConfirmationDialog';
 import { useTranslation } from 'react-i18next';
-import { IdName } from '../../../model/basics';
+import { IdName } from '../../../model/Basics.model';
 import useEntityManager, { EntityWithId } from '../../../hooks/useEntityManager';
 
 type Props = {

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { AutocompleteChangeDetails, AutocompleteChangeReason, FilterOptionsState } from '@mui/material';
-import { TextFieldProps } from '../../atoms/text-field/TextField';
 
 export interface SelectorProps<T> {
     options: T[];
@@ -25,5 +24,6 @@ export interface SelectorProps<T> {
     fullWidth?: boolean;
     disabled?: boolean;
 }
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type AutoCompleteSelectorProps = Omit<TextFieldProps, 'onChange'> & SelectorProps<any>;
+export type AutoCompleteSelectorProps = SelectorProps<any>;

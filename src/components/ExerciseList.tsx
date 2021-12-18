@@ -5,7 +5,7 @@ import { FC, SyntheticEvent, useEffect, useState } from 'react';
 import { useFirestore } from 'react-redux-firebase';
 
 import { useTranslation } from 'react-i18next';
-import { Exercise } from '../model/exercise';
+import { Exercise } from '../model/Exercise.model';
 import ConfirmationDialog from './organisms/confirmation-dialog/ConfirmationDialog';
 import EditExerciseDialog from './organisms/edit-exercise-dialog/EditExerciseDialog';
 
