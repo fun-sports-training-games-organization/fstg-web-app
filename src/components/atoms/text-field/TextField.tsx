@@ -4,15 +4,18 @@ import { FormControl, FormHelperText, InputLabel, OutlinedInput, OutlinedInputPr
 type OwnProps = {
     error?: boolean;
     helperText?: string;
+    shrinkLabel?: boolean;
 };
 
 export type TextFieldProps = OwnProps & OutlinedInputProps;
 
-const TextField: FC<TextFieldProps> = ({ id, label, helperText, error, ...rest }: TextFieldProps) => {
+const TextField: FC<TextFieldProps> = ({ id, label, helperText, shrinkLabel, error, ...rest }: TextFieldProps) => {
     return (
         <FormControl fullWidth>
-            <InputLabel htmlFor={id}>{label}</InputLabel>
-            <OutlinedInput id={id} label={label} {...rest} />
+            <InputLabel shrink={shrinkLabel} htmlFor={id}>
+                {label}
+            </InputLabel>
+            <OutlinedInput notched={shrinkLabel} id={id} label={label} {...rest} />
             <FormHelperText error={error}>{helperText}</FormHelperText>
         </FormControl>
     );
