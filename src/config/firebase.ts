@@ -22,5 +22,6 @@ export const rrfProps = {
     firebase,
     config: rrfConfig,
     dispatch: store.dispatch,
-    createFirestoreInstance
+    createFirestoreInstance,
+    useFirestoreForProfile: true
 };
