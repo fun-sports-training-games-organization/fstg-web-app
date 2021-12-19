@@ -54,7 +54,17 @@
         "updateSuccess": "{{item}} wurde erfolgreich aktualisiert",
         "updateFailure": "{{item}} konnte nicht aktualisiert werden",
         "createSuccess": "{{item}} wurde erfolgreich erstellt",
-        "createFailure": "{{item}} konnte nicht erstellt werden"
+        "createFailure": "{{item}} konnte nicht erstellt werden",
+        "profile": {
+            "update": {
+                "success": "Ihr Profil wurde erfolgreich aktualisiert!",
+                "failed": "Ihr Profil konnte nicht aktualisiert werden! Bitte versuchen Sie es erneut!"
+            },
+            "deleteProfilePicture": {
+                "success": "Profilbild erfolgreich gelöscht!",
+                "failed": "Das Profilbild konnte nicht gelöscht werden! Bitte versuchen Sie es erneut!"
+            }
+        }
     },
     "idp": {
         "login": {
@@ -123,11 +133,17 @@
                 "resultType": "Ergebnistyp",
                 "useDefaultResult": "Standardergebnis verwenden",
                 "defaultResult": "Standardergebnis"
+            },
+            "account": {
+                "profilePicture": "Profilbild"
             }
         },
         "button": {
             "registration": {
                 "register": "Registrieren"
+            },
+            "account": {
+                "saveProfile": "Profil sichern"
             }
         }
     }
