@@ -38,8 +38,11 @@ export type AuthContextData = {
     registerWithEmail: (
         email: string,
         password: string,
+        firstName: string,
+        lastName: string,
         errorState: RegistrationErrorState,
-        setErrorState: Dispatch<SetStateAction<RegistrationErrorState>>
+        setErrorState: Dispatch<SetStateAction<RegistrationErrorState>>,
+        username?: string
     ) => void;
     sendResetPasswordLink: (email: string) => void;
     loginFailed: (error: Error) => void;
@@ -99,13 +102,18 @@ const AuthContextProvider: FC<PropsWithChildren<Record<string, unknown>>> = (
     const registerWithEmail = async (
         email: string,
         password: string,
+        firstName: string,
+        lastName: string,
         errorState: RegistrationErrorState,
-        setErrorState: Dispatch<SetStateAction<RegistrationErrorState>>
+        setErrorState: Dispatch<SetStateAction<RegistrationErrorState>>,
+        username?: string
     ) => {
         firebase
-            .createUser({ email, password })
-            .then(() => {
+            .createUser({ email, password }, { username, firstName, lastName })
+            .then((user) => {
                 navigate.toBase(history);
+                console.log(`Provier ID: ${user.providerId}`);
+                console.log(`UUID: ${user.uid}`);
             })
             .catch((error) => {
                 console.log(error);
