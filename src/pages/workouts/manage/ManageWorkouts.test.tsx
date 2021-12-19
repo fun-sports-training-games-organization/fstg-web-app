@@ -24,6 +24,22 @@ jest.mock('react-redux-firebase', () => ({
                 };
             }
         };
+    },
+    useFirebase: () => {
+        return {
+            auth: () => {
+                return {
+                    currentUser: {
+                        displayName: 'testuser',
+                        email: 'testuser@gmail.com',
+                        phoneNumber: null,
+                        photoURL: null,
+                        providerId: 'google',
+                        uid: 'test-user-uid'
+                    }
+                };
+            }
+        };
     }
 }));
 

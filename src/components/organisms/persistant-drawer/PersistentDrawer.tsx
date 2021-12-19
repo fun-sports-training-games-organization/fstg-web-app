@@ -16,23 +16,22 @@ import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { MenuListItem, PersistentDrawerProps } from './PersistentDrawer.types';
-import { Icon, Stack } from '@mui/material';
+import { Icon, Stack, useMediaQuery, useTheme } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import HeaderBar from '../header-bar/HeaderBar';
 import LanguageMenu from '../language-menu/LanguageMenu';
 
-const drawerWidth = 240;
-
-const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
+const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' && prop !== 'drawerWidth' })<{
     open?: boolean;
-}>(({ theme, open }) => ({
+    drawerWidth: string | number;
+}>(({ theme, open, drawerWidth }) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
     transition: theme.transitions.create('margin', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen
     }),
-    marginRight: -drawerWidth,
+    marginRight: typeof drawerWidth === 'string' ? `-${drawerWidth}` : -drawerWidth,
     ...(open && {
         transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.easeOut,
@@ -44,17 +43,18 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
 
 interface AppBarProps extends MuiAppBarProps {
     open?: boolean;
+    drawerWidth?: number | string;
 }
 
 const AppBar = styled(MuiAppBar, {
-    shouldForwardProp: (prop) => prop !== 'open'
-})<AppBarProps>(({ theme, open }) => ({
+    shouldForwardProp: (prop) => prop !== 'open' && prop !== 'drawerWidth'
+})<AppBarProps>(({ theme, open, drawerWidth }) => ({
     transition: theme.transitions.create(['margin', 'width'], {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen
     }),
     ...(open && {
-        width: `calc(100% - ${drawerWidth}px)`,
+        width: typeof drawerWidth === 'string' ? drawerWidth : `calc(100% - ${drawerWidth}px)`,
         transition: theme.transitions.create(['margin', 'width'], {
             easing: theme.transitions.easing.easeOut,
             duration: theme.transitions.duration.enteringScreen
@@ -81,8 +81,10 @@ const PersistentDrawer: FC<PersistentDrawerProps> = ({
     logout
 }: PersistentDrawerProps) => {
     const history = useHistory();
+    const theme = useTheme();
+    const mobile = useMediaQuery(theme.breakpoints.down('sm'));
+
     const [open, setOpen] = useState(false);
-    // const [appBarText, setAppBarText] = useState<string>();
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -92,11 +94,10 @@ const PersistentDrawer: FC<PersistentDrawerProps> = ({
         setOpen(false);
     };
 
-    const handleMenuClick = ({ path, /*text, */ onClick }: MenuListItem) => {
+    const handleMenuClick = ({ path, onClick }: MenuListItem) => {
         path && history.push(path);
         onClick && onClick();
         handleDrawerClose();
-        // setAppBarText(text);
     };
 
     type MenuListProps = {
@@ -140,16 +141,16 @@ const PersistentDrawer: FC<PersistentDrawerProps> = ({
                     <HeaderBar user={user} logout={logout} />
                 )}
             </AppBar>
-            <Main open={open}>
+            <Main open={open} drawerWidth={mobile ? '100%' : 240}>
                 <DrawerHeader />
                 {children}
             </Main>
             <Drawer
                 sx={{
-                    width: drawerWidth,
+                    width: mobile ? '100%' : 240,
                     flexShrink: 0,
                     '& .MuiDrawer-paper': {
-                        width: drawerWidth
+                        width: mobile ? '100%' : 240
                     }
                 }}
                 variant="persistent"
