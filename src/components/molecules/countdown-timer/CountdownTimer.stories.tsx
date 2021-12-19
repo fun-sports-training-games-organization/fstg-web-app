@@ -4,7 +4,7 @@ import { OutlinedInputProps, Typography } from '@mui/material';
 import CountdownTimer from './CountdownTimer';
 
 export default {
-    title: 'molecules/CountdownTimer',
+    title: 'molecules/countdown-timer',
     component: CountdownTimer,
     args: {
         seconds: 5,
