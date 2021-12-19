@@ -13,7 +13,9 @@ type OwnProps = {
     typographyProps?: TypographyProps;
 };
 
-const CountdownTimer: FC<Omit<CountdownProps, 'renderer'> & OwnProps> = ({
+export type CountdownTimerProps = Omit<CountdownProps, 'renderer'> & OwnProps;
+
+const CountdownTimer: FC<CountdownTimerProps> = ({
     seconds,
     showHours,
     showIcon,

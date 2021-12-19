@@ -1,7 +1,7 @@
 import React from 'react';
 import { Meta } from '@storybook/react';
-import { OutlinedInputProps, Typography } from '@mui/material';
-import CountdownTimer from './CountdownTimer';
+import { Typography } from '@mui/material';
+import CountdownTimer, { CountdownTimerProps } from './CountdownTimer';
 
 export default {
     title: 'molecules/countdown-timer',
@@ -15,4 +15,4 @@ export default {
     }
 } as Meta;
 
-export const countdownTimer = (args: OutlinedInputProps): JSX.Element => <CountdownTimer {...args} />;
+export const countdownTimer = (args: CountdownTimerProps): JSX.Element => <CountdownTimer {...args} />;
