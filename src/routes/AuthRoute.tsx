@@ -18,8 +18,6 @@ const AuthRoute: FC<RouteProps> = ({ children, ...rest }: RouteProps) => {
         <Route
             {...rest}
             render={({ location }) => {
-                console.log(location.pathname);
-
                 return user ? (
                     children
                 ) : (

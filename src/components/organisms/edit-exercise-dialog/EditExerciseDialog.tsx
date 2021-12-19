@@ -1,12 +1,11 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
-import { useFirebase, useFirestore } from 'react-redux-firebase';
 import { useTranslation } from 'react-i18next';
 import { Exercise } from '../../../model/Exercise.model';
 import { useSnackbar } from 'notistack';
-import { prepareDataToSend } from '../../../util/data-prep-util';
 import CreateEditExerciseForm from '../../CreateEditExerciseForm';
 import * as notification from '../../../util/notifications-util';
+import useEntityManager from '../../../hooks/useEntityManager';
 
 type Props = {
     open: boolean;
@@ -38,8 +37,7 @@ const EditExerciseDialog = ({
 }: Props): JSX.Element => {
     const { t } = useTranslation();
     const { enqueueSnackbar } = useSnackbar();
-    const firestore = useFirestore();
-    const firebase = useFirebase();
+    const { createEntity, updateEntity } = useEntityManager<Exercise>('exercises');
     const handleClose = () => {
         setOpen(false);
         setExercise(emptyExercise);
@@ -47,10 +45,7 @@ const EditExerciseDialog = ({
 
     const handleUpdate = () => {
         if (exercise?.id) {
-            firestore
-                .collection('exercises')
-                .doc(exercise?.id)
-                .update(prepareDataToSend(exercise, firebase.auth().currentUser))
+            updateEntity(exercise)
                 .then(() => {
                     notification.updateSuccess(enqueueSnackbar, t, exercise.name);
                     setOpen(false);
@@ -62,9 +57,7 @@ const EditExerciseDialog = ({
     };
 
     const handleCreate = () => {
-        firestore
-            .collection('exercises')
-            .add(prepareDataToSend(exercise, firebase.auth().currentUser))
+        createEntity(exercise)
             .then(() => {
                 notification.createSuccess(enqueueSnackbar, t, exercise.name);
                 setOpen(false);
