@@ -54,11 +54,17 @@
         "updateSuccess": "{{item}} a été mis à jour avec succès",
         "updateFailure": "{{item}} n'a pas pu être mis à jour",
         "createSuccess": "{{item}} a été créé avec succès",
-        "createFailure": "{{item}} n'a pas pu être créé"
-    },
-    "common": {
-        "email": "E-mail",
-        "password": "Mot de passe"
+        "createFailure": "{{item}} n'a pas pu être créé",
+        "profile": {
+            "update": {
+                "success": "Votre profil a été mis à jour avec succès!",
+                "failed": "Échec de la mise à jour de votre profil! Veuillez réessayer!"
+            },
+            "deleteProfilePicture": {
+                "success": "Photo de profil supprimée avec succès!",
+                "failed": "Impossible de supprimer la photo de profil! Veuillez réessayer!"
+            }
+        }
     },
     "idp": {
         "login": {
@@ -100,6 +106,18 @@
     },
     "form": {
         "label": {
+            "login": {
+                "email": "E-mail",
+                "password": "Mot de passe"
+            },
+            "registration": {
+                "username": "Nom d'utilisateur (facultatif)",
+                "firstName": "Prénom",
+                "lastName": "Nom de famille ",
+                "email": "E-mail",
+                "password": "Mot de passe",
+                "confirmPassword": "Confirmer le mot de passe"
+            },
             "exercise": {
                 "name": "Nom de l'exercice",
                 "imgUrl": "URL de l'image/GIF",
@@ -115,6 +133,17 @@
                 "resultType": "Type de résultat",
                 "useDefaultResult": "Utiliser le résultat par défaut",
                 "defaultResult": "Résultat par défaut"
+            },
+            "account": {
+                "profilePicture": "Image de profil"
+            }
+        },
+        "button": {
+            "registration": {
+                "register": "S'inscrire"
+            },
+            "account": {
+                "saveProfile": "Enregistrer le profil"
             }
         }
     }

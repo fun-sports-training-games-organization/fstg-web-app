@@ -54,11 +54,17 @@
         "updateSuccess": "{{item}} wurde erfolgreich aktualisiert",
         "updateFailure": "{{item}} konnte nicht aktualisiert werden",
         "createSuccess": "{{item}} wurde erfolgreich erstellt",
-        "createFailure": "{{item}} konnte nicht erstellt werden"
-    },
-    "common": {
-        "email": "E-mail",
-        "password": "Kennwort"
+        "createFailure": "{{item}} konnte nicht erstellt werden",
+        "profile": {
+            "update": {
+                "success": "Ihr Profil wurde erfolgreich aktualisiert!",
+                "failed": "Ihr Profil konnte nicht aktualisiert werden! Bitte versuchen Sie es erneut!"
+            },
+            "deleteProfilePicture": {
+                "success": "Profilbild erfolgreich gelöscht!",
+                "failed": "Das Profilbild konnte nicht gelöscht werden! Bitte versuchen Sie es erneut!"
+            }
+        }
     },
     "idp": {
         "login": {
@@ -100,6 +106,18 @@
     },
     "form": {
         "label": {
+            "login": {
+                "email": "E-mail",
+                "password": "Kennwort"
+            },
+            "registration": {
+                "username": "Benutzername (optional)",
+                "firstName": "Vorname",
+                "lastName": "Nachname",
+                "email": "E-mail",
+                "password": "Kennwort",
+                "confirmPassword": "Kennwort bestätigen"
+            },
             "exercise": {
                 "name": "Name der Übung",
                 "imgUrl": "Bild-/GIF-URL",
@@ -115,6 +133,17 @@
                 "resultType": "Ergebnistyp",
                 "useDefaultResult": "Standardergebnis verwenden",
                 "defaultResult": "Standardergebnis"
+            },
+            "account": {
+                "profilePicture": "Profilbild"
+            }
+        },
+        "button": {
+            "registration": {
+                "register": "Registrieren"
+            },
+            "account": {
+                "saveProfile": "Profil sichern"
             }
         }
     }

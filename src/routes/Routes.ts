@@ -8,6 +8,7 @@ import LoginPage from '../pages/authentication/login-page/LoginPage';
 import TermsOfServicePage from '../pages/legal/TermsOfServicePage';
 import EditWorkout from '../pages/workouts/edit/EditWorkout';
 import ManageWorkouts from '../pages/workouts/manage/ManageWorkouts';
+import Account from '../pages/account/Account';
 
 const routes: IRoute[] = [
     {
@@ -23,6 +24,13 @@ const routes: IRoute[] = [
         component: LoginPage,
         name: 'Login Page',
         protected: false
+    },
+    {
+        path: '/account',
+        exact: true,
+        component: Account,
+        name: 'Account',
+        protected: true
     },
     {
         path: '/exercises',

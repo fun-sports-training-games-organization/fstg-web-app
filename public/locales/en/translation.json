@@ -54,11 +54,17 @@
         "updateSuccess": "{{item}} was successfully updated",
         "updateFailure": "{{item}} could not be updated",
         "createSuccess": "{{item}} has been created successfully",
-        "createFailure": "{{item}} could not be created"
-    },
-    "common": {
-        "email": "Email",
-        "password": "Password"
+        "createFailure": "{{item}} could not be created",
+        "profile": {
+            "update": {
+                "success": "Your profile has been successfully updated!",
+                "failed": "Failed to update your profile! Please try again!"
+            },
+            "deleteProfilePicture": {
+                "success": "Profile picture successfully deleted!",
+                "failed": "Failed to delete profile picture! Please try again!"
+            }
+        }
     },
     "idp": {
         "login": {
@@ -100,6 +106,18 @@
     },
     "form": {
         "label": {
+            "login": {
+                "email": "Email",
+                "password": "Password"
+            },
+            "registration": {
+                "username": "Username (Optional)",
+                "firstName": "First Name",
+                "lastName": "Last Name",
+                "email": "Email",
+                "password": "Password",
+                "confirmPassword": "Confirm Password"
+            },
             "exercise": {
                 "name": "Exercise Name",
                 "imgUrl": "Image/GIF URL",
@@ -115,6 +133,17 @@
                 "resultType": "Result Type",
                 "useDefaultResult": "Use Default Result",
                 "defaultResult": "Default Result"
+            },
+            "account": {
+                "profilePicture": "Profile Picture"
+            }
+        },
+        "button": {
+            "registration": {
+                "register": "Register"
+            },
+            "account": {
+                "saveProfile": "Save profile"
             }
         }
     }
