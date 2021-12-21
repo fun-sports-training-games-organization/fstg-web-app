@@ -17,6 +17,7 @@ const AutoCompleteSelect: React.FC<AutoCompleteSelectorProps> = (props) => {
         disabled,
         multiple,
         noOptionsText,
+        isOptionEqualToValue,
         ...inputFieldProps
     } = props;
 
@@ -28,6 +29,7 @@ const AutoCompleteSelect: React.FC<AutoCompleteSelectorProps> = (props) => {
             key={id}
             options={options}
             noOptionsText={noOptionsText}
+            isOptionEqualToValue={isOptionEqualToValue}
             value={value}
             defaultValue={defaultValues}
             getOptionLabel={getOptionLabel}

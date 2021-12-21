@@ -1,6 +1,5 @@
 import { FC, useEffect, useState } from 'react';
 import { Stack } from '@mui/material';
-import { useFirestore } from 'react-redux-firebase';
 import { useHistory } from 'react-router-dom';
 import DeleteConfirmationDialog from '../../../components/molecules/delete-confirmation-dialog/DeleteConfirmationDialog';
 import PageTitleAdd from '../../../components/molecules/page-title-add/PageTitleAdd';
@@ -12,13 +11,14 @@ import { AccordionProp } from '../../../components/molecules/accordion/Accordion
 import IconsSubtitle from '../../../components/molecules/icons-subtitle/IconsSubtitle';
 import ActionsMenu from '../../../components/molecules/actions-menu/ActionsMenu';
 import ExercisesContent from '../../../components/organisms/exercises-content/ExercisesContent';
+import useEntityManager from '../../../hooks/useEntityManager';
 
 const ManageWorkouts: FC = () => {
     const pageName = 'manage_workouts';
     const idPrefix = getPageIdPrefix(pageName);
     const exerciseItemPrefix = `${idPrefix}exercise_list__item_`;
     const history = useHistory();
-    const firestore = useFirestore();
+    const { entities } = useEntityManager<Workout>('workouts');
 
     const [workouts, setWorkouts] = useState<Workout[]>([]);
     const [openDeleteConfirmationDialog, setOpenDeleteConfirmationDialog] = useState<boolean>(false);
@@ -30,14 +30,8 @@ const ManageWorkouts: FC = () => {
     };
 
     useEffect(() => {
-        firestore.collection('workouts').onSnapshot((snapshot) => {
-            const workouts = snapshot.docs.map((doc) => {
-                const { id } = doc;
-                return { id, ...doc.data() };
-            });
-            setWorkouts(workouts as Workout[]);
-        });
-    }, [firestore]);
+        setWorkouts(entities);
+    }, [entities]);
 
     const getAccordionProp = (workout: Workout, exerciseItemPrefix: string, index: number): AccordionProp => {
         return {

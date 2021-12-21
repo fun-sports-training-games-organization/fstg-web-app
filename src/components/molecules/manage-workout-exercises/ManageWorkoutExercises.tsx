@@ -57,7 +57,7 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: P
                 const { id } = doc;
                 return { id, ...doc.data() };
             });
-            setExercises(exercises as Exercise[]);
+            setExercises([...exercises, {}]);
         });
     }, [firestore]);
 
@@ -79,12 +79,18 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: P
                                 label={`Exercise ${index + 1}`}
                                 value={exercise}
                                 options={exercises}
-                                getOptionLabel={(option) => option.name}
+                                getOptionLabel={(option) => option?.name}
+                                isOptionEqualToValue={(option, value) =>
+                                    (option as ExerciseWorkoutSettings)?.id ===
+                                    (value as ExerciseWorkoutSettings)?.exerciseId
+                                }
                                 onChange={(_event, value) => {
-                                    setWorkout({
-                                        ...workout,
-                                        exercises: updateExercise(workout, exercise, value)
-                                    });
+                                    if (value) {
+                                        setWorkout({
+                                            ...workout,
+                                            exercises: updateExercise(workout, exercise, value)
+                                        });
+                                    }
                                 }}
                             ></AutoCompleteSelect>
                         </Grid>
@@ -115,7 +121,12 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: P
                 setOpen={setOpenDialog}
                 exercise={selectedExercise}
                 setExercise={(exercise: ExerciseWorkoutSettings) => {
+                    console.log({ exercise });
                     setSelectedExercise(exercise);
+                    console.log({
+                        ...workout,
+                        exercises: [...workout.exercises.map((e) => (e.id === selectedExercise.id ? exercise : e))]
+                    });
                     setWorkout({
                         ...workout,
                         exercises: [...workout.exercises.map((e) => (e.id === selectedExercise.id ? exercise : e))]

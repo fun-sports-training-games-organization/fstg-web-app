@@ -1,6 +1,5 @@
 import { ChangeEvent, FC, useEffect, useState } from 'react';
 import { Stack, TextField } from '@mui/material';
-import { useFirebase, useFirestore } from 'react-redux-firebase';
 import { v4 as uuidv4 } from 'uuid';
 import { useSnackbar } from 'notistack';
 import { useHistory, useParams } from 'react-router-dom';
@@ -12,10 +11,11 @@ import PageTitle from '../../../components/atoms/page-title/PageTitle';
 import SubmitButton from '../../../components/atoms/submit-button/SubmitButton';
 import { Id } from '../../../model/Basics.model';
 import { Workout } from '../../../model/Workout.model';
-import { prepareDataToSend } from '../../../util/data-prep-util';
 import { getPageIdPrefix } from '../../../util/id-util';
 import { ExerciseWorkoutSettings } from '../../../model/Exercise.model';
 import ManageWorkoutExercises from '../../../components/molecules/manage-workout-exercises/ManageWorkoutExercises';
+import useEntityManager from '../../../hooks/useEntityManager';
+import { useFirestore } from 'react-redux-firebase';
 
 const EditWorkout: FC = () => {
     const pageName = 'edit_workout';
@@ -23,10 +23,10 @@ const EditWorkout: FC = () => {
     const history = useHistory();
     const { t } = useTranslation();
     const { enqueueSnackbar } = useSnackbar();
-    const firestore = useFirestore();
-    const firebase = useFirebase();
     const params = useParams() as Id;
     const workoutId = params?.id ? params.id : undefined;
+    const entityManager = useEntityManager<Workout>('workouts');
+    const firestore = useFirestore();
 
     const emptyExerciseWorkoutSettings: ExerciseWorkoutSettings = {
         name: '',
@@ -68,10 +68,9 @@ const EditWorkout: FC = () => {
     }, [firestore, workoutId]);
 
     const handleUpdate = (shouldNavigate = true) => {
-        firestore
-            .collection('workouts')
-            .doc(workout?.id)
-            .update(prepareDataToSend(workout, firebase.auth().currentUser))
+        console.log({ workout });
+        entityManager
+            .updateEntity(workout)
             .then(() => {
                 notification.updateSuccess(enqueueSnackbar, t, workout.name);
 
@@ -85,9 +84,8 @@ const EditWorkout: FC = () => {
     };
 
     const handleCreate = (shouldNavigate = true) => {
-        firestore
-            .collection('workouts')
-            .add(prepareDataToSend(workout, firebase.auth().currentUser))
+        entityManager
+            .createEntity(workout)
             .then(() => {
                 notification.createSuccess(enqueueSnackbar, t, workout.name);
 
