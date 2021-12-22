@@ -11,10 +11,10 @@ export type ExercisesContentProps = {
 const ExercisesContent: FC<ExercisesContentProps> = ({ workout, parentIdPrefix, index = 0 }: ExercisesContentProps) => {
     return (
         <>
-            {workout.exercises.map((exercise) => {
+            {workout.exercises.map((exercise, i) => {
                 return (
                     <ExerciseItem
-                        key={`${parentIdPrefix}name__${exercise.name}__${index}`}
+                        key={`${parentIdPrefix}name__${exercise.name}__${index}__${i}`}
                         exercise={exercise}
                         parentIdPrefix={parentIdPrefix}
                         index={index}

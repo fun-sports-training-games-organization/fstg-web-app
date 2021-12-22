@@ -36,7 +36,7 @@ const EditWorkout: FC = () => {
         useDefaultResult: false
     };
     const getNewEmptyExerciseWorkoutSettings = (): ExerciseWorkoutSettings => {
-        return { ...emptyExerciseWorkoutSettings, id: uuidv4() };
+        return { ...emptyExerciseWorkoutSettings, id: uuidv4(), exerciseId: 'none' };
     };
 
     const emptyWorkout: Workout = {
@@ -68,7 +68,6 @@ const EditWorkout: FC = () => {
     }, [firestore, workoutId]);
 
     const handleUpdate = (shouldNavigate = true) => {
-        console.log({ workout });
         entityManager
             .updateEntity(workout)
             .then(() => {

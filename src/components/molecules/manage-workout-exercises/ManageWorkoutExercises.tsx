@@ -6,8 +6,8 @@ import EditWorkoutExerciseSettingsDialog from '../../organisms/edit-workout-exer
 import { useTranslation } from 'react-i18next';
 import { Exercise, ExerciseWorkoutSettings } from '../../../model/Exercise.model';
 import AutoCompleteSelect from '../auto-complete-select/AutoCompleteSelect';
-import { useFirestore } from 'react-redux-firebase';
 import { v4 as uuidv4 } from 'uuid';
+import useEntityManager from '../../../hooks/useEntityManager';
 
 type Props = {
     parentIdPrefix: string;
@@ -19,6 +19,7 @@ type Props = {
 const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: Props): JSX.Element => {
     const idPrefix = `${parentIdPrefix}manage_exercise_list__`;
     const exerciseItemPrefix = `${idPrefix}item_`;
+    const { entities } = useEntityManager<Exercise>('exercises');
     const updateExercise = (
         workout: Workout,
         exerciseToUpdate: ExerciseWorkoutSettings,
@@ -37,7 +38,6 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: P
         });
     };
     const { t } = useTranslation();
-    const firestore = useFirestore();
 
     const emptyExerciseWorkoutSettings: ExerciseWorkoutSettings = {
         name: '',
@@ -52,14 +52,8 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: P
     const [exercises, setExercises] = useState<Exercise[]>([]);
 
     useEffect(() => {
-        firestore.collection('exercises').onSnapshot((snapshot) => {
-            const exercises = snapshot.docs.map((doc) => {
-                const { id } = doc;
-                return { id, ...doc.data() };
-            });
-            setExercises([...exercises, {}]);
-        });
-    }, [firestore]);
+        setExercises([{ name: '', id: 'none' }, ...entities]);
+    }, [entities]);
 
     return (
         <>
@@ -79,10 +73,9 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: P
                                 label={`Exercise ${index + 1}`}
                                 value={exercise}
                                 options={exercises}
-                                getOptionLabel={(option) => option?.name}
+                                getOptionLabel={(option: Exercise) => (option?.name ? option.name : '')}
                                 isOptionEqualToValue={(option, value) =>
-                                    (option as ExerciseWorkoutSettings)?.id ===
-                                    (value as ExerciseWorkoutSettings)?.exerciseId
+                                    (option as Exercise)?.id === (value as ExerciseWorkoutSettings)?.exerciseId
                                 }
                                 onChange={(_event, value) => {
                                     if (value) {
