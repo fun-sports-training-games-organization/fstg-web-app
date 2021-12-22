@@ -7,9 +7,11 @@ import { getPageIdPrefix } from '../../../util/id-util';
 import ExercisesContent from '../../../components/organisms/exercises-content/ExercisesContent';
 import { getNewEmptyWorkout } from '../../../util/workout-util';
 import { useParams } from 'react-router-dom';
+import { Grid, IconButton, Stack } from '@mui/material';
+import { PlayArrow } from '@mui/icons-material';
 
 const StartWorkout: FC = () => {
-    const pageName = 'edit_workout';
+    const pageName = 'start_workout';
     const idPrefix = getPageIdPrefix(pageName);
     const firestore = useFirestore();
     const params = useParams() as Id;
@@ -30,11 +32,20 @@ const StartWorkout: FC = () => {
 
     return (
         <div data-testid={pageName}>
-            <ExercisesContent
-                workout={workout}
-                parentIdPrefix={idPrefix}
-                typographySx={{ lineHeight: 2.2, marginLeft: '2rem' }}
-            ></ExercisesContent>
+            <Grid container direction="column" justifyContent="space-between" alignItems="stretch">
+                <Stack direction="row" justifyContent="flex-end" mr={2}>
+                    <IconButton onClick={() => console.log('lets do this workout!')}>
+                        <PlayArrow htmlColor={'black'} transform="scale(2)" />
+                    </IconButton>
+                </Stack>
+                <Stack mt={2} mr={2} direction="column" border="1px solid black" sx={{ backgroundColor: 'light-gray' }}>
+                    <ExercisesContent
+                        workout={workout}
+                        parentIdPrefix={idPrefix}
+                        typographySx={{ lineHeight: 2.2, marginLeft: '0.5rem' }}
+                    ></ExercisesContent>
+                </Stack>
+            </Grid>
         </div>
     );
 };
