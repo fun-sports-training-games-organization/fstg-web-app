@@ -26,7 +26,13 @@ const ExerciseItem: FC<ExerciseItemProps> = ({
     }
 
     return (
-        <Grid container direction="row" justifyContent="space-between" alignItems="center">
+        <Grid
+            container
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+            maxWidth={{ xs: '100%', sm: '60%', md: '40%', lg: '25%', xl: '20%' }}
+        >
             <Typography
                 key={exercise.id}
                 id={`${parentIdPrefix}name__${index}`}
