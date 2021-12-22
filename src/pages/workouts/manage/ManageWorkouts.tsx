@@ -12,6 +12,7 @@ import IconsSubtitle from '../../../components/molecules/icons-subtitle/IconsSub
 import ActionsMenu from '../../../components/molecules/actions-menu/ActionsMenu';
 import ExercisesContent from '../../../components/organisms/exercises-content/ExercisesContent';
 import useEntityManager from '../../../hooks/useEntityManager';
+import { v4 as uuidv4 } from 'uuid';
 
 const ManageWorkouts: FC = () => {
     const pageName = 'manage_workouts';
@@ -37,7 +38,13 @@ const ManageWorkouts: FC = () => {
         return {
             title: workout.name,
             subtitle: (
-                <IconsSubtitle workout={workout} parentIdPrefix={exerciseItemPrefix} index={index}></IconsSubtitle>
+                <IconsSubtitle
+                    entities={workout.exercises}
+                    id={workout.id ? workout.id : uuidv4()}
+                    length={workout.exercises.length}
+                    parentIdPrefix={exerciseItemPrefix}
+                    index={index}
+                ></IconsSubtitle>
             ),
             actionsButton: (
                 <ActionsMenu
@@ -52,6 +59,7 @@ const ManageWorkouts: FC = () => {
                     workout={workout}
                     parentIdPrefix={exerciseItemPrefix}
                     index={index}
+                    typographySx={{ lineHeight: 2.2, marginLeft: '4rem' }}
                 ></ExercisesContent>
             )
         };

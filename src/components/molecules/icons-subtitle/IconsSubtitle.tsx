@@ -1,22 +1,30 @@
 import { Stack, Typography } from '@mui/material';
 import { FC } from 'react';
-import { Workout } from '../../../model/Workout.model';
 import { addLeadingZero } from '../../../util/number-util';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
+import NumbersIcon from '@mui/icons-material/Numbers';
 import { Exercise } from '../../../model/Exercise.model';
+import { AmountTypeAmountValue, RecordType } from '../../../model/Basics.model';
 
 export type WorkoutIconsSubtitleProps = {
-    workout: Workout;
+    entities: AmountTypeAmountValue[];
+    id: string;
+    length: number;
     parentIdPrefix: string;
     index?: number;
+    type?: RecordType;
 };
-
 const IconsSubtitle: FC<WorkoutIconsSubtitleProps> = ({
-    workout,
+    entities,
+    id,
+    length,
     parentIdPrefix,
-    index = 0
+    index = 0,
+    type
 }: WorkoutIconsSubtitleProps) => {
+    const display = type ? undefined : { xs: 'none', sm: 'flex' };
+
     const getFormattedTotalWorkoutTime = (): string => {
         const getTotalWorkoutSeconds = (): number => {
             const getNumber = (val: string | number | undefined): number => {
@@ -29,10 +37,8 @@ const IconsSubtitle: FC<WorkoutIconsSubtitleProps> = ({
                 return 0;
             };
 
-            return workout.exercises
-                .map((exercise) =>
-                    exercise.amountType === 'TIME_BASED' ? getNumber((exercise as Exercise).amountValue) : 0
-                )
+            return entities
+                .map((entity) => (entity.amountType === 'TIME_BASED' ? getNumber((entity as Exercise).amountValue) : 0))
                 .reduce((a, b) => a + b);
         };
         const totalWorkoutSeconds = getTotalWorkoutSeconds();
@@ -46,18 +52,22 @@ const IconsSubtitle: FC<WorkoutIconsSubtitleProps> = ({
 
     return (
         <>
-            <Stack direction="row" alignItems="end" spacing={1} display={{ xs: 'none', sm: 'flex' }}>
-                <Typography key={workout.id} id={`${parentIdPrefix}__reps__${index}`}>
-                    {workout.exercises.length}
-                </Typography>
-                <FitnessCenterIcon></FitnessCenterIcon>
-            </Stack>
-            <Stack direction="row" alignItems="end" spacing={1} display={{ xs: 'none', sm: 'flex' }}>
-                <Typography key={workout.id} id={`${parentIdPrefix}__time__${index}`}>
-                    {getFormattedTotalWorkoutTime()}
-                </Typography>
-                <QueryBuilderIcon></QueryBuilderIcon>
-            </Stack>
+            {!type || type === 'COUNT_BASED' ? (
+                <Stack direction="row" alignItems="end" spacing={1} display={display}>
+                    <Typography key={id} id={`${parentIdPrefix}__reps__${index}`}>
+                        {length}
+                    </Typography>
+                    {type ? <NumbersIcon></NumbersIcon> : <FitnessCenterIcon></FitnessCenterIcon>}
+                </Stack>
+            ) : null}
+            {!type || type === 'TIME_BASED' ? (
+                <Stack direction="row" alignItems="end" spacing={1} display={display}>
+                    <Typography key={id} id={`${parentIdPrefix}__time__${index}`}>
+                        {getFormattedTotalWorkoutTime()}
+                    </Typography>
+                    <QueryBuilderIcon></QueryBuilderIcon>
+                </Stack>
+            ) : null}
         </>
     );
 };

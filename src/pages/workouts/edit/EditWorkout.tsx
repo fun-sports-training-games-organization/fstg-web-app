@@ -1,6 +1,5 @@
 import { ChangeEvent, FC, useEffect, useState } from 'react';
 import { Stack, TextField } from '@mui/material';
-import { v4 as uuidv4 } from 'uuid';
 import { useSnackbar } from 'notistack';
 import { useHistory, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -12,10 +11,10 @@ import SubmitButton from '../../../components/atoms/submit-button/SubmitButton';
 import { Id } from '../../../model/Basics.model';
 import { Workout } from '../../../model/Workout.model';
 import { getPageIdPrefix } from '../../../util/id-util';
-import { ExerciseWorkoutSettings } from '../../../model/Exercise.model';
 import ManageWorkoutExercises from '../../../components/molecules/manage-workout-exercises/ManageWorkoutExercises';
 import useEntityManager from '../../../hooks/useEntityManager';
 import { useFirestore } from 'react-redux-firebase';
+import { getNewEmptyExerciseWorkoutSettings, getNewEmptyWorkout } from '../../../util/workout-util';
 
 const EditWorkout: FC = () => {
     const pageName = 'edit_workout';
@@ -27,26 +26,6 @@ const EditWorkout: FC = () => {
     const workoutId = params?.id ? params.id : undefined;
     const entityManager = useEntityManager<Workout>('workouts');
     const firestore = useFirestore();
-
-    const emptyExerciseWorkoutSettings: ExerciseWorkoutSettings = {
-        name: '',
-        amountType: 'COUNT_BASED',
-        recordResults: false,
-        resultType: 'COUNT_BASED',
-        useDefaultResult: false
-    };
-    const getNewEmptyExerciseWorkoutSettings = (): ExerciseWorkoutSettings => {
-        return { ...emptyExerciseWorkoutSettings, id: uuidv4(), exerciseId: 'none' };
-    };
-
-    const emptyWorkout: Workout = {
-        name: '',
-        exercises: [getNewEmptyExerciseWorkoutSettings()],
-        hasBeenCreated: false
-    };
-    const getNewEmptyWorkout = (): Workout => {
-        return { ...emptyWorkout, id: uuidv4() };
-    };
 
     const addExerciseToWorkout = (): void =>
         setWorkout({
