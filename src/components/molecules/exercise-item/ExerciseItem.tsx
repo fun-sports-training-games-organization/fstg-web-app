@@ -29,13 +29,7 @@ const ExerciseItem: FC<ExerciseItemProps> = ({
     }
 
     return (
-        <Grid
-            container
-            direction="row"
-            justifyContent="space-between"
-            alignItems="center"
-            maxWidth={{ xs: '100%', sm: '60%', md: '40%', lg: '25%', xl: '20%' }}
-        >
+        <Grid container direction="row" justifyContent={{ xs: 'space-between', sm: 'flex-start' }} alignItems="center">
             <Typography
                 key={exercise.id}
                 id={`${parentIdPrefix}name__${index}`}
@@ -43,6 +37,7 @@ const ExerciseItem: FC<ExerciseItemProps> = ({
                 variant="body2"
                 sx={typographySx}
                 marginLeft={typographyMarginLeft}
+                minWidth={{ xs: 0, sm: '20rem' }}
             >
                 {exercise.name}
             </Typography>

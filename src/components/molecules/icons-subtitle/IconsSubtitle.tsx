@@ -1,11 +1,12 @@
 import { Stack, Typography } from '@mui/material';
 import { FC } from 'react';
-import { addLeadingZero } from '../../../util/number-util';
+import { addLeadingZero, getNumber } from '../../../util/number-util';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
 import NumbersIcon from '@mui/icons-material/Numbers';
 import { Exercise } from '../../../model/Exercise.model';
 import { AmountTypeAmountValue, RecordType } from '../../../model/Basics.model';
+import { ResponsiveStyleValue } from '@mui/system';
 
 export type WorkoutIconsSubtitleProps = {
     entities: AmountTypeAmountValue[];
@@ -14,6 +15,8 @@ export type WorkoutIconsSubtitleProps = {
     parentIdPrefix: string;
     index?: number;
     type?: RecordType;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    display?: ResponsiveStyleValue<any> | undefined;
 };
 const IconsSubtitle: FC<WorkoutIconsSubtitleProps> = ({
     entities,
@@ -21,22 +24,11 @@ const IconsSubtitle: FC<WorkoutIconsSubtitleProps> = ({
     length,
     parentIdPrefix,
     index = 0,
-    type
+    type,
+    display
 }: WorkoutIconsSubtitleProps) => {
-    const display = type ? undefined : { xs: 'none', sm: 'flex' };
-
     const getFormattedTotalWorkoutTime = (): string => {
         const getTotalWorkoutSeconds = (): number => {
-            const getNumber = (val: string | number | undefined): number => {
-                if (typeof val === 'number') {
-                    return val;
-                } else if (typeof val === 'string') {
-                    return parseInt(val);
-                }
-
-                return 0;
-            };
-
             return entities
                 .map((entity) => (entity.amountType === 'TIME_BASED' ? getNumber((entity as Exercise).amountValue) : 0))
                 .reduce((a, b) => a + b);
@@ -48,6 +40,13 @@ const IconsSubtitle: FC<WorkoutIconsSubtitleProps> = ({
             totalWorkoutSeconds >= 60 ? addLeadingZero(Math.floor(totalWorkoutSeconds / 60)) : '0';
         const formattedWorkoutSeconds = addLeadingZero(totalWorkoutSeconds % 60);
         return `${formattedWorkoutHours}${formattedWorkoutMinutes}:${formattedWorkoutSeconds}`;
+    };
+
+    const getTotalReps = (): number => {
+        return entities
+            .filter((entity) => entity.amountType === 'COUNT_BASED')
+            .map((entity) => getNumber(entity.amountValue))
+            .reduce((a, b) => a + b);
     };
 
     return (
@@ -66,6 +65,14 @@ const IconsSubtitle: FC<WorkoutIconsSubtitleProps> = ({
                         {getFormattedTotalWorkoutTime()}
                     </Typography>
                     <QueryBuilderIcon></QueryBuilderIcon>
+                </Stack>
+            ) : null}
+            {!type ? (
+                <Stack direction="row" alignItems="end" spacing={1} display={display}>
+                    <Typography key={id} id={`${parentIdPrefix}__reps__${index}`}>
+                        {getTotalReps()}
+                    </Typography>
+                    <NumbersIcon></NumbersIcon>
                 </Stack>
             ) : null}
         </>

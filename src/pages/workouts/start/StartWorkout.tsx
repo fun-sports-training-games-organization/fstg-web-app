@@ -10,6 +10,8 @@ import { Grid, IconButton, Stack } from '@mui/material';
 import { PlayArrow } from '@mui/icons-material';
 import theme from '../../../theme/theme';
 import useEntityManager from '../../../hooks/useEntityManager';
+import IconsSubtitle from '../../../components/molecules/icons-subtitle/IconsSubtitle';
+import { v4 as uuidv4 } from 'uuid';
 
 const StartWorkout: FC = () => {
     const pageName = 'start_workout';
@@ -53,6 +55,14 @@ const StartWorkout: FC = () => {
                         parentIdPrefix={idPrefix}
                         typographySx={{ lineHeight: 2.2, marginLeft: '0.7rem' }}
                     ></ExercisesContent>
+                    <Grid mt={5} mb={2} pl={2} pr={2} container direction="row" justifyContent="space-between">
+                        <IconsSubtitle
+                            entities={workout.exercises}
+                            id={workout.id ? workout.id : uuidv4()}
+                            length={workout.exercises.length}
+                            parentIdPrefix={idPrefix}
+                        ></IconsSubtitle>
+                    </Grid>
                 </Stack>
             </Grid>
         </div>

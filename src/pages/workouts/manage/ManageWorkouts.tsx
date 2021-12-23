@@ -44,6 +44,7 @@ const ManageWorkouts: FC = () => {
                     length={workout.exercises.length}
                     parentIdPrefix={exerciseItemPrefix}
                     index={index}
+                    display={{ xs: 'none', sm: 'flex' }}
                 ></IconsSubtitle>
             ),
             actionsButton: (
