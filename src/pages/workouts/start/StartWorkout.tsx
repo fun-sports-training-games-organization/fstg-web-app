@@ -12,6 +12,7 @@ import useEntityManager from '../../../hooks/useEntityManager';
 import IconsSubtitle from '../../../components/molecules/icons-subtitle/IconsSubtitle';
 import { v4 as uuidv4 } from 'uuid';
 import PageTitleActionButton from '../../../components/molecules/page-title-action/PageTitleAction';
+import { TypographyOverrideable } from '../../../components/atoms/typography-overrideable/TypographyOverridable';
 
 const StartWorkout: FC = () => {
     const pageName = 'start_workout';
@@ -37,10 +38,7 @@ const StartWorkout: FC = () => {
     return (
         <div data-testid={pageName}>
             <Grid container direction="column" justifyContent="space-between" alignItems="stretch">
-                {/* <Stack direction="row" justifyContent="flex-end" > */}
-                {/*  */}
                 <PageTitleActionButton
-                    // onClick={() => navigate.toEditWorkout(history, undefined)}
                     actionButton={
                         <IconButton onClick={() => console.log('lets do this workout!')} sx={{ marginRight: 3 }}>
                             <PlayArrow htmlColor={'black'} transform="scale(3)" />
@@ -49,7 +47,6 @@ const StartWorkout: FC = () => {
                     titleTranslationKey="page.startWorkout.title"
                     idPrefix={idPrefix}
                 ></PageTitleActionButton>
-                {/* </Stack> */}
                 <Stack
                     mt={2}
                     mr={2}
@@ -58,6 +55,15 @@ const StartWorkout: FC = () => {
                     borderRadius="1rem"
                     sx={{ backgroundColor: theme.palette.grey[300], paddingRight: '0.7rem' }}
                 >
+                    <TypographyOverrideable
+                        fontSize={'twentyThree'}
+                        fontWeight={'sixHundred'}
+                        variant="h5"
+                        textAlign={'center'}
+                        mb={3}
+                    >
+                        {workout.name}
+                    </TypographyOverrideable>
                     <ExercisesContent
                         workout={workout}
                         parentIdPrefix={idPrefix}

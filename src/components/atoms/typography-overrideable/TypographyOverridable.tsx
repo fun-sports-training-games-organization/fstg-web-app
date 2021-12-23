@@ -8,6 +8,7 @@ const FONT_WEIGHT = {
 };
 
 const FONT_SIZE = {
+    twentyThree: 23,
     twentySix: 26
 };
 
