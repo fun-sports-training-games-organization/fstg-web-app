@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react';
 import { Stack } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import DeleteConfirmationDialog from '../../../components/molecules/delete-confirmation-dialog/DeleteConfirmationDialog';
-import PageTitleAdd from '../../../components/molecules/page-title-add/PageTitleAdd';
+import PageTitleActionButton from '../../../components/molecules/page-title-action/PageTitleAction';
 import { Workout } from '../../../model/Workout.model';
 import { getPageIdPrefix } from '../../../util/id-util';
 import * as navigate from '../../../util/navigation-util';
@@ -13,6 +13,7 @@ import ActionsMenu from '../../../components/molecules/actions-menu/ActionsMenu'
 import ExercisesContent from '../../../components/organisms/exercises-content/ExercisesContent';
 import useEntityManager from '../../../hooks/useEntityManager';
 import { v4 as uuidv4 } from 'uuid';
+import AddButton from '../../../components/atoms/add-button/AddButton';
 
 const ManageWorkouts: FC = () => {
     const pageName = 'manage_workouts';
@@ -69,11 +70,16 @@ const ManageWorkouts: FC = () => {
 
     return (
         <div data-testid={pageName}>
-            <PageTitleAdd
-                onClick={() => navigate.toEditWorkout(history, undefined)}
+            <PageTitleActionButton
+                actionButton={
+                    <AddButton
+                        onClick={() => navigate.toEditWorkout(history, undefined)}
+                        testId={`${idPrefix}add_button`}
+                    />
+                }
                 titleTranslationKey="page.manageWorkouts.workouts"
                 idPrefix={idPrefix}
-            ></PageTitleAdd>
+            ></PageTitleActionButton>
             <Stack ml={2} mr={2} mt={3} mb={3}>
                 <Accordion
                     accordions={workouts.map((workout, index) => getAccordionProp(workout, exerciseItemPrefix, index))}

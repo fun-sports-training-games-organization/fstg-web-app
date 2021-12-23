@@ -1,5 +1,4 @@
 import { FC, useCallback, useEffect, useState } from 'react';
-// import { Stack } from '@mui/material';
 import { Id } from '../../../model/Basics.model';
 import { Workout } from '../../../model/Workout.model';
 import { getPageIdPrefix } from '../../../util/id-util';
@@ -12,6 +11,7 @@ import theme from '../../../theme/theme';
 import useEntityManager from '../../../hooks/useEntityManager';
 import IconsSubtitle from '../../../components/molecules/icons-subtitle/IconsSubtitle';
 import { v4 as uuidv4 } from 'uuid';
+import PageTitleActionButton from '../../../components/molecules/page-title-action/PageTitleAction';
 
 const StartWorkout: FC = () => {
     const pageName = 'start_workout';
@@ -37,11 +37,19 @@ const StartWorkout: FC = () => {
     return (
         <div data-testid={pageName}>
             <Grid container direction="column" justifyContent="space-between" alignItems="stretch">
-                <Stack direction="row" justifyContent="flex-end" mr={3}>
-                    <IconButton onClick={() => console.log('lets do this workout!')}>
-                        <PlayArrow htmlColor={'black'} transform="scale(3)" />
-                    </IconButton>
-                </Stack>
+                {/* <Stack direction="row" justifyContent="flex-end" > */}
+                {/*  */}
+                <PageTitleActionButton
+                    // onClick={() => navigate.toEditWorkout(history, undefined)}
+                    actionButton={
+                        <IconButton onClick={() => console.log('lets do this workout!')} sx={{ marginRight: 3 }}>
+                            <PlayArrow htmlColor={'black'} transform="scale(3)" />
+                        </IconButton>
+                    }
+                    titleTranslationKey="page.startWorkout.title"
+                    idPrefix={idPrefix}
+                ></PageTitleActionButton>
+                {/* </Stack> */}
                 <Stack
                     mt={2}
                     mr={2}
