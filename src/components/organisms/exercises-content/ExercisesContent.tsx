@@ -1,4 +1,4 @@
-import { SxProps, Theme } from '@mui/system';
+import { ResponsiveStyleValue, SxProps, Theme } from '@mui/system';
 import { FC } from 'react';
 import { Workout } from '../../../model/Workout.model';
 import ExerciseItem from '../../molecules/exercise-item/ExerciseItem';
@@ -8,13 +8,16 @@ export type ExercisesContentProps = {
     parentIdPrefix: string;
     index?: number;
     typographySx?: SxProps<Theme> | undefined;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    typographyMarginLeft?: ResponsiveStyleValue<any> | undefined;
 };
 
 const ExercisesContent: FC<ExercisesContentProps> = ({
     workout,
     parentIdPrefix,
     index = 0,
-    typographySx
+    typographySx,
+    typographyMarginLeft
 }: ExercisesContentProps) => {
     return (
         <>
@@ -26,6 +29,7 @@ const ExercisesContent: FC<ExercisesContentProps> = ({
                         parentIdPrefix={parentIdPrefix}
                         index={index}
                         typographySx={typographySx}
+                        typographyMarginLeft={typographyMarginLeft}
                     ></ExerciseItem>
                 );
             })}

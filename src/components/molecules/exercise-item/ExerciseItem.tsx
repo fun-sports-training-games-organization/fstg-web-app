@@ -3,20 +3,23 @@ import { FC } from 'react';
 import { ExerciseWorkoutSettings } from '../../../model/Exercise.model';
 import IconsSubtitle from '../icons-subtitle/IconsSubtitle';
 import { v4 as uuidv4 } from 'uuid';
-import { SxProps, Theme } from '@mui/system';
+import { ResponsiveStyleValue, SxProps, Theme } from '@mui/system';
 
 export type ExerciseItemProps = {
     exercise: ExerciseWorkoutSettings;
     parentIdPrefix: string;
     index?: number;
     typographySx?: SxProps<Theme> | undefined;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    typographyMarginLeft?: ResponsiveStyleValue<any> | undefined;
 };
 
 const ExerciseItem: FC<ExerciseItemProps> = ({
     exercise,
     parentIdPrefix,
     index = 0,
-    typographySx
+    typographySx,
+    typographyMarginLeft
 }: ExerciseItemProps) => {
     let length = 0;
     if (typeof exercise.amountValue === 'number') {
@@ -39,6 +42,7 @@ const ExerciseItem: FC<ExerciseItemProps> = ({
                 align="left"
                 variant="body2"
                 sx={typographySx}
+                marginLeft={typographyMarginLeft}
             >
                 {exercise.name}
             </Typography>

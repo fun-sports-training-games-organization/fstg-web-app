@@ -59,7 +59,8 @@ const ManageWorkouts: FC = () => {
                     workout={workout}
                     parentIdPrefix={exerciseItemPrefix}
                     index={index}
-                    typographySx={{ lineHeight: 2.2, marginLeft: '4rem' }}
+                    typographySx={{ lineHeight: 2.2 }}
+                    typographyMarginLeft={{ xs: 0, sm: '4rem' }}
                 ></ExercisesContent>
             )
         };
