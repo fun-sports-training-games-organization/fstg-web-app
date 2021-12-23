@@ -61,12 +61,14 @@ const Accordion: FC<AccordionProps> = (props) => {
                                     accordion.subtitle
                                 )
                             ) : null}
-                            {accordion.actionsButton ? (
-                                <Typography sx={{ color: 'text.secondary' }}>{accordion.actionsButton}</Typography>
-                            ) : null}
+                            {accordion.actionsButton ? accordion.actionsButton : null}
                         </AccordionSummary>
                         <AccordionDetails sx={{ backgroundColor: 'white', paddingTop: 0 }}>
-                            <Typography sx={{ marginLeft: '4rem' }}>{accordion.content}</Typography>
+                            {typeof accordion.content === 'string' ? (
+                                <Typography sx={{ marginLeft: '4rem' }}>{accordion.content}</Typography>
+                            ) : (
+                                accordion.content
+                            )}
                         </AccordionDetails>
                     </MUIAccordion>
                 );

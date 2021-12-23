@@ -1,11 +1,7 @@
-import { CreateAndModifyInfo, IdName } from './Basics.model';
+import { AmountTypeAmountValue, CreateAndModifyInfo, IdName, RecordType } from './Basics.model';
 
-export type RecordType = 'COUNT_BASED' | 'TIME_BASED';
-
-export interface Exercise extends IdName, CreateAndModifyInfo {
+export interface Exercise extends IdName, CreateAndModifyInfo, AmountTypeAmountValue {
     imageOrGifUrl?: string;
-    amountType?: RecordType;
-    amountValue?: number | string;
     resultType?: RecordType;
     resultValue?: number | string;
     recordResults?: boolean;

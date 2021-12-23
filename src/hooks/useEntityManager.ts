@@ -26,8 +26,8 @@ function useEntityManager<T>(entityName: string): EntityManager<T> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const findById = async (id: string): Promise<any> => {
         const doc = await firestore.collection(entityName).doc(id);
-        const user = await doc.get();
-        return user.data();
+        const docSnapshot = await doc.get();
+        return { ...docSnapshot.data(), id };
     };
 
     const createEntity = async (entity: T) => {

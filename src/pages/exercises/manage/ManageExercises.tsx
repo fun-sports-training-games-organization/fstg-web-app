@@ -6,8 +6,9 @@ import EditExerciseDialog from '../../../components/organisms/edit-exercise-dial
 import DeleteConfirmationDialog from '../../../components/molecules/delete-confirmation-dialog/DeleteConfirmationDialog';
 import { useTranslation } from 'react-i18next';
 import { getPageIdPrefix } from '../../../util/id-util';
-import PageTitleAdd from '../../../components/molecules/page-title-add/PageTitleAdd';
+import PageTitleActionButton from '../../../components/molecules/page-title-action/PageTitleAction';
 import useEntityManager from '../../../hooks/useEntityManager';
+import AddButton from '../../../components/atoms/add-button/AddButton';
 
 const ManageExercises: FC = (): JSX.Element => {
     const pageName = 'manage_exercises';
@@ -37,11 +38,11 @@ const ManageExercises: FC = (): JSX.Element => {
 
     return (
         <>
-            <PageTitleAdd
-                onClick={() => setOpenDialog(true)}
+            <PageTitleActionButton
+                actionButton={<AddButton onClick={() => setOpenDialog(true)} testId={`${idPrefix}add_button`} />}
                 titleTranslationKey="page.manageExercises.exercises"
                 idPrefix={idPrefix}
-            ></PageTitleAdd>
+            ></PageTitleActionButton>
             <Stack ml={2} mr={2} mt={3} mb={3}>
                 <List>
                     {exercises.map((exercise: Exercise) => {

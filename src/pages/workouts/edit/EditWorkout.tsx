@@ -1,7 +1,5 @@
-import { ChangeEvent, FC, useEffect, useState } from 'react';
+import { ChangeEvent, FC, useCallback, useEffect, useState } from 'react';
 import { Stack, TextField } from '@mui/material';
-import { useFirebase, useFirestore } from 'react-redux-firebase';
-import { v4 as uuidv4 } from 'uuid';
 import { useSnackbar } from 'notistack';
 import { useHistory, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -12,10 +10,10 @@ import PageTitle from '../../../components/atoms/page-title/PageTitle';
 import SubmitButton from '../../../components/atoms/submit-button/SubmitButton';
 import { Id } from '../../../model/Basics.model';
 import { Workout } from '../../../model/Workout.model';
-import { prepareDataToSend } from '../../../util/data-prep-util';
 import { getPageIdPrefix } from '../../../util/id-util';
-import { ExerciseWorkoutSettings } from '../../../model/Exercise.model';
 import ManageWorkoutExercises from '../../../components/molecules/manage-workout-exercises/ManageWorkoutExercises';
+import useEntityManager from '../../../hooks/useEntityManager';
+import { getNewEmptyExerciseWorkoutSettings, getNewEmptyWorkout } from '../../../util/workout-util';
 
 const EditWorkout: FC = () => {
     const pageName = 'edit_workout';
@@ -23,30 +21,9 @@ const EditWorkout: FC = () => {
     const history = useHistory();
     const { t } = useTranslation();
     const { enqueueSnackbar } = useSnackbar();
-    const firestore = useFirestore();
-    const firebase = useFirebase();
     const params = useParams() as Id;
     const workoutId = params?.id ? params.id : undefined;
-
-    const emptyExerciseWorkoutSettings: ExerciseWorkoutSettings = {
-        name: '',
-        amountType: 'COUNT_BASED',
-        recordResults: false,
-        resultType: 'COUNT_BASED',
-        useDefaultResult: false
-    };
-    const getNewEmptyExerciseWorkoutSettings = (): ExerciseWorkoutSettings => {
-        return { ...emptyExerciseWorkoutSettings, id: uuidv4() };
-    };
-
-    const emptyWorkout: Workout = {
-        name: '',
-        exercises: [getNewEmptyExerciseWorkoutSettings()],
-        hasBeenCreated: false
-    };
-    const getNewEmptyWorkout = (): Workout => {
-        return { ...emptyWorkout, id: uuidv4() };
-    };
+    const entityManager = useEntityManager<Workout>('workouts');
 
     const addExerciseToWorkout = (): void =>
         setWorkout({
@@ -56,22 +33,22 @@ const EditWorkout: FC = () => {
 
     const [workout, setWorkout] = useState<Workout>(getNewEmptyWorkout());
 
+    const loadWorkout = useCallback(() => {
+        workoutId &&
+            entityManager.findById(workoutId).then((wo: Workout) => {
+                console.log({ wo });
+                setWorkout({ ...wo, id: workoutId, hasBeenCreated: true });
+            });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     useEffect(() => {
-        if (workoutId) {
-            firestore
-                .collection('workouts')
-                .doc(workoutId)
-                .onSnapshot((snapshot) => {
-                    setWorkout({ id: workoutId, hasBeenCreated: true, ...snapshot.data() } as Workout);
-                });
-        }
-    }, [firestore, workoutId]);
+        loadWorkout();
+    }, [loadWorkout]);
 
     const handleUpdate = (shouldNavigate = true) => {
-        firestore
-            .collection('workouts')
-            .doc(workout?.id)
-            .update(prepareDataToSend(workout, firebase.auth().currentUser))
+        entityManager
+            .updateEntity(workout)
             .then(() => {
                 notification.updateSuccess(enqueueSnackbar, t, workout.name);
 
@@ -85,9 +62,8 @@ const EditWorkout: FC = () => {
     };
 
     const handleCreate = (shouldNavigate = true) => {
-        firestore
-            .collection('workouts')
-            .add(prepareDataToSend(workout, firebase.auth().currentUser))
+        entityManager
+            .createEntity(workout)
             .then(() => {
                 notification.createSuccess(enqueueSnackbar, t, workout.name);
 

@@ -8,6 +8,7 @@ export interface SelectorProps<T> {
     filterOptions?: (options: T[], state: FilterOptionsState<T>) => T[];
     defaultValues?: T | T[]; // in single, use Option, in multiple use Option[]
     noOptionsText?: string;
+    isOptionEqualToValue?: ((option: unknown, value: unknown) => boolean) | undefined;
     id?: string;
     variant?: 'standard' | 'outlined' | 'filled';
     value?: T | T[] | null; // in single, use Option, in multiple use Option[]

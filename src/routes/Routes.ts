@@ -1,14 +1,16 @@
 import IRoute from './route.interface';
 
 import RegistrationForm from '../pages/authentication/registration-form/RegistrationForm';
-import HomePage from '../pages/home/Home';
-import PrivacyPolicyPage from '../pages/legal/PrivacyPolicyPage';
 import ManageExercises from '../pages/exercises/manage/ManageExercises';
-import LoginPage from '../pages/authentication/login-page/LoginPage';
-import TermsOfServicePage from '../pages/legal/TermsOfServicePage';
-import EditWorkout from '../pages/workouts/edit/EditWorkout';
 import ManageWorkouts from '../pages/workouts/manage/ManageWorkouts';
 import Account from '../pages/account/Account';
+import StartWorkout from '../pages/workouts/start/StartWorkout';
+import LoginPage from '../pages/authentication/login-page/LoginPage';
+import HomePage from '../pages/home/Home';
+import PrivacyPolicyPage from '../pages/legal/PrivacyPolicyPage';
+import TermsOfServicePage from '../pages/legal/TermsOfServicePage';
+import EditWorkout from '../pages/workouts/edit/EditWorkout';
+import DoWorkout from '../pages/workouts/do/DoWorkout';
 
 const routes: IRoute[] = [
     {
@@ -44,6 +46,20 @@ const routes: IRoute[] = [
         exact: true,
         component: EditWorkout,
         name: 'Edit Workout',
+        protected: true
+    },
+    {
+        path: '/start-workout/:id',
+        exact: true,
+        component: StartWorkout,
+        name: 'Start Workout',
+        protected: true
+    },
+    {
+        path: '/do-workout/:id',
+        exact: true,
+        component: DoWorkout,
+        name: 'Do Workout',
         protected: true
     },
     {

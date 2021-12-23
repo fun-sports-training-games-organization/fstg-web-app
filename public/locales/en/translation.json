@@ -102,6 +102,9 @@
         "editWorkout": {
             "createWorkout": "Create workout",
             "editWorkout": "Edit workout"
+        },
+        "startWorkout": {
+            "title": "Start workout"
         }
     },
     "form": {

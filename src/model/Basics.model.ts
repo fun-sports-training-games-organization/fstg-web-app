@@ -1,3 +1,5 @@
+export type RecordType = 'COUNT_BASED' | 'TIME_BASED';
+
 export interface Id {
     id?: string;
 }
@@ -16,6 +18,11 @@ export interface ModifyInfo {
     lastModifiedUTCMilliseconds?: number;
     lastModifiedById?: string;
     lastModifiedByDisplayName?: string | null;
+}
+
+export interface AmountTypeAmountValue {
+    amountType?: RecordType;
+    amountValue?: number | string;
 }
 
 export interface CreateAndModifyInfo extends CreateInfo, ModifyInfo {}
