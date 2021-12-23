@@ -26,8 +26,8 @@ const ExercisesContent: FC<ExercisesContentProps> = ({
                     <ExerciseItem
                         key={`${parentIdPrefix}name__${exercise.name}__${index}__${i}`}
                         exercise={exercise}
-                        parentIdPrefix={parentIdPrefix}
-                        index={index}
+                        parentIdPrefix={`${parentIdPrefix}name__${exercise.name}__${index}__`}
+                        index={i}
                         typographySx={typographySx}
                         typographyMarginLeft={typographyMarginLeft}
                     ></ExerciseItem>
