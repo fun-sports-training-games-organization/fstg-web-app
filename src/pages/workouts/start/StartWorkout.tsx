@@ -9,6 +9,7 @@ import { getNewEmptyWorkout } from '../../../util/workout-util';
 import { useParams } from 'react-router-dom';
 import { Grid, IconButton, Stack } from '@mui/material';
 import { PlayArrow } from '@mui/icons-material';
+import theme from '../../../theme/theme';
 
 const StartWorkout: FC = () => {
     const pageName = 'start_workout';
@@ -33,16 +34,23 @@ const StartWorkout: FC = () => {
     return (
         <div data-testid={pageName}>
             <Grid container direction="column" justifyContent="space-between" alignItems="stretch">
-                <Stack direction="row" justifyContent="flex-end" mr={2}>
+                <Stack direction="row" justifyContent="flex-end" mr={3}>
                     <IconButton onClick={() => console.log('lets do this workout!')}>
-                        <PlayArrow htmlColor={'black'} transform="scale(2)" />
+                        <PlayArrow htmlColor={'black'} transform="scale(3)" />
                     </IconButton>
                 </Stack>
-                <Stack mt={2} mr={2} direction="column" border="1px solid black" sx={{ backgroundColor: 'light-gray' }}>
+                <Stack
+                    mt={2}
+                    mr={2}
+                    direction="column"
+                    border={`2px solid ${theme.palette.grey[700]}`}
+                    borderRadius="1rem"
+                    sx={{ backgroundColor: theme.palette.grey[300], paddingRight: '0.7rem' }}
+                >
                     <ExercisesContent
                         workout={workout}
                         parentIdPrefix={idPrefix}
-                        typographySx={{ lineHeight: 2.2, marginLeft: '0.5rem' }}
+                        typographySx={{ lineHeight: 2.2, marginLeft: '0.7rem' }}
                     ></ExercisesContent>
                 </Stack>
             </Grid>
