@@ -1,6 +1,5 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
 // import { Stack } from '@mui/material';
-import { useFirestore } from 'react-redux-firebase';
 import { Id } from '../../../model/Basics.model';
 import { Workout } from '../../../model/Workout.model';
 import { getPageIdPrefix } from '../../../util/id-util';
@@ -10,26 +9,28 @@ import { useParams } from 'react-router-dom';
 import { Grid, IconButton, Stack } from '@mui/material';
 import { PlayArrow } from '@mui/icons-material';
 import theme from '../../../theme/theme';
+import useEntityManager from '../../../hooks/useEntityManager';
 
 const StartWorkout: FC = () => {
     const pageName = 'start_workout';
     const idPrefix = getPageIdPrefix(pageName);
-    const firestore = useFirestore();
     const params = useParams() as Id;
     const workoutId = params?.id ? params.id : undefined;
+    const { findById } = useEntityManager<Workout>('workouts');
 
     const [workout, setWorkout] = useState<Workout>(getNewEmptyWorkout());
 
+    const loadWorkout = useCallback(() => {
+        workoutId &&
+            findById(workoutId).then((wo: Workout) => {
+                setWorkout(wo);
+            });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     useEffect(() => {
-        if (workoutId) {
-            firestore
-                .collection('workouts')
-                .doc(workoutId)
-                .onSnapshot((snapshot) => {
-                    setWorkout({ id: workoutId, hasBeenCreated: true, ...snapshot.data() } as Workout);
-                });
-        }
-    }, [firestore, workoutId]);
+        loadWorkout();
+    }, [loadWorkout]);
 
     return (
         <div data-testid={pageName}>

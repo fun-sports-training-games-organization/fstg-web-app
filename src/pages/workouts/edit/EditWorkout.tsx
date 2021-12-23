@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useEffect, useState } from 'react';
+import { ChangeEvent, FC, useCallback, useEffect, useState } from 'react';
 import { Stack, TextField } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import { useHistory, useParams } from 'react-router-dom';
@@ -13,7 +13,6 @@ import { Workout } from '../../../model/Workout.model';
 import { getPageIdPrefix } from '../../../util/id-util';
 import ManageWorkoutExercises from '../../../components/molecules/manage-workout-exercises/ManageWorkoutExercises';
 import useEntityManager from '../../../hooks/useEntityManager';
-import { useFirestore } from 'react-redux-firebase';
 import { getNewEmptyExerciseWorkoutSettings, getNewEmptyWorkout } from '../../../util/workout-util';
 
 const EditWorkout: FC = () => {
@@ -25,7 +24,6 @@ const EditWorkout: FC = () => {
     const params = useParams() as Id;
     const workoutId = params?.id ? params.id : undefined;
     const entityManager = useEntityManager<Workout>('workouts');
-    const firestore = useFirestore();
 
     const addExerciseToWorkout = (): void =>
         setWorkout({
@@ -35,16 +33,18 @@ const EditWorkout: FC = () => {
 
     const [workout, setWorkout] = useState<Workout>(getNewEmptyWorkout());
 
+    const loadWorkout = useCallback(() => {
+        workoutId &&
+            entityManager.findById(workoutId).then((wo: Workout) => {
+                console.log({ wo });
+                setWorkout({ ...wo, id: workoutId, hasBeenCreated: true });
+            });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     useEffect(() => {
-        if (workoutId) {
-            firestore
-                .collection('workouts')
-                .doc(workoutId)
-                .onSnapshot((snapshot) => {
-                    setWorkout({ id: workoutId, hasBeenCreated: true, ...snapshot.data() } as Workout);
-                });
-        }
-    }, [firestore, workoutId]);
+        loadWorkout();
+    }, [loadWorkout]);
 
     const handleUpdate = (shouldNavigate = true) => {
         entityManager
