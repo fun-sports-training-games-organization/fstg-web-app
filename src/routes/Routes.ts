@@ -10,6 +10,7 @@ import HomePage from '../pages/home/Home';
 import PrivacyPolicyPage from '../pages/legal/PrivacyPolicyPage';
 import TermsOfServicePage from '../pages/legal/TermsOfServicePage';
 import EditWorkout from '../pages/workouts/edit/EditWorkout';
+import DoWorkout from '../pages/workouts/do/DoWorkout';
 
 const routes: IRoute[] = [
     {
@@ -52,6 +53,13 @@ const routes: IRoute[] = [
         exact: true,
         component: StartWorkout,
         name: 'Start Workout',
+        protected: true
+    },
+    {
+        path: '/do-workout/:id',
+        exact: true,
+        component: DoWorkout,
+        name: 'Do Workout',
         protected: true
     },
     {

@@ -4,7 +4,7 @@ import { Workout } from '../../../model/Workout.model';
 import { getPageIdPrefix } from '../../../util/id-util';
 import ExercisesContent from '../../../components/organisms/exercises-content/ExercisesContent';
 import { getNewEmptyWorkout } from '../../../util/workout-util';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { Grid, IconButton, Stack } from '@mui/material';
 import { PlayArrow } from '@mui/icons-material';
 import theme from '../../../theme/theme';
@@ -13,11 +13,13 @@ import IconsSubtitle from '../../../components/molecules/icons-subtitle/IconsSub
 import { v4 as uuidv4 } from 'uuid';
 import PageTitleActionButton from '../../../components/molecules/page-title-action/PageTitleAction';
 import { TypographyOverrideable } from '../../../components/atoms/typography-overrideable/TypographyOverridable';
+import * as navigate from '../../../util/navigation-util';
 
 const StartWorkout: FC = () => {
     const pageName = 'start_workout';
     const idPrefix = getPageIdPrefix(pageName);
     const params = useParams() as Id;
+    const history = useHistory();
     const workoutId = params?.id ? params.id : undefined;
     const { findById } = useEntityManager<Workout>('workouts');
 
@@ -40,7 +42,10 @@ const StartWorkout: FC = () => {
             <Grid container direction="column" justifyContent="space-between" alignItems="stretch">
                 <PageTitleActionButton
                     actionButton={
-                        <IconButton onClick={() => console.log('lets do this workout!')} sx={{ marginRight: 3 }}>
+                        <IconButton
+                            onClick={() => workout.id && navigate.toDoWorkout(history, workout.id)}
+                            sx={{ marginRight: 3 }}
+                        >
                             <PlayArrow htmlColor={'black'} transform="scale(3)" />
                         </IconButton>
                     }
