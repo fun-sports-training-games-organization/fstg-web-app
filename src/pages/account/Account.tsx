@@ -61,7 +61,6 @@ const RegistrationForm: FC = () => {
     const handleChangeEvent = (event: ChangeEvent<HTMLInputElement>) => {
         if (event.target.type === 'file') {
             const file = event.target.files && event.target.files[0];
-            console.log(file);
             setState({
                 ...state,
                 [event.target.name]: file
