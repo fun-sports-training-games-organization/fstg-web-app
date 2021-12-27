@@ -12,6 +12,7 @@ const AutoCompleteSelect: React.FC<AutoCompleteSelectorProps> = (props) => {
         getOptionLabel,
         defaultValues,
         onChange,
+        onTextChange,
         filterOptions,
         fullWidth,
         disabled,
@@ -45,6 +46,7 @@ const AutoCompleteSelect: React.FC<AutoCompleteSelectorProps> = (props) => {
                         startAdornment={params.InputProps.startAdornment}
                         endAdornment={params.InputProps.endAdornment}
                         inputProps={params.inputProps}
+                        onChange={onTextChange}
                         {...inputFieldProps}
                     />
                 );

@@ -14,6 +14,7 @@ type Props = {
     setExercise: Dispatch<SetStateAction<Exercise | undefined>>;
     title: string;
     message: string;
+    onCreate?: (exercise: Exercise) => void;
 };
 
 const emptyExercise: Exercise = {
@@ -33,7 +34,9 @@ const EditExerciseDialog = ({
     title,
     message,
     exercise = emptyExercise,
-    setExercise
+    setExercise,
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    onCreate = () => {}
 }: Props): JSX.Element => {
     const { t } = useTranslation();
     const { enqueueSnackbar } = useSnackbar();
@@ -58,10 +61,11 @@ const EditExerciseDialog = ({
 
     const handleCreate = () => {
         createEntity(exercise)
-            .then(() => {
+            .then((id) => {
                 notification.createSuccess(enqueueSnackbar, t, exercise.name);
                 setOpen(false);
                 setExercise(emptyExercise);
+                onCreate({ ...exercise, id });
             })
             .catch(() => {
                 notification.createError(enqueueSnackbar, t, exercise.name);
