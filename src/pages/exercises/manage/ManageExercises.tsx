@@ -2,13 +2,14 @@ import { Grid, IconButton, List, ListItem, Stack } from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
 import { FC, useEffect, useState } from 'react';
 import { Exercise } from '../../../model/Exercise.model';
-import EditExerciseDialog from '../../../components/organisms/edit-exercise-dialog/EditExerciseDialog';
 import DeleteConfirmationDialog from '../../../components/molecules/delete-confirmation-dialog/DeleteConfirmationDialog';
 import { useTranslation } from 'react-i18next';
 import { getPageIdPrefix } from '../../../util/id-util';
 import PageTitleActionButton from '../../../components/molecules/page-title-action/PageTitleAction';
 import useEntityManager from '../../../hooks/useEntityManager';
 import AddButton from '../../../components/atoms/add-button/AddButton';
+import ResponsiveDialog from '../../../components/organisms/responsive-dialog';
+import CreateEditExerciseForm from '../../../components/organisms/create-edit-exercise-form/CreateEditExerciseForm';
 
 const ManageExercises: FC = (): JSX.Element => {
     const pageName = 'manage_exercises';
@@ -20,7 +21,7 @@ const ManageExercises: FC = (): JSX.Element => {
     const [openDialog, setOpenDialog] = useState<boolean>(false);
     const [openDeleteConfirmationDialog, setOpenDeleteConfirmationDialog] = useState<boolean>(false);
     const [exerciseToDelete, setExerciseToDelete] = useState<Exercise>();
-    const [exercise, setExercise] = useState<Exercise>();
+    const [exerciseId, setExerciseId] = useState<string>();
 
     const handleDelete = async (exercise: Exercise) => {
         setExerciseToDelete(exercise);
@@ -32,17 +33,25 @@ const ManageExercises: FC = (): JSX.Element => {
     }, [entities]);
 
     const handleUpdate = (exercise: Exercise) => {
-        setExercise(exercise);
+        setExerciseId(exercise.id);
         setOpenDialog(true);
     };
 
     return (
         <>
             <PageTitleActionButton
-                actionButton={<AddButton onClick={() => setOpenDialog(true)} testId={`${idPrefix}add_button`} />}
+                actionButton={
+                    <AddButton
+                        onClick={() => {
+                            setOpenDialog(true);
+                            setExerciseId(undefined);
+                        }}
+                        testId={`${idPrefix}add_button`}
+                    />
+                }
                 titleTranslationKey="page.manageExercises.exercises"
                 idPrefix={idPrefix}
-            ></PageTitleActionButton>
+            />
             <Stack ml={2} mr={2} mt={3} mb={3}>
                 <List>
                     {exercises.map((exercise: Exercise) => {
@@ -59,7 +68,7 @@ const ManageExercises: FC = (): JSX.Element => {
                                 <Grid item xs={2}>
                                     <IconButton
                                         onClick={() => {
-                                            handleDelete(exercise);
+                                            handleDelete(exercise).catch(console.error);
                                         }}
                                     >
                                         <Delete htmlColor={'palevioletred'} />
@@ -69,13 +78,21 @@ const ManageExercises: FC = (): JSX.Element => {
                         );
                     })}
                 </List>
-                <EditExerciseDialog
+                <ResponsiveDialog
                     title={t('dialog.editExercise.title')}
                     message={t('dialog.editExercise.message')}
                     open={openDialog}
-                    setOpen={setOpenDialog}
-                    exercise={exercise}
-                    setExercise={setExercise}
+                    content={
+                        <CreateEditExerciseForm
+                            exerciseId={exerciseId}
+                            handleClose={() => {
+                                setExerciseId(undefined);
+                                setOpenDialog(false);
+                            }}
+                        />
+                    }
+                    // setOpen={setOpenDialog}
+                    // exerciseId={exerciseId}
                 />
                 <DeleteConfirmationDialog
                     openDeleteConfirmationDialog={openDeleteConfirmationDialog}

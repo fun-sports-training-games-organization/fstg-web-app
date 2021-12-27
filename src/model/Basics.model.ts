@@ -22,7 +22,7 @@ export interface ModifyInfo {
 
 export interface AmountTypeAmountValue {
     amountType?: RecordType;
-    amountValue?: number | string;
+    amountValue?: number;
 }
 
 export interface CreateAndModifyInfo extends CreateInfo, ModifyInfo {}

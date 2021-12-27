@@ -5,7 +5,7 @@ import { Add as AddIcon, Remove as RemoveIcon } from '@mui/icons-material';
 export type OwnProps = {
     min?: number;
     max?: number;
-    value: number;
+    value?: number;
     setValue: (value: number) => void;
 };
 const CountField: FC<OwnProps> = ({

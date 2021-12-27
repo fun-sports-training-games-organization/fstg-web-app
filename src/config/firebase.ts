@@ -2,7 +2,7 @@ import { applyMiddleware, createStore } from 'redux';
 import { rootReducer } from '../reducers';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
-import firebase from 'firebase/compat';
+import firebase from 'firebase/compat/app';
 import firebaseConfig from './firebaseConfig';
 import { createFirestoreInstance } from 'redux-firestore';
 import { getAuth } from 'firebase/auth';
