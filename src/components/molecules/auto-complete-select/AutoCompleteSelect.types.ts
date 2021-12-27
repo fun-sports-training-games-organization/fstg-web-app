@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { AutocompleteChangeDetails, AutocompleteChangeReason, FilterOptionsState } from '@mui/material';
+import { ReactNode } from 'react';
 
 export interface SelectorProps<T> {
     options: T[];
@@ -7,7 +8,7 @@ export interface SelectorProps<T> {
     getOptionLabel: (option: T) => string;
     filterOptions?: (options: T[], state: FilterOptionsState<T>) => T[];
     defaultValues?: T | T[]; // in single, use Option, in multiple use Option[]
-    noOptionsText?: string;
+    noOptionsText?: string | ReactNode;
     isOptionEqualToValue?: ((option: unknown, value: unknown) => boolean) | undefined;
     id?: string;
     variant?: 'standard' | 'outlined' | 'filled';
@@ -20,6 +21,7 @@ export interface SelectorProps<T> {
         reason: AutocompleteChangeReason,
         details?: AutocompleteChangeDetails<unknown>
     ) => void;
+    onTextChange?: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> | undefined;
     label: string;
     placeholder?: string;
     fullWidth?: boolean;

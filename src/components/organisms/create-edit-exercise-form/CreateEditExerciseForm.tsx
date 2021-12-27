@@ -12,14 +12,17 @@ import { Exercise } from '../../../model/Exercise.model';
 import TextField from '../../atoms/text-field/TextField';
 import useFileManager from '../../../hooks/useFileManager';
 import { useAuth } from '../../../contexts/AuthContextProvider';
+import { getNumber } from '../../../util/number-util';
 
 type Props = {
     exerciseId?: string;
     handleClose?: () => void;
     inWorkout?: boolean;
+    onCreate?: (exercise: Exercise) => void;
+    name?: string;
 };
 
-const CreateEditExerciseForm = ({ exerciseId, handleClose, inWorkout = false }: Props): JSX.Element => {
+const CreateEditExerciseForm = ({ exerciseId, handleClose, inWorkout = false, onCreate, name }: Props): JSX.Element => {
     const { t } = useTranslation();
     const { enqueueSnackbar } = useSnackbar();
     const { user } = useAuth();
@@ -48,8 +51,11 @@ const CreateEditExerciseForm = ({ exerciseId, handleClose, inWorkout = false }: 
     }, [exercise.imageOrGifUrl]);
 
     useEffect(() => {
-        exerciseId && loadExercise(exerciseId);
-    }, [exerciseId, loadExercise]);
+        exerciseId
+            ? loadExercise(exerciseId)
+            : setExercise({ ...exercise, name: name ? name : exercise.name, amountType: 'COUNT_BASED' });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [exerciseId, loadExercise, name]);
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (event.target.type === 'file') {
@@ -88,8 +94,9 @@ const CreateEditExerciseForm = ({ exerciseId, handleClose, inWorkout = false }: 
                 });
         } else {
             createEntity(exercise)
-                .then(() => {
+                .then((id) => {
                     notification.createSuccess(enqueueSnackbar, t, exercise.name);
+                    onCreate && onCreate({ ...exercise, id });
                     setExercise({});
                     handleClose && handleClose();
                 })
@@ -177,7 +184,7 @@ const CreateEditExerciseForm = ({ exerciseId, handleClose, inWorkout = false }: 
                 {exercise.amountType === 'TIME_BASED' ? (
                     <TimeField
                         label={t(`${PREFIX}.${inWorkout ? 'time' : 'defaultTime'}`)}
-                        value={exercise.amountValue}
+                        value={getNumber(exercise.amountValue)}
                         setValue={(seconds: number) => {
                             setExercise({ ...exercise, amountValue: seconds });
                         }}
@@ -186,7 +193,7 @@ const CreateEditExerciseForm = ({ exerciseId, handleClose, inWorkout = false }: 
                     <CountField
                         min={0}
                         max={100}
-                        value={exercise.amountValue}
+                        value={getNumber(exercise.amountValue)}
                         setValue={(value: number) => setExercise({ ...exercise, amountValue: value })}
                     />
                 )}
