@@ -115,8 +115,10 @@ const RegistrationForm: FC = () => {
             <Stack padding={2} spacing={2} alignItems={'center'}>
                 {profilePictureURL ? (
                     <>
-                        <Avatar alt="Profile Picture" src={profilePictureURL} />
-                        <Button onClick={handleDeleteProfilePicture}>Delete profile picture</Button>
+                        <Avatar sx={{ height: 56, width: 56 }} alt="Profile Picture" src={profilePictureURL} />
+                        <Button color="secondary" variant="contained" onClick={handleDeleteProfilePicture}>
+                            Delete profile picture
+                        </Button>
                     </>
                 ) : (
                     <FileChooser
