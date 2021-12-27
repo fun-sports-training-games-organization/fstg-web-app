@@ -18,7 +18,7 @@ interface State {
     profilePicturePath?: string;
 }
 
-type UserProfile = {
+export type UserProfile = {
     firstName?: string;
     lastName?: string;
     username?: string;

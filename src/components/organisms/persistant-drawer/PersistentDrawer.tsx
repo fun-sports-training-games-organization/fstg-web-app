@@ -16,10 +16,12 @@ import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { MenuListItem, PersistentDrawerProps } from './PersistentDrawer.types';
-import { Icon, Stack, useMediaQuery, useTheme } from '@mui/material';
+import { Avatar, Icon, Stack, Theme, useMediaQuery } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import HeaderBar from '../header-bar/HeaderBar';
 import LanguageMenu from '../language-menu/LanguageMenu';
+import MenuButton from '../menu-button/MenuButton';
+import { useTranslation } from 'react-i18next';
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' && prop !== 'drawerWidth' })<{
     open?: boolean;
@@ -78,11 +80,12 @@ const PersistentDrawer: FC<PersistentDrawerProps> = ({
     topMenuListItems,
     bottomMenuListItems,
     user,
+    photoURL,
     logout
 }: PersistentDrawerProps) => {
+    const { t } = useTranslation();
     const history = useHistory();
-    const theme = useTheme();
-    const mobile = useMediaQuery(theme.breakpoints.down('sm'));
+    const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
     const [open, setOpen] = useState(false);
 
@@ -127,6 +130,15 @@ const PersistentDrawer: FC<PersistentDrawerProps> = ({
                             {/* {appBarText} */}
                             Fun Sports Training Games
                         </Typography>
+                        {!smDown && (
+                            <MenuButton
+                                buttonElement={<Avatar sx={{ height: 30, width: 30 }} src={photoURL} />}
+                                menuItems={[
+                                    { text: t('nav.account'), onClick: () => history.push('Account') },
+                                    { text: t('nav.logout'), onClick: () => logout && logout() }
+                                ]}
+                            />
+                        )}
                         <IconButton
                             color="inherit"
                             aria-label="open drawer"
@@ -138,19 +150,19 @@ const PersistentDrawer: FC<PersistentDrawerProps> = ({
                         </IconButton>
                     </Toolbar>
                 ) : (
-                    <HeaderBar user={user} logout={logout} />
+                    <HeaderBar />
                 )}
             </AppBar>
-            <Main open={open} drawerWidth={mobile ? '100%' : 240}>
+            <Main open={open} drawerWidth={smDown ? '100%' : 240}>
                 <DrawerHeader />
                 {children}
             </Main>
             <Drawer
                 sx={{
-                    width: mobile ? '100%' : 240,
+                    width: smDown ? '100%' : 240,
                     flexShrink: 0,
                     '& .MuiDrawer-paper': {
-                        width: mobile ? '100%' : 240
+                        width: smDown ? '100%' : 240
                     }
                 }}
                 variant="persistent"
