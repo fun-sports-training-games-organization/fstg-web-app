@@ -85,7 +85,7 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: P
                                         });
                                     }
                                 }}
-                            ></AutoCompleteSelect>
+                            />
                         </Grid>
                         <Grid item xs={2} sm={1}>
                             <IconButton
