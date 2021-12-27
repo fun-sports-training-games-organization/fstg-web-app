@@ -16,7 +16,7 @@ export default {
             { key: 'workouts', text: 'Workouts', icon: 'directions_run', path: '/workouts' }
         ],
         bottomMenuListItems: [
-            { key: 'account', text: 'Account', icon: 'person', path: '/account' },
+            { key: 'profile', text: 'Account', icon: 'person', path: '/profile' },
             { key: 'logout', text: 'Logout', icon: 'logout', onClick: () => console.log('logout clicked') }
         ],
         user: mockUser,

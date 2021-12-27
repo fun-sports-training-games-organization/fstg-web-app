@@ -146,7 +146,8 @@
                 "register": "Registrieren"
             },
             "account": {
-                "saveProfile": "Profil sichern"
+                "saveProfile": "Profil sichern",
+                "deleteProfilePicture": "Profilbild entfernen"
             }
         }
     }
