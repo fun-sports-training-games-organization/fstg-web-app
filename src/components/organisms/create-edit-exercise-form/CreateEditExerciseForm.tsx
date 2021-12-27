@@ -39,7 +39,6 @@ const CreateEditExerciseForm = ({ exerciseId, handleClose, inWorkout = false }: 
     useEffect(() => {
         if (exercise.imageOrGifUrl) {
             fileManager.getFileURL(exercise.imageOrGifUrl).then((imageUrl) => {
-                console.log(imageUrl);
                 setImUrl(imageUrl);
             });
         } else {
