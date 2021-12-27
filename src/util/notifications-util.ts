@@ -12,7 +12,7 @@ export const createError = (
     enqueueSnackbar: (message: SnackbarMessage, options?: OptionsObject | undefined) => SnackbarKey,
     t: TFunction<'translation', undefined>,
     item?: string
-): SnackbarKey => notificationItem(enqueueSnackbar, t, 'notifications.createSuccess', 'error', item);
+): SnackbarKey => notificationItem(enqueueSnackbar, t, 'notifications.createFailure', 'error', item);
 
 export const updateSuccess = (
     enqueueSnackbar: (message: SnackbarMessage, options?: OptionsObject | undefined) => SnackbarKey,

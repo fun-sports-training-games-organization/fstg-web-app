@@ -3,7 +3,7 @@ import { AmountTypeAmountValue, CreateAndModifyInfo, IdName, RecordType } from '
 export interface Exercise extends IdName, CreateAndModifyInfo, AmountTypeAmountValue {
     imageOrGifUrl?: string;
     resultType?: RecordType;
-    resultValue?: number | string;
+    resultValue?: number;
     recordResults?: boolean;
     useDefaultResult?: boolean;
     defaultResult?: number;

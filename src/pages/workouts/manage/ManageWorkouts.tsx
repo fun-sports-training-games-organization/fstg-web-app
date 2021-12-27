@@ -14,6 +14,7 @@ import ExercisesContent from '../../../components/organisms/exercises-content/Ex
 import useEntityManager from '../../../hooks/useEntityManager';
 import { v4 as uuidv4 } from 'uuid';
 import AddButton from '../../../components/atoms/add-button/AddButton';
+import ResponsiveContainer from '../../../components/organisms/responsive-container/ResponsiveContainer';
 
 const ManageWorkouts: FC = () => {
     const pageName = 'manage_workouts';
@@ -46,7 +47,7 @@ const ManageWorkouts: FC = () => {
                     parentIdPrefix={exerciseItemPrefix}
                     index={index}
                     display={{ xs: 'none', sm: 'flex' }}
-                ></IconsSubtitle>
+                />
             ),
             actionsButton: (
                 <ActionsMenu
@@ -54,7 +55,7 @@ const ManageWorkouts: FC = () => {
                     handleDelete={handleDelete}
                     parentIdPrefix={exerciseItemPrefix}
                     index={index}
-                ></ActionsMenu>
+                />
             ),
             content: (
                 <ExercisesContent
@@ -63,35 +64,39 @@ const ManageWorkouts: FC = () => {
                     index={index}
                     typographySx={{ lineHeight: 2.2 }}
                     typographyMarginLeft={{ xs: 0, sm: '4rem' }}
-                ></ExercisesContent>
+                />
             )
         };
     };
 
     return (
-        <div data-testid={pageName}>
-            <PageTitleActionButton
-                actionButton={
-                    <AddButton
-                        onClick={() => navigate.toEditWorkout(history, undefined)}
-                        testId={`${idPrefix}add_button`}
-                    />
-                }
-                titleTranslationKey="page.manageWorkouts.workouts"
-                idPrefix={idPrefix}
-            ></PageTitleActionButton>
-            <Stack ml={2} mr={2} mt={3} mb={3}>
-                <Accordion
-                    accordions={workouts.map((workout, index) => getAccordionProp(workout, exerciseItemPrefix, index))}
-                ></Accordion>
-                <DeleteConfirmationDialog
-                    openDeleteConfirmationDialog={openDeleteConfirmationDialog}
-                    itemToDelete={workoutToDelete}
-                    entityName="workouts"
-                    closeDialog={() => setOpenDeleteConfirmationDialog(false)}
+        <ResponsiveContainer xl={8}>
+            <div data-testid={pageName}>
+                <PageTitleActionButton
+                    actionButton={
+                        <AddButton
+                            onClick={() => navigate.toEditWorkout(history, undefined)}
+                            testId={`${idPrefix}add_button`}
+                        />
+                    }
+                    titleTranslationKey="page.manageWorkouts.workouts"
+                    idPrefix={idPrefix}
                 />
-            </Stack>
-        </div>
+                <Stack ml={2} mr={2} mt={3} mb={3}>
+                    <Accordion
+                        accordions={workouts.map((workout, index) =>
+                            getAccordionProp(workout, exerciseItemPrefix, index)
+                        )}
+                    />
+                    <DeleteConfirmationDialog
+                        openDeleteConfirmationDialog={openDeleteConfirmationDialog}
+                        itemToDelete={workoutToDelete}
+                        entityName="workouts"
+                        closeDialog={() => setOpenDeleteConfirmationDialog(false)}
+                    />
+                </Stack>
+            </div>
+        </ResponsiveContainer>
     );
 };
 

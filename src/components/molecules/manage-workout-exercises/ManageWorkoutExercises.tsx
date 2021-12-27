@@ -9,7 +9,8 @@ import AutoCompleteSelect from '../auto-complete-select/AutoCompleteSelect';
 import { v4 as uuidv4 } from 'uuid';
 import useEntityManager from '../../../hooks/useEntityManager';
 import AddIcon from '@mui/icons-material/Add';
-import EditExerciseDialog from '../../organisms/edit-exercise-dialog/EditExerciseDialog';
+import ResponsiveDialog from '../../organisms/responsive-dialog';
+import CreateEditExerciseForm from '../../organisms/create-edit-exercise-form/CreateEditExerciseForm';
 
 type Props = {
     parentIdPrefix: string;
@@ -104,7 +105,7 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: P
                                         {`${t('global.add')} ${newExercise?.name ? newExercise.name : ''}`}
                                     </Button>
                                 }
-                            ></AutoCompleteSelect>
+                            />
                         </Grid>
                         <Grid item xs={2} sm={1}>
                             <IconButton
@@ -141,20 +142,25 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: P
                 }}
                 save={save}
             />
-            <EditExerciseDialog
+            <ResponsiveDialog
                 title={t('dialog.editExercise.title')}
                 message={t('dialog.editExercise.message')}
                 open={openEditExerciseDialog}
-                setOpen={setOpenEditExerciseDialog}
-                exercise={newExercise}
-                setExercise={setNewExercise}
-                onCreate={(exercise: Exercise) => {
-                    setExercises([...exercises, exercise]);
-                    setWorkout({
-                        ...workout,
-                        exercises: updateExercise(workout, selectedExercise, exercise)
-                    });
-                }}
+                content={
+                    <CreateEditExerciseForm
+                        handleClose={() => {
+                            setOpenEditExerciseDialog(false);
+                        }}
+                        name={newExercise?.name}
+                        onCreate={(exercise: Exercise) => {
+                            setExercises([...exercises, exercise]);
+                            setWorkout({
+                                ...workout,
+                                exercises: updateExercise(workout, selectedExercise, exercise)
+                            });
+                        }}
+                    />
+                }
             />
         </>
     );

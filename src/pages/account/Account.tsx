@@ -7,6 +7,7 @@ import useEntityManager from '../../hooks/useEntityManager';
 import FileChooser from '../../components/molecules/file-input/FileChooser';
 import useFileManager from '../../hooks/useFileManager';
 import { useSnackbar } from 'notistack';
+import ResponsiveContainer from '../../components/organisms/responsive-container/ResponsiveContainer';
 
 interface State {
     username?: string;
@@ -61,7 +62,6 @@ const RegistrationForm: FC = () => {
     const handleChangeEvent = (event: ChangeEvent<HTMLInputElement>) => {
         if (event.target.type === 'file') {
             const file = event.target.files && event.target.files[0];
-            console.log(file);
             setState({
                 ...state,
                 [event.target.name]: file
@@ -112,69 +112,73 @@ const RegistrationForm: FC = () => {
         });
 
     return (
-        <form onSubmit={handleSubmit}>
-            <Stack padding={2} spacing={2} alignItems={'center'}>
-                {profilePictureURL ? (
-                    <>
-                        <Avatar alt="Profile Picture" src={profilePictureURL} />
-                        <Button onClick={handleDeleteProfilePicture}>Delete profile picture</Button>
-                    </>
-                ) : (
-                    <FileChooser
+        <ResponsiveContainer>
+            <form onSubmit={handleSubmit}>
+                <Stack padding={2} spacing={2} alignItems={'center'}>
+                    {profilePictureURL ? (
+                        <>
+                            <Avatar sx={{ height: 56, width: 56 }} alt="Profile Picture" src={profilePictureURL} />
+                            <Button color="secondary" variant="contained" onClick={handleDeleteProfilePicture}>
+                                Delete profile picture
+                            </Button>
+                        </>
+                    ) : (
+                        <FileChooser
+                            fullWidth
+                            id={'profilePicture-field'}
+                            label={t('form.label.account.profilePicture')}
+                            name={'profilePicture'}
+                            onChange={handleChangeEvent}
+                        />
+                    )}
+
+                    <TextField
+                        shrinkLabel={true}
                         fullWidth
-                        id={'profilePicture-field'}
-                        label={t('form.label.account.profilePicture')}
-                        name={'profilePicture'}
+                        autoFocus
+                        id={'username-field'}
+                        label={t('form.label.registration.username')}
+                        value={state?.username}
+                        name={'username'}
                         onChange={handleChangeEvent}
                     />
-                )}
-
-                <TextField
-                    shrinkLabel={true}
-                    fullWidth
-                    autoFocus
-                    id={'username-field'}
-                    label={t('form.label.registration.username')}
-                    value={state?.username}
-                    name={'username'}
-                    onChange={handleChangeEvent}
-                />
-                <TextField
-                    shrinkLabel={true}
-                    fullWidth
-                    id={'first-name-field'}
-                    label={t('form.label.registration.firstName')}
-                    value={state?.firstName}
-                    name={'firstName'}
-                    required
-                    onChange={handleChangeEvent}
-                />
-                <TextField
-                    shrinkLabel={true}
-                    fullWidth
-                    id={'last-name-field'}
-                    label={t('form.label.registration.lastName')}
-                    value={state?.lastName}
-                    name={'lastName'}
-                    required
-                    onChange={handleChangeEvent}
-                />
-                <TextField
-                    shrinkLabel={true}
-                    fullWidth
-                    id={'email-field'}
-                    label={t('form.label.registration.email')}
-                    value={state?.email}
-                    name={'email'}
-                    required
-                    readOnly
-                    onChange={handleChangeEvent}
-                />
-                <Button type={'submit'} variant={'contained'} color={'primary'} fullWidth>
-                    {t('form.button.account.saveProfile')}
-                </Button>
-            </Stack>
-        </form>
+                    <TextField
+                        shrinkLabel={true}
+                        fullWidth
+                        id={'first-name-field'}
+                        label={t('form.label.registration.firstName')}
+                        value={state?.firstName}
+                        name={'firstName'}
+                        required
+                        onChange={handleChangeEvent}
+                    />
+                    <TextField
+                        shrinkLabel={true}
+                        fullWidth
+                        id={'last-name-field'}
+                        label={t('form.label.registration.lastName')}
+                        value={state?.lastName}
+                        name={'lastName'}
+                        required
+                        onChange={handleChangeEvent}
+                    />
+                    <TextField
+                        shrinkLabel={true}
+                        fullWidth
+                        id={'email-field'}
+                        label={t('form.label.registration.email')}
+                        value={state?.email}
+                        name={'email'}
+                        required
+                        readOnly
+                        onChange={handleChangeEvent}
+                    />
+                    <Button type={'submit'} variant={'contained'} color={'primary'} fullWidth>
+                        {t('form.button.account.saveProfile')}
+                    </Button>
+                </Stack>
+            </form>
+        </ResponsiveContainer>
     );
 };
 

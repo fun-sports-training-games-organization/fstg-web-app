@@ -84,7 +84,7 @@ const EditWorkout: FC = () => {
                     translationKey={
                         !workout.hasBeenCreated ? 'page.editWorkout.createWorkout' : 'page.editWorkout.editWorkout'
                     }
-                ></PageTitle>
+                />
                 <TextField
                     autoFocus
                     margin="dense"
@@ -102,7 +102,7 @@ const EditWorkout: FC = () => {
                     workout={workout}
                     setWorkout={setWorkout}
                     save={!workout.hasBeenCreated ? handleCreate : handleUpdate}
-                ></ManageWorkoutExercises>
+                />
                 <Stack alignSelf="center">
                     <AddButton onClick={addExerciseToWorkout} testId={`${idPrefix}add_exercise_button`} />
                 </Stack>
