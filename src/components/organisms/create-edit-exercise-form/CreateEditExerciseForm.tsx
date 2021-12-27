@@ -24,7 +24,7 @@ const CreateEditExerciseForm = ({ exerciseId, handleClose, inWorkout = false }: 
     const { enqueueSnackbar } = useSnackbar();
     const { user } = useAuth();
 
-    const fileManager = useFileManager<File>();
+    const fileManager = useFileManager<File>('exercises');
     const { createEntity, updateEntity, findById } = useEntityManager<Exercise>('exercises');
     const [chosenFile, setChosenFile] = useState<File | null>(null);
     const [imgUrl, setImUrl] = useState<string>();
@@ -59,11 +59,6 @@ const CreateEditExerciseForm = ({ exerciseId, handleClose, inWorkout = false }: 
                 ...exercise,
                 imageOrGifUrl: `exercises/${user?.uid}/${file?.name}`
             });
-            console.log(`exercises/${user?.uid}/${file?.name}`);
-            // setExercise({
-            //     ...exercise,
-            //     [event.target.name]: file?.name
-            // });
         } else {
             setExercise({
                 ...exercise,
@@ -79,7 +74,7 @@ const CreateEditExerciseForm = ({ exerciseId, handleClose, inWorkout = false }: 
     const handleCreateOrUpdate = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (chosenFile) {
-            chosenFile && fileManager.uploadFile(chosenFile, `exercises/${user?.uid}`);
+            chosenFile && fileManager.uploadFile(chosenFile, user?.uid);
         }
         if (exercise?.id) {
             updateEntity(exercise)

@@ -14,6 +14,7 @@ import ExercisesContent from '../../../components/organisms/exercises-content/Ex
 import useEntityManager from '../../../hooks/useEntityManager';
 import { v4 as uuidv4 } from 'uuid';
 import AddButton from '../../../components/atoms/add-button/AddButton';
+import ResponsiveContainer from '../../../components/organisms/responsive-container/ResponsiveContainer';
 
 const ManageWorkouts: FC = () => {
     const pageName = 'manage_workouts';
@@ -69,29 +70,33 @@ const ManageWorkouts: FC = () => {
     };
 
     return (
-        <div data-testid={pageName}>
-            <PageTitleActionButton
-                actionButton={
-                    <AddButton
-                        onClick={() => navigate.toEditWorkout(history, undefined)}
-                        testId={`${idPrefix}add_button`}
+        <ResponsiveContainer xl={8}>
+            <div data-testid={pageName}>
+                <PageTitleActionButton
+                    actionButton={
+                        <AddButton
+                            onClick={() => navigate.toEditWorkout(history, undefined)}
+                            testId={`${idPrefix}add_button`}
+                        />
+                    }
+                    titleTranslationKey="page.manageWorkouts.workouts"
+                    idPrefix={idPrefix}
+                ></PageTitleActionButton>
+                <Stack ml={2} mr={2} mt={3} mb={3}>
+                    <Accordion
+                        accordions={workouts.map((workout, index) =>
+                            getAccordionProp(workout, exerciseItemPrefix, index)
+                        )}
+                    ></Accordion>
+                    <DeleteConfirmationDialog
+                        openDeleteConfirmationDialog={openDeleteConfirmationDialog}
+                        itemToDelete={workoutToDelete}
+                        entityName="workouts"
+                        closeDialog={() => setOpenDeleteConfirmationDialog(false)}
                     />
-                }
-                titleTranslationKey="page.manageWorkouts.workouts"
-                idPrefix={idPrefix}
-            ></PageTitleActionButton>
-            <Stack ml={2} mr={2} mt={3} mb={3}>
-                <Accordion
-                    accordions={workouts.map((workout, index) => getAccordionProp(workout, exerciseItemPrefix, index))}
-                ></Accordion>
-                <DeleteConfirmationDialog
-                    openDeleteConfirmationDialog={openDeleteConfirmationDialog}
-                    itemToDelete={workoutToDelete}
-                    entityName="workouts"
-                    closeDialog={() => setOpenDeleteConfirmationDialog(false)}
-                />
-            </Stack>
-        </div>
+                </Stack>
+            </div>
+        </ResponsiveContainer>
     );
 };
 
