@@ -1,7 +1,7 @@
 import { Grid, Typography } from '@mui/material';
 import { FC } from 'react';
 import { ExerciseWorkoutSettings } from '../../../model/Exercise.model';
-import IconsSubtitle from '../icons-subtitle/IconsSubtitle';
+import ExercisesTimeRepsIcons from '../../organisms/exercises-time-reps-icons/ExercisesTimeRepsIcons';
 import { v4 as uuidv4 } from 'uuid';
 import { ResponsiveStyleValue, SxProps, Theme } from '@mui/system';
 
@@ -41,14 +41,14 @@ const ExerciseItem: FC<ExerciseItemProps> = ({
             >
                 {exercise.name}
             </Typography>
-            <IconsSubtitle
+            <ExercisesTimeRepsIcons
                 entities={[exercise]}
                 id={exercise.id ? exercise.id : uuidv4()}
                 length={length}
                 parentIdPrefix={parentIdPrefix}
                 index={index}
                 type={exercise.amountType}
-            ></IconsSubtitle>
+            ></ExercisesTimeRepsIcons>
         </Grid>
     );
 };

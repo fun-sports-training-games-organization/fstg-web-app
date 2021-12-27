@@ -8,7 +8,7 @@ import { getPageIdPrefix } from '../../../util/id-util';
 import * as navigate from '../../../util/navigation-util';
 import Accordion from '../../../components/molecules/accordion/Accordion';
 import { AccordionProp } from '../../../components/molecules/accordion/Accordion.types';
-import IconsSubtitle from '../../../components/molecules/icons-subtitle/IconsSubtitle';
+import ExercisesTimeRepsIcons from '../../../components/organisms/exercises-time-reps-icons/ExercisesTimeRepsIcons';
 import ActionsMenu from '../../../components/molecules/actions-menu/ActionsMenu';
 import ExercisesContent from '../../../components/organisms/exercises-content/ExercisesContent';
 import useEntityManager from '../../../hooks/useEntityManager';
@@ -40,7 +40,7 @@ const ManageWorkouts: FC = () => {
         return {
             title: workout.name,
             subtitle: (
-                <IconsSubtitle
+                <ExercisesTimeRepsIcons
                     entities={workout.exercises}
                     id={workout.id ? workout.id : uuidv4()}
                     length={workout.exercises.length}
@@ -51,10 +51,11 @@ const ManageWorkouts: FC = () => {
             ),
             actionsButton: (
                 <ActionsMenu
-                    entity={workout}
-                    handleDelete={handleDelete}
                     parentIdPrefix={exerciseItemPrefix}
                     index={index}
+                    handleStart={() => workout.id && navigate.toStartWorkout(history, workout.id)}
+                    handleEdit={() => navigate.toEditWorkout(history, workout.id)}
+                    handleDelete={() => handleDelete(workout)}
                 />
             ),
             content: (

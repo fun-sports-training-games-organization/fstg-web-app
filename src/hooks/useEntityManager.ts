@@ -1,8 +1,9 @@
+import { CreateInfo, ModifyInfo, Id } from './../model/Basics.model';
 import { useState, useEffect } from 'react';
 import { useFirestore, useFirebase } from 'react-redux-firebase';
 import { prepareDataToSend } from '../util/data-prep-util';
 
-export type EntityWithId<T> = T & { id?: string };
+export type EntityWithId<T> = T & Id & CreateInfo & ModifyInfo;
 
 type EntityManager<T> = {
     entities: T[];
@@ -12,16 +13,18 @@ type EntityManager<T> = {
     deleteEntityById: (id: string) => Promise<void>;
 };
 
-function useEntityManager<T>(entityName: string): EntityManager<T> {
+function useEntityManager<T>(entityName: string, onlyCreatedByCurrentUser = false): EntityManager<T> {
     const [entities, setEntities] = useState<EntityWithId<T>[]>([]);
     const firestore = useFirestore();
     const firebase = useFirebase();
 
     useEffect(() => {
         firestore.collection(entityName).onSnapshot((snapshot) => {
-            setEntities(snapshot.docs.map((doc) => ({ id: doc.id, ...(doc.data() as T) })));
+            const docs = snapshot.docs.map((doc) => ({ id: doc.id, ...(doc.data() as T) } as EntityWithId<T>));
+            const currentUserId = firebase.auth().currentUser?.uid;
+            setEntities(onlyCreatedByCurrentUser ? docs.filter((doc) => doc.createdById === currentUserId) : docs);
         });
-    }, [entityName, firestore]);
+    }, [entityName, firestore, firebase, onlyCreatedByCurrentUser]);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const findById = async (id: string): Promise<any> => {
