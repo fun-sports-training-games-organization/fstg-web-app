@@ -35,7 +35,7 @@ function App(): JSX.Element {
                         });
                 });
         }
-    }, [user]);
+    }, [user, findById, fileManager]);
 
     const topMenuListItems: MenuListItem[] = [
         { key: 'home', text: t('nav.home'), icon: 'home', path: '/home' },
