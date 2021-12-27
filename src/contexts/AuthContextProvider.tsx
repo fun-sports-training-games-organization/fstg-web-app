@@ -110,15 +110,15 @@ const AuthContextProvider: FC<PropsWithChildren<Record<string, unknown>>> = (
     ) => {
         firebase
             .createUser({ email, password }, { username, firstName, lastName })
-            .then((user) => {
+            .then(() => {
                 navigate.toBase(history);
-                console.log(`Provier ID: ${user.providerId}`);
-                console.log(`UUID: ${user.uid}`);
+                // console.log(`Provier ID: ${user.providerId}`);
+                // console.log(`UUID: ${user.uid}`);
             })
             .catch((error) => {
-                console.log(error);
+                // console.log(error);
                 const { code } = error;
-                console.log(code);
+                // console.log(code);
                 if (code === 'auth/email-already-in-use') {
                     setErrorState({ ...errorState, emailError: t('auth.message.registration.emailAlreadyExists') });
                 }

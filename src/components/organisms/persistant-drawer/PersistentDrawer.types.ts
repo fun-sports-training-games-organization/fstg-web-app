@@ -14,5 +14,6 @@ export type PersistentDrawerProps = {
     topMenuListItems: MenuListItem[];
     bottomMenuListItems?: MenuListItem[];
     user?: Partial<User>;
+    photoURL?: string;
     logout?: () => void;
 };

@@ -17,7 +17,7 @@ interface State {
     profilePicturePath?: string;
 }
 
-type UserProfile = {
+export type UserProfile = {
     firstName?: string;
     lastName?: string;
     username?: string;
@@ -61,7 +61,6 @@ const RegistrationForm: FC = () => {
     const handleChangeEvent = (event: ChangeEvent<HTMLInputElement>) => {
         if (event.target.type === 'file') {
             const file = event.target.files && event.target.files[0];
-            console.log(file);
             setState({
                 ...state,
                 [event.target.name]: file
@@ -117,7 +116,9 @@ const RegistrationForm: FC = () => {
                 {profilePictureURL ? (
                     <>
                         <Avatar alt="Profile Picture" src={profilePictureURL} />
-                        <Button onClick={handleDeleteProfilePicture}>Delete profile picture</Button>
+                        <Button onClick={handleDeleteProfilePicture}>
+                            {t('form.button.account.deleteProfilePicture')}
+                        </Button>
                     </>
                 ) : (
                     <FileChooser

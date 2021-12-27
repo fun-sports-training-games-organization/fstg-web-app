@@ -24,7 +24,7 @@ describe('<PersistentDrawer> component test with React Testing Library', () => {
     ];
 
     const bottomMenuListItems: MenuListItem[] = [
-        { key: 'account', text: 'Account', icon: 'person', path: '/account' },
+        { key: 'profile', text: 'Account', icon: 'person', path: '/profile' },
         { key: 'logout', text: 'Logout', icon: 'logout', onClick: jest.fn() }
     ];
     const children = <>Main Content</>;
