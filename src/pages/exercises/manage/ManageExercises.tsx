@@ -10,18 +10,18 @@ import AddButton from '../../../components/atoms/add-button/AddButton';
 import ResponsiveDialog from '../../../components/organisms/responsive-dialog';
 import CreateEditExerciseForm from '../../../components/organisms/create-edit-exercise-form/CreateEditExerciseForm';
 import ActionsMenu from '../../../components/molecules/actions-menu/ActionsMenu';
-import ExercisesTimeRepsIcons from '../../../components/organisms/exercises-time-reps-icons/ExercisesTimeRepsIcons';
 import Accordion from '../../../components/molecules/accordion/Accordion';
 import { AccordionProp } from '../../../components/molecules/accordion/Accordion.types';
 import { v4 as uuidv4 } from 'uuid';
 import { getNumber } from '../../../util/number-util';
+import ExercisesTimeRepsIcons from '../../../components/organisms/exercises-time-reps-icons/ExercisesTimeRepsIcons';
 
 const ManageExercises: FC = (): JSX.Element => {
     const pageName = 'manage_exercises';
     const idPrefix = getPageIdPrefix(pageName);
     const exerciseItemPrefix = `${idPrefix}exercise_list__item_`;
     const { t } = useTranslation();
-    const { entities } = useEntityManager<Exercise>('exercises', true);
+    const { entities } = useEntityManager<Exercise>('exercises');
 
     const [exercises, setExercises] = useState<Exercise[]>([]);
     const [openDialog, setOpenDialog] = useState<boolean>(false);
