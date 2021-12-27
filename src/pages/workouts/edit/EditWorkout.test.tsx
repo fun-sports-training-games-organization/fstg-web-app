@@ -11,6 +11,22 @@ jest.mock('notistack', () => ({
         };
     }
 }));
+
+jest.mock('firebase/auth', () => ({
+    ...jest.requireActual('firebase/auth'),
+    getAuth: () => {
+        return {
+            currentUser: {
+                displayName: 'testuser',
+                email: 'testuser@gmail.com',
+                phoneNumber: null,
+                photoURL: null,
+                providerId: 'google',
+                uid: 'test-user-uid'
+            }
+        };
+    }
+}));
 jest.mock('react-i18next', () => ({
     useTranslation: () => ({ t: (key: string) => key })
 }));
