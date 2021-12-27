@@ -8,6 +8,8 @@ import { MemoryRouter } from 'react-router-dom';
 import { mockUser } from '../../../__mocks__/mockUserContext';
 import userEvent from '@testing-library/user-event';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
+import { ThemeProvider } from '@mui/material';
+import { createTheme } from '@mui/material/styles';
 
 jest.mock('react-i18next', () => ({
     useTranslation: () => ({ t: (key: string) => key })
@@ -41,7 +43,9 @@ describe('<PersistentDrawer> component test with React Testing Library', () => {
         render(
             <SnackbarProvider>
                 <MemoryRouter>
-                    <PersistentDrawer {...props}>{props.children}</PersistentDrawer>
+                    <ThemeProvider theme={createTheme()}>
+                        <PersistentDrawer {...props}>{props.children}</PersistentDrawer>
+                    </ThemeProvider>
                 </MemoryRouter>
             </SnackbarProvider>
         );
