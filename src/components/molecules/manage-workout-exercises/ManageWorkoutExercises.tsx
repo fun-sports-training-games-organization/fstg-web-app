@@ -1,5 +1,5 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { Grid, IconButton } from '@mui/material';
+import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Button, Grid, IconButton } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Workout } from '../../../model/Workout.model';
 import EditWorkoutExerciseSettingsDialog from '../../organisms/edit-workout-exercise-settings-dialog/EditWorkoutExerciseSettingsDialog';
@@ -8,6 +8,9 @@ import { Exercise, ExerciseWorkoutSettings } from '../../../model/Exercise.model
 import AutoCompleteSelect from '../auto-complete-select/AutoCompleteSelect';
 import { v4 as uuidv4 } from 'uuid';
 import useEntityManager from '../../../hooks/useEntityManager';
+import AddIcon from '@mui/icons-material/Add';
+import ResponsiveDialog from '../../organisms/responsive-dialog';
+import CreateEditExerciseForm from '../../organisms/create-edit-exercise-form/CreateEditExerciseForm';
 
 type Props = {
     parentIdPrefix: string;
@@ -47,9 +50,11 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: P
         useDefaultResult: false
     };
 
-    const [openDialog, setOpenDialog] = useState<boolean>(false);
+    const [openExerciseSettingsDialog, setOpenExerciseSettingsDialog] = useState<boolean>(false);
+    const [openEditExerciseDialog, setOpenEditExerciseDialog] = useState<boolean>(false);
     const [selectedExercise, setSelectedExercise] = useState<ExerciseWorkoutSettings>(emptyExerciseWorkoutSettings);
     const [exercises, setExercises] = useState<Exercise[]>([]);
+    const [newExercise, setNewExercise] = useState<Exercise | undefined>({ amountType: 'COUNT_BASED' });
 
     useEffect(() => {
         setExercises([{ name: '', id: 'none' }, ...entities]);
@@ -85,6 +90,21 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: P
                                         });
                                     }
                                 }}
+                                onTextChange={(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+                                    setNewExercise({ ...newExercise, name: event.target.value })
+                                }
+                                noOptionsText={
+                                    <Button
+                                        onClick={() => {
+                                            setSelectedExercise(exercise);
+                                            setOpenEditExerciseDialog(true);
+                                        }}
+                                        variant="text"
+                                        startIcon={<AddIcon />}
+                                    >
+                                        {`${t('global.add')} ${newExercise?.name ? newExercise.name : ''}`}
+                                    </Button>
+                                }
                             />
                         </Grid>
                         <Grid item xs={2} sm={1}>
@@ -92,7 +112,7 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: P
                                 key={`${exerciseItemPrefix}${index}__icon-button`}
                                 onClick={() => {
                                     setSelectedExercise(exercise);
-                                    setOpenDialog(true);
+                                    setOpenExerciseSettingsDialog(true);
                                 }}
                             >
                                 <SettingsIcon key={`${exerciseItemPrefix}${index}__settings-icon`} />
@@ -110,22 +130,37 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: P
                     exerciseName: selectedExercise.name,
                     workoutName: workout.name
                 })}
-                open={openDialog}
-                setOpen={setOpenDialog}
+                open={openExerciseSettingsDialog}
+                setOpen={setOpenExerciseSettingsDialog}
                 exercise={selectedExercise}
                 setExercise={(exercise: ExerciseWorkoutSettings) => {
-                    console.log({ exercise });
                     setSelectedExercise(exercise);
-                    console.log({
-                        ...workout,
-                        exercises: [...workout.exercises.map((e) => (e.id === selectedExercise.id ? exercise : e))]
-                    });
                     setWorkout({
                         ...workout,
                         exercises: [...workout.exercises.map((e) => (e.id === selectedExercise.id ? exercise : e))]
                     });
                 }}
                 save={save}
+            />
+            <ResponsiveDialog
+                title={t('dialog.editExercise.title')}
+                message={t('dialog.editExercise.message')}
+                open={openEditExerciseDialog}
+                content={
+                    <CreateEditExerciseForm
+                        handleClose={() => {
+                            setOpenEditExerciseDialog(false);
+                        }}
+                        name={newExercise?.name}
+                        onCreate={(exercise: Exercise) => {
+                            setExercises([...exercises, exercise]);
+                            setWorkout({
+                                ...workout,
+                                exercises: updateExercise(workout, selectedExercise, exercise)
+                            });
+                        }}
+                    />
+                }
             />
         </>
     );

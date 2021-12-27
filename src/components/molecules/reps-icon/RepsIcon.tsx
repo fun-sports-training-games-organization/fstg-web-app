@@ -19,7 +19,7 @@ const RepsIcon: FC<RepsIconProps> = ({ entities, id, parentIdPrefix, index = 0, 
         return entities
             .filter((entity) => entity.amountType === 'COUNT_BASED')
             .map((entity) => getNumber(entity.amountValue))
-            .reduce((a, b) => a + b);
+            .reduce((a, b) => a + b, 0);
     };
 
     return !type ? (

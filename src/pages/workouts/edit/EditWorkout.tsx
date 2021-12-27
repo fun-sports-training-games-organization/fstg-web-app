@@ -36,7 +36,6 @@ const EditWorkout: FC = () => {
     const loadWorkout = useCallback(() => {
         workoutId &&
             entityManager.findById(workoutId).then((wo: Workout) => {
-                console.log({ wo });
                 setWorkout({ ...wo, id: workoutId, hasBeenCreated: true });
             });
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -104,7 +103,9 @@ const EditWorkout: FC = () => {
                     setWorkout={setWorkout}
                     save={!workout.hasBeenCreated ? handleCreate : handleUpdate}
                 />
-                <AddButton onClick={addExerciseToWorkout} testId={`${idPrefix}add_exercise_button`} />
+                <Stack alignSelf="center">
+                    <AddButton onClick={addExerciseToWorkout} testId={`${idPrefix}add_exercise_button`} />
+                </Stack>
             </Stack>
             <Stack spacing={2} mt={5} ml={2} mr={2}>
                 <SubmitButton

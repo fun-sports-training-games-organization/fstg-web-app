@@ -8,7 +8,7 @@ export type EntityWithId<T> = T & Id & CreateInfo & ModifyInfo;
 type EntityManager<T> = {
     entities: T[];
     findById: (id: string) => Promise<T>;
-    createEntity: (entity: T) => Promise<void>;
+    createEntity: (entity: T) => Promise<string>;
     updateEntity: (entity: EntityWithId<T>) => Promise<void>;
     deleteEntityById: (id: string) => Promise<void>;
 };
@@ -33,8 +33,16 @@ function useEntityManager<T>(entityName: string, onlyCreatedByCurrentUser = fals
         return { ...docSnapshot.data(), id };
     };
 
-    const createEntity = async (entity: T) => {
-        await firestore.collection(entityName).add(prepareDataToSend(entity, firebase.auth().currentUser));
+    const createEntity = async (entity: T): Promise<string> => {
+        return firestore
+            .collection(entityName)
+            .add(prepareDataToSend(entity, firebase.auth().currentUser))
+            .then((docRef) => {
+                return docRef.id;
+            })
+            .catch((err) => {
+                throw err;
+            });
     };
     const updateEntity = async (entity: EntityWithId<T>) => {
         await firestore

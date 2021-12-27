@@ -20,7 +20,7 @@ const TimeIcon: FC<TimeIconProps> = ({ entities, id, parentIdPrefix, index = 0, 
         const getTotalWorkoutSeconds = (): number => {
             return entities
                 .map((entity) => (entity.amountType === 'TIME_BASED' ? getNumber((entity as Exercise).amountValue) : 0))
-                .reduce((a, b) => a + b);
+                .reduce((a, b) => a + b, 0);
         };
         const totalWorkoutSeconds = getTotalWorkoutSeconds();
         const formattedWorkoutHours =
