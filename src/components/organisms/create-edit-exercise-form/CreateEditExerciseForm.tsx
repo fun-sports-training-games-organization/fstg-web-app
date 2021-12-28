@@ -45,7 +45,7 @@ const CreateEditExerciseForm = ({ exerciseId, handleClose, inWorkout = false, on
                 setImUrl(imageUrl);
             });
         } else {
-            setImUrl(undefined);
+            setImUrl('');
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [exercise.imageOrGifUrl]);
@@ -107,7 +107,7 @@ const CreateEditExerciseForm = ({ exerciseId, handleClose, inWorkout = false, on
     };
 
     const deleteImage = () => {
-        setExercise({ ...exercise, imageOrGifUrl: undefined });
+        setExercise({ ...exercise, imageOrGifUrl: '' });
         updateEntity(exercise).then(() => {
             exercise.imageOrGifUrl && fileManager.deleteFile(exercise.imageOrGifUrl);
         });
@@ -131,7 +131,15 @@ const CreateEditExerciseForm = ({ exerciseId, handleClose, inWorkout = false, on
                         />
                         {imgUrl ? (
                             <>
-                                <img src={imgUrl} alt={exercise.name} />
+                                <img
+                                    src={imgUrl}
+                                    alt={exercise.name}
+                                    style={{
+                                        objectFit: 'contain',
+                                        maxWidth: '100%',
+                                        maxHeight: '300px'
+                                    }}
+                                />
                                 <Button variant={'contained'} color={'secondary'} onClick={deleteImage}>
                                     {t('Delete Image')}
                                 </Button>
