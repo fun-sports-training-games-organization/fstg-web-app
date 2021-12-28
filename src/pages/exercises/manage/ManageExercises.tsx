@@ -53,43 +53,74 @@ const ManageExercises: FC = (): JSX.Element => {
             subtitle: (
                 <>
                     {index !== expandedIndex ? (
-                        <EditImage exercise={exercise} maxHeight={'3rem'} maxWidth="25%" />
+                        <Stack
+                            gridColumn={{ xs: '66 / 94', sm: '41 / 65' }}
+                            display="flex"
+                            flexDirection="row"
+                            justifyContent="flex-start"
+                            alignItems="center"
+                        >
+                            <EditImage exercise={exercise} maxHeight={'3rem'} maxWidth="25%" />
+                        </Stack>
                     ) : null}
-                    <ExercisesTimeRepsIcons
-                        entities={[exercise]}
-                        id={exercise.id ? exercise.id : uuidv4()}
-                        length={getNumber(exercise.amountValue)}
-                        parentIdPrefix={exerciseItemPrefix}
-                        index={index}
-                        type={exercise.amountType}
+                    <Stack
+                        gridColumn="66 / 85"
                         display={{ xs: 'none', sm: 'flex' }}
-                    />
-                    <RecordResultsIcon exercise={exercise} display={{ xs: 'none', sm: 'flex' }} />
+                        flexDirection="row"
+                        justifyContent="flex-start"
+                        alignItems="center"
+                    >
+                        <ExercisesTimeRepsIcons
+                            entities={[exercise]}
+                            id={exercise.id ? exercise.id : uuidv4()}
+                            length={getNumber(exercise.amountValue)}
+                            parentIdPrefix={exerciseItemPrefix}
+                            index={index}
+                            type={exercise.amountType}
+                        />
+                    </Stack>
+                    <Stack
+                        gridColumn="86 / 94"
+                        display={{ xs: 'none', sm: 'flex' }}
+                        flexDirection="row"
+                        justifyContent="flex-start"
+                        alignItems="center"
+                    >
+                        <RecordResultsIcon exercise={exercise} />
+                    </Stack>
                 </>
             ),
             actionsButton: (
-                <ActionsMenu
-                    parentIdPrefix={exerciseItemPrefix}
-                    index={index}
-                    options={[
-                        {
-                            name: 'edit',
-                            handleClick: () => handleUpdate(exercise),
-                            translationKey: 'actionMenu.exercise.edit',
-                            icon: <Edit htmlColor={'steelblue'} />
-                        },
-                        {
-                            name: 'delete',
-                            handleClick: () => handleDelete(exercise),
-                            translationKey: 'actionMenu.exercise.delete',
-                            icon: <Delete htmlColor={'palevioletred'} />
-                        }
-                    ]}
-                />
+                <Stack
+                    gridColumn="95 / 100"
+                    display="flex"
+                    flexDirection="row"
+                    justifyContent="flex-end"
+                    alignItems="center"
+                >
+                    <ActionsMenu
+                        parentIdPrefix={exerciseItemPrefix}
+                        index={index}
+                        options={[
+                            {
+                                name: 'edit',
+                                handleClick: () => handleUpdate(exercise),
+                                translationKey: 'actionMenu.exercise.edit',
+                                icon: <Edit htmlColor={'steelblue'} />
+                            },
+                            {
+                                name: 'delete',
+                                handleClick: () => handleDelete(exercise),
+                                translationKey: 'actionMenu.exercise.delete',
+                                icon: <Delete htmlColor={'palevioletred'} />
+                            }
+                        ]}
+                    />
+                </Stack>
             ),
             content: (
                 <>
-                    <Stack flexDirection="row" justifyContent="center" mb={2}>
+                    <Stack flexDirection="row" justifyContent="center" alignItems="center" mb={2}>
                         <EditImage exercise={exercise} noImageIconSize="large" />
                     </Stack>
                     <Stack

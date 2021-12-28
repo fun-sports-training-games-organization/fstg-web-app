@@ -6,6 +6,7 @@ import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import { FC } from 'react';
 import { AccordionProps } from './Accordion.types';
 import MuiAccordionSummary from '@mui/material/AccordionSummary';
+import { SxProps, Theme } from '@mui/system';
 
 const Accordion: FC<AccordionProps> = (props) => {
     const { accordions, setExpandedIndex, ...rest } = props;
@@ -16,24 +17,28 @@ const Accordion: FC<AccordionProps> = (props) => {
         setExpandedIndex && setExpandedIndex(isExpanded ? index : -1);
     };
 
-    type Id = {
+    type AccordionSummaryProps = {
         id: string;
+        sx?: SxProps<Theme> | undefined;
     };
 
-    const AccordionSummary: FC<Id> = styled((props) => (
+    const AccordionSummary: FC<AccordionSummaryProps> = styled((props) => (
         <MuiAccordionSummary
-            sx={{ backgroundColor: 'white' }}
-            expandIcon={<ArrowForwardIosSharpIcon sx={{ fontSize: '0.9rem' }} />}
+            expandIcon={<ArrowForwardIosSharpIcon sx={{ fontSize: '0.9rem', gridColumn: '0 / 10' }} />}
             {...props}
         />
     ))(() => ({
         flexDirection: 'row-reverse',
+        '& .MuiAccordionSummary-expandIconWrapper': {
+            gridColumn: '1 / 2',
+            alignItems: 'center'
+        },
         '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
             transform: 'rotate(90deg)'
         },
         '& .MuiAccordionSummary-content': {
-            justifyContent: 'space-between',
-            alignItems: 'center'
+            display: 'grid',
+            gridTemplateColumns: 'repeat(100, 1fr)'
         }
     }));
 
@@ -52,19 +57,45 @@ const Accordion: FC<AccordionProps> = (props) => {
                         <AccordionSummary
                             aria-controls={`panel${tabNumber}bh-content`}
                             id={`panel${tabNumber}bh-header`}
+                            sx={{
+                                backgroundColor: 'white',
+                                alignItems: 'baseline'
+                            }}
                         >
-                            <Typography sx={{ marginLeft: '2rem' }}>{accordion.title}</Typography>
+                            <Typography
+                                gridColumn={{ xs: '5 / 65', sm: '3 / 40' }}
+                                display="flex"
+                                flexDirection="row"
+                                justifyContent="flex-start"
+                                alignItems="center"
+                            >
+                                {accordion.title}
+                            </Typography>
 
                             {accordion.subtitle ? (
                                 typeof accordion.subtitle === 'string' ? (
-                                    <Typography sx={{ color: 'text.secondary' }}>{accordion.subtitle}</Typography>
+                                    <Typography
+                                        color="text.secondary"
+                                        gridColumn="41 / 94"
+                                        display="flex"
+                                        flexDirection="row"
+                                        justifyContent="flex-start"
+                                        alignItems="center"
+                                    >
+                                        {accordion.subtitle}
+                                    </Typography>
                                 ) : (
                                     accordion.subtitle
                                 )
                             ) : null}
                             {accordion.actionsButton ? accordion.actionsButton : null}
                         </AccordionSummary>
-                        <AccordionDetails sx={{ backgroundColor: 'white', paddingTop: 0 }}>
+                        <AccordionDetails
+                            sx={{
+                                backgroundColor: 'white',
+                                paddingTop: 0
+                            }}
+                        >
                             {typeof accordion.content === 'string' ? (
                                 <Typography sx={{ marginLeft: '4rem' }}>{accordion.content}</Typography>
                             ) : (
