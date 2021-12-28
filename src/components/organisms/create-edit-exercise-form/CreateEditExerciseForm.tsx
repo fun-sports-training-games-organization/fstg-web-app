@@ -96,7 +96,7 @@ const CreateEditExerciseForm = ({ exerciseId, handleClose, inWorkout = false, on
                             id={`exercise.name`}
                             label={t(`${PREFIX}.name`)}
                             type={'text'}
-                            value={exercise.name}
+                            value={exercise.name ? exercise.name : ''}
                             fullWidth
                             onChange={handleChange}
                             name={'name'}
@@ -155,9 +155,9 @@ const CreateEditExerciseForm = ({ exerciseId, handleClose, inWorkout = false, on
                     />
                 )}
                 <LabeledCheckbox
-                    checked={exercise.recordResults}
+                    checked={exercise.recordResults ? exercise.recordResults : false}
                     onChange={onCheckboxChange}
-                    name="recordResults"
+                    name={'recordResults'}
                     label={t(`${PREFIX}.${inWorkout ? 'recordResults' : 'recordResultsByDefault'}`)}
                 />
                 {exercise.recordResults && (
@@ -175,7 +175,7 @@ const CreateEditExerciseForm = ({ exerciseId, handleClose, inWorkout = false, on
                                     value="COUNT_BASED"
                                     control={
                                         <Radio
-                                            checked={exercise.resultType === 'COUNT_BASED'}
+                                            checked={!exercise.resultType || exercise.resultType === 'COUNT_BASED'}
                                             name={'resultType'}
                                             onChange={handleChange}
                                         />
@@ -197,7 +197,7 @@ const CreateEditExerciseForm = ({ exerciseId, handleClose, inWorkout = false, on
                             </RadioGroup>
                         </FormControl>
                         <LabeledCheckbox
-                            checked={exercise.useDefaultResult}
+                            checked={exercise.useDefaultResult ? exercise.useDefaultResult : false}
                             name={'useDefaultResult'}
                             onChange={onCheckboxChange}
                             label={t(`${PREFIX}.useDefaultResult`)}
@@ -206,7 +206,7 @@ const CreateEditExerciseForm = ({ exerciseId, handleClose, inWorkout = false, on
                             (exercise.resultType === 'TIME_BASED' ? (
                                 <TimeField
                                     label={t(`${PREFIX}.defaultResult`)}
-                                    value={exercise.resultValue}
+                                    value={exercise.resultValue ? exercise.resultValue : 0}
                                     setValue={(seconds: number) => {
                                         setExercise({ ...exercise, resultValue: seconds });
                                     }}
@@ -215,7 +215,7 @@ const CreateEditExerciseForm = ({ exerciseId, handleClose, inWorkout = false, on
                                 <CountField
                                     min={0}
                                     max={100}
-                                    value={exercise.resultValue}
+                                    value={exercise.resultValue ? exercise.resultValue : 0}
                                     setValue={(value: number) => setExercise({ ...exercise, resultValue: value })}
                                 />
                             ))}
