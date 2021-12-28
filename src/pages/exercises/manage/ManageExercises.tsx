@@ -60,7 +60,7 @@ const ManageExercises: FC = (): JSX.Element => {
                             justifyContent="flex-start"
                             alignItems="center"
                         >
-                            <EditImage exercise={exercise} maxHeight={'3rem'} maxWidth="25%" />
+                            <EditImage exercise={exercise} maxHeight={'100%'} maxWidth="75%" />
                         </Stack>
                     ) : null}
                     <Stack
