@@ -2,10 +2,10 @@ import { AmountTypeAmountValue, CreateAndModifyInfo, IdName, RecordType } from '
 
 export interface Exercise extends IdName, CreateAndModifyInfo, AmountTypeAmountValue {
     imageOrGifUrl?: string;
-    resultType?: RecordType;
-    resultValue?: number;
     recordResults?: boolean;
+    resultType?: RecordType;
     useDefaultResult?: boolean;
+    resultValue?: number;
 }
 
 export interface ExerciseWorkoutSettings extends Exercise {
