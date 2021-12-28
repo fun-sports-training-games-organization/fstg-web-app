@@ -14,6 +14,7 @@ import Accordion from '../../../components/molecules/accordion/Accordion';
 import { AccordionProp } from '../../../components/molecules/accordion/Accordion.types';
 import { v4 as uuidv4 } from 'uuid';
 import { getNumber } from '../../../util/number-util';
+import EditImage from '../../../components/molecules/edit-image/EditImage';
 import ExercisesTimeRepsIcons from '../../../components/organisms/exercises-time-reps-icons/ExercisesTimeRepsIcons';
 
 const ManageExercises: FC = (): JSX.Element => {
@@ -28,6 +29,7 @@ const ManageExercises: FC = (): JSX.Element => {
     const [openDeleteConfirmationDialog, setOpenDeleteConfirmationDialog] = useState<boolean>(false);
     const [exerciseToDelete, setExerciseToDelete] = useState<Exercise>();
     const [exerciseId, setExerciseId] = useState<string>();
+    const [expandedIndex, setExpandedIndex] = useState<number>(-1);
 
     const handleDelete = (exercise: Exercise) => {
         setExerciseToDelete(exercise);
@@ -47,15 +49,20 @@ const ManageExercises: FC = (): JSX.Element => {
         return {
             title: exercise.name,
             subtitle: (
-                <ExercisesTimeRepsIcons
-                    entities={[exercise]}
-                    id={exercise.id ? exercise.id : uuidv4()}
-                    length={getNumber(exercise.amountValue)}
-                    parentIdPrefix={exerciseItemPrefix}
-                    index={index}
-                    type={exercise.amountType}
-                    display={{ xs: 'none', sm: 'flex' }}
-                />
+                <>
+                    {index !== expandedIndex ? (
+                        <EditImage exercise={exercise} maxHeight={'3rem'} maxWidth="25%" />
+                    ) : null}
+                    <ExercisesTimeRepsIcons
+                        entities={[exercise]}
+                        id={exercise.id ? exercise.id : uuidv4()}
+                        length={getNumber(exercise.amountValue)}
+                        parentIdPrefix={exerciseItemPrefix}
+                        index={index}
+                        type={exercise.amountType}
+                        display={{ xs: 'none', sm: 'flex' }}
+                    />
+                </>
             ),
             actionsButton: (
                 <ActionsMenu
@@ -66,15 +73,18 @@ const ManageExercises: FC = (): JSX.Element => {
                 />
             ),
             content: (
-                <ExercisesTimeRepsIcons
-                    entities={[exercise]}
-                    id={exercise.id ? exercise.id : uuidv4()}
-                    length={getNumber(exercise.amountValue)}
-                    parentIdPrefix={exerciseItemPrefix}
-                    index={index}
-                    type={exercise.amountType}
-                    display={{ xs: 'flex', sm: 'none' }}
-                />
+                <>
+                    <EditImage exercise={exercise} noImageIconSize="large" />
+                    <ExercisesTimeRepsIcons
+                        entities={[exercise]}
+                        id={exercise.id ? exercise.id : uuidv4()}
+                        length={getNumber(exercise.amountValue)}
+                        parentIdPrefix={exerciseItemPrefix}
+                        index={index}
+                        type={exercise.amountType}
+                        display={{ xs: 'flex', sm: 'none' }}
+                    />
+                </>
             )
         };
     };
@@ -99,6 +109,7 @@ const ManageExercises: FC = (): JSX.Element => {
                     accordions={exercises.map((exercise, index) =>
                         getAccordionProp(exercise, exerciseItemPrefix, index)
                     )}
+                    setExpandedIndex={setExpandedIndex}
                 />
                 <ResponsiveDialog
                     title={t('dialog.editExercise.title')}

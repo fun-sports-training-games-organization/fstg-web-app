@@ -11,11 +11,20 @@ import ImageNotSupportedIcon from '@mui/icons-material/ImageNotSupported';
 type Props = {
     exercise: Exercise;
     maxHeight?: string;
+    maxWidth?: string;
+    noImageIconSize?: 'small' | 'inherit' | 'large' | 'medium' | undefined;
     setExercise?: React.Dispatch<React.SetStateAction<Exercise>>;
     setChosenFile?: React.Dispatch<React.SetStateAction<File | null>>;
 };
 
-const CreateEditExerciseForm = ({ exercise, maxHeight = '40vh', setExercise, setChosenFile }: Props): JSX.Element => {
+const CreateEditExerciseForm = ({
+    exercise,
+    maxHeight = '40vh',
+    maxWidth = '100%',
+    noImageIconSize = 'small',
+    setExercise,
+    setChosenFile
+}: Props): JSX.Element => {
     const { t } = useTranslation();
     const { user } = useAuth();
 
@@ -59,7 +68,7 @@ const CreateEditExerciseForm = ({ exercise, maxHeight = '40vh', setExercise, set
                 alt={exercise.name}
                 style={{
                     objectFit: 'contain',
-                    maxWidth: '100%',
+                    maxWidth,
                     maxHeight
                 }}
             />
@@ -78,7 +87,7 @@ const CreateEditExerciseForm = ({ exercise, maxHeight = '40vh', setExercise, set
             onChange={handleChange}
         />
     ) : (
-        <ImageNotSupportedIcon />
+        <ImageNotSupportedIcon fontSize={noImageIconSize} />
     );
 };
 export default CreateEditExerciseForm;

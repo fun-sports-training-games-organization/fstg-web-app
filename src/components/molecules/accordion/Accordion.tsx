@@ -8,11 +8,12 @@ import { AccordionProps } from './Accordion.types';
 import MuiAccordionSummary from '@mui/material/AccordionSummary';
 
 const Accordion: FC<AccordionProps> = (props) => {
-    const { accordions, ...rest } = props;
+    const { accordions, setExpandedIndex, ...rest } = props;
     const [expanded, setExpanded] = React.useState<string | false>(false);
 
-    const handleChange = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+    const handleChange = (panel: string, index: number) => (_event: React.SyntheticEvent, isExpanded: boolean) => {
         setExpanded(isExpanded ? panel : false);
+        setExpandedIndex && setExpandedIndex(isExpanded ? index : -1);
     };
 
     type Id = {
@@ -45,7 +46,7 @@ const Accordion: FC<AccordionProps> = (props) => {
                         square={true}
                         key={tabNumber}
                         expanded={expanded === `panel${tabNumber}`}
-                        onChange={handleChange(`panel${tabNumber}`)}
+                        onChange={handleChange(`panel${tabNumber}`, tabNumber - 1)}
                         {...rest}
                     >
                         <AccordionSummary

@@ -1,12 +1,14 @@
 import { Grid, Typography } from '@mui/material';
-import { FC } from 'react';
-import { ExerciseWorkoutSettings } from '../../../model/Exercise.model';
+import { FC, useCallback, useEffect, useState } from 'react';
+import { Exercise, ExerciseWorkoutSettings } from '../../../model/Exercise.model';
 import ExercisesTimeRepsIcons from '../../organisms/exercises-time-reps-icons/ExercisesTimeRepsIcons';
 import { v4 as uuidv4 } from 'uuid';
 import { ResponsiveStyleValue, SxProps, Theme } from '@mui/system';
+import EditImage from '../edit-image/EditImage';
+import useEntityManager from '../../../hooks/useEntityManager';
 
 export type ExerciseItemProps = {
-    exercise: ExerciseWorkoutSettings;
+    exerciseWorkoutSettings: ExerciseWorkoutSettings;
     parentIdPrefix: string;
     index?: number;
     typographySx?: SxProps<Theme> | undefined;
@@ -15,39 +17,52 @@ export type ExerciseItemProps = {
 };
 
 const ExerciseItem: FC<ExerciseItemProps> = ({
-    exercise,
+    exerciseWorkoutSettings,
     parentIdPrefix,
     index = 0,
     typographySx,
     typographyMarginLeft
 }: ExerciseItemProps) => {
     let length = 0;
-    if (typeof exercise.amountValue === 'number') {
-        length = exercise.amountValue;
-    } else if (typeof exercise.amountValue === 'string') {
-        length = parseInt(exercise.amountValue);
+    if (typeof exerciseWorkoutSettings.amountValue === 'number') {
+        length = exerciseWorkoutSettings.amountValue;
+    } else if (typeof exerciseWorkoutSettings.amountValue === 'string') {
+        length = parseInt(exerciseWorkoutSettings.amountValue);
     }
 
+    const [exercise, setExercise] = useState<Exercise>({});
+    const { findById } = useEntityManager<Exercise>('exercises');
+
+    const loadExercise = useCallback((exerciseId) => {
+        findById(exerciseId).then((exercise) => setExercise(exercise));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    useEffect(() => {
+        exerciseWorkoutSettings.exerciseId ? loadExercise(exerciseWorkoutSettings.exerciseId) : setExercise(exercise);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [exerciseWorkoutSettings.exerciseId, loadExercise]);
+
     return (
-        <Grid container direction="row" justifyContent={{ xs: 'space-between', sm: 'flex-start' }} alignItems="center">
+        <Grid container direction="row" justifyContent={{ xs: 'space-between' }} alignItems="center">
             <Typography
-                key={exercise.id}
+                key={exerciseWorkoutSettings.id}
                 id={`${parentIdPrefix}name__${index}`}
                 align="left"
                 variant="body2"
                 sx={typographySx}
                 marginLeft={typographyMarginLeft}
-                minWidth={{ xs: 0, sm: '20rem' }}
             >
-                {exercise.name}
+                {exerciseWorkoutSettings.name}
             </Typography>
+            <EditImage exercise={exercise} maxHeight={'3rem'} maxWidth="15%" />
             <ExercisesTimeRepsIcons
-                entities={[exercise]}
-                id={exercise.id ? exercise.id : uuidv4()}
+                entities={[exerciseWorkoutSettings]}
+                id={exerciseWorkoutSettings.id ? exerciseWorkoutSettings.id : uuidv4()}
                 length={length}
                 parentIdPrefix={parentIdPrefix}
                 index={index}
-                type={exercise.amountType}
+                type={exerciseWorkoutSettings.amountType}
             ></ExercisesTimeRepsIcons>
         </Grid>
     );
