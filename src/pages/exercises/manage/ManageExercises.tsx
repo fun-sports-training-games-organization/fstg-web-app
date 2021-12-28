@@ -54,17 +54,17 @@ const ManageExercises: FC = (): JSX.Element => {
                 <>
                     {index !== expandedIndex ? (
                         <Stack
-                            gridColumn={{ xs: '66 / 94', sm: '41 / 65' }}
+                            gridColumn={{ xs: '66 / 94', sm: '41 / 63' }}
                             display="flex"
                             flexDirection="row"
                             justifyContent="flex-start"
                             alignItems="center"
                         >
-                            <EditImage exercise={exercise} maxHeight={'100%'} maxWidth="75%" />
+                            <EditImage exercise={exercise} maxHeight={'3rem'} maxWidth="75%" />
                         </Stack>
                     ) : null}
                     <Stack
-                        gridColumn="66 / 85"
+                        gridColumn="64 / 79"
                         display={{ xs: 'none', sm: 'flex' }}
                         flexDirection="row"
                         justifyContent="flex-start"
@@ -80,7 +80,7 @@ const ManageExercises: FC = (): JSX.Element => {
                         />
                     </Stack>
                     <Stack
-                        gridColumn="86 / 94"
+                        gridColumn="80 / 94"
                         display={{ xs: 'none', sm: 'flex' }}
                         flexDirection="row"
                         justifyContent="flex-start"
