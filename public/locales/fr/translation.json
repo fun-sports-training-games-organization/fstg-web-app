@@ -7,6 +7,13 @@
         "account": "Compte",
         "logout": "Logout"
     },
+    "actionMenu": {
+        "workout": {
+            "start": "Démarrer l'entraînement",
+            "edit": "Modifier l'entraînement",
+            "delete": "Supprimer l'entraînement"
+        }
+    },
     "dialog": {
         "deleteConfirmation": {
             "title": "Supprimer la confirmation",

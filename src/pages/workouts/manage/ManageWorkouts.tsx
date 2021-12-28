@@ -58,13 +58,25 @@ const ManageWorkouts: FC = () => {
                 />
             ),
             content: (
-                <ExercisesContent
-                    workout={workout}
-                    parentIdPrefix={exerciseItemPrefix}
-                    index={index}
-                    typographySx={{ lineHeight: 2.2 }}
-                    typographyMarginLeft={{ xs: 0, sm: '4rem' }}
-                />
+                <Stack spacing={1}>
+                    <ExercisesContent
+                        workout={workout}
+                        parentIdPrefix={exerciseItemPrefix}
+                        index={index}
+                        typographySx={{ lineHeight: 2.2 }}
+                        typographyMarginLeft={{ xs: 0, sm: '4rem' }}
+                    />
+                    <Stack justifyContent={'space-between'} direction={'row'}>
+                        <IconsSubtitle
+                            entities={workout.exercises}
+                            id={workout.id ? workout.id : uuidv4()}
+                            length={workout.exercises.length}
+                            parentIdPrefix={exerciseItemPrefix}
+                            index={index}
+                            display={{ sm: 'none' }}
+                        />
+                    </Stack>
+                </Stack>
             )
         };
     };
