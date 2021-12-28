@@ -16,6 +16,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { getNumber } from '../../../util/number-util';
 import EditImage from '../../../components/molecules/edit-image/EditImage';
 import ExercisesTimeRepsIcons from '../../../components/organisms/exercises-time-reps-icons/ExercisesTimeRepsIcons';
+import RecordResultsIcon from '../../../components/atoms/record-results-icon/RecordResultsIcon';
+import { Delete, Edit } from '@mui/icons-material';
 
 const ManageExercises: FC = (): JSX.Element => {
     const pageName = 'manage_exercises';
@@ -62,28 +64,50 @@ const ManageExercises: FC = (): JSX.Element => {
                         type={exercise.amountType}
                         display={{ xs: 'none', sm: 'flex' }}
                     />
+                    <RecordResultsIcon exercise={exercise} display={{ xs: 'none', sm: 'flex' }} />
                 </>
             ),
             actionsButton: (
                 <ActionsMenu
                     parentIdPrefix={exerciseItemPrefix}
                     index={index}
-                    handleEdit={() => handleUpdate(exercise)}
-                    handleDelete={() => handleDelete(exercise)}
+                    options={[
+                        {
+                            name: 'edit',
+                            handleClick: () => handleUpdate(exercise),
+                            translationKey: 'actionMenu.exercise.edit',
+                            icon: <Edit htmlColor={'steelblue'} />
+                        },
+                        {
+                            name: 'delete',
+                            handleClick: () => handleDelete(exercise),
+                            translationKey: 'actionMenu.exercise.delete',
+                            icon: <Delete htmlColor={'palevioletred'} />
+                        }
+                    ]}
                 />
             ),
             content: (
                 <>
                     <EditImage exercise={exercise} noImageIconSize="large" />
-                    <ExercisesTimeRepsIcons
-                        entities={[exercise]}
-                        id={exercise.id ? exercise.id : uuidv4()}
-                        length={getNumber(exercise.amountValue)}
-                        parentIdPrefix={exerciseItemPrefix}
-                        index={index}
-                        type={exercise.amountType}
+
+                    <Stack
+                        direction="row"
+                        justifyContent="space-between"
+                        spacing={1}
                         display={{ xs: 'flex', sm: 'none' }}
-                    />
+                    >
+                        <ExercisesTimeRepsIcons
+                            entities={[exercise]}
+                            id={exercise.id ? exercise.id : uuidv4()}
+                            length={getNumber(exercise.amountValue)}
+                            parentIdPrefix={exerciseItemPrefix}
+                            index={index}
+                            type={exercise.amountType}
+                            display={{ xs: 'flex', sm: 'none' }}
+                        />
+                        <RecordResultsIcon exercise={exercise} />
+                    </Stack>
                 </>
             )
         };

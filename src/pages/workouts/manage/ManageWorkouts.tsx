@@ -17,6 +17,7 @@ import AddButton from '../../../components/atoms/add-button/AddButton';
 import ResponsiveContainer from '../../../components/organisms/responsive-container/ResponsiveContainer';
 import theme from '../../../theme/theme';
 import FunctionsIcon from '@mui/icons-material/Functions';
+import { Delete, Edit, PlayArrow } from '@mui/icons-material';
 
 const ManageWorkouts: FC = () => {
     const pageName = 'manage_workouts';
@@ -57,9 +58,26 @@ const ManageWorkouts: FC = () => {
                 <ActionsMenu
                     parentIdPrefix={exerciseItemPrefix}
                     index={index}
-                    handleStart={() => workout.id && navigate.toStartWorkout(history, workout.id)}
-                    handleEdit={() => navigate.toEditWorkout(history, workout.id)}
-                    handleDelete={() => handleDelete(workout)}
+                    options={[
+                        {
+                            name: 'start',
+                            handleClick: () => workout.id && navigate.toStartWorkout(history, workout.id),
+                            translationKey: 'actionMenu.workout.start',
+                            icon: <PlayArrow htmlColor={'green'} />
+                        },
+                        {
+                            name: 'edit',
+                            handleClick: () => navigate.toEditWorkout(history, workout.id),
+                            translationKey: 'actionMenu.workout.edit',
+                            icon: <Edit htmlColor={'steelblue'} />
+                        },
+                        {
+                            name: 'delete',
+                            handleClick: () => handleDelete(workout),
+                            translationKey: 'actionMenu.workout.delete',
+                            icon: <Delete htmlColor={'palevioletred'} />
+                        }
+                    ]}
                 />
             ),
             content: (

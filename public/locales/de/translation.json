@@ -12,6 +12,11 @@
             "start": "Training starten",
             "edit": "Training bearbeiten",
             "delete": "Training löschen"
+        },
+        "exercise": {
+            "start": "Übung starten",
+            "edit": "Übung bearbeiten",
+            "delete": "Übung löschen"
         }
     },
     "dialog": {
