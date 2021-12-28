@@ -56,9 +56,9 @@ const StartWorkout: FC = () => {
                     mt={2}
                     mr={2}
                     direction="column"
-                    border={`2px solid ${theme.palette.grey[700]}`}
+                    border={`2px solid ${theme.palette.grey[300]}`}
                     borderRadius="1rem"
-                    sx={{ backgroundColor: theme.palette.grey[300], paddingRight: '0.7rem' }}
+                    sx={{ backgroundColor: theme.palette.grey[100], paddingRight: '0.7rem' }}
                 >
                     <TypographyOverrideable
                         fontSize={'twentyThree'}
@@ -74,7 +74,15 @@ const StartWorkout: FC = () => {
                         parentIdPrefix={idPrefix}
                         typographySx={{ lineHeight: 2.2, marginLeft: '0.7rem' }}
                     ></ExercisesContent>
-                    <Grid mt={5} mb={2} pl={2} pr={2} container direction="row" justifyContent="space-between">
+                    <Grid
+                        mt={5}
+                        mb={2}
+                        pl={2}
+                        pr={2}
+                        container
+                        direction="row"
+                        justifyContent={{ xs: 'space-between', sm: 'space-around' }}
+                    >
                         <ExercisesTimeRepsIcons
                             entities={workout.exercises}
                             id={workout.id ? workout.id : uuidv4()}
