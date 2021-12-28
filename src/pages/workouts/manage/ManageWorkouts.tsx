@@ -55,40 +55,42 @@ const ManageWorkouts: FC = () => {
                 />
             ),
             actionsButton: (
-                <ActionsMenu
-                    parentIdPrefix={exerciseItemPrefix}
-                    index={index}
-                    options={[
-                        {
-                            name: 'start',
-                            handleClick: () => workout.id && navigate.toStartWorkout(history, workout.id),
-                            translationKey: 'actionMenu.workout.start',
-                            icon: <PlayArrow htmlColor={'green'} />
-                        },
-                        {
-                            name: 'edit',
-                            handleClick: () => navigate.toEditWorkout(history, workout.id),
-                            translationKey: 'actionMenu.workout.edit',
-                            icon: <Edit htmlColor={'steelblue'} />
-                        },
-                        {
-                            name: 'delete',
-                            handleClick: () => handleDelete(workout),
-                            translationKey: 'actionMenu.workout.delete',
-                            icon: <Delete htmlColor={'palevioletred'} />
-                        }
-                    ]}
-                />
+                <Stack
+                    gridColumn="95 / 100"
+                    display="flex"
+                    flexDirection="row"
+                    justifyContent="flex-end"
+                    alignItems="center"
+                >
+                    <ActionsMenu
+                        parentIdPrefix={exerciseItemPrefix}
+                        index={index}
+                        options={[
+                            {
+                                name: 'start',
+                                handleClick: () => workout.id && navigate.toStartWorkout(history, workout.id),
+                                translationKey: 'actionMenu.workout.start',
+                                icon: <PlayArrow htmlColor={'green'} />
+                            },
+                            {
+                                name: 'edit',
+                                handleClick: () => navigate.toEditWorkout(history, workout.id),
+                                translationKey: 'actionMenu.workout.edit',
+                                icon: <Edit htmlColor={'steelblue'} />
+                            },
+                            {
+                                name: 'delete',
+                                handleClick: () => handleDelete(workout),
+                                translationKey: 'actionMenu.workout.delete',
+                                icon: <Delete htmlColor={'palevioletred'} />
+                            }
+                        ]}
+                    />
+                </Stack>
             ),
             content: (
                 <Stack spacing={1}>
-                    <ExercisesContent
-                        workout={workout}
-                        parentIdPrefix={exerciseItemPrefix}
-                        index={index}
-                        typographySx={{ lineHeight: 2.2 }}
-                        typographyMarginLeft={{ xs: 0, md: '4rem' }}
-                    />
+                    <ExercisesContent workout={workout} parentIdPrefix={exerciseItemPrefix} index={index} />
                     <Stack
                         justifyContent={'space-between'}
                         direction={'row'}
@@ -123,7 +125,7 @@ const ManageWorkouts: FC = () => {
                     titleTranslationKey="page.manageWorkouts.workouts"
                     idPrefix={idPrefix}
                 />
-                <Stack ml={2} mr={2} mt={3} mb={3}>
+                <Stack mt={3} mb={3}>
                     <Accordion
                         accordions={workouts.map((workout, index) =>
                             getAccordionProp(workout, exerciseItemPrefix, index)

@@ -59,7 +59,7 @@ const Accordion: FC<AccordionProps> = (props) => {
                             id={`panel${tabNumber}bh-header`}
                             sx={{
                                 backgroundColor: 'white',
-                                alignItems: 'baseline'
+                                alignItems: 'center'
                             }}
                         >
                             <Typography
@@ -97,7 +97,7 @@ const Accordion: FC<AccordionProps> = (props) => {
                             }}
                         >
                             {typeof accordion.content === 'string' ? (
-                                <Typography sx={{ marginLeft: '4rem' }}>{accordion.content}</Typography>
+                                <Typography>{accordion.content}</Typography>
                             ) : (
                                 accordion.content
                             )}

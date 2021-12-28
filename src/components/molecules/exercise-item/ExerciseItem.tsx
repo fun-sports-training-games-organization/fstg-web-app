@@ -1,4 +1,4 @@
-import { Grid, Typography } from '@mui/material';
+import { Grid, Stack, Typography } from '@mui/material';
 import { FC, useCallback, useEffect, useState } from 'react';
 import { Exercise, ExerciseWorkoutSettings } from '../../../model/Exercise.model';
 import ExercisesTimeRepsIcons from '../../organisms/exercises-time-reps-icons/ExercisesTimeRepsIcons';
@@ -44,7 +44,7 @@ const ExerciseItem: FC<ExerciseItemProps> = ({
     }, [exerciseWorkoutSettings.exerciseId, loadExercise]);
 
     return (
-        <Grid container direction="row" justifyContent={{ xs: 'space-between' }} alignItems="center">
+        <Grid container display="grid" gridTemplateColumns="repeat(100, 1fr)" gridTemplateRows="7vh">
             <Typography
                 key={exerciseWorkoutSettings.id}
                 id={`${parentIdPrefix}name__${index}`}
@@ -52,10 +52,23 @@ const ExerciseItem: FC<ExerciseItemProps> = ({
                 variant="body2"
                 sx={typographySx}
                 marginLeft={typographyMarginLeft}
+                gridColumn={{ xs: '1 / 50', sm: '8 / 50', lg: '6 / 50' }}
+                display="flex"
+                flexDirection="row"
+                justifyContent="flex-start"
+                alignItems="center"
             >
                 {exerciseWorkoutSettings.name}
             </Typography>
-            <EditImage exercise={exercise} maxHeight={'3rem'} maxWidth="15%" />
+            <Stack
+                gridColumn={{ xs: '55 / 75', sm: '51 / 75', lg: '51 / 70' }}
+                display="flex"
+                flexDirection="row"
+                justifyContent="flex-start"
+                alignItems="center"
+            >
+                <EditImage exercise={exercise} maxHeight={'100%'} />
+            </Stack>
             <ExercisesTimeRepsIcons
                 entities={[exerciseWorkoutSettings]}
                 id={exerciseWorkoutSettings.id ? exerciseWorkoutSettings.id : uuidv4()}
@@ -63,6 +76,12 @@ const ExerciseItem: FC<ExerciseItemProps> = ({
                 parentIdPrefix={parentIdPrefix}
                 index={index}
                 type={exerciseWorkoutSettings.amountType}
+                gridColumns={{
+                    exercisesOrRepsIcon: { xs: '81 / 99', lg: '78 / 99' },
+                    timeIcon: { xs: '81 / 99', lg: '78 / 99' },
+                    repsIcon: { xs: '81 / 99', lg: '78 / 99' }
+                }}
+                displayInGrid={true}
             ></ExercisesTimeRepsIcons>
         </Grid>
     );
