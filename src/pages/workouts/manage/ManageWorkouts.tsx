@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react';
-import { Stack } from '@mui/material';
+import { Stack, Theme, useMediaQuery } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import DeleteConfirmationDialog from '../../../components/molecules/delete-confirmation-dialog/DeleteConfirmationDialog';
 import PageTitleActionButton from '../../../components/molecules/page-title-action/PageTitleAction';
@@ -15,6 +15,8 @@ import useEntityManager from '../../../hooks/useEntityManager';
 import { v4 as uuidv4 } from 'uuid';
 import AddButton from '../../../components/atoms/add-button/AddButton';
 import ResponsiveContainer from '../../../components/organisms/responsive-container/ResponsiveContainer';
+import theme from '../../../theme/theme';
+import FunctionsIcon from '@mui/icons-material/Functions';
 
 const ManageWorkouts: FC = () => {
     const pageName = 'manage_workouts';
@@ -35,6 +37,8 @@ const ManageWorkouts: FC = () => {
     useEffect(() => {
         setWorkouts(entities);
     }, [entities]);
+
+    const isSm = useMediaQuery((theme: Theme) => theme.breakpoints.between(400, 'sm'));
 
     const getAccordionProp = (workout: Workout, exerciseItemPrefix: string, index: number): AccordionProp => {
         return {
@@ -59,13 +63,31 @@ const ManageWorkouts: FC = () => {
                 />
             ),
             content: (
-                <ExercisesContent
-                    workout={workout}
-                    parentIdPrefix={exerciseItemPrefix}
-                    index={index}
-                    typographySx={{ lineHeight: 2.2 }}
-                    typographyMarginLeft={{ xs: 0, sm: '4rem' }}
-                />
+                <Stack spacing={1}>
+                    <ExercisesContent
+                        workout={workout}
+                        parentIdPrefix={exerciseItemPrefix}
+                        index={index}
+                        typographySx={{ lineHeight: 2.2 }}
+                        typographyMarginLeft={{ xs: 0, md: '4rem' }}
+                    />
+                    <Stack
+                        justifyContent={'space-between'}
+                        direction={'row'}
+                        pt={{ xs: 2, sm: 0 }}
+                        borderTop={{ xs: `2px solid ${theme.palette.grey[300]}`, sm: 'none' }}
+                    >
+                        {isSm && <FunctionsIcon />}
+                        <ExercisesTimeRepsIcons
+                            entities={workout.exercises}
+                            id={workout.id ? workout.id : uuidv4()}
+                            length={workout.exercises.length}
+                            parentIdPrefix={exerciseItemPrefix}
+                            index={index}
+                            display={{ sm: 'none' }}
+                        />
+                    </Stack>
+                </Stack>
             )
         };
     };
