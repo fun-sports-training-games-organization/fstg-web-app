@@ -7,6 +7,13 @@
         "account": "Account",
         "logout": "Logout"
     },
+    "actionMenu": {
+        "workout": {
+            "start": "Start Workout",
+            "edit": "Edit Workout",
+            "delete": "Delete Workout"
+        }
+    },
     "dialog": {
         "deleteConfirmation": {
             "title": "Delete Confirmation",
