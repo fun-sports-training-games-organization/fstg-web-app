@@ -137,7 +137,7 @@ const CreateEditExerciseForm = ({ exerciseId, handleClose, inWorkout = false, on
                                     style={{
                                         objectFit: 'contain',
                                         maxWidth: '100%',
-                                        maxHeight: '300px'
+                                        maxHeight: '40vh'
                                     }}
                                 />
                                 <Button variant={'contained'} color={'secondary'} onClick={deleteImage}>
