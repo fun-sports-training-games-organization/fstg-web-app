@@ -6,7 +6,6 @@ export interface Exercise extends IdName, CreateAndModifyInfo, AmountTypeAmountV
     resultValue?: number;
     recordResults?: boolean;
     useDefaultResult?: boolean;
-    defaultResult?: number;
 }
 
 export interface ExerciseWorkoutSettings extends Exercise {

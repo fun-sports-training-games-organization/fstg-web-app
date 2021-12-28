@@ -89,8 +89,9 @@ const ManageExercises: FC = (): JSX.Element => {
             ),
             content: (
                 <>
-                    <EditImage exercise={exercise} noImageIconSize="large" />
-
+                    <Stack flexDirection="row" justifyContent="center" mb={2}>
+                        <EditImage exercise={exercise} noImageIconSize="large" />
+                    </Stack>
                     <Stack
                         direction="row"
                         justifyContent="space-between"

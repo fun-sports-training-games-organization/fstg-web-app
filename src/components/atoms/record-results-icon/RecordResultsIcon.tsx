@@ -5,7 +5,6 @@ import { Exercise } from '../../../model/Exercise.model';
 import NumbersIcon from '@mui/icons-material/Numbers';
 import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
 import { getFormattedTotalWorkoutTime } from '../../../util/date-util';
-import { getTotalReps } from '../../../util/number-util';
 
 export type RecordResultsIconProps = {
     exercise: Exercise;
@@ -15,19 +14,19 @@ export type RecordResultsIconProps = {
 
 const RecordResultsIcon = ({ exercise, display }: RecordResultsIconProps): JSX.Element => {
     return (
-        <Stack display={display} flexDirection="row" justifyContent="flex-start">
+        <Stack display={display} flexDirection="row">
             {exercise?.recordResults ? (
                 <>
                     <TimelineIcon />
                     {exercise.resultType === 'COUNT_BASED' ? (
                         <>
                             <NumbersIcon />
-                            {exercise.useDefaultResult && exercise.defaultResult ? getTotalReps([exercise]) : null}
+                            {exercise.useDefaultResult && exercise.resultValue ? exercise.resultValue : null}
                         </>
                     ) : (
                         <>
                             <QueryBuilderIcon />
-                            {exercise.useDefaultResult && exercise.defaultResult
+                            {exercise.useDefaultResult && exercise.resultValue
                                 ? getFormattedTotalWorkoutTime([exercise])
                                 : null}
                         </>
