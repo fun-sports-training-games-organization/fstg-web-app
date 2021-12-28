@@ -7,6 +7,7 @@ import { FC } from 'react';
 import { AccordionProps } from './Accordion.types';
 import MuiAccordionSummary from '@mui/material/AccordionSummary';
 import { SxProps, Theme } from '@mui/system';
+import theme from '../../../theme/theme';
 
 const Accordion: FC<AccordionProps> = (props) => {
     const { accordions, setExpandedIndex, ...rest } = props;
@@ -58,7 +59,8 @@ const Accordion: FC<AccordionProps> = (props) => {
                             aria-controls={`panel${tabNumber}bh-content`}
                             id={`panel${tabNumber}bh-header`}
                             sx={{
-                                backgroundColor: 'white',
+                                backgroundColor: expanded === `panel${tabNumber}` ? theme.palette.grey[100] : 'white',
+                                borderBottom: theme.palette.grey[600],
                                 alignItems: 'center'
                             }}
                         >
@@ -92,8 +94,7 @@ const Accordion: FC<AccordionProps> = (props) => {
                         </AccordionSummary>
                         <AccordionDetails
                             sx={{
-                                backgroundColor: 'white',
-                                paddingTop: 0
+                                paddingTop: 2
                             }}
                         >
                             {typeof accordion.content === 'string' ? (
