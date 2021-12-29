@@ -8,7 +8,7 @@ import { useHistory } from 'react-router-dom';
 import { useFirebase } from 'react-redux-firebase';
 import { auth } from '../config/firebase';
 import { Facebook as FacebookIcon, Google as GoogleIcon, Twitter as TwitterIcon } from '@mui/icons-material';
-import { RegistrationErrorState } from '../pages/authentication/registration-form/RegistrationForm';
+import { RegistrationErrorState } from '../components/pages/authentication/registration-form/RegistrationForm';
 import * as notification from '../util/notifications-util';
 import * as navigate from '../util/navigation-util';
 

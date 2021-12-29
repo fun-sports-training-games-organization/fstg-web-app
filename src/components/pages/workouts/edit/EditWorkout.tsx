@@ -3,17 +3,17 @@ import { Stack, TextField } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import { useHistory, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import * as notification from '../../../util/notifications-util';
-import * as navigate from '../../../util/navigation-util';
-import AddButton from '../../../components/atoms/add-button/AddButton';
-import PageTitle from '../../../components/atoms/page-title/PageTitle';
-import SubmitButton from '../../../components/atoms/submit-button/SubmitButton';
-import { Id } from '../../../model/Basics.model';
-import { Workout } from '../../../model/Workout.model';
-import { getPageIdPrefix } from '../../../util/id-util';
-import ManageWorkoutExercises from '../../../components/molecules/manage-workout-exercises/ManageWorkoutExercises';
-import useEntityManager from '../../../hooks/useEntityManager';
-import { getNewEmptyExerciseWorkoutSettings, getNewEmptyWorkout } from '../../../util/workout-util';
+import * as notification from '../../../../util/notifications-util';
+import * as navigate from '../../../../util/navigation-util';
+import AddButton from '../../../atoms/add-button/AddButton';
+import PageTitle from '../../../atoms/page-title/PageTitle';
+import SubmitButton from '../../../atoms/submit-button/SubmitButton';
+import { Id } from '../../../../model/Basics.model';
+import { Workout } from '../../../../model/Workout.model';
+import { getPageIdPrefix } from '../../../../util/id-util';
+import ManageWorkoutExercises from '../../../molecules/manage-workout-exercises/ManageWorkoutExercises';
+import useEntityManager from '../../../../hooks/useEntityManager';
+import { getNewEmptyExerciseWorkoutSettings, getNewEmptyWorkout } from '../../../../util/workout-util';
 
 const EditWorkout: FC = () => {
     const pageName = 'edit_workout';

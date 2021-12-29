@@ -2,10 +2,10 @@ import React, { FC } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { capitalize, Divider, Grid, Link, Stack, Theme, Typography, useMediaQuery } from '@mui/material';
 import EmailLoginForm from '../email-login-form/EmailLoginForm';
-import ProviderLoginButton from '../../../components/atoms/provider-login-button/ProviderLoginButton';
-import AuthContainer from '../../../components/organisms/auth-container/AuthContainer';
-import SwipingTabs from '../../../components/organisms/swiping-tabs/SwipingTabs';
-import { LoginProviders, LoginProvider, useAuth } from '../../../contexts/AuthContextProvider';
+import ProviderLoginButton from '../../../atoms/provider-login-button/ProviderLoginButton';
+import AuthContainer from '../../../organisms/auth-container/AuthContainer';
+import SwipingTabs from '../../../organisms/swiping-tabs/SwipingTabs';
+import { LoginProviders, LoginProvider, useAuth } from '../../../../contexts/AuthContextProvider';
 import RegistrationForm from '../registration-form/RegistrationForm';
 
 const LoginPage: FC = (): JSX.Element => {
