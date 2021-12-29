@@ -15,7 +15,7 @@ const ProviderLoginButton: FC<ProviderLoginProps> = (props) => {
         <Button
             style={{
                 backgroundColor: color,
-                borderRadius: 0,
+                borderRadius: 4,
                 textTransform: 'none',
                 width: '100%'
             }}
