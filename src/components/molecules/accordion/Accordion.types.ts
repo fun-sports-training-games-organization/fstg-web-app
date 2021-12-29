@@ -1,5 +1,5 @@
 import { AccordionProps as MUIAccordionProps } from '@mui/material';
-import { ReactNode } from 'react';
+import { Dispatch, ReactNode, SetStateAction } from 'react';
 
 export interface AccordionProp {
     title: string | ReactNode;
@@ -9,6 +9,7 @@ export interface AccordionProp {
 }
 export interface CustomProps {
     accordions: AccordionProp[];
+    setExpandedIndex?: Dispatch<SetStateAction<number>>;
 }
 
 export type AccordionProps = CustomProps & Omit<MUIAccordionProps, 'children'>;

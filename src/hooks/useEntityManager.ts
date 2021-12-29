@@ -1,9 +1,10 @@
+import { CreateInfo, ModifyInfo, Id } from './../model/Basics.model';
 import { useState, useEffect } from 'react';
 import { useFirestore, useFirebase } from 'react-redux-firebase';
 import { prepareDataToSend } from '../util/data-prep-util';
 import { useAuth } from '../contexts/AuthContextProvider';
 
-export type EntityWithId<T> = T & { id?: string };
+export type EntityWithId<T> = T & Id & CreateInfo & ModifyInfo;
 
 type EntityManager<T> = {
     entities: T[];

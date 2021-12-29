@@ -12,6 +12,11 @@
             "start": "Démarrer l'entraînement",
             "edit": "Modifier l'entraînement",
             "delete": "Supprimer l'entraînement"
+        },
+        "exercise": {
+            "start": "Démarrer l'exercice",
+            "edit": "Modifier l'exercice",
+            "delete": "Supprimer l'exercice"
         }
     },
     "dialog": {
