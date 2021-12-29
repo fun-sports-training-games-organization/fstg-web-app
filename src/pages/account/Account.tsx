@@ -30,7 +30,7 @@ const RegistrationForm: FC = () => {
     const { user } = useAuth();
     const { enqueueSnackbar } = useSnackbar();
     const fileManager = useFileManager<File>('profile_pictures');
-    const entityManager = useEntityManager<UserProfile>('users');
+    const entityManager = useEntityManager<UserProfile>('users', false);
 
     const [state, setState] = useState<State>();
     const [profilePictureURL, setProfilePictureURL] = useState<string>();
