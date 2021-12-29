@@ -1,19 +1,19 @@
 import { FC, useCallback, useEffect, useState } from 'react';
-import { Id } from '../../../model/Basics.model';
-import { Workout } from '../../../model/Workout.model';
-import { getPageIdPrefix } from '../../../util/id-util';
-import ExercisesContent from '../../../components/organisms/exercises-content/ExercisesContent';
-import { getNewEmptyWorkout } from '../../../util/workout-util';
+import { Id } from '../../../../model/Basics.model';
+import { Workout } from '../../../../model/Workout.model';
+import { getPageIdPrefix } from '../../../../util/id-util';
+import ExercisesContent from '../../../organisms/exercises-content/ExercisesContent';
+import { getNewEmptyWorkout } from '../../../../util/workout-util';
 import { useHistory, useParams } from 'react-router-dom';
 import { Grid, IconButton, Stack } from '@mui/material';
 import { PlayArrow } from '@mui/icons-material';
-import theme from '../../../theme/theme';
-import useEntityManager from '../../../hooks/useEntityManager';
-import ExercisesTimeRepsIcons from '../../../components/organisms/exercises-time-reps-icons/ExercisesTimeRepsIcons';
+import theme from '../../../../theme/theme';
+import useEntityManager from '../../../../hooks/useEntityManager';
+import ExercisesTimeRepsIcons from '../../../organisms/exercises-time-reps-icons/ExercisesTimeRepsIcons';
 import { v4 as uuidv4 } from 'uuid';
-import PageTitleActionButton from '../../../components/molecules/page-title-action/PageTitleAction';
-import { TypographyOverrideable } from '../../../components/atoms/typography-overrideable/TypographyOverridable';
-import * as navigate from '../../../util/navigation-util';
+import PageTitleActionButton from '../../../molecules/page-title-action/PageTitleAction';
+import { TypographyOverrideable } from '../../../atoms/typography-overrideable/TypographyOverridable';
+import * as navigate from '../../../../util/navigation-util';
 
 const StartWorkout: FC = () => {
     const pageName = 'start_workout';

@@ -1,16 +1,16 @@
 import IRoute from './route.interface';
 
-import RegistrationForm from '../pages/authentication/registration-form/RegistrationForm';
-import ManageExercises from '../pages/exercises/manage/ManageExercises';
-import ManageWorkouts from '../pages/workouts/manage/ManageWorkouts';
-import Account from '../pages/account/Account';
-import StartWorkout from '../pages/workouts/start/StartWorkout';
-import LoginPage from '../pages/authentication/login-page/LoginPage';
-import HomePage from '../pages/home/Home';
-import PrivacyPolicyPage from '../pages/legal/PrivacyPolicyPage';
-import TermsOfServicePage from '../pages/legal/TermsOfServicePage';
-import EditWorkout from '../pages/workouts/edit/EditWorkout';
-import DoWorkout from '../pages/workouts/do/DoWorkout';
+import RegistrationForm from '../components/pages/authentication/registration-form/RegistrationForm';
+import ManageExercises from '../components/pages/exercises/manage/ManageExercises';
+import ManageWorkouts from '../components/pages/workouts/manage/ManageWorkouts';
+import Account from '../components/pages/account/Account';
+import StartWorkout from '../components/pages/workouts/start/StartWorkout';
+import LoginPage from '../components/pages/authentication/login-page/LoginPage';
+import HomePage from '../components/pages/home/Home';
+import PrivacyPolicyPage from '../components/pages/legal/PrivacyPolicyPage';
+import TermsOfServicePage from '../components/pages/legal/TermsOfServicePage';
+import EditWorkout from '../components/pages/workouts/edit/EditWorkout';
+import DoWorkout from '../components/pages/workouts/do/DoWorkout';
 
 const routes: IRoute[] = [
     {

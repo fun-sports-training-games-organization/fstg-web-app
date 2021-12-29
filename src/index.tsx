@@ -1,7 +1,7 @@
 import { StrictMode, Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import App from './components/App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import './i18n';

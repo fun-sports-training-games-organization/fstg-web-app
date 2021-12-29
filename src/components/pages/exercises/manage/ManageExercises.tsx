@@ -1,22 +1,22 @@
 import { Stack } from '@mui/material';
 import { FC, useEffect, useState } from 'react';
-import { Exercise } from '../../../model/Exercise.model';
-import DeleteConfirmationDialog from '../../../components/molecules/delete-confirmation-dialog/DeleteConfirmationDialog';
+import { Exercise } from '../../../../model/Exercise.model';
+import DeleteConfirmationDialog from '../../../molecules/delete-confirmation-dialog/DeleteConfirmationDialog';
 import { useTranslation } from 'react-i18next';
-import { getPageIdPrefix } from '../../../util/id-util';
-import PageTitleActionButton from '../../../components/molecules/page-title-action/PageTitleAction';
-import useEntityManager from '../../../hooks/useEntityManager';
-import AddButton from '../../../components/atoms/add-button/AddButton';
-import ResponsiveDialog from '../../../components/organisms/responsive-dialog';
-import CreateEditExerciseForm from '../../../components/organisms/create-edit-exercise-form/CreateEditExerciseForm';
-import ActionsMenu from '../../../components/molecules/actions-menu/ActionsMenu';
-import Accordion from '../../../components/molecules/accordion/Accordion';
-import { AccordionProp } from '../../../components/molecules/accordion/Accordion.types';
+import { getPageIdPrefix } from '../../../../util/id-util';
+import PageTitleActionButton from '../../../molecules/page-title-action/PageTitleAction';
+import useEntityManager from '../../../../hooks/useEntityManager';
+import AddButton from '../../../atoms/add-button/AddButton';
+import ResponsiveDialog from '../../../organisms/responsive-dialog';
+import CreateEditExerciseForm from '../../../organisms/create-edit-exercise-form/CreateEditExerciseForm';
+import ActionsMenu from '../../../molecules/actions-menu/ActionsMenu';
+import Accordion from '../../../molecules/accordion/Accordion';
+import { AccordionProp } from '../../../molecules/accordion/Accordion.types';
 import { v4 as uuidv4 } from 'uuid';
-import { getNumber } from '../../../util/number-util';
-import EditImage from '../../../components/molecules/edit-image/EditImage';
-import ExercisesTimeRepsIcons from '../../../components/organisms/exercises-time-reps-icons/ExercisesTimeRepsIcons';
-import RecordResultsIcon from '../../../components/atoms/record-results-icon/RecordResultsIcon';
+import { getNumber } from '../../../../util/number-util';
+import EditImage from '../../../molecules/edit-image/EditImage';
+import ExercisesTimeRepsIcons from '../../../organisms/exercises-time-reps-icons/ExercisesTimeRepsIcons';
+import RecordResultsIcon from '../../../atoms/record-results-icon/RecordResultsIcon';
 import { Delete, Edit } from '@mui/icons-material';
 
 const ManageExercises: FC = (): JSX.Element => {

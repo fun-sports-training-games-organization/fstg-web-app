@@ -1,9 +1,9 @@
 import React, { ChangeEvent, FormEvent, SyntheticEvent, useCallback, useEffect, useState } from 'react';
 import { Button, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Stack } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import TimeField from '../../molecules/TimeField';
-import CountField from '../../molecules/CountField';
-import LabeledCheckbox from '../../molecules/LabeledCheckbox';
+import TimeField from '../../molecules/time-field/TimeField';
+import CountField from '../../molecules/count-field/CountField';
+import LabeledCheckbox from '../../molecules/labeled-checkbox/LabeledCheckbox';
 import * as notification from '../../../util/notifications-util';
 import { useSnackbar } from 'notistack';
 import useEntityManager from '../../../hooks/useEntityManager';

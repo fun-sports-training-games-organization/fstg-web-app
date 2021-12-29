@@ -36,7 +36,7 @@ function useEntityManager<T>(entityName: string, ownerCheck = true): EntityManag
                     setEntities(snapshot.docs.map((doc) => ({ id: doc.id, ...(doc.data() as T) })));
                 });
         }
-    }, [entityName, firestore, user?.uid]);
+    }, [entityName, firestore, user?.uid, ownerCheck]);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const findById = async (id: string): Promise<any> => {

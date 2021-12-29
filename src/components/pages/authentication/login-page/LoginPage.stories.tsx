@@ -1,9 +1,9 @@
 import React, { Suspense } from 'react';
 import { Meta } from '@storybook/react';
 import LoginPage from './LoginPage';
-import AuthContextProvider from '../../../contexts/AuthContextProvider';
+import AuthContextProvider from '../../../../contexts/AuthContextProvider';
 import { SnackbarProvider } from 'notistack';
-import Loader from '../../../components/atoms/loader/Loader';
+import Loader from '../../../atoms/loader/Loader';
 
 export default {
     title: 'pages/LoginPage',
