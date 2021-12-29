@@ -12,6 +12,11 @@
             "start": "Start Workout",
             "edit": "Edit Workout",
             "delete": "Delete Workout"
+        },
+        "exercise": {
+            "start": "Start exercise",
+            "edit": "Edit exercise",
+            "delete": "Delete exercise"
         }
     },
     "dialog": {

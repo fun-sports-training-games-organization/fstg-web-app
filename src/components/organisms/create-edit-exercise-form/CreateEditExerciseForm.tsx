@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import TimeField from '../../molecules/TimeField';
 import CountField from '../../molecules/CountField';
 import LabeledCheckbox from '../../molecules/LabeledCheckbox';
-import FileChooser from '../../molecules/file-input/FileChooser';
 import * as notification from '../../../util/notifications-util';
 import { useSnackbar } from 'notistack';
 import useEntityManager from '../../../hooks/useEntityManager';
@@ -13,6 +12,7 @@ import TextField from '../../atoms/text-field/TextField';
 import useFileManager from '../../../hooks/useFileManager';
 import { useAuth } from '../../../contexts/AuthContextProvider';
 import { getNumber } from '../../../util/number-util';
+import EditImage from '../../molecules/edit-image/EditImage';
 
 type Props = {
     exerciseId?: string;
@@ -30,7 +30,6 @@ const CreateEditExerciseForm = ({ exerciseId, handleClose, inWorkout = false, on
     const fileManager = useFileManager<File>('exercises');
     const { createEntity, updateEntity, findById } = useEntityManager<Exercise>('exercises');
     const [chosenFile, setChosenFile] = useState<File | null>(null);
-    const [imgUrl, setImUrl] = useState<string>();
     const [exercise, setExercise] = useState<Exercise>({});
     const PREFIX = 'form.label.exercise';
 
@@ -40,17 +39,6 @@ const CreateEditExerciseForm = ({ exerciseId, handleClose, inWorkout = false, on
     }, []);
 
     useEffect(() => {
-        if (exercise.imageOrGifUrl) {
-            fileManager.getFileURL(exercise.imageOrGifUrl).then((imageUrl) => {
-                setImUrl(imageUrl);
-            });
-        } else {
-            setImUrl(undefined);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [exercise.imageOrGifUrl]);
-
-    useEffect(() => {
         exerciseId
             ? loadExercise(exerciseId)
             : setExercise({ ...exercise, name: name ? name : exercise.name, amountType: 'COUNT_BASED' });
@@ -58,19 +46,10 @@ const CreateEditExerciseForm = ({ exerciseId, handleClose, inWorkout = false, on
     }, [exerciseId, loadExercise, name]);
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        if (event.target.type === 'file') {
-            const file = event.target.files && event.target.files[0];
-            setChosenFile(file);
-            setExercise({
-                ...exercise,
-                imageOrGifUrl: `exercises/${user?.uid}/${file?.name}`
-            });
-        } else {
-            setExercise({
-                ...exercise,
-                [event.target.name]: event.target.value
-            });
-        }
+        setExercise({
+            ...exercise,
+            [event.target.name]: event.target.value
+        });
     };
 
     const onCheckboxChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, checked?: boolean): void => {
@@ -106,13 +85,6 @@ const CreateEditExerciseForm = ({ exerciseId, handleClose, inWorkout = false, on
         }
     };
 
-    const deleteImage = () => {
-        setExercise({ ...exercise, imageOrGifUrl: undefined });
-        updateEntity(exercise).then(() => {
-            exercise.imageOrGifUrl && fileManager.deleteFile(exercise.imageOrGifUrl);
-        });
-    };
-
     return (
         <form onSubmit={handleCreateOrUpdate}>
             <Stack spacing={2} mt={2}>
@@ -124,27 +96,12 @@ const CreateEditExerciseForm = ({ exerciseId, handleClose, inWorkout = false, on
                             id={`exercise.name`}
                             label={t(`${PREFIX}.name`)}
                             type={'text'}
-                            value={exercise.name}
+                            value={exercise.name ? exercise.name : ''}
                             fullWidth
                             onChange={handleChange}
                             name={'name'}
                         />
-                        {imgUrl ? (
-                            <>
-                                <img src={imgUrl} alt={exercise.name} />
-                                <Button variant={'contained'} color={'secondary'} onClick={deleteImage}>
-                                    {t('Delete Image')}
-                                </Button>
-                            </>
-                        ) : (
-                            <FileChooser
-                                fullWidth
-                                id={'exercise.image'}
-                                label={t(`${PREFIX}.imgUrl`)}
-                                name={exercise.imageOrGifUrl}
-                                onChange={handleChange}
-                            />
-                        )}
+                        <EditImage exercise={exercise} setExercise={setExercise} setChosenFile={setChosenFile} />
                     </>
                 ) : null}
 
@@ -198,9 +155,9 @@ const CreateEditExerciseForm = ({ exerciseId, handleClose, inWorkout = false, on
                     />
                 )}
                 <LabeledCheckbox
-                    checked={exercise.recordResults}
+                    checked={exercise.recordResults ? exercise.recordResults : false}
                     onChange={onCheckboxChange}
-                    name="recordResults"
+                    name={'recordResults'}
                     label={t(`${PREFIX}.${inWorkout ? 'recordResults' : 'recordResultsByDefault'}`)}
                 />
                 {exercise.recordResults && (
@@ -218,7 +175,7 @@ const CreateEditExerciseForm = ({ exerciseId, handleClose, inWorkout = false, on
                                     value="COUNT_BASED"
                                     control={
                                         <Radio
-                                            checked={exercise.resultType === 'COUNT_BASED'}
+                                            checked={!exercise.resultType || exercise.resultType === 'COUNT_BASED'}
                                             name={'resultType'}
                                             onChange={handleChange}
                                         />
@@ -240,7 +197,7 @@ const CreateEditExerciseForm = ({ exerciseId, handleClose, inWorkout = false, on
                             </RadioGroup>
                         </FormControl>
                         <LabeledCheckbox
-                            checked={exercise.useDefaultResult}
+                            checked={exercise.useDefaultResult ? exercise.useDefaultResult : false}
                             name={'useDefaultResult'}
                             onChange={onCheckboxChange}
                             label={t(`${PREFIX}.useDefaultResult`)}
@@ -249,7 +206,7 @@ const CreateEditExerciseForm = ({ exerciseId, handleClose, inWorkout = false, on
                             (exercise.resultType === 'TIME_BASED' ? (
                                 <TimeField
                                     label={t(`${PREFIX}.defaultResult`)}
-                                    value={exercise.resultValue}
+                                    value={exercise.resultValue ? exercise.resultValue : 0}
                                     setValue={(seconds: number) => {
                                         setExercise({ ...exercise, resultValue: seconds });
                                     }}
@@ -258,7 +215,7 @@ const CreateEditExerciseForm = ({ exerciseId, handleClose, inWorkout = false, on
                                 <CountField
                                     min={0}
                                     max={100}
-                                    value={exercise.resultValue}
+                                    value={exercise.resultValue ? exercise.resultValue : 0}
                                     setValue={(value: number) => setExercise({ ...exercise, resultValue: value })}
                                 />
                             ))}

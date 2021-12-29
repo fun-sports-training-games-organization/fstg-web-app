@@ -9,7 +9,7 @@ import { Grid, IconButton, Stack } from '@mui/material';
 import { PlayArrow } from '@mui/icons-material';
 import theme from '../../../theme/theme';
 import useEntityManager from '../../../hooks/useEntityManager';
-import IconsSubtitle from '../../../components/molecules/icons-subtitle/IconsSubtitle';
+import ExercisesTimeRepsIcons from '../../../components/organisms/exercises-time-reps-icons/ExercisesTimeRepsIcons';
 import { v4 as uuidv4 } from 'uuid';
 import PageTitleActionButton from '../../../components/molecules/page-title-action/PageTitleAction';
 import { TypographyOverrideable } from '../../../components/atoms/typography-overrideable/TypographyOverridable';
@@ -56,9 +56,9 @@ const StartWorkout: FC = () => {
                     mt={2}
                     mr={2}
                     direction="column"
-                    border={`2px solid ${theme.palette.grey[700]}`}
+                    border={`2px solid ${theme.palette.grey[300]}`}
                     borderRadius="1rem"
-                    sx={{ backgroundColor: theme.palette.grey[300], paddingRight: '0.7rem' }}
+                    sx={{ backgroundColor: theme.palette.grey[100], paddingRight: '0.7rem' }}
                 >
                     <TypographyOverrideable
                         fontSize={'twentyThree'}
@@ -74,13 +74,21 @@ const StartWorkout: FC = () => {
                         parentIdPrefix={idPrefix}
                         typographySx={{ lineHeight: 2.2, marginLeft: '0.7rem' }}
                     ></ExercisesContent>
-                    <Grid mt={5} mb={2} pl={2} pr={2} container direction="row" justifyContent="space-between">
-                        <IconsSubtitle
+                    <Grid
+                        mt={5}
+                        mb={2}
+                        pl={2}
+                        pr={2}
+                        container
+                        direction="row"
+                        justifyContent={{ xs: 'space-between', sm: 'space-around' }}
+                    >
+                        <ExercisesTimeRepsIcons
                             entities={workout.exercises}
                             id={workout.id ? workout.id : uuidv4()}
                             length={workout.exercises.length}
                             parentIdPrefix={idPrefix}
-                        ></IconsSubtitle>
+                        />
                     </Grid>
                 </Stack>
             </Grid>

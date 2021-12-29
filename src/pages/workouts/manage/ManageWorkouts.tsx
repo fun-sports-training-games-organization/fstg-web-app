@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react';
-import { Stack } from '@mui/material';
+import { Stack, Theme, useMediaQuery } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import DeleteConfirmationDialog from '../../../components/molecules/delete-confirmation-dialog/DeleteConfirmationDialog';
 import PageTitleActionButton from '../../../components/molecules/page-title-action/PageTitleAction';
@@ -8,13 +8,16 @@ import { getPageIdPrefix } from '../../../util/id-util';
 import * as navigate from '../../../util/navigation-util';
 import Accordion from '../../../components/molecules/accordion/Accordion';
 import { AccordionProp } from '../../../components/molecules/accordion/Accordion.types';
-import IconsSubtitle from '../../../components/molecules/icons-subtitle/IconsSubtitle';
+import ExercisesTimeRepsIcons from '../../../components/organisms/exercises-time-reps-icons/ExercisesTimeRepsIcons';
 import ActionsMenu from '../../../components/molecules/actions-menu/ActionsMenu';
 import ExercisesContent from '../../../components/organisms/exercises-content/ExercisesContent';
 import useEntityManager from '../../../hooks/useEntityManager';
 import { v4 as uuidv4 } from 'uuid';
 import AddButton from '../../../components/atoms/add-button/AddButton';
 import ResponsiveContainer from '../../../components/organisms/responsive-container/ResponsiveContainer';
+import theme from '../../../theme/theme';
+import FunctionsIcon from '@mui/icons-material/Functions';
+import { Delete, Edit, PlayArrow } from '@mui/icons-material';
 
 const ManageWorkouts: FC = () => {
     const pageName = 'manage_workouts';
@@ -36,11 +39,13 @@ const ManageWorkouts: FC = () => {
         setWorkouts(entities);
     }, [entities]);
 
+    const isSm = useMediaQuery((theme: Theme) => theme.breakpoints.between(400, 'sm'));
+
     const getAccordionProp = (workout: Workout, exerciseItemPrefix: string, index: number): AccordionProp => {
         return {
             title: workout.name,
             subtitle: (
-                <IconsSubtitle
+                <ExercisesTimeRepsIcons
                     entities={workout.exercises}
                     id={workout.id ? workout.id : uuidv4()}
                     length={workout.exercises.length}
@@ -50,24 +55,50 @@ const ManageWorkouts: FC = () => {
                 />
             ),
             actionsButton: (
-                <ActionsMenu
-                    entity={workout}
-                    handleDelete={handleDelete}
-                    parentIdPrefix={exerciseItemPrefix}
-                    index={index}
-                />
+                <Stack
+                    gridColumn="95 / 100"
+                    display="flex"
+                    flexDirection="row"
+                    justifyContent="flex-end"
+                    alignItems="center"
+                >
+                    <ActionsMenu
+                        parentIdPrefix={exerciseItemPrefix}
+                        index={index}
+                        options={[
+                            {
+                                name: 'start',
+                                handleClick: () => workout.id && navigate.toStartWorkout(history, workout.id),
+                                translationKey: 'actionMenu.workout.start',
+                                icon: <PlayArrow htmlColor={'green'} />
+                            },
+                            {
+                                name: 'edit',
+                                handleClick: () => navigate.toEditWorkout(history, workout.id),
+                                translationKey: 'actionMenu.workout.edit',
+                                icon: <Edit htmlColor={'steelblue'} />
+                            },
+                            {
+                                name: 'delete',
+                                handleClick: () => handleDelete(workout),
+                                translationKey: 'actionMenu.workout.delete',
+                                icon: <Delete htmlColor={'palevioletred'} />
+                            }
+                        ]}
+                    />
+                </Stack>
             ),
             content: (
                 <Stack spacing={1}>
-                    <ExercisesContent
-                        workout={workout}
-                        parentIdPrefix={exerciseItemPrefix}
-                        index={index}
-                        typographySx={{ lineHeight: 2.2 }}
-                        typographyMarginLeft={{ xs: 0, sm: '4rem' }}
-                    />
-                    <Stack justifyContent={'space-between'} direction={'row'}>
-                        <IconsSubtitle
+                    <ExercisesContent workout={workout} parentIdPrefix={exerciseItemPrefix} index={index} />
+                    <Stack
+                        justifyContent={'space-between'}
+                        direction={'row'}
+                        pt={{ xs: 2, sm: 0 }}
+                        borderTop={{ xs: `2px solid ${theme.palette.grey[300]}`, sm: 'none' }}
+                    >
+                        {isSm && <FunctionsIcon />}
+                        <ExercisesTimeRepsIcons
                             entities={workout.exercises}
                             id={workout.id ? workout.id : uuidv4()}
                             length={workout.exercises.length}
@@ -94,7 +125,7 @@ const ManageWorkouts: FC = () => {
                     titleTranslationKey="page.manageWorkouts.workouts"
                     idPrefix={idPrefix}
                 />
-                <Stack ml={2} mr={2} mt={3} mb={3}>
+                <Stack mt={3} mb={3}>
                     <Accordion
                         accordions={workouts.map((workout, index) =>
                             getAccordionProp(workout, exerciseItemPrefix, index)
