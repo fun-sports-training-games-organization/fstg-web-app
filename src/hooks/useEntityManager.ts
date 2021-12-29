@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useFirestore, useFirebase } from 'react-redux-firebase';
 import { prepareDataToSend } from '../util/data-prep-util';
+import { useAuth } from '../contexts/AuthContextProvider';
 
 export type EntityWithId<T> = T & { id?: string };
 
@@ -13,15 +14,25 @@ type EntityManager<T> = {
 };
 
 function useEntityManager<T>(entityName: string): EntityManager<T> {
+    const { user } = useAuth();
     const [entities, setEntities] = useState<EntityWithId<T>[]>([]);
     const firestore = useFirestore();
     const firebase = useFirebase();
 
     useEffect(() => {
-        firestore.collection(entityName).onSnapshot((snapshot) => {
-            setEntities(snapshot.docs.map((doc) => ({ id: doc.id, ...(doc.data() as T) })));
-        });
-    }, [entityName, firestore]);
+        if (user?.uid && ['8D3cIL5a4GM6Dzae8efcP2B9J5k2', 'p85OZGSf7TfTchZtoLd4JJs7UH82'].includes(user?.uid)) {
+            firestore.collection(entityName).onSnapshot((snapshot) => {
+                setEntities(snapshot.docs.map((doc) => ({ id: doc.id, ...(doc.data() as T) })));
+            });
+        } else {
+            firestore
+                .collection(entityName)
+                .where('createdById', '==', user?.uid)
+                .onSnapshot((snapshot) => {
+                    setEntities(snapshot.docs.map((doc) => ({ id: doc.id, ...(doc.data() as T) })));
+                });
+        }
+    }, [entityName, firestore, user?.uid]);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const findById = async (id: string): Promise<any> => {
