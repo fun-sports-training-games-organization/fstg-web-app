@@ -15,7 +15,7 @@ import useFileManager from './hooks/useFileManager';
 
 function App(): JSX.Element {
     const { logout, user } = useAuth();
-    const { findById } = useEntityManager<UserProfile>('users');
+    const { findById } = useEntityManager<UserProfile>('users', false);
     const fileManager = useFileManager<File>('profile_pictures');
     const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
     const [photoURL, setPhotoURL] = useState<string>();

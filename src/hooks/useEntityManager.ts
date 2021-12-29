@@ -14,14 +14,17 @@ type EntityManager<T> = {
     deleteEntityById: (id: string) => Promise<void>;
 };
 
-function useEntityManager<T>(entityName: string): EntityManager<T> {
+function useEntityManager<T>(entityName: string, ownerCheck = true): EntityManager<T> {
     const { user } = useAuth();
     const [entities, setEntities] = useState<EntityWithId<T>[]>([]);
     const firestore = useFirestore();
     const firebase = useFirebase();
 
     useEffect(() => {
-        if (user?.uid && ['8D3cIL5a4GM6Dzae8efcP2B9J5k2', 'p85OZGSf7TfTchZtoLd4JJs7UH82'].includes(user?.uid)) {
+        if (
+            (user?.uid && ['8D3cIL5a4GM6Dzae8efcP2B9J5k2', 'p85OZGSf7TfTchZtoLd4JJs7UH82'].includes(user?.uid)) ||
+            !ownerCheck
+        ) {
             firestore.collection(entityName).onSnapshot((snapshot) => {
                 setEntities(snapshot.docs.map((doc) => ({ id: doc.id, ...(doc.data() as T) })));
             });
