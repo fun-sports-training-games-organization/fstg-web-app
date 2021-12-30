@@ -14,22 +14,6 @@ const AuthRoute: FC<RouteProps> = ({ children, ...rest }: RouteProps) => {
     //         // No user is signed in.
     //     }
     // });
-    return (
-        <Route
-            {...rest}
-            render={({ location }) => {
-                return user ? (
-                    children
-                ) : (
-                    <Redirect
-                        to={{
-                            pathname: '/login',
-                            state: { from: location }
-                        }}
-                    />
-                );
-            }}
-        />
-    );
+    return user ? <Route {...rest} /> : <Redirect to={'/login'} />;
 };
 export default AuthRoute;
