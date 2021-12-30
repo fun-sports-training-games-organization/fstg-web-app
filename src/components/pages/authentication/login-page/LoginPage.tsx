@@ -44,10 +44,6 @@ const LoginPage: FC = (): JSX.Element => {
             </Stack>
         </>
     );
-    // not too sure if we need this still...
-    // if (user) {
-    //     return <Redirect to={'/home'} />;
-    // }
     return (
         <Grid
             container

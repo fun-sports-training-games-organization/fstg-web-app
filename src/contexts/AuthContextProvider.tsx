@@ -74,9 +74,14 @@ const AuthContextProvider: FC<PropsWithChildren<Record<string, unknown>>> = (
     const loginFailed = (error: Error) => {
         // Handle Errors here.
         if (error) {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            notification.loginError(enqueueSnackbar, t, { errorCode, errorMessage });
+            // here we want to obscure the error message without telling the user either the email or password are incorrect!
+            if ('auth/invalid-email' === error.code || 'auth/wrong-password' === error.code) {
+                notification.loginFailedWrongCredentials(enqueueSnackbar, t);
+            } else {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                notification.loginError(enqueueSnackbar, t, { errorCode, errorMessage });
+            }
         }
     };
 
