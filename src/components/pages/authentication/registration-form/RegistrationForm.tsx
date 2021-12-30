@@ -20,6 +20,9 @@ import {
 } from '../../../../util/validation';
 import PasswordField from '../../../molecules/password-field/PasswordField';
 import i18n from 'i18next';
+import { WrappedFieldProps } from 'redux-form/lib/Field';
+import { fetchSignInMethodsForEmail } from 'firebase/auth';
+import { auth } from '../../../../config/firebase';
 
 export interface RegistrationFormFields {
     username?: string;
@@ -39,6 +42,15 @@ export interface RegistrationErrorState {
     confirmPasswordError?: string;
 }
 
+const asyncValidate = async (values: RegistrationFormFields) => {
+    if (values.email) {
+        const providers = values.email && (await fetchSignInMethodsForEmail(auth, values.email));
+        if (providers && providers.length > 0) {
+            await Promise.reject({ email: 'This email has been taken!' });
+        }
+    }
+};
+
 const validate = (values: RegistrationFormFields) => {
     const error: RegistrationFormFields = {};
     error.confirmPassword =
@@ -46,26 +58,21 @@ const validate = (values: RegistrationFormFields) => {
     return error;
 };
 
-const renderTextField = ({ input, label, meta: { touched, error }, ...custom }: any) => (
-    <TextField
-        label={label}
-        // floatingLabelText={label}
-        helperText={touched && error}
-        error={error}
-        {...input}
-        {...custom}
-    />
-);
+const renderTextField = (props: WrappedFieldProps & { label: string | undefined }) => {
+    const {
+        input,
+        label,
+        meta: { touched, error }
+    } = props;
+    return <TextField {...input} label={label} helperText={touched && error} error={!!error} />;
+};
 
-const renderPasswordField = ({ input, label, meta: { touched, error }, ...custom }: any) => (
-    <PasswordField
-        label={label}
-        // floatingLabelText={label}
-        helperText={touched && error}
-        error={error}
-        {...input}
-        {...custom}
-    />
+const renderPasswordField = ({
+    input,
+    label,
+    meta: { touched, error }
+}: WrappedFieldProps & { label: string | undefined }) => (
+    <PasswordField {...input} label={label} helperText={touched && error} error={!!error} />
 );
 
 const RegistrationForm: FC<InjectedFormProps<RegistrationFormFields>> = (
@@ -140,4 +147,4 @@ const RegistrationForm: FC<InjectedFormProps<RegistrationFormFields>> = (
     );
 };
 
-export default reduxForm({ form: 'registrationForm', validate /*asyncValidate*/ })(RegistrationForm);
+export default reduxForm({ form: 'registrationForm', validate, asyncValidate })(RegistrationForm);
