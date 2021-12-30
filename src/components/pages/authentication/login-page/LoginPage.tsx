@@ -5,13 +5,13 @@ import EmailLoginForm from '../email-login-form/EmailLoginForm';
 import ProviderLoginButton from '../../../atoms/provider-login-button/ProviderLoginButton';
 import AuthContainer from '../../../organisms/auth-container/AuthContainer';
 import SwipingTabs from '../../../organisms/swiping-tabs/SwipingTabs';
-import { LoginProviders, LoginProvider, useAuth } from '../../../../contexts/AuthContextProvider';
+import { LoginProvider, LoginProviders, useAuth } from '../../../../contexts/AuthContextProvider';
 import RegistrationForm, { RegistrationFormFields } from '../registration-form/RegistrationForm';
 
 const LoginPage: FC = (): JSX.Element => {
     const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
     const { t } = useTranslation();
-    // const { registerWithEmail } = useAuth();
+    const { registerWithEmail } = useAuth();
 
     const LoginWithExternal = () => (
         <>
@@ -72,7 +72,17 @@ const LoginPage: FC = (): JSX.Element => {
                         {
                             label: 'Register',
                             content: (
-                                <RegistrationForm onSubmit={(values: RegistrationFormFields) => console.log(values)} />
+                                <RegistrationForm
+                                    onSubmit={({
+                                        email,
+                                        password,
+                                        firstName,
+                                        lastName,
+                                        username
+                                    }: RegistrationFormFields) =>
+                                        registerWithEmail(email, password, firstName, lastName, username)
+                                    }
+                                />
                             )
                         }
                     ]}

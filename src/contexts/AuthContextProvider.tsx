@@ -1,5 +1,4 @@
-import React, { Dispatch, SetStateAction, useEffect } from 'react';
-import { createContext, FC, PropsWithChildren, useContext, useState } from 'react';
+import React, { createContext, FC, PropsWithChildren, useContext, useEffect, useState } from 'react';
 import { onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, User } from 'firebase/auth';
 import Loader from '../components/atoms/loader/Loader';
 import { useSnackbar } from 'notistack';
@@ -8,7 +7,6 @@ import { useHistory } from 'react-router-dom';
 import { useFirebase } from 'react-redux-firebase';
 import { auth } from '../config/firebase';
 import { Facebook as FacebookIcon, Google as GoogleIcon, Twitter as TwitterIcon } from '@mui/icons-material';
-import { RegistrationErrorState } from '../components/pages/authentication/registration-form/RegistrationForm';
 import * as notification from '../util/notifications-util';
 import * as navigate from '../util/navigation-util';
 
@@ -36,12 +34,10 @@ export type AuthContextData = {
     loginWith: (provider: Provider) => void;
     loginWithEmail: (email: string, password: string) => void;
     registerWithEmail: (
-        email: string,
-        password: string,
-        firstName: string,
-        lastName: string,
-        errorState: RegistrationErrorState,
-        setErrorState: Dispatch<SetStateAction<RegistrationErrorState>>,
+        email?: string,
+        password?: string,
+        firstName?: string,
+        lastName?: string,
         username?: string
     ) => void;
     sendResetPasswordLink: (email: string) => void;
@@ -100,32 +96,22 @@ const AuthContextProvider: FC<PropsWithChildren<Record<string, unknown>>> = (
     };
 
     const registerWithEmail = async (
-        email: string,
-        password: string,
-        firstName: string,
-        lastName: string,
-        errorState: RegistrationErrorState,
-        setErrorState: Dispatch<SetStateAction<RegistrationErrorState>>,
+        email?: string,
+        password?: string,
+        firstName?: string,
+        lastName?: string,
         username?: string
     ) => {
-        firebase
-            .createUser({ email, password }, { username, firstName, lastName })
-            .then(() => {
-                navigate.toBase(history);
-                // console.log(`Provier ID: ${user.providerId}`);
-                // console.log(`UUID: ${user.uid}`);
-            })
-            .catch((error) => {
-                // console.log(error);
-                const { code } = error;
-                // console.log(code);
-                if (code === 'auth/email-already-in-use') {
-                    setErrorState({ ...errorState, emailError: t('auth.message.registration.emailAlreadyExists') });
-                }
-                if (code === 'auth/weak-password') {
-                    setErrorState({ ...errorState, passwordError: t('auth.message.registration.passwordTooWeak') });
-                }
-            });
+        email &&
+            password &&
+            firebase
+                .createUser({ email, password }, { username, firstName, lastName })
+                .then(() => {
+                    navigate.toBase(history);
+                    // console.log(`Provier ID: ${user.providerId}`);
+                    // console.log(`UUID: ${user.uid}`);
+                })
+                .catch(console.error);
     };
 
     const sendResetPasswordLink = (email: string) => {

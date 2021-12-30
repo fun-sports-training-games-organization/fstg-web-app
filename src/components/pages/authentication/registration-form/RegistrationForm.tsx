@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { Button, Stack } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Field, InjectedFormProps, reduxForm } from 'redux-form';
@@ -78,9 +78,12 @@ const renderPasswordField = ({
 const RegistrationForm: FC<InjectedFormProps<RegistrationFormFields>> = (
     props: InjectedFormProps<RegistrationFormFields>
 ) => {
-    const { handleSubmit, pristine, /*reset,*/ submitting } = props;
+    const { handleSubmit, pristine, /*reset,*/ submitting, valid } = props;
     const { t } = useTranslation();
 
+    useEffect(() => {
+        console.log(valid);
+    }, [valid]);
     return (
         <form onSubmit={handleSubmit}>
             <Stack padding={2} spacing={2} alignItems={'center'}>
