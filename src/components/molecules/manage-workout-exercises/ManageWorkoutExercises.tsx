@@ -2,7 +2,6 @@ import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from 'reac
 import { Button, Grid, IconButton } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Workout } from '../../../model/Workout.model';
-import EditWorkoutExerciseSettingsDialog from '../../organisms/edit-workout-exercise-settings-dialog/EditWorkoutExerciseSettingsDialog';
 import { useTranslation } from 'react-i18next';
 import { Exercise, ExerciseWorkoutSettings } from '../../../model/Exercise.model';
 import AutoCompleteSelect from '../auto-complete-select/AutoCompleteSelect';
@@ -11,6 +10,7 @@ import useEntityManager from '../../../hooks/useEntityManager';
 import AddIcon from '@mui/icons-material/Add';
 import ResponsiveDialog from '../../organisms/responsive-dialog';
 import CreateEditExerciseForm from '../../organisms/create-edit-exercise-form/CreateEditExerciseForm';
+import { getNewEmptyExerciseWorkoutSettings } from '../../../util/workout-util';
 
 type Props = {
     parentIdPrefix: string;
@@ -42,13 +42,7 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: P
     };
     const { t } = useTranslation();
 
-    const emptyExerciseWorkoutSettings: ExerciseWorkoutSettings = {
-        name: '',
-        amountType: 'COUNT_BASED',
-        recordResults: false,
-        resultType: 'COUNT_BASED',
-        useDefaultResult: false
-    };
+    const emptyExerciseWorkoutSettings: ExerciseWorkoutSettings = getNewEmptyExerciseWorkoutSettings();
 
     const [openExerciseSettingsDialog, setOpenExerciseSettingsDialog] = useState<boolean>(false);
     const [openEditExerciseDialog, setOpenEditExerciseDialog] = useState<boolean>(false);
@@ -121,7 +115,7 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: P
                     </Grid>
                 );
             })}
-            <EditWorkoutExerciseSettingsDialog
+            <ResponsiveDialog
                 title={t('dialog.editWorkoutExerciseSettings.title', {
                     exerciseName: selectedExercise.name,
                     workoutName: workout.name
@@ -131,17 +125,19 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: P
                     workoutName: workout.name
                 })}
                 open={openExerciseSettingsDialog}
-                setOpen={setOpenExerciseSettingsDialog}
-                exercise={selectedExercise}
-                setExercise={(exercise: ExerciseWorkoutSettings) => {
-                    setSelectedExercise(exercise);
-                    setWorkout({
-                        ...workout,
-                        exercises: [...workout.exercises.map((e) => (e.id === selectedExercise.id ? exercise : e))]
-                    });
-                }}
-                save={save}
+                content={
+                    <CreateEditExerciseForm
+                        exerciseId={selectedExercise.id}
+                        inWorkout={true}
+                        workoutId={workout.id}
+                        handleClose={() => {
+                            setOpenExerciseSettingsDialog(false);
+                            save();
+                        }}
+                    />
+                }
             />
+
             <ResponsiveDialog
                 title={t('dialog.editExercise.title')}
                 message={t('dialog.editExercise.message')}

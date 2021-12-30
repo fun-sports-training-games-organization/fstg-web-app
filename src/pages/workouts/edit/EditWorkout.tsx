@@ -46,9 +46,11 @@ const EditWorkout: FC = () => {
     }, [loadWorkout]);
 
     const handleUpdate = (shouldNavigate = true) => {
+        console.log({ workout });
         entityManager
             .updateEntity(workout)
             .then(() => {
+                setWorkout(workout);
                 notification.updateSuccess(enqueueSnackbar, t, workout.name);
 
                 if (shouldNavigate) {
@@ -101,7 +103,7 @@ const EditWorkout: FC = () => {
                     parentIdPrefix={idPrefix}
                     workout={workout}
                     setWorkout={setWorkout}
-                    save={!workout.hasBeenCreated ? handleCreate : handleUpdate}
+                    save={() => loadWorkout()}
                 />
                 <Stack alignSelf="center">
                     <AddButton onClick={addExerciseToWorkout} testId={`${idPrefix}add_exercise_button`} />
