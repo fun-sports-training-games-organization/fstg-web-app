@@ -1,11 +1,10 @@
-import { ChangeEvent, FC, useCallback, useEffect, useState } from 'react';
-import { Stack, TextField } from '@mui/material';
+import { ChangeEvent, FC, FormEvent, useCallback, useEffect, useState } from 'react';
+import { Button, Stack, TextField } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import { useHistory, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import * as notification from '../../../../util/notifications-util';
 import * as navigate from '../../../../util/navigation-util';
-import AddButton from '../../../atoms/add-button/AddButton';
 import PageTitle from '../../../atoms/page-title/PageTitle';
 import SubmitButton from '../../../atoms/submit-button/SubmitButton';
 import { Id } from '../../../../model/Basics.model';
@@ -14,6 +13,7 @@ import { getPageIdPrefix } from '../../../../util/id-util';
 import ManageWorkoutExercises from '../../../molecules/manage-workout-exercises/ManageWorkoutExercises';
 import useEntityManager from '../../../../hooks/useEntityManager';
 import { getNewEmptyExerciseWorkoutSettings, getNewEmptyWorkout } from '../../../../util/workout-util';
+import ResponsiveContainer from '../../../organisms/responsive-container/ResponsiveContainer';
 
 const EditWorkout: FC = () => {
     const pageName = 'edit_workout';
@@ -22,7 +22,7 @@ const EditWorkout: FC = () => {
     const { t } = useTranslation();
     const { enqueueSnackbar } = useSnackbar();
     const params = useParams() as Id;
-    const workoutId = params?.id ? params.id : undefined;
+    const workoutId = params?.id;
     const entityManager = useEntityManager<Workout>('workouts');
 
     const addExerciseToWorkout = (): void =>
@@ -75,46 +75,55 @@ const EditWorkout: FC = () => {
             });
     };
 
-    const onSubmit = () => (!workout.hasBeenCreated ? handleCreate() : handleUpdate());
+    const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        !workout.hasBeenCreated ? handleCreate() : handleUpdate();
+    };
 
     return (
-        <div data-testid={pageName}>
-            <Stack spacing={2} mt={2} ml={2} mr={2}>
-                <PageTitle
-                    translationKey={
-                        !workout.hasBeenCreated ? 'page.editWorkout.createWorkout' : 'page.editWorkout.editWorkout'
-                    }
-                />
-                <TextField
-                    autoFocus
-                    margin="dense"
-                    id={`${idPrefix}name`}
-                    label="Workout Name"
-                    type="text"
-                    fullWidth
-                    value={workout.name}
-                    onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                        setWorkout({ ...workout, name: event.target.value })
-                    }
-                />
-                <ManageWorkoutExercises
-                    parentIdPrefix={idPrefix}
-                    workout={workout}
-                    setWorkout={setWorkout}
-                    save={!workout.hasBeenCreated ? handleCreate : handleUpdate}
-                />
-                <Stack alignSelf="center">
-                    <AddButton onClick={addExerciseToWorkout} testId={`${idPrefix}add_exercise_button`} />
-                </Stack>
-            </Stack>
-            <Stack spacing={2} mt={5} ml={2} mr={2}>
-                <SubmitButton
-                    testId={`${idPrefix}submit_button`}
-                    isCreate={!workout.hasBeenCreated}
-                    onSubmit={onSubmit}
-                />
-            </Stack>
-        </div>
+        <ResponsiveContainer>
+            <div data-testid={pageName}>
+                <form onSubmit={onSubmit}>
+                    <Stack spacing={2}>
+                        <PageTitle
+                            translationKey={
+                                !workout.hasBeenCreated
+                                    ? 'page.editWorkout.createWorkout'
+                                    : 'page.editWorkout.editWorkout'
+                            }
+                        />
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            id={`${idPrefix}name`}
+                            label="Workout Name"
+                            type="text"
+                            fullWidth
+                            value={workout.name}
+                            onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                                setWorkout({ ...workout, name: event.target.value })
+                            }
+                        />
+                        <ManageWorkoutExercises
+                            parentIdPrefix={idPrefix}
+                            workout={workout}
+                            setWorkout={setWorkout}
+                            save={!workout.hasBeenCreated ? handleCreate : handleUpdate}
+                        />
+                        <Button
+                            color={'info'}
+                            data-testid={`${idPrefix}add_exercise_button`}
+                            variant={'contained'}
+                            fullWidth={true}
+                            onClick={addExerciseToWorkout}
+                        >
+                            {t('form.button.editWorkout.addExercise')}
+                        </Button>
+                        <SubmitButton testId={`${idPrefix}submit_button`} isCreate={!workout.hasBeenCreated} />
+                    </Stack>
+                </form>
+            </div>
+        </ResponsiveContainer>
     );
 };
 

@@ -160,6 +160,9 @@
             "account": {
                 "saveProfile": "Profil sichern",
                 "deleteProfilePicture": "Profilbild entfernen"
+            },
+            "editWorkout": {
+                "addExercise": "Übung hinzufügen"
             }
         }
     }

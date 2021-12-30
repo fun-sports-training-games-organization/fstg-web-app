@@ -1,22 +1,23 @@
-import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { Button, Grid, IconButton } from '@mui/material';
+import React, { ChangeEvent, Dispatch, SetStateAction, SyntheticEvent, useEffect, useState } from 'react';
+import { Button, IconButton, InputAdornment } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Workout } from '../../../model/Workout.model';
-import EditWorkoutExerciseSettingsDialog from '../../organisms/edit-workout-exercise-settings-dialog/EditWorkoutExerciseSettingsDialog';
 import { useTranslation } from 'react-i18next';
 import { Exercise, ExerciseWorkoutSettings } from '../../../model/Exercise.model';
 import AutoCompleteSelect from '../auto-complete-select/AutoCompleteSelect';
 import { v4 as uuidv4 } from 'uuid';
 import useEntityManager from '../../../hooks/useEntityManager';
 import AddIcon from '@mui/icons-material/Add';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import ResponsiveDialog from '../../organisms/responsive-dialog';
 import CreateEditExerciseForm from '../../organisms/create-edit-exercise-form/CreateEditExerciseForm';
+import ConfirmationDialog from '../../organisms/confirmation-dialog/ConfirmationDialog';
 
 type Props = {
     parentIdPrefix: string;
     workout: Workout;
     setWorkout: Dispatch<SetStateAction<Workout>>;
-    save: () => void;
+    save: (shouldNavigate?: boolean) => void;
 };
 
 const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: Props): JSX.Element => {
@@ -40,6 +41,7 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: P
             return exercise;
         });
     };
+    const [openDeleteConfirmationDialog, setOpenDeleteConfirmationDialog] = useState<boolean>(false);
     const { t } = useTranslation();
 
     const emptyExerciseWorkoutSettings: ExerciseWorkoutSettings = {
@@ -64,64 +66,70 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: P
         <>
             {workout.exercises?.map((exercise, index) => {
                 return (
-                    <Grid
-                        key={`${exerciseItemPrefix}${index}__grid-container`}
-                        container
-                        direction="row"
-                        justifyContent="space-between"
-                        alignItems="center"
-                    >
-                        <Grid item xs={10} sm={11}>
-                            <AutoCompleteSelect
-                                key={`${exerciseItemPrefix}${index}__auto-complete-select`}
-                                id={`${exerciseItemPrefix}${index}`}
-                                label={`Exercise ${index + 1}`}
-                                value={exercise}
-                                options={exercises}
-                                getOptionLabel={(option: Exercise) => (option?.name ? option.name : '')}
-                                isOptionEqualToValue={(option, value) =>
-                                    (option as Exercise)?.id === (value as ExerciseWorkoutSettings)?.exerciseId
-                                }
-                                onChange={(_event, value) => {
-                                    if (value) {
-                                        setWorkout({
-                                            ...workout,
-                                            exercises: updateExercise(workout, exercise, value)
-                                        });
-                                    }
-                                }}
-                                onTextChange={(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-                                    setNewExercise({ ...newExercise, name: event.target.value })
-                                }
-                                noOptionsText={
-                                    <Button
-                                        onClick={() => {
-                                            setSelectedExercise(exercise);
-                                            setOpenEditExerciseDialog(true);
-                                        }}
-                                        variant="text"
-                                        startIcon={<AddIcon />}
-                                    >
-                                        {`${t('global.add')} ${newExercise?.name ? newExercise.name : ''}`}
-                                    </Button>
-                                }
-                            />
-                        </Grid>
-                        <Grid item xs={2} sm={1}>
-                            <IconButton
-                                key={`${exerciseItemPrefix}${index}__icon-button`}
+                    <AutoCompleteSelect
+                        key={`${exerciseItemPrefix}${index}__auto-complete-select`}
+                        id={`${exerciseItemPrefix}${index}`}
+                        label={`Exercise ${index + 1}`}
+                        value={exercise}
+                        options={exercises}
+                        getOptionLabel={(option: Exercise) => (option?.name ? option.name : '')}
+                        isOptionEqualToValue={(option, value) =>
+                            (option as Exercise)?.id === (value as ExerciseWorkoutSettings)?.exerciseId
+                        }
+                        onChange={(_event, value) => {
+                            if (value) {
+                                setWorkout({
+                                    ...workout,
+                                    exercises: updateExercise(workout, exercise, value)
+                                });
+                            }
+                        }}
+                        onTextChange={(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+                            setNewExercise({ ...newExercise, name: event.target.value })
+                        }
+                        noOptionsText={
+                            <Button
                                 onClick={() => {
                                     setSelectedExercise(exercise);
-                                    setOpenExerciseSettingsDialog(true);
+                                    setOpenEditExerciseDialog(true);
                                 }}
+                                variant="text"
+                                startIcon={<AddIcon />}
                             >
-                                <SettingsIcon key={`${exerciseItemPrefix}${index}__settings-icon`} />
-                            </IconButton>
-                        </Grid>
-                    </Grid>
+                                {`${t('global.add')} ${newExercise?.name ? newExercise.name : ''}`}
+                            </Button>
+                        }
+                        startAdornment={
+                            <InputAdornment position={'start'}>
+                                <IconButton
+                                    key={`${exerciseItemPrefix}${index}__configure_icon-button`}
+                                    onClick={() => {
+                                        setSelectedExercise(exercise);
+                                        setOpenExerciseSettingsDialog(true);
+                                    }}
+                                >
+                                    <SettingsIcon key={`${exerciseItemPrefix}${index}__configure-icon`} />
+                                </IconButton>
+                            </InputAdornment>
+                        }
+                        endAdornment={
+                            <InputAdornment position={'end'}>
+                                <IconButton
+                                    color={'error'}
+                                    key={`${exerciseItemPrefix}${index}__delete_icon-button`}
+                                    onClick={() => {
+                                        setSelectedExercise(exercise);
+                                        setOpenDeleteConfirmationDialog(true);
+                                    }}
+                                >
+                                    <RemoveCircleOutlineIcon key={`${exerciseItemPrefix}${index}__remove-icon`} />
+                                </IconButton>
+                            </InputAdornment>
+                        }
+                    />
                 );
             })}
-            <EditWorkoutExerciseSettingsDialog
+            <ResponsiveDialog
                 title={t('dialog.editWorkoutExerciseSettings.title', {
                     exerciseName: selectedExercise.name,
                     workoutName: workout.name
@@ -130,17 +138,20 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: P
                     exerciseName: selectedExercise.name,
                     workoutName: workout.name
                 })}
-                open={openExerciseSettingsDialog}
-                setOpen={setOpenExerciseSettingsDialog}
-                exercise={selectedExercise}
-                setExercise={(exercise: ExerciseWorkoutSettings) => {
-                    setSelectedExercise(exercise);
-                    setWorkout({
-                        ...workout,
-                        exercises: [...workout.exercises.map((e) => (e.id === selectedExercise.id ? exercise : e))]
-                    });
+                onCancel={() => setOpenExerciseSettingsDialog(false)}
+                onConfirm={() => {
+                    save(false);
+                    setOpenExerciseSettingsDialog(false);
                 }}
-                save={save}
+                open={openExerciseSettingsDialog}
+                onClose={() => setOpenExerciseSettingsDialog(false)}
+                content={
+                    <CreateEditExerciseForm
+                        exerciseId={selectedExercise.id}
+                        inWorkout={true}
+                        handleClose={() => setOpenExerciseSettingsDialog(false)}
+                    />
+                }
             />
             <ResponsiveDialog
                 title={t('dialog.editExercise.title')}
@@ -161,6 +172,22 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: P
                         }}
                     />
                 }
+            />
+            <ConfirmationDialog
+                open={openDeleteConfirmationDialog}
+                title={t('dialog.deleteConfirmation.title')}
+                message={t('dialog.deleteConfirmation.message', { name: selectedExercise?.name })}
+                onClose={async (event: SyntheticEvent<HTMLButtonElement>) => {
+                    if (event.currentTarget.value === 'confirm') {
+                        setWorkout({
+                            ...workout,
+                            exercises: workout.exercises.filter(
+                                (exercise) => exercise.exerciseId !== selectedExercise.exerciseId
+                            )
+                        });
+                    }
+                    setOpenDeleteConfirmationDialog(false);
+                }}
             />
         </>
     );

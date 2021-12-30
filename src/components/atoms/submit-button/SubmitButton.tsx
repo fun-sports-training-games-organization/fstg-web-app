@@ -2,7 +2,7 @@ import { Button } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
 type Props = {
-    onSubmit?: () => void;
+    onClick?: () => void;
     isCreate?: boolean;
     createTranslationKey?: string;
     saveTranslationKey?: string;
@@ -12,7 +12,7 @@ type Props = {
 };
 
 const SubmitButton = ({
-    onSubmit = () => console.log('SubmitButton Clicked'),
+    onClick,
     isCreate = true,
     createTranslationKey = 'global.create',
     saveTranslationKey = 'global.save',
@@ -23,7 +23,7 @@ const SubmitButton = ({
     const { t } = useTranslation();
 
     return (
-        <Button data-testid={testId} variant={variant} fullWidth={isFullWidth} onClick={onSubmit}>
+        <Button data-testid={testId} variant={variant} fullWidth={isFullWidth} onClick={onClick} type={'submit'}>
             {t(isCreate ? createTranslationKey : saveTranslationKey)}
         </Button>
     );
