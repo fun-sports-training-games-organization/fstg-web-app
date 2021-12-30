@@ -46,7 +46,7 @@ const asyncValidate = async (values: RegistrationFormFields) => {
     if (values.email) {
         const providers = values.email && (await fetchSignInMethodsForEmail(auth, values.email));
         if (providers && providers.length > 0) {
-            await Promise.reject({ email: 'This email has been taken!' });
+            await Promise.reject({ email: i18n.t('auth.message.registration.emailAlreadyExists') });
         }
     }
 };
