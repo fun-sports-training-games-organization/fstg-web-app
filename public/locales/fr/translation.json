@@ -94,6 +94,10 @@
             "button": {
                 "login": "Connexion",
                 "reset": "Réinitialiser le mot de passe"
+            },
+            "tabLabel": {
+                "login": "Connexion",
+                "register": "Enregistrer"
             }
         },
         "register": {

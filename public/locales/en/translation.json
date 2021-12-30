@@ -94,6 +94,10 @@
             "button": {
                 "login": "Login",
                 "reset": "Reset Password"
+            },
+            "tabLabel": {
+                "login": "Login",
+                "register": "Register"
             }
         },
         "register": {

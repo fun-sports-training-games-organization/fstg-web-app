@@ -91,6 +91,10 @@
             "button": {
                 "login": "Anmelden",
                 "reset": "Passwort zurücksetzen"
+            },
+            "tabLabel": {
+                "login": "Einloggen",
+                "register": "Registrieren"
             }
         },
         "home": {

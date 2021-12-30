@@ -68,9 +68,9 @@ const LoginPage: FC = (): JSX.Element => {
             >
                 <SwipingTabs
                     tabs={[
-                        { label: 'Login', content: LoginWithExternal() },
+                        { label: t('page.login.tabLabel.login'), content: LoginWithExternal() },
                         {
-                            label: 'Register',
+                            label: t('page.login.tabLabel.register'),
                             content: (
                                 <RegistrationForm
                                     onSubmit={({
