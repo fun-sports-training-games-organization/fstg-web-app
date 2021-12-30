@@ -1,6 +1,4 @@
 import IRoute from './route.interface';
-
-import RegistrationForm from '../components/pages/authentication/registration-form/RegistrationForm';
 import ManageExercises from '../components/pages/exercises/manage/ManageExercises';
 import ManageWorkouts from '../components/pages/workouts/manage/ManageWorkouts';
 import Account from '../components/pages/account/Account';
@@ -13,13 +11,6 @@ import EditWorkout from '../components/pages/workouts/edit/EditWorkout';
 import DoWorkout from '../components/pages/workouts/do/DoWorkout';
 
 const routes: IRoute[] = [
-    {
-        path: '/register',
-        exact: true,
-        component: RegistrationForm,
-        name: 'Registration Page',
-        protected: false
-    },
     {
         path: '/login',
         exact: true,
