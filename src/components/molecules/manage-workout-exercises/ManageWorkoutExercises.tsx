@@ -52,16 +52,68 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: P
         useDefaultResult: false
     };
 
-    const [openExerciseSettingsDialog, setOpenExerciseSettingsDialog] = useState<boolean>(false);
-    const [openEditExerciseDialog, setOpenEditExerciseDialog] = useState<boolean>(false);
+    // const [openExerciseSettingsDialog, setOpenExerciseSettingsDialog] = useState<boolean>(false);
+    // const [openEditExerciseDialog, setOpenEditExerciseDialog] = useState<boolean>(false);
+    const [title, setTitle] = useState<string>();
+    const [message, setMessage] = useState<string>();
+    const [content, setContent] = useState<JSX.Element>();
+    const [openDialog, setOpenDialog] = useState<boolean>(false);
     const [selectedExercise, setSelectedExercise] = useState<ExerciseWorkoutSettings>(emptyExerciseWorkoutSettings);
     const [exercises, setExercises] = useState<Exercise[]>([]);
     const [newExercise, setNewExercise] = useState<Exercise | undefined>({ amountType: 'COUNT_BASED' });
-
+    const [onConfirm, setOnConfirm] = useState<() => void>();
     useEffect(() => {
         setExercises([{ name: '', id: 'none' }, ...entities]);
     }, [entities]);
 
+    const handleClose = () => {
+        setTitle(undefined);
+        setMessage(undefined);
+        setContent(undefined);
+        setOpenDialog(false);
+        setOnConfirm(undefined);
+    };
+
+    const handleConfigureExerciseSettings = (exercise: Exercise) => {
+        setSelectedExercise(exercise);
+        setTitle(
+            t('dialog.editWorkoutExerciseSettings.title', {
+                exerciseName: selectedExercise.name,
+                workoutName: workout.name
+            })
+        );
+        setMessage(
+            t('dialog.editWorkoutExerciseSettings.message', {
+                exerciseName: selectedExercise.name,
+                workoutName: workout.name
+            })
+        );
+        setContent(
+            <CreateEditExerciseForm exerciseId={selectedExercise.id} inWorkout={true} handleClose={handleClose} />
+        );
+        setOnConfirm(() => save(false));
+        setOpenDialog(true);
+    };
+
+    const handleAddNewExercise = (exercise: Exercise) => {
+        setSelectedExercise(exercise);
+        setTitle(t('dialog.editExercise.title'));
+        setMessage(t('dialog.editExercise.message'));
+        setContent(
+            <CreateEditExerciseForm
+                handleClose={handleClose}
+                name={newExercise?.name}
+                onCreate={(exercise: Exercise) => {
+                    setExercises([...exercises, exercise]);
+                    setWorkout({
+                        ...workout,
+                        exercises: updateExercise(workout, selectedExercise, exercise)
+                    });
+                }}
+            />
+        );
+        setOpenDialog(true);
+    };
     return (
         <>
             {workout.exercises?.map((exercise, index) => {
@@ -89,10 +141,7 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: P
                         }
                         noOptionsText={
                             <Button
-                                onClick={() => {
-                                    setSelectedExercise(exercise);
-                                    setOpenEditExerciseDialog(true);
-                                }}
+                                onClick={() => handleAddNewExercise(exercise)}
                                 variant="text"
                                 startIcon={<AddIcon />}
                             >
@@ -103,10 +152,7 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: P
                             <InputAdornment position={'start'}>
                                 <IconButton
                                     key={`${exerciseItemPrefix}${index}__configure_icon-button`}
-                                    onClick={() => {
-                                        setSelectedExercise(exercise);
-                                        setOpenExerciseSettingsDialog(true);
-                                    }}
+                                    onClick={() => handleConfigureExerciseSettings(exercise)}
                                 >
                                     <SettingsIcon key={`${exerciseItemPrefix}${index}__configure-icon`} />
                                 </IconButton>
@@ -130,48 +176,15 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: P
                 );
             })}
             <ResponsiveDialog
-                title={t('dialog.editWorkoutExerciseSettings.title', {
-                    exerciseName: selectedExercise.name,
-                    workoutName: workout.name
-                })}
-                message={t('dialog.editWorkoutExerciseSettings.message', {
-                    exerciseName: selectedExercise.name,
-                    workoutName: workout.name
-                })}
-                onCancel={() => setOpenExerciseSettingsDialog(false)}
+                title={title}
+                message={message}
+                open={openDialog}
+                content={content}
+                onClose={handleClose}
+                onCancel={handleClose}
                 onConfirm={() => {
-                    save(false);
-                    setOpenExerciseSettingsDialog(false);
+                    onConfirm && onConfirm();
                 }}
-                open={openExerciseSettingsDialog}
-                onClose={() => setOpenExerciseSettingsDialog(false)}
-                content={
-                    <CreateEditExerciseForm
-                        exerciseId={selectedExercise.id}
-                        inWorkout={true}
-                        handleClose={() => setOpenExerciseSettingsDialog(false)}
-                    />
-                }
-            />
-            <ResponsiveDialog
-                title={t('dialog.editExercise.title')}
-                message={t('dialog.editExercise.message')}
-                open={openEditExerciseDialog}
-                content={
-                    <CreateEditExerciseForm
-                        handleClose={() => {
-                            setOpenEditExerciseDialog(false);
-                        }}
-                        name={newExercise?.name}
-                        onCreate={(exercise: Exercise) => {
-                            setExercises([...exercises, exercise]);
-                            setWorkout({
-                                ...workout,
-                                exercises: updateExercise(workout, selectedExercise, exercise)
-                            });
-                        }}
-                    />
-                }
             />
             <ConfirmationDialog
                 open={openDeleteConfirmationDialog}
@@ -181,9 +194,7 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: P
                     if (event.currentTarget.value === 'confirm') {
                         setWorkout({
                             ...workout,
-                            exercises: workout.exercises.filter(
-                                (exercise) => exercise.exerciseId !== selectedExercise.exerciseId
-                            )
+                            exercises: workout.exercises.filter((exercise) => exercise.id !== selectedExercise.id)
                         });
                     }
                     setOpenDeleteConfirmationDialog(false);
