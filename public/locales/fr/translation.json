@@ -162,5 +162,20 @@
                 "deleteProfilePicture": "Supprimer la photo de profil"
             }
         }
+    },
+    "validation": {
+        "invalidEmail": "Adresse e-mail invalide!",
+        "required": "Ce champ est obligatoire!",
+        "minLength": "Doit comporter {{min}} caractères ou plus",
+        "minLength_plural": "Doit comporter au moins {{min}} caractères",
+        "maxlength": "Doit comporter {{max}} caractères ou moins",
+        "number": "Doit être un nombre",
+        "minValue": "Doit être au moins {{min}}",
+        "maxValue": "Ne doit pas dépasser {{max}}",
+        "alphanumeric": "Seuls les caractères alphanumériques, le point et le trait de soulignement sont autorisés",
+        "passwordsDoNotMatch": "Les mots de passe ne correspondent pas!",
+        "mustContainSymbol": "Doit contenir un symbole!",
+        "mustContainLowercase": "Doit contenir au moins une lettre minuscule!",
+        "mustContainUppercase": "Doit contenir au moins une lettre majuscule!"
     }
 }

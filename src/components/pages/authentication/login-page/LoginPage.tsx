@@ -6,11 +6,12 @@ import ProviderLoginButton from '../../../atoms/provider-login-button/ProviderLo
 import AuthContainer from '../../../organisms/auth-container/AuthContainer';
 import SwipingTabs from '../../../organisms/swiping-tabs/SwipingTabs';
 import { LoginProviders, LoginProvider, useAuth } from '../../../../contexts/AuthContextProvider';
-import RegistrationForm from '../registration-form/RegistrationForm';
+import RegistrationForm, { RegistrationFormFields } from '../registration-form/RegistrationForm';
 
 const LoginPage: FC = (): JSX.Element => {
     const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
     const { t } = useTranslation();
+    // const { registerWithEmail } = useAuth();
 
     const LoginWithExternal = () => (
         <>
@@ -68,7 +69,12 @@ const LoginPage: FC = (): JSX.Element => {
                 <SwipingTabs
                     tabs={[
                         { label: 'Login', content: LoginWithExternal() },
-                        { label: 'Register', content: <RegistrationForm /> }
+                        {
+                            label: 'Register',
+                            content: (
+                                <RegistrationForm onSubmit={(values: RegistrationFormFields) => console.log(values)} />
+                            )
+                        }
                     ]}
                 />
             </AuthContainer>

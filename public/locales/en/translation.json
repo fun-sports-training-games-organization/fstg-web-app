@@ -162,5 +162,20 @@
                 "deleteProfilePicture": "Delete Profile Picture"
             }
         }
+    },
+    "validation": {
+        "invalidEmail": "Invalid email address!",
+        "required": "This field is required!",
+        "minLength": "Must be {{min}} characters or more",
+        "minLength_plural": "Must be at least {{min}} characters",
+        "maxlength": "Must be {{max}} characters or less",
+        "number": "Must be a number",
+        "minValue": "Must be at least {{min}}",
+        "maxValue": "Must not exceed {{max}}",
+        "alphanumeric": "Only alphanumeric characters, period and underscore are allowed",
+        "passwordsDoNotMatch": "Passwords do not match!",
+        "mustContainSymbol": "Must contain a symbol!",
+        "mustContainLowercase": "Must contain at least one lowercase letter!",
+        "mustContainUppercase": "Must contain at least one uppercase letter!"
     }
 }

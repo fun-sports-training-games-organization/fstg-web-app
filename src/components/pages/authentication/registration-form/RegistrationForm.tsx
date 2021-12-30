@@ -1,135 +1,137 @@
-import { ChangeEvent, FC, FormEvent, useState } from 'react';
+import { FC } from 'react';
 import { Button, Stack } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useAuth } from '../../../../contexts/AuthContextProvider';
-import TextField from '../../../atoms/text-field/TextField';
-import PasswordField from '../../../molecules/password-field/PasswordField';
+import { Field, InjectedFormProps, reduxForm } from 'redux-form';
 
-interface State {
+import TextField from '../../../atoms/text-field/TextField';
+import {
+    alphaNumeric,
+    email,
+    maxLength30,
+    maxLengthEmail,
+    maxLengthPassword,
+    minLength2,
+    minLengthName,
+    minLengthPassword,
+    mustContainLowercase,
+    mustContainSymbol,
+    mustContainUppercase,
+    required
+} from '../../../../util/validation';
+import PasswordField from '../../../molecules/password-field/PasswordField';
+import i18n from 'i18next';
+
+export interface RegistrationFormFields {
     username?: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
-    confirmPassword: string;
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    password?: string;
+    confirmPassword?: string;
 }
 
 export interface RegistrationErrorState {
-    usernameError: string;
-    firstNameError: string;
-    lastNameError: string;
-    emailError: string;
-    passwordError: string;
-    confirmPasswordError: string;
+    usernameError?: string;
+    firstNameError?: string;
+    lastNameError?: string;
+    emailError?: string;
+    passwordError?: string;
+    confirmPasswordError?: string;
 }
 
-const RegistrationForm: FC = () => {
+const validate = (values: RegistrationFormFields) => {
+    const error: RegistrationFormFields = {};
+    error.confirmPassword =
+        values.password !== values.confirmPassword ? i18n.t('validation.passwordsDoNotMatch') : undefined;
+    return error;
+};
+
+const renderTextField = ({ input, label, meta: { touched, error }, ...custom }: any) => (
+    <TextField
+        label={label}
+        // floatingLabelText={label}
+        helperText={touched && error}
+        error={error}
+        {...input}
+        {...custom}
+    />
+);
+
+const renderPasswordField = ({ input, label, meta: { touched, error }, ...custom }: any) => (
+    <PasswordField
+        label={label}
+        // floatingLabelText={label}
+        helperText={touched && error}
+        error={error}
+        {...input}
+        {...custom}
+    />
+);
+
+const RegistrationForm: FC<InjectedFormProps<RegistrationFormFields>> = (
+    props: InjectedFormProps<RegistrationFormFields>
+) => {
+    const { handleSubmit, pristine, /*reset,*/ submitting } = props;
     const { t } = useTranslation();
-    const { registerWithEmail } = useAuth();
-
-    const [state, setState] = useState<State>({
-        firstName: '',
-        lastName: '',
-        username: '',
-        email: '',
-        password: '',
-        confirmPassword: ''
-    });
-    const [errorState, setErrorState] = useState<RegistrationErrorState>({
-        firstNameError: '',
-        lastNameError: '',
-        usernameError: '',
-        emailError: '',
-        passwordError: '',
-        confirmPasswordError: ''
-    });
-
-    const signUpWithEmailAndPassword = (e: FormEvent) => {
-        e.preventDefault();
-        const { email, password, firstName, lastName, username } = state;
-        registerWithEmail(email, password, firstName, lastName, errorState, setErrorState, username);
-    };
-
-    const handleChangeEvent = (event: ChangeEvent<HTMLInputElement>) => {
-        setState({ ...state, [event.target.name]: event.target.value });
-        setErrorState({ ...errorState, [`${event.target.name}Error`]: '' });
-    };
 
     return (
-        <form onSubmit={signUpWithEmailAndPassword}>
+        <form onSubmit={handleSubmit}>
             <Stack padding={2} spacing={2} alignItems={'center'}>
-                <TextField
-                    fullWidth
-                    autoFocus
-                    id={'username-field'}
-                    label={t('form.label.registration.username')}
-                    value={state.username}
+                <Field
                     name={'username'}
-                    onChange={handleChangeEvent}
-                    error={!!errorState.usernameError}
-                    helperText={errorState.usernameError}
+                    validate={[alphaNumeric, minLength2, maxLength30]}
+                    component={renderTextField}
+                    label={t('form.label.registration.username')}
                 />
-                <TextField
-                    fullWidth
-                    id={'first-name-field'}
-                    label={t('form.label.registration.firstName')}
-                    value={state.firstName}
+                <Field
                     name={'firstName'}
-                    required
-                    onChange={handleChangeEvent}
-                    error={!!errorState.firstNameError}
-                    helperText={errorState.firstNameError}
+                    component={renderTextField}
+                    validate={[required, minLengthName, maxLength30]}
+                    validationMessage={'Required'}
+                    label={t('form.label.registration.firstName')}
                 />
-                <TextField
-                    fullWidth
-                    id={'last-name-field'}
-                    label={t('form.label.registration.lastName')}
-                    value={state.lastName}
+                <Field
                     name={'lastName'}
-                    required
-                    onChange={handleChangeEvent}
-                    error={!!errorState.lastNameError}
-                    helperText={errorState.lastNameError}
+                    component={renderTextField}
+                    validate={[required, minLengthName, maxLength30]}
+                    validationMessage={'Required'}
+                    label={t('form.label.registration.lastName')}
                 />
-                <TextField
-                    fullWidth
-                    id={'email-field'}
-                    label={t('form.label.registration.email')}
-                    value={state.email}
+                <Field
+                    autoComplete={'email'}
                     name={'email'}
-                    required
-                    onChange={handleChangeEvent}
-                    error={!!errorState.emailError}
-                    helperText={errorState.emailError}
+                    component={renderTextField}
+                    validate={[required, email, maxLengthEmail]}
+                    label={t('form.label.registration.email')}
                 />
-                <PasswordField
-                    id={'password-field'}
+                <Field
                     autoComplete={'new-password'}
-                    label={t('form.label.registration.password')}
                     name={'password'}
-                    value={state.password}
-                    required
-                    onChange={handleChangeEvent}
-                    error={!!errorState.passwordError}
-                    helperText={errorState.passwordError}
+                    component={renderPasswordField}
+                    validate={[
+                        required,
+                        minLengthPassword,
+                        maxLengthPassword,
+                        mustContainSymbol,
+                        mustContainLowercase,
+                        mustContainUppercase
+                    ]}
+                    label={t('form.label.registration.password')}
                 />
-                <PasswordField
-                    id={'confirm-password-field'}
-                    autoComplete={'new-password'}
-                    label={t('form.label.registration.confirmPassword')}
-                    value={state.confirmPassword}
+                <Field
                     name={'confirmPassword'}
-                    required
-                    onChange={handleChangeEvent}
-                    error={!!errorState.confirmPasswordError}
-                    helperText={errorState.confirmPasswordError}
+                    component={renderPasswordField}
+                    validate={[required]}
+                    label={t('form.label.registration.confirmPassword')}
                 />
+
                 <Button
                     type={'submit'}
                     variant={'contained'}
                     color={'primary'}
                     fullWidth
-                    disabled={!state.email || !state.password || !state.confirmPassword}
+                    disabled={pristine || submitting}
+                    // disabled={!state.email || !state.password || !state.confirmPassword}
                 >
                     {t('form.button.registration.register')}
                 </Button>
@@ -138,4 +140,4 @@ const RegistrationForm: FC = () => {
     );
 };
 
-export default RegistrationForm;
+export default reduxForm({ form: 'registrationForm', validate /*asyncValidate*/ })(RegistrationForm);
