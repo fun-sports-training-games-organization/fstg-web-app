@@ -52,8 +52,6 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: P
         useDefaultResult: false
     };
 
-    // const [openExerciseSettingsDialog, setOpenExerciseSettingsDialog] = useState<boolean>(false);
-    // const [openEditExerciseDialog, setOpenEditExerciseDialog] = useState<boolean>(false);
     const [title, setTitle] = useState<string>();
     const [message, setMessage] = useState<string>();
     const [content, setContent] = useState<JSX.Element>();
