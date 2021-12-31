@@ -49,6 +49,18 @@ const CreateEditExerciseForm = ({
     const [workout, setWorkout] = useState<Workout>(getNewEmptyWorkout());
     const PREFIX = 'form.label.exercise';
 
+    const getUpdatedWorkout = (updatedExercise: Exercise): Workout => {
+        return {
+            ...workout,
+            exercises: workout.exercises.map((e) => (e.id === exerciseId ? updatedExercise : e))
+        };
+    };
+
+    const setExerciseAndWorkout = (updatedExercise: Exercise) => {
+        setExercise(updatedExercise);
+        workoutId && setWorkout(getUpdatedWorkout(updatedExercise));
+    };
+
     const loadExercise = useCallback((exerciseId, workoutId) => {
         workoutId
             ? findWorkoutById(workoutId).then((workout) => {
@@ -69,30 +81,16 @@ const CreateEditExerciseForm = ({
     }, [exerciseId, loadExercise, name]);
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setExercise({
+        setExerciseAndWorkout({
             ...exercise,
             [event.target.name]: event.target.value
-        });
-        setWorkout({
-            ...workout,
-            exercises: workout.exercises.map((e) =>
-                e.exerciseId === exerciseId
-                    ? {
-                          ...exercise,
-                          [event.target.name]: event.target.value
-                      }
-                    : e
-            )
         });
     };
 
     const onCheckboxChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, checked?: boolean): void => {
-        setExercise({ ...exercise, [event.target.name]: checked });
-        setWorkout({
-            ...workout,
-            exercises: workout.exercises.map((e) =>
-                e.exerciseId === exerciseId ? { ...exercise, [event.target.name]: checked } : e
-            )
+        setExerciseAndWorkout({
+            ...exercise,
+            [event.target.name]: checked
         });
     };
 
@@ -197,13 +195,7 @@ const CreateEditExerciseForm = ({
                         label={t(`${PREFIX}.${inWorkout ? 'time' : 'defaultTime'}`)}
                         value={getNumber(exercise.amountValue)}
                         setValue={(seconds: number) => {
-                            setExercise({ ...exercise, amountValue: seconds });
-                            setWorkout({
-                                ...workout,
-                                exercises: workout.exercises.map((e) =>
-                                    e.exerciseId === exerciseId ? { ...exercise, amountValue: seconds } : e
-                                )
-                            });
+                            setExerciseAndWorkout({ ...exercise, amountValue: seconds });
                         }}
                     />
                 ) : (
@@ -212,13 +204,7 @@ const CreateEditExerciseForm = ({
                         max={100}
                         value={getNumber(exercise.amountValue)}
                         setValue={(value: number) => {
-                            setExercise({ ...exercise, amountValue: value });
-                            setWorkout({
-                                ...workout,
-                                exercises: workout.exercises.map((e) =>
-                                    e.id === exerciseId ? { ...exercise, amountValue: value } : e
-                                )
-                            });
+                            setExerciseAndWorkout({ ...exercise, amountValue: value });
                         }}
                     />
                 )}
@@ -276,13 +262,7 @@ const CreateEditExerciseForm = ({
                                     label={t(`${PREFIX}.defaultResult`)}
                                     value={exercise.resultValue ? exercise.resultValue : 0}
                                     setValue={(seconds: number) => {
-                                        setExercise({ ...exercise, resultValue: seconds });
-                                        setWorkout({
-                                            ...workout,
-                                            exercises: workout.exercises.map((e) =>
-                                                e.exerciseId === exerciseId ? { ...exercise, resultValue: seconds } : e
-                                            )
-                                        });
+                                        setExerciseAndWorkout({ ...exercise, resultValue: seconds });
                                     }}
                                 />
                             ) : (
@@ -291,13 +271,7 @@ const CreateEditExerciseForm = ({
                                     max={100}
                                     value={exercise.resultValue ? exercise.resultValue : 0}
                                     setValue={(value: number) => {
-                                        setExercise({ ...exercise, resultValue: value });
-                                        setWorkout({
-                                            ...workout,
-                                            exercises: workout.exercises.map((e) =>
-                                                e.exerciseId === exerciseId ? { ...exercise, resultValue: value } : e
-                                            )
-                                        });
+                                        setExerciseAndWorkout({ ...exercise, resultValue: value });
                                     }}
                                 />
                             ))}
