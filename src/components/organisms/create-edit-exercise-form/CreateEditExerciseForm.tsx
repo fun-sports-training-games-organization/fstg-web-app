@@ -61,17 +61,20 @@ const CreateEditExerciseForm = ({
         workoutId && setWorkout(getUpdatedWorkout(updatedExercise));
     };
 
-    const loadExercise = useCallback((exerciseId, workoutId) => {
-        workoutId
-            ? findWorkoutById(workoutId).then((workout) => {
-                  setWorkout(workout);
-                  const ex = workout.exercises.find((exercise) => exercise.id === exerciseId);
-                  const exer = ex ? ex : getNewEmptyExerciseWorkoutSettings();
-                  setExercise(exer);
-              })
-            : findExerciseById(exerciseId).then((exercise) => setExercise(exercise));
+    const loadExercise = useCallback(
+        (exerciseId, workoutId) => {
+            workoutId
+                ? findWorkoutById(workoutId).then((workout) => {
+                      setWorkout(workout);
+                      const ex = workout.exercises.find((exercise) => exercise.id === exerciseId);
+                      const exer = ex ? ex : getNewEmptyExerciseWorkoutSettings();
+                      setExercise(exer);
+                  })
+                : findExerciseById(exerciseId).then((exercise) => setExercise(exercise));
+        },
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+        [exerciseId, workoutId]
+    );
 
     useEffect(() => {
         exerciseId
@@ -101,7 +104,6 @@ const CreateEditExerciseForm = ({
         }
         if (exercise?.id) {
             if (workoutId) {
-                console.log({ workout });
                 updateWorkout(workout)
                     .then(() => {
                         notification.updateSuccess(enqueueSnackbar, t, exercise.name);

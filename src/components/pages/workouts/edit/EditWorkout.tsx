@@ -46,7 +46,6 @@ const EditWorkout: FC = () => {
     }, [loadWorkout]);
 
     const handleUpdate = (shouldNavigate = true) => {
-        console.log({ workout });
         entityManager
             .updateEntity(workout)
             .then(() => {
