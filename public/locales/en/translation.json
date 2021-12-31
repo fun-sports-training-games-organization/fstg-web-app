@@ -45,7 +45,8 @@
         "message": {
             "login": {
                 "successful": "You have logged in successfully!",
-                "failure": "You have failed to log in! ({{errorCode}}: {{errorMessage}})"
+                "failure": "You have failed to log in! ({{errorCode}}: {{errorMessage}})",
+                "wrongCredentials": "Incorrect credentials!"
             },
             "logout": {
                 "successful": "You have logged out successfully!",

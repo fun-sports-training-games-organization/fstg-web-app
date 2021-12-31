@@ -18,10 +18,10 @@ export const store = createStore(rootReducer, initialState, composeWithDevTools(
 firebase.initializeApp(firebaseConfig);
 
 export const auth = getAuth();
+
 export const rrfProps = {
     firebase,
     config: rrfConfig,
     dispatch: store.dispatch,
-    createFirestoreInstance,
-    useFirestoreForProfile: true
+    createFirestoreInstance
 };

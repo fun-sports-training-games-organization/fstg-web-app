@@ -1,9 +1,9 @@
 import { ChangeEvent, FC, FormEvent, useState } from 'react';
 import { Button, Stack } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useAuth } from '../../../contexts/AuthContextProvider';
-import TextField from '../../../components/atoms/text-field/TextField';
-import PasswordField from '../../../components/molecules/password-field/PasswordField';
+import { useAuth } from '../../../../contexts/AuthContextProvider';
+import TextField from '../../../atoms/text-field/TextField';
+import PasswordField from '../../../molecules/password-field/PasswordField';
 
 interface State {
     username?: string;

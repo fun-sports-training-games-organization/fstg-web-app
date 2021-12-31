@@ -1,13 +1,13 @@
 import { ChangeEvent, FC, FormEvent, useCallback, useEffect, useState } from 'react';
 import { Avatar, Button, Stack } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import TextField from '../../components/atoms/text-field/TextField';
-import { useAuth } from '../../contexts/AuthContextProvider';
-import useEntityManager from '../../hooks/useEntityManager';
-import FileChooser from '../../components/molecules/file-input/FileChooser';
-import useFileManager from '../../hooks/useFileManager';
+import TextField from '../../atoms/text-field/TextField';
+import { useAuth } from '../../../contexts/AuthContextProvider';
+import useEntityManager from '../../../hooks/useEntityManager';
+import FileChooser from '../../molecules/file-input/FileChooser';
+import useFileManager from '../../../hooks/useFileManager';
 import { useSnackbar } from 'notistack';
-import ResponsiveContainer from '../../components/organisms/responsive-container/ResponsiveContainer';
+import ResponsiveContainer from '../../organisms/responsive-container/ResponsiveContainer';
 
 interface State {
     username?: string;
@@ -30,7 +30,7 @@ const RegistrationForm: FC = () => {
     const { user } = useAuth();
     const { enqueueSnackbar } = useSnackbar();
     const fileManager = useFileManager<File>('profile_pictures');
-    const entityManager = useEntityManager<UserProfile>('users');
+    const entityManager = useEntityManager<UserProfile>('users', false);
 
     const [state, setState] = useState<State>();
     const [profilePictureURL, setProfilePictureURL] = useState<string>();
