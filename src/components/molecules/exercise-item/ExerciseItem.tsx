@@ -14,6 +14,7 @@ export type ExerciseItemProps = {
     typographySx?: SxProps<Theme> | undefined;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     typographyMarginLeft?: ResponsiveStyleValue<any> | undefined;
+    rowGap?: string;
 };
 
 const ExerciseItem: FC<ExerciseItemProps> = ({
@@ -21,7 +22,8 @@ const ExerciseItem: FC<ExerciseItemProps> = ({
     parentIdPrefix,
     index = 0,
     typographySx,
-    typographyMarginLeft
+    typographyMarginLeft,
+    rowGap = '0'
 }: ExerciseItemProps) => {
     let length = 0;
     if (typeof exerciseWorkoutSettings.amountValue === 'number') {
@@ -44,7 +46,7 @@ const ExerciseItem: FC<ExerciseItemProps> = ({
     }, [exerciseWorkoutSettings.exerciseId, loadExercise]);
 
     return (
-        <Grid container display="grid" gridTemplateColumns="repeat(100, 1fr)" gridTemplateRows="7vh">
+        <Grid container display="grid" gridTemplateColumns="repeat(100, 1fr)" gridTemplateRows="7vh" rowGap={rowGap}>
             <Typography
                 key={exerciseWorkoutSettings.id}
                 id={`${parentIdPrefix}name__${index}`}
@@ -52,7 +54,7 @@ const ExerciseItem: FC<ExerciseItemProps> = ({
                 variant="body2"
                 sx={typographySx}
                 marginLeft={typographyMarginLeft}
-                gridColumn={{ xs: '1 / 50', sm: '8 / 50', lg: '6 / 50' }}
+                gridColumn={{ xs: '1 / 50', sm: '8 / 50', lg: '6 / 48' }}
                 display="flex"
                 flexDirection="row"
                 justifyContent="flex-start"
@@ -61,7 +63,7 @@ const ExerciseItem: FC<ExerciseItemProps> = ({
                 {exerciseWorkoutSettings.name}
             </Typography>
             <Stack
-                gridColumn={{ xs: '55 / 75', sm: '51 / 75', lg: '51 / 70' }}
+                gridColumn={{ xs: '55 / 75', sm: '51 / 75', lg: '49 / 81' }}
                 display="flex"
                 flexDirection="row"
                 justifyContent="flex-start"
@@ -77,9 +79,9 @@ const ExerciseItem: FC<ExerciseItemProps> = ({
                 index={index}
                 type={exerciseWorkoutSettings.amountType}
                 gridColumns={{
-                    exercisesOrRepsIcon: { xs: '81 / 99', lg: '78 / 99' },
-                    timeIcon: { xs: '81 / 99', lg: '78 / 99' },
-                    repsIcon: { xs: '81 / 99', lg: '78 / 99' }
+                    exercisesOrRepsIcon: { xs: '81 / 99', lg: '82 / 99' },
+                    timeIcon: { xs: '81 / 99', lg: '82 / 99' },
+                    repsIcon: { xs: '81 / 99', lg: '82 / 99' }
                 }}
                 displayInGrid={true}
             ></ExercisesTimeRepsIcons>

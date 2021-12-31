@@ -10,6 +10,7 @@ export type ExercisesContentProps = {
     typographySx?: SxProps<Theme> | undefined;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     typographyMarginLeft?: ResponsiveStyleValue<any> | undefined;
+    rowGap?: string;
 };
 
 const ExercisesContent: FC<ExercisesContentProps> = ({
@@ -17,7 +18,8 @@ const ExercisesContent: FC<ExercisesContentProps> = ({
     parentIdPrefix,
     index = 0,
     typographySx,
-    typographyMarginLeft
+    typographyMarginLeft,
+    rowGap = '0'
 }: ExercisesContentProps) => {
     return (
         <>
@@ -30,6 +32,7 @@ const ExercisesContent: FC<ExercisesContentProps> = ({
                         index={i}
                         typographySx={typographySx}
                         typographyMarginLeft={typographyMarginLeft}
+                        rowGap={rowGap}
                     />
                 );
             })}
