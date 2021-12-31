@@ -116,7 +116,7 @@ const ManageWorkouts: FC = () => {
         <ResponsiveContainer xl={8}>
             <div data-testid={pageName}>
                 <PageTitleActionButton
-                    actionButton={
+                    postTitleActionButton={
                         <AddButton
                             onClick={() => navigate.toEditWorkout(history, undefined)}
                             testId={`${idPrefix}add_button`}

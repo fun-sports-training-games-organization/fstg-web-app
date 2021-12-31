@@ -1,19 +1,23 @@
-import { ChangeEvent, FC, useCallback, useEffect, useState } from 'react';
-import { Stack, TextField } from '@mui/material';
+import { FC, useCallback, useEffect, useState } from 'react';
+import { Stack } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import { useHistory, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import * as notification from '../../../../util/notifications-util';
-import * as navigate from '../../../../util/navigation-util';
-import AddButton from '../../../atoms/add-button/AddButton';
-import PageTitle from '../../../atoms/page-title/PageTitle';
-import SubmitButton from '../../../atoms/submit-button/SubmitButton';
 import { Id } from '../../../../model/Basics.model';
 import { Workout } from '../../../../model/Workout.model';
 import { getPageIdPrefix } from '../../../../util/id-util';
-import ManageWorkoutExercises from '../../../molecules/manage-workout-exercises/ManageWorkoutExercises';
 import useEntityManager from '../../../../hooks/useEntityManager';
-import { getNewEmptyExerciseWorkoutSettings, getNewEmptyWorkout } from '../../../../util/workout-util';
+import { getNewEmptyWorkout } from '../../../../util/workout-util';
+import PageTitleActionButton from '../../../molecules/page-title-action/PageTitleAction';
+import ResponsiveContainer from '../../../organisms/responsive-container/ResponsiveContainer';
+import PausePlayButton from '../../../atoms/pause-play-button/PausePlayButton';
+import UnlockLockButton from '../../../atoms/unlock-lock-button/UnlockLockButton';
+import EditImage from '../../../molecules/edit-image/EditImage';
+import ExercisesTimeRepsIcons from '../../../organisms/exercises-time-reps-icons/ExercisesTimeRepsIcons';
+import { ExerciseInProgress } from '../../../../model/Exercise.model';
+import CountdownTimer from '../../../molecules/countdown-timer/CountdownTimer';
+import { CountdownTimeDelta } from 'react-countdown';
+import { getNewEmptyExerciseInProgress, mapToExercisesInProgress } from '../../../../util/exercise-util';
 
 const DoWorkout: FC = () => {
     const pageName = 'edit_workout';
@@ -24,19 +28,52 @@ const DoWorkout: FC = () => {
     const params = useParams() as Id;
     const workoutId = params?.id ? params.id : undefined;
     const entityManager = useEntityManager<Workout>('workouts');
-
-    const addExerciseToWorkout = (): void =>
-        setWorkout({
-            ...workout,
-            exercises: [...workout.exercises, getNewEmptyExerciseWorkoutSettings()]
-        });
-
+    const [currentExerciseSecondsRemaining, setCurrentExerciseSecondsRemaining] = useState<number | undefined>(
+        undefined
+    );
     const [workout, setWorkout] = useState<Workout>(getNewEmptyWorkout());
+    const [exercises, setExercises] = useState<ExerciseInProgress[]>([]);
+    const [isLocked, setIsLocked] = useState<boolean>(false);
+    const switchIsLocked = () => {
+        setIsLocked(!isLocked);
+    };
+    const [isRunning, setIsRunning] = useState<boolean>(true);
+    const switchIsRunning = () => {
+        setIsRunning(!isRunning);
+    };
+    const [currentExerciseIndex, setCurrentExerciseIndex] = useState<number>(0);
+    const isCurrentExerciseIndexValid = (): boolean => exercises && exercises.length > currentExerciseIndex;
+
+    const getCurrentExercise = (): ExerciseInProgress => {
+        return isCurrentExerciseIndexValid() && exercises[currentExerciseIndex]
+            ? exercises[currentExerciseIndex]
+            : getNewEmptyExerciseInProgress();
+    };
+
+    const getCurrentExerciseName = (): string => {
+        return getCurrentExercise().name as string;
+    };
+    const getCurrentExerciseLength = (): number => {
+        return getCurrentExercise().amountValue as number;
+    };
+    const getCurrentExerciseSecondsRemaining = (): number => {
+        return getCurrentExercise().secondsRemaining;
+    };
+    const getCurrentExerciseId = (): string => {
+        return getCurrentExercise().id as string;
+    };
 
     const loadWorkout = useCallback(() => {
         workoutId &&
             entityManager.findById(workoutId).then((wo: Workout) => {
-                setWorkout({ ...wo, id: workoutId, hasBeenCreated: true });
+                setWorkout({
+                    ...wo,
+                    id: workoutId,
+                    hasBeenCreated: true
+                });
+                setExercises(mapToExercisesInProgress(wo.exercises));
+                setCurrentExerciseSecondsRemaining(getCurrentExerciseSecondsRemaining());
+                console.log({ currentExerciseSecondsRemaining: getCurrentExerciseSecondsRemaining() });
             });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -45,77 +82,42 @@ const DoWorkout: FC = () => {
         loadWorkout();
     }, [loadWorkout]);
 
-    const handleUpdate = (shouldNavigate = true) => {
-        entityManager
-            .updateEntity(workout)
-            .then(() => {
-                setWorkout(workout);
-                notification.updateSuccess(enqueueSnackbar, t, workout.name);
-
-                if (shouldNavigate) {
-                    navigate.toManageWorkouts(history);
-                }
-            })
-            .catch(() => {
-                notification.updateError(enqueueSnackbar, t, workout.name);
-            });
-    };
-
-    const handleCreate = (shouldNavigate = true) => {
-        entityManager
-            .createEntity(workout)
-            .then(() => {
-                notification.createSuccess(enqueueSnackbar, t, workout.name);
-
-                if (shouldNavigate) {
-                    navigate.toManageWorkouts(history);
-                }
-            })
-            .catch(() => {
-                notification.createError(enqueueSnackbar, t, workout.name);
-            });
-    };
-
-    const onSubmit = () => (!workout.hasBeenCreated ? handleCreate() : handleUpdate());
-
     return (
-        <div data-testid={pageName}>
-            <Stack spacing={2} mt={2} ml={2} mr={2}>
-                <PageTitle
-                    translationKey={
-                        !workout.hasBeenCreated ? 'page.editWorkout.createWorkout' : 'page.editWorkout.editWorkout'
+        <ResponsiveContainer data-testid={pageName} xl={6}>
+            <Stack spacing={5}>
+                <PageTitleActionButton
+                    preTitleActionButton={<UnlockLockButton isLocked={isLocked} handleClick={switchIsLocked} />}
+                    postTitleActionButton={
+                        <PausePlayButton isRunning={isRunning} disabled={isLocked} handleClick={switchIsRunning} />
                     }
-                />
-                <TextField
-                    autoFocus
-                    margin="dense"
-                    id={`${idPrefix}name`}
-                    label="Workout Name"
-                    type="text"
-                    fullWidth
-                    value={workout.name}
-                    onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                        setWorkout({ ...workout, name: event.target.value })
-                    }
-                />
-                <ManageWorkoutExercises
-                    parentIdPrefix={idPrefix}
-                    workout={workout}
-                    setWorkout={setWorkout}
-                    save={() => loadWorkout()}
-                />
-                <Stack alignSelf="center">
-                    <AddButton onClick={addExerciseToWorkout} testId={`${idPrefix}add_exercise_button`} />
+                    titleTranslationKey={getCurrentExerciseName()}
+                    idPrefix={idPrefix}
+                    ml={0}
+                    mr={0}
+                ></PageTitleActionButton>
+                <Stack direction="row" alignItems="center" justifyContent="space-between">
+                    <ExercisesTimeRepsIcons
+                        entities={[getCurrentExercise()]}
+                        id={getCurrentExerciseId()}
+                        length={getCurrentExerciseLength()}
+                        parentIdPrefix={idPrefix}
+                        index={currentExerciseIndex}
+                        type={workout.exercises[currentExerciseIndex].amountType}
+                        variant="h4"
+                    />
+                    {currentExerciseSecondsRemaining && currentExerciseSecondsRemaining >= 0 ? (
+                        <CountdownTimer
+                            onTick={(timeDelta: CountdownTimeDelta) => {
+                                setCurrentExerciseSecondsRemaining(currentExerciseSecondsRemaining - 1);
+                            }}
+                            seconds={currentExerciseSecondsRemaining}
+                            typographyProps={{ variant: 'h4' }}
+                        />
+                    ) : null}
                 </Stack>
+                <EditImage exercise={workout?.exercises[currentExerciseIndex]} />
             </Stack>
-            <Stack spacing={2} mt={5} ml={2} mr={2}>
-                <SubmitButton
-                    testId={`${idPrefix}submit_button`}
-                    isCreate={!workout.hasBeenCreated}
-                    onSubmit={onSubmit}
-                />
-            </Stack>
-        </div>
+        </ResponsiveContainer>
     );
 };
 

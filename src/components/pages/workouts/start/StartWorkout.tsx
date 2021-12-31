@@ -42,7 +42,7 @@ const StartWorkout: FC = () => {
         <ResponsiveContainer xl={6} data-testid={pageName}>
             <Grid container direction="column" justifyContent="space-between" alignItems="stretch">
                 <PageTitleActionButton
-                    actionButton={
+                    postTitleActionButton={
                         <IconButton
                             onClick={() => workout.id && navigate.toDoWorkout(history, workout.id)}
                             sx={{ marginRight: 3 }}

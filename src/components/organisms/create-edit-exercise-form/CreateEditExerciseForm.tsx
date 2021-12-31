@@ -14,7 +14,8 @@ import { useAuth } from '../../../contexts/AuthContextProvider';
 import { getNumber } from '../../../util/number-util';
 import EditImage from '../../molecules/edit-image/EditImage';
 import { Workout } from '../../../model/Workout.model';
-import { getNewEmptyExerciseWorkoutSettings, getNewEmptyWorkout } from '../../../util/workout-util';
+import { getNewEmptyWorkout } from '../../../util/workout-util';
+import { getNewEmptyExerciseWorkoutSettings } from '../../../util/exercise-util';
 
 type Props = {
     exerciseId?: string;

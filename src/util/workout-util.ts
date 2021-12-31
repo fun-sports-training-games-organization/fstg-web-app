@@ -1,18 +1,6 @@
-import { ExerciseWorkoutSettings } from '../model/Exercise.model';
 import { Workout } from '../model/Workout.model';
 import { v4 as uuidv4 } from 'uuid';
-
-const emptyExerciseWorkoutSettings: ExerciseWorkoutSettings = {
-    name: '',
-    amountType: 'COUNT_BASED',
-    recordResults: false,
-    resultType: 'COUNT_BASED',
-    useDefaultResult: false
-};
-
-export const getNewEmptyExerciseWorkoutSettings = (): ExerciseWorkoutSettings => {
-    return { ...emptyExerciseWorkoutSettings, id: uuidv4(), exerciseId: 'none' };
-};
+import { getNewEmptyExerciseWorkoutSettings } from './exercise-util';
 
 const emptyWorkout: Workout = {
     name: '',

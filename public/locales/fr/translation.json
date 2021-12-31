@@ -26,7 +26,11 @@
         },
         "editExercise": {
             "title": "Modifier l'exercice",
-            "message": "Cliquez sur Enregistrer pour mettre à jour le nom de votre exercice ou sur annuler pour annuler vos modifications."
+            "message": "Cliquez sur Enregistrer pour mettre à jour votre exercice ou sur Annuler pour annuler vos modifications."
+        },
+        "createExercise": {
+            "title": "Créer un exercice",
+            "message": "Cliquez sur créer pour ajouter cet exercice ou sur annuler pour le rejeter."
         },
         "editWorkoutExerciseSettings": {
             "title": "Modifier les paramètres de {{workoutName}} - {{exerciseName}}",
@@ -162,6 +166,7 @@
                 "saveProfile": "Enregistrer le profil",
                 "deleteProfilePicture": "Supprimer la photo de profil"
             }
-        }
+        },
+        "Push Ups": "Pompes"
     }
 }

@@ -10,7 +10,7 @@ import useEntityManager from '../../../hooks/useEntityManager';
 import AddIcon from '@mui/icons-material/Add';
 import ResponsiveDialog from '../../organisms/responsive-dialog';
 import CreateEditExerciseForm from '../../organisms/create-edit-exercise-form/CreateEditExerciseForm';
-import { getNewEmptyExerciseWorkoutSettings } from '../../../util/workout-util';
+import { getNewEmptyExerciseWorkoutSettings } from '../../../util/exercise-util';
 
 type Props = {
     parentIdPrefix: string;

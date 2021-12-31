@@ -11,3 +11,8 @@ export interface Exercise extends IdName, CreateAndModifyInfo, AmountTypeAmountV
 export interface ExerciseWorkoutSettings extends Exercise {
     exerciseId?: string;
 }
+
+export interface ExerciseInProgress extends ExerciseWorkoutSettings {
+    secondsRemaining: number;
+    originalSecondsRemaining: number;
+}

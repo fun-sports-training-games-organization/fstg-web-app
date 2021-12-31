@@ -13,7 +13,8 @@ import { Workout } from '../../../../model/Workout.model';
 import { getPageIdPrefix } from '../../../../util/id-util';
 import ManageWorkoutExercises from '../../../molecules/manage-workout-exercises/ManageWorkoutExercises';
 import useEntityManager from '../../../../hooks/useEntityManager';
-import { getNewEmptyExerciseWorkoutSettings, getNewEmptyWorkout } from '../../../../util/workout-util';
+import { getNewEmptyWorkout } from '../../../../util/workout-util';
+import { getNewEmptyExerciseWorkoutSettings } from '../../../../util/exercise-util';
 
 const EditWorkout: FC = () => {
     const pageName = 'edit_workout';
