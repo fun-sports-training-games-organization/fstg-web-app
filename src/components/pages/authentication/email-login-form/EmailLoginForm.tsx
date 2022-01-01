@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, useState } from 'react';
+import React, { ChangeEvent, FC, FormEvent, useState } from 'react';
 import { Stack, Button, Link, TextField } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../../../contexts/AuthContextProvider';
@@ -22,8 +22,13 @@ const EmailLoginForm: FC = () => {
         setEmail('');
     };
 
+    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        forgotPasswordMode ? resetPassword() : signIn();
+    };
+
     return (
-        <form>
+        <form onSubmit={handleSubmit}>
             <Stack spacing={2}>
                 <TextField
                     autoFocus
@@ -64,10 +69,6 @@ const EmailLoginForm: FC = () => {
                     color={'primary'}
                     fullWidth
                     disabled={(!forgotPasswordMode && !email) || (!forgotPasswordMode && !password)}
-                    onClick={(e) => {
-                        e.preventDefault();
-                        forgotPasswordMode ? resetPassword() : signIn();
-                    }}
                 >
                     {t(forgotPasswordMode ? 'page.login.button.reset' : 'page.login.button.login')}
                 </Button>
