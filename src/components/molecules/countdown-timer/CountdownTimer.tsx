@@ -5,14 +5,14 @@ import { TypographyProps } from '@mui/material/Typography/Typography';
 import { CountdownRenderProps, CountdownTimeDeltaFn } from 'react-countdown/dist/Countdown';
 import { addLeadingZero } from '../../../util/number-util';
 import AlarmIcon from '@mui/icons-material/Alarm';
-import CheckIcon from '@mui/icons-material/Check';
-
+import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 type OwnProps = {
     seconds?: number;
     showHours?: boolean;
     showIcon?: boolean;
     typographyProps?: TypographyProps;
     onTick?: CountdownTimeDeltaFn | undefined;
+    countdownRef?: (countdown: Countdown | null) => void | null;
 };
 
 export type CountdownTimerProps = Omit<CountdownProps, 'renderer'> & OwnProps;
@@ -22,7 +22,9 @@ const CountdownTimer: FC<CountdownTimerProps> = ({
     showHours,
     showIcon,
     typographyProps,
+    // eslint-disable-next-line unused-imports/no-unused-vars
     children,
+    countdownRef,
     onTick,
     ...rest
 }: Omit<CountdownProps, 'renderer'> & Omit<CountdownProps, 'onTick'> & OwnProps) => {
@@ -31,7 +33,7 @@ const CountdownTimer: FC<CountdownTimerProps> = ({
         if (completed) {
             // Render a completed state
             // return children;
-            return <CheckIcon />;
+            return <AssignmentTurnedInIcon color="success" sx={{ fontSize: 40 }} />;
         } else {
             // Render a countdown
             // TODO : add animation when timer is low on seconds
@@ -49,7 +51,15 @@ const CountdownTimer: FC<CountdownTimerProps> = ({
         }
     };
 
-    return <Countdown onTick={onTick} date={Date.now() + seconds * 1000} renderer={renderer} {...rest} />;
+    return (
+        <Countdown
+            ref={countdownRef}
+            onTick={onTick}
+            date={Date.now() + seconds * 1000}
+            renderer={renderer}
+            {...rest}
+        />
+    );
 };
 
 export default CountdownTimer;

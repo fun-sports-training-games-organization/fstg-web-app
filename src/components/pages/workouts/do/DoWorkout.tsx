@@ -1,8 +1,5 @@
 import { FC, useCallback, useEffect, useState } from 'react';
-import { Stack } from '@mui/material';
-import { useSnackbar } from 'notistack';
-import { useHistory, useParams } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import { Stack, Theme, useMediaQuery } from '@mui/material';
 import { Id } from '../../../../model/Basics.model';
 import { Workout } from '../../../../model/Workout.model';
 import { getPageIdPrefix } from '../../../../util/id-util';
@@ -16,52 +13,44 @@ import EditImage from '../../../molecules/edit-image/EditImage';
 import ExercisesTimeRepsIcons from '../../../organisms/exercises-time-reps-icons/ExercisesTimeRepsIcons';
 import { ExerciseInProgress } from '../../../../model/Exercise.model';
 import CountdownTimer from '../../../molecules/countdown-timer/CountdownTimer';
-import { CountdownTimeDelta } from 'react-countdown';
-import { getNewEmptyExerciseInProgress, mapToExercisesInProgress } from '../../../../util/exercise-util';
+import {
+    getCurrentExerciseId,
+    getCurrentExerciseLength,
+    getCurrentExerciseName,
+    getExercise,
+    mapToExercisesInProgress,
+    updateSecondsRemaining
+} from '../../../../util/exercise-util';
+import { useParams } from 'react-router-dom';
+import Countdown, { CountdownApi } from 'react-countdown';
 
 const DoWorkout: FC = () => {
     const pageName = 'edit_workout';
     const idPrefix = getPageIdPrefix(pageName);
-    const history = useHistory();
-    const { t } = useTranslation();
-    const { enqueueSnackbar } = useSnackbar();
     const params = useParams() as Id;
     const workoutId = params?.id ? params.id : undefined;
     const entityManager = useEntityManager<Workout>('workouts');
-    const [currentExerciseSecondsRemaining, setCurrentExerciseSecondsRemaining] = useState<number | undefined>(
-        undefined
-    );
     const [workout, setWorkout] = useState<Workout>(getNewEmptyWorkout());
     const [exercises, setExercises] = useState<ExerciseInProgress[]>([]);
+    const [countdownApi, setCountdownApi] = useState<CountdownApi | null>();
     const [isLocked, setIsLocked] = useState<boolean>(false);
     const switchIsLocked = () => {
         setIsLocked(!isLocked);
     };
+
+    const setCountdownApiFromRef = (countdown: Countdown | null): void | null =>
+        countdown && setCountdownApi(countdown.getApi());
+
+    const start = () => countdownApi && countdownApi.start();
+    const pause = () => countdownApi && countdownApi.pause();
+
     const [isRunning, setIsRunning] = useState<boolean>(true);
+
     const switchIsRunning = () => {
+        isRunning ? pause() : start();
         setIsRunning(!isRunning);
     };
     const [currentExerciseIndex, setCurrentExerciseIndex] = useState<number>(0);
-    const isCurrentExerciseIndexValid = (): boolean => exercises && exercises.length > currentExerciseIndex;
-
-    const getCurrentExercise = (): ExerciseInProgress => {
-        return isCurrentExerciseIndexValid() && exercises[currentExerciseIndex]
-            ? exercises[currentExerciseIndex]
-            : getNewEmptyExerciseInProgress();
-    };
-
-    const getCurrentExerciseName = (): string => {
-        return getCurrentExercise().name as string;
-    };
-    const getCurrentExerciseLength = (): number => {
-        return getCurrentExercise().amountValue as number;
-    };
-    const getCurrentExerciseSecondsRemaining = (): number => {
-        return getCurrentExercise().secondsRemaining;
-    };
-    const getCurrentExerciseId = (): string => {
-        return getCurrentExercise().id as string;
-    };
 
     const loadWorkout = useCallback(() => {
         workoutId &&
@@ -72,51 +61,70 @@ const DoWorkout: FC = () => {
                     hasBeenCreated: true
                 });
                 setExercises(mapToExercisesInProgress(wo.exercises));
-                setCurrentExerciseSecondsRemaining(getCurrentExerciseSecondsRemaining());
-                console.log({ currentExerciseSecondsRemaining: getCurrentExerciseSecondsRemaining() });
             });
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [workoutId]);
 
     useEffect(() => {
         loadWorkout();
     }, [loadWorkout]);
 
+    const smUp = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
+
     return (
         <ResponsiveContainer data-testid={pageName} xl={6}>
-            <Stack spacing={5}>
-                <PageTitleActionButton
-                    preTitleActionButton={<UnlockLockButton isLocked={isLocked} handleClick={switchIsLocked} />}
-                    postTitleActionButton={
-                        <PausePlayButton isRunning={isRunning} disabled={isLocked} handleClick={switchIsRunning} />
-                    }
-                    titleTranslationKey={getCurrentExerciseName()}
-                    idPrefix={idPrefix}
-                    ml={0}
-                    mr={0}
-                ></PageTitleActionButton>
-                <Stack direction="row" alignItems="center" justifyContent="space-between">
-                    <ExercisesTimeRepsIcons
-                        entities={[getCurrentExercise()]}
-                        id={getCurrentExerciseId()}
-                        length={getCurrentExerciseLength()}
-                        parentIdPrefix={idPrefix}
-                        index={currentExerciseIndex}
-                        type={workout.exercises[currentExerciseIndex].amountType}
-                        variant="h4"
-                    />
-                    {currentExerciseSecondsRemaining && currentExerciseSecondsRemaining >= 0 ? (
-                        <CountdownTimer
-                            onTick={(timeDelta: CountdownTimeDelta) => {
-                                setCurrentExerciseSecondsRemaining(currentExerciseSecondsRemaining - 1);
-                            }}
-                            seconds={currentExerciseSecondsRemaining}
-                            typographyProps={{ variant: 'h4' }}
+            {exercises && exercises[currentExerciseIndex] && (
+                <Stack spacing={5}>
+                    <PageTitleActionButton
+                        preTitleActionButton={<UnlockLockButton isLocked={isLocked} handleClick={switchIsLocked} />}
+                        postTitleActionButton={
+                            <PausePlayButton isRunning={isRunning} disabled={isLocked} handleClick={switchIsRunning} />
+                        }
+                        titleTranslationKey={getCurrentExerciseName(exercises, currentExerciseIndex)}
+                        idPrefix={idPrefix}
+                        ml={0}
+                        mr={0}
+                    ></PageTitleActionButton>
+                    <Stack direction="row" alignItems="center" justifyContent="space-between">
+                        <ExercisesTimeRepsIcons
+                            entities={[getExercise(exercises, currentExerciseIndex)]}
+                            id={getCurrentExerciseId(exercises, currentExerciseIndex)}
+                            length={getCurrentExerciseLength(exercises, currentExerciseIndex)}
+                            parentIdPrefix={idPrefix}
+                            index={currentExerciseIndex}
+                            type={workout.exercises[currentExerciseIndex].amountType}
+                            variant={smUp ? 'h4' : 'h5'}
                         />
-                    ) : null}
+                        {exercises[currentExerciseIndex].amountType === 'TIME_BASED' &&
+                        exercises[currentExerciseIndex].secondsRemaining >= 0 ? (
+                            <CountdownTimer
+                                onTick={() => {
+                                    if (isRunning) {
+                                        setExercises(
+                                            updateSecondsRemaining(
+                                                exercises,
+                                                currentExerciseIndex,
+                                                exercises[currentExerciseIndex].secondsRemaining - 1
+                                            )
+                                        );
+                                    }
+                                }}
+                                seconds={exercises[currentExerciseIndex].secondsRemaining}
+                                typographyProps={{ variant: smUp ? 'h4' : 'h5' }}
+                                onComplete={() => {
+                                    setExercises(updateSecondsRemaining(exercises, currentExerciseIndex, 0));
+                                    setCurrentExerciseIndex(currentExerciseIndex + 1);
+                                }}
+                                key={exercises[currentExerciseIndex].id}
+                                countdownRef={setCountdownApiFromRef}
+                            />
+                        ) : null}
+                    </Stack>
+                    <Stack>
+                        <EditImage exercise={exercises[currentExerciseIndex]} noImageIconSize="large" />
+                    </Stack>
                 </Stack>
-                <EditImage exercise={workout?.exercises[currentExerciseIndex]} />
-            </Stack>
+            )}
         </ResponsiveContainer>
     );
 };

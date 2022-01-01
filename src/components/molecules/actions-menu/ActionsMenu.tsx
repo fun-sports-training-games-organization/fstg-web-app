@@ -24,7 +24,9 @@ const ActionsMenu: FC<ActionsMenuProps> = ({ parentIdPrefix, index = 0, options 
                             <ListItemIcon sx={smDown ? { justifyContent: 'center' } : undefined}>
                                 {option.icon}
                             </ListItemIcon>
-                            {!smDown && <ListItemText>{t(option.translationKey)}</ListItemText>}
+                            {!smDown && option.translationKey && (
+                                <ListItemText>{t(option.translationKey)}</ListItemText>
+                            )}
                         </MenuItem>
                     );
                 })}

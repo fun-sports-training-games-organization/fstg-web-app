@@ -28,13 +28,37 @@ export const getNewEmptyExerciseInProgress = (): ExerciseInProgress => {
 export const mapToExercisesInProgress = (exercises: ExerciseWorkoutSettings[]): ExerciseInProgress[] => {
     return exercises.map((exercise) => {
         const secondsRemaining = exercise.amountType === 'TIME_BASED' ? exercise.amountValue : defaultSecondsRemaining;
-        console.log({
-            exerciseInProgress: {
-                ...exercise,
-                secondsRemaining,
-                originalSecondsRemaining: secondsRemaining
-            } as ExerciseInProgress
-        });
         return { ...exercise, secondsRemaining, originalSecondsRemaining: secondsRemaining } as ExerciseInProgress;
     });
+};
+
+export const isIndexValid = (exercises: ExerciseInProgress[], index: number): boolean =>
+    exercises && exercises.length > index;
+
+export const getExercise = (exercises: ExerciseInProgress[], index: number): ExerciseInProgress => {
+    return isIndexValid(exercises, index) && exercises[index] ? exercises[index] : getNewEmptyExerciseInProgress();
+};
+
+export const getCurrentExerciseName = (exercises: ExerciseInProgress[], index: number): string => {
+    return getExercise(exercises, index).name as string;
+};
+
+export const getCurrentExerciseLength = (exercises: ExerciseInProgress[], index: number): number => {
+    return getExercise(exercises, index).amountValue as number;
+};
+
+export const getCurrentExerciseSecondsRemaining = (exercises: ExerciseInProgress[], index: number): number => {
+    return getExercise(exercises, index).secondsRemaining;
+};
+
+export const getCurrentExerciseId = (exercises: ExerciseInProgress[], index: number): string => {
+    return getExercise(exercises, index).id as string;
+};
+
+export const updateSecondsRemaining = (
+    exercises: ExerciseInProgress[],
+    index: number,
+    secondsRemaining: number
+): ExerciseInProgress[] => {
+    return exercises.map((e, i) => (i === index ? { ...exercises[i], secondsRemaining } : e));
 };

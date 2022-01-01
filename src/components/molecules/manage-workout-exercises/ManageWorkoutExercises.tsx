@@ -11,6 +11,9 @@ import AddIcon from '@mui/icons-material/Add';
 import ResponsiveDialog from '../../organisms/responsive-dialog';
 import CreateEditExerciseForm from '../../organisms/create-edit-exercise-form/CreateEditExerciseForm';
 import { getNewEmptyExerciseWorkoutSettings } from '../../../util/exercise-util';
+import { getHasNotBeenCreated } from '../../../util/workout-util';
+import ActionsMenu from '../actions-menu/ActionsMenu';
+import { Delete } from '@mui/icons-material';
 
 type Props = {
     parentIdPrefix: string;
@@ -102,15 +105,44 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: P
                             />
                         </Grid>
                         <Grid item xs={2} sm={1}>
-                            <IconButton
-                                key={`${exerciseItemPrefix}${index}__icon-button`}
-                                onClick={() => {
-                                    setSelectedExercise(exercise);
-                                    setOpenExerciseSettingsDialog(true);
-                                }}
-                            >
-                                <SettingsIcon key={`${exerciseItemPrefix}${index}__settings-icon`} />
-                            </IconButton>
+                            <ActionsMenu
+                                parentIdPrefix={exerciseItemPrefix}
+                                index={index}
+                                options={[
+                                    {
+                                        name: 'edit-settings',
+                                        handleClick: () => {
+                                            if (
+                                                workout.exercises[index].exerciseId &&
+                                                workout.exercises[index].exerciseId !== 'none'
+                                            ) {
+                                                setSelectedExercise(exercise);
+                                                setOpenExerciseSettingsDialog(true);
+                                            }
+                                        },
+                                        icon: (
+                                            <IconButton
+                                                key={`${exerciseItemPrefix}${index}__icon-button`}
+                                                disabled={
+                                                    !workout.exercises[index].exerciseId ||
+                                                    workout.exercises[index].exerciseId === 'none'
+                                                }
+                                            >
+                                                <SettingsIcon key={`${exerciseItemPrefix}${index}__settings-icon`} />
+                                            </IconButton>
+                                        )
+                                    },
+                                    {
+                                        name: 'delete',
+                                        handleClick: () =>
+                                            setWorkout({
+                                                ...workout,
+                                                exercises: workout.exercises.filter((_, i) => i !== index)
+                                            }),
+                                        icon: <Delete htmlColor={'palevioletred'} />
+                                    }
+                                ]}
+                            />
                         </Grid>
                     </Grid>
                 );
@@ -127,13 +159,14 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: P
                 open={openExerciseSettingsDialog}
                 content={
                     <CreateEditExerciseForm
-                        exerciseId={selectedExercise.id}
+                        exerciseId={workout.hasBeenCreated ? selectedExercise.id : selectedExercise.exerciseId}
                         inWorkout={true}
-                        workoutId={workout.id}
+                        workoutId={`${workout.hasBeenCreated ? '' : getHasNotBeenCreated() + '-'}${workout.id}`}
                         handleClose={() => {
                             setOpenExerciseSettingsDialog(false);
                             save();
                         }}
+                        name={workout.name}
                     />
                 }
             />

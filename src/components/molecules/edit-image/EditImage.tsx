@@ -35,9 +35,13 @@ const CreateEditExerciseForm = ({
 
     useEffect(() => {
         if (exercise.imageOrGifUrl) {
-            fileManager.getFileURL(exercise.imageOrGifUrl).then((imageUrl) => {
-                setImUrl(imageUrl);
-            });
+            if (exercise.imageOrGifUrl.includes('http')) {
+                setImUrl(exercise.imageOrGifUrl);
+            } else {
+                fileManager.getFileURL(exercise.imageOrGifUrl).then((imageUrl) => {
+                    setImUrl(imageUrl);
+                });
+            }
         } else {
             setImUrl('');
         }
@@ -61,33 +65,35 @@ const CreateEditExerciseForm = ({
         });
     };
 
-    return imgUrl ? (
+    return (
         <>
-            <img
-                src={imgUrl}
-                alt={exercise.name}
-                style={{
-                    objectFit: 'contain',
-                    maxWidth,
-                    maxHeight
-                }}
-            />
-            {setExercise ? (
+            {imgUrl && (
+                <img
+                    src={imgUrl}
+                    alt={exercise.name}
+                    style={{
+                        objectFit: 'contain',
+                        maxWidth,
+                        maxHeight
+                    }}
+                />
+            )}
+            {!imgUrl && !setExercise && !setChosenFile && <ImageNotSupportedIcon fontSize={noImageIconSize} />}
+            {imgUrl && setExercise && (
                 <Button variant={'contained'} color={'secondary'} onClick={deleteImage}>
                     {t('Delete Image')}
                 </Button>
-            ) : null}
+            )}
+            {!imgUrl && setExercise && setChosenFile && (
+                <FileChooser
+                    fullWidth
+                    id={'exercise.image'}
+                    label={t(`${PREFIX}.imgUrl`)}
+                    name={exercise.imageOrGifUrl}
+                    onChange={handleChange}
+                />
+            )}
         </>
-    ) : setExercise && setChosenFile ? (
-        <FileChooser
-            fullWidth
-            id={'exercise.image'}
-            label={t(`${PREFIX}.imgUrl`)}
-            name={exercise.imageOrGifUrl}
-            onChange={handleChange}
-        />
-    ) : (
-        <ImageNotSupportedIcon fontSize={noImageIconSize} />
     );
 };
 export default CreateEditExerciseForm;
