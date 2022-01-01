@@ -45,7 +45,8 @@
         "message": {
             "login": {
                 "successful": "Sie haben sich erfolgreich angemeldet!",
-                "failure": "Sie konnten sich nicht anmelden! ({{errorCode}}: {{errorMessage}})"
+                "failure": "Sie konnten sich nicht anmelden! ({{errorCode}}: {{errorMessage}})",
+                "wrongCredentials": "Falsche Zugangsdaten!"
             },
             "logout": {
                 "successful": "Sie haben sich erfolgreich abgemeldet!",

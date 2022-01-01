@@ -6,7 +6,8 @@ import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { useFirebase } from 'react-redux-firebase';
 import { auth } from '../config/firebase';
-import { Facebook as FacebookIcon, Google as GoogleIcon, Twitter as TwitterIcon } from '@mui/icons-material';
+import { Google as GoogleIcon, Twitter as TwitterIcon } from '@mui/icons-material';
+import { RegistrationErrorState } from '../components/pages/authentication/registration-form/RegistrationForm';
 import * as notification from '../util/notifications-util';
 import * as navigate from '../util/navigation-util';
 
@@ -24,7 +25,7 @@ export type LoginProvider = {
 
 export const LoginProviders: LoginProvider[] = [
     { name: 'google', color: '#db4437', icon: <GoogleIcon /> },
-    { name: 'facebook', color: '#3b5998', icon: <FacebookIcon /> },
+    // { name: 'facebook', color: '#3b5998', icon: <FacebookIcon /> },
     { name: 'twitter', color: '#55acee', icon: <TwitterIcon /> }
 ];
 
@@ -70,14 +71,19 @@ const AuthContextProvider: FC<PropsWithChildren<Record<string, unknown>>> = (
     const loginFailed = (error: Error) => {
         // Handle Errors here.
         if (error) {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            notification.loginError(enqueueSnackbar, t, { errorCode, errorMessage });
+            // here we want to obscure the error message without telling the user either the email or password are incorrect!
+            if ('auth/invalid-email' === error.code || 'auth/wrong-password' === error.code) {
+                notification.loginFailedWrongCredentials(enqueueSnackbar, t);
+            } else {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                notification.loginError(enqueueSnackbar, t, { errorCode, errorMessage });
+            }
         }
     };
 
     const loggedInSuccessfully = () => {
-        navigate.toHome(history);
+        navigate.toDashboard(history);
         notification.loginSuccess(enqueueSnackbar, t);
     };
 

@@ -45,7 +45,8 @@
         "message": {
             "login": {
                 "successful": "Vous vous êtes connecté avec succès!",
-                "failure": "Vous n'avez pas réussi à vous connecter! ({{errorCode}}: {{errorMessage}})"
+                "failure": "Vous n'avez pas réussi à vous connecter! ({{errorCode}}: {{errorMessage}})",
+                "wrongCredentials": "Identifiants incorrects!"
             },
             "logout": {
                 "successful": "Vous vous êtes déconnecté avec succès!",

@@ -2,6 +2,7 @@ import { FC } from 'react';
 import { Redirect, Route, /* Route,*/ RouteProps } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContextProvider';
 
+// eslint-disable-next-line unused-imports/no-unused-vars
 const AuthRoute: FC<RouteProps> = ({ children, ...rest }: RouteProps) => {
     const { user } = useAuth();
     // const auth = useSelector((state: any) => state.firebase.auth);
@@ -14,22 +15,6 @@ const AuthRoute: FC<RouteProps> = ({ children, ...rest }: RouteProps) => {
     //         // No user is signed in.
     //     }
     // });
-    return (
-        <Route
-            {...rest}
-            render={({ location }) => {
-                return user ? (
-                    children
-                ) : (
-                    <Redirect
-                        to={{
-                            pathname: '/login',
-                            state: { from: location }
-                        }}
-                    />
-                );
-            }}
-        />
-    );
+    return user ? <Route {...rest} /> : <Redirect to={'/login'} />;
 };
 export default AuthRoute;
