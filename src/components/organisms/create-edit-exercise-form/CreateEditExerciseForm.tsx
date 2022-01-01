@@ -13,6 +13,8 @@ import useFileManager from '../../../hooks/useFileManager';
 import { useAuth } from '../../../contexts/AuthContextProvider';
 import { getNumber } from '../../../util/number-util';
 import EditImage from '../../molecules/edit-image/EditImage';
+import { Workout } from '../../../model/Workout.model';
+import { getNewEmptyExerciseWorkoutSettings, getNewEmptyWorkout } from '../../../util/workout-util';
 
 type Props = {
     exerciseId?: string;
@@ -20,40 +22,79 @@ type Props = {
     inWorkout?: boolean;
     onCreate?: (exercise: Exercise) => void;
     name?: string;
+    workoutId?: string;
 };
 
-const CreateEditExerciseForm = ({ exerciseId, handleClose, inWorkout = false, onCreate, name }: Props): JSX.Element => {
+const CreateEditExerciseForm = ({
+    exerciseId,
+    handleClose,
+    inWorkout = false,
+    onCreate,
+    name,
+    workoutId
+}: Props): JSX.Element => {
     const { t } = useTranslation();
     const { enqueueSnackbar } = useSnackbar();
     const { user } = useAuth();
 
     const fileManager = useFileManager<File>('exercises');
-    const { createEntity, updateEntity, findById } = useEntityManager<Exercise>('exercises');
+    const {
+        createEntity: createExercise,
+        updateEntity: updateExercise,
+        findById: findExerciseById
+    } = useEntityManager<Exercise>('exercises');
+    const { updateEntity: updateWorkout, findById: findWorkoutById } = useEntityManager<Workout>('workouts');
     const [chosenFile, setChosenFile] = useState<File | null>(null);
     const [exercise, setExercise] = useState<Exercise>({});
+    const [workout, setWorkout] = useState<Workout>(getNewEmptyWorkout());
     const PREFIX = 'form.label.exercise';
 
-    const loadExercise = useCallback((exerciseId) => {
-        findById(exerciseId).then((exercise) => setExercise(exercise));
+    const getUpdatedWorkout = (updatedExercise: Exercise): Workout => {
+        return {
+            ...workout,
+            exercises: workout.exercises.map((e) => (e.id === exerciseId ? updatedExercise : e))
+        };
+    };
+
+    const setExerciseAndWorkout = (updatedExercise: Exercise) => {
+        setExercise(updatedExercise);
+        workoutId && setWorkout(getUpdatedWorkout(updatedExercise));
+    };
+
+    const loadExercise = useCallback(
+        (exerciseId, workoutId) => {
+            workoutId
+                ? findWorkoutById(workoutId).then((workout) => {
+                      setWorkout(workout);
+                      const ex = workout.exercises.find((exercise) => exercise.id === exerciseId);
+                      const exer = ex ? ex : getNewEmptyExerciseWorkoutSettings();
+                      setExercise(exer);
+                  })
+                : findExerciseById(exerciseId).then((exercise) => setExercise(exercise));
+        },
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+        [exerciseId, workoutId]
+    );
 
     useEffect(() => {
         exerciseId
-            ? loadExercise(exerciseId)
+            ? loadExercise(exerciseId, workoutId)
             : setExercise({ ...exercise, name: name ? name : exercise.name, amountType: 'COUNT_BASED' });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [exerciseId, loadExercise, name]);
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setExercise({
+        setExerciseAndWorkout({
             ...exercise,
             [event.target.name]: event.target.value
         });
     };
 
     const onCheckboxChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, checked?: boolean): void => {
-        setExercise({ ...exercise, [event.target.name]: checked });
+        setExerciseAndWorkout({
+            ...exercise,
+            [event.target.name]: checked
+        });
     };
 
     const handleCreateOrUpdate = (event: FormEvent<HTMLFormElement>) => {
@@ -62,17 +103,30 @@ const CreateEditExerciseForm = ({ exerciseId, handleClose, inWorkout = false, on
             chosenFile && fileManager.uploadFile(chosenFile, user?.uid);
         }
         if (exercise?.id) {
-            updateEntity(exercise)
-                .then(() => {
-                    notification.updateSuccess(enqueueSnackbar, t, exercise.name);
-                    setExercise({});
-                    handleClose && handleClose();
-                })
-                .catch(() => {
-                    notification.updateError(enqueueSnackbar, t, exercise.name);
-                });
+            if (workoutId) {
+                updateWorkout(workout)
+                    .then(() => {
+                        notification.updateSuccess(enqueueSnackbar, t, exercise.name);
+                        setExercise({});
+                        setWorkout(getNewEmptyWorkout());
+                        handleClose && handleClose();
+                    })
+                    .catch(() => {
+                        notification.updateError(enqueueSnackbar, t, exercise.name);
+                    });
+            } else {
+                updateExercise(exercise)
+                    .then(() => {
+                        notification.updateSuccess(enqueueSnackbar, t, exercise.name);
+                        setExercise({});
+                        handleClose && handleClose();
+                    })
+                    .catch(() => {
+                        notification.updateError(enqueueSnackbar, t, exercise.name);
+                    });
+            }
         } else {
-            createEntity(exercise)
+            createExercise(exercise)
                 .then((id) => {
                     notification.createSuccess(enqueueSnackbar, t, exercise.name);
                     onCreate && onCreate({ ...exercise, id });
@@ -143,7 +197,7 @@ const CreateEditExerciseForm = ({ exerciseId, handleClose, inWorkout = false, on
                         label={t(`${PREFIX}.${inWorkout ? 'time' : 'defaultTime'}`)}
                         value={getNumber(exercise.amountValue)}
                         setValue={(seconds: number) => {
-                            setExercise({ ...exercise, amountValue: seconds });
+                            setExerciseAndWorkout({ ...exercise, amountValue: seconds });
                         }}
                     />
                 ) : (
@@ -151,7 +205,9 @@ const CreateEditExerciseForm = ({ exerciseId, handleClose, inWorkout = false, on
                         min={0}
                         max={100}
                         value={getNumber(exercise.amountValue)}
-                        setValue={(value: number) => setExercise({ ...exercise, amountValue: value })}
+                        setValue={(value: number) => {
+                            setExerciseAndWorkout({ ...exercise, amountValue: value });
+                        }}
                     />
                 )}
                 <LabeledCheckbox
@@ -208,7 +264,7 @@ const CreateEditExerciseForm = ({ exerciseId, handleClose, inWorkout = false, on
                                     label={t(`${PREFIX}.defaultResult`)}
                                     value={exercise.resultValue ? exercise.resultValue : 0}
                                     setValue={(seconds: number) => {
-                                        setExercise({ ...exercise, resultValue: seconds });
+                                        setExerciseAndWorkout({ ...exercise, resultValue: seconds });
                                     }}
                                 />
                             ) : (
@@ -216,7 +272,9 @@ const CreateEditExerciseForm = ({ exerciseId, handleClose, inWorkout = false, on
                                     min={0}
                                     max={100}
                                     value={exercise.resultValue ? exercise.resultValue : 0}
-                                    setValue={(value: number) => setExercise({ ...exercise, resultValue: value })}
+                                    setValue={(value: number) => {
+                                        setExerciseAndWorkout({ ...exercise, resultValue: value });
+                                    }}
                                 />
                             ))}
                     </>

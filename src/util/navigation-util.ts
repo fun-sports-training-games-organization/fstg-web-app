@@ -16,8 +16,8 @@ export const toDoWorkout = (history: History<unknown>, workoutId: string): void 
     history.push(`/do-workout/${workoutId}`);
 };
 
-export const toHome = (history: History<unknown>): void => {
-    history.push('/home');
+export const toDashboard = (history: History<unknown>): void => {
+    history.push('/dashboard');
 };
 
 export const toBase = (history: History<unknown>): void => {

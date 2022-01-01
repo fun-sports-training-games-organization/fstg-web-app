@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
-import { Route, Switch } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
 import routes from '../routes/Routes';
-import AuthRoute from '../routes/AuthRoute';
 import { Box } from '@mui/system';
 import PersistentDrawer from './organisms/persistant-drawer/PersistentDrawer';
 import { MenuListItem } from './organisms/persistant-drawer/PersistentDrawer.types';
@@ -38,7 +37,6 @@ function App(): JSX.Element {
     }, [user, findById, fileManager]);
 
     const topMenuListItems: MenuListItem[] = [
-        { key: 'home', text: t('nav.home'), icon: 'home', path: '/home' },
         { key: 'dashboard', text: t('nav.dashboard'), icon: 'dashboard', path: '/dashboard' },
         { key: 'exercises', text: t('nav.exercises'), icon: 'fitness_center', path: '/exercises' },
         { key: 'workouts', text: t('nav.workouts'), icon: 'directions_run', path: '/workouts' }
@@ -60,17 +58,9 @@ function App(): JSX.Element {
                 bottomMenuListItems={bottomMenuList}
             >
                 <Switch>
-                    {routes.map((route, index) => {
-                        return route.protected ? (
-                            <AuthRoute key={index} path={route.path} exact={route.exact}>
-                                <route.component />
-                            </AuthRoute>
-                        ) : (
-                            <Route key={index} path={route.path} exact={route.exact}>
-                                <route.component />
-                            </Route>
-                        );
-                    })}
+                    {routes.map(({ Route, key, path, exact, component }) => (
+                        <Route key={key} path={path} exact={exact} component={component} />
+                    ))}
                 </Switch>
             </PersistentDrawer>
         </Box>

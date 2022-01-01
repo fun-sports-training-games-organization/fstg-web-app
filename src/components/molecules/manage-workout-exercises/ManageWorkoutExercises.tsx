@@ -12,6 +12,7 @@ import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import ResponsiveDialog from '../../organisms/responsive-dialog';
 import CreateEditExerciseForm from '../../organisms/create-edit-exercise-form/CreateEditExerciseForm';
 import ConfirmationDialog from '../../organisms/confirmation-dialog/ConfirmationDialog';
+import { getNewEmptyExerciseWorkoutSettings } from '../../../util/workout-util';
 
 type Props = {
     parentIdPrefix: string;
@@ -44,13 +45,7 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: P
     const [openDeleteConfirmationDialog, setOpenDeleteConfirmationDialog] = useState<boolean>(false);
     const { t } = useTranslation();
 
-    const emptyExerciseWorkoutSettings: ExerciseWorkoutSettings = {
-        name: '',
-        amountType: 'COUNT_BASED',
-        recordResults: false,
-        resultType: 'COUNT_BASED',
-        useDefaultResult: false
-    };
+    const emptyExerciseWorkoutSettings: ExerciseWorkoutSettings = getNewEmptyExerciseWorkoutSettings();
 
     const [title, setTitle] = useState<string>();
     const [message, setMessage] = useState<string>();
@@ -173,6 +168,29 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: P
                     />
                 );
             })}
+            <ResponsiveDialog
+                title={t('dialog.editWorkoutExerciseSettings.title', {
+                    exerciseName: selectedExercise.name,
+                    workoutName: workout.name
+                })}
+                message={t('dialog.editWorkoutExerciseSettings.message', {
+                    exerciseName: selectedExercise.name,
+                    workoutName: workout.name
+                })}
+                open={openExerciseSettingsDialog}
+                content={
+                    <CreateEditExerciseForm
+                        exerciseId={selectedExercise.id}
+                        inWorkout={true}
+                        workoutId={workout.id}
+                        handleClose={() => {
+                            setOpenExerciseSettingsDialog(false);
+                            save();
+                        }}
+                    />
+                }
+            />
+
             <ResponsiveDialog
                 title={title}
                 message={message}
