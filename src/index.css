@@ -11,7 +11,7 @@ code {
 }
 
 @media (max-width: 600px) {
-    main.css-1yyibth {
+    main[class^='css-'] {
         padding: 0;
     }
 }

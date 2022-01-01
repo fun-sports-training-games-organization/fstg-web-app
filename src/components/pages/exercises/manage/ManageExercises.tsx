@@ -4,7 +4,6 @@ import { Exercise } from '../../../../model/Exercise.model';
 import DeleteConfirmationDialog from '../../../molecules/delete-confirmation-dialog/DeleteConfirmationDialog';
 import { useTranslation } from 'react-i18next';
 import { getPageIdPrefix } from '../../../../util/id-util';
-import PageTitleActionButton from '../../../molecules/page-title-action/PageTitleAction';
 import useEntityManager from '../../../../hooks/useEntityManager';
 import AddButton from '../../../atoms/add-button/AddButton';
 import ResponsiveDialog from '../../../organisms/responsive-dialog';
@@ -18,6 +17,8 @@ import EditImage from '../../../molecules/edit-image/EditImage';
 import ExercisesTimeRepsIcons from '../../../organisms/exercises-time-reps-icons/ExercisesTimeRepsIcons';
 import RecordResultsIcon from '../../../atoms/record-results-icon/RecordResultsIcon';
 import { Delete, Edit } from '@mui/icons-material';
+import ResponsiveContainer from '../../../organisms/responsive-container/ResponsiveContainer';
+import PageTitleActionButton from '../../../molecules/page-title-action/PageTitleAction';
 
 const ManageExercises: FC = (): JSX.Element => {
     const pageName = 'manage_exercises';
@@ -154,7 +155,7 @@ const ManageExercises: FC = (): JSX.Element => {
     };
 
     return (
-        <>
+        <ResponsiveContainer>
             <PageTitleActionButton
                 postTitleActionButton={
                     <AddButton
@@ -170,7 +171,7 @@ const ManageExercises: FC = (): JSX.Element => {
                 titleTranslationKey="page.manageExercises.exercises"
                 idPrefix={idPrefix}
             />
-            <Stack ml={{ xs: 0, sm: 2 }} mr={{ xs: 0, sm: 2 }} mt={3} mb={3}>
+            <Stack mt={3} mb={3}>
                 <Accordion
                     accordions={exercises.map((exercise, index) =>
                         getAccordionProp(exercise, exerciseItemPrefix, index)
@@ -200,7 +201,7 @@ const ManageExercises: FC = (): JSX.Element => {
                     closeDialog={() => setOpenDeleteConfirmationDialog(false)}
                 />
             </Stack>
-        </>
+        </ResponsiveContainer>
     );
 };
 export default ManageExercises;

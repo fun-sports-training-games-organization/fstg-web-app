@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { FC } from 'react';
 import Button from '@mui/material/Button';
-import { Menu, MenuItem as MUIMenuItem } from '@mui/material';
+import { Icon, ListItemIcon, ListItemText, Menu, MenuItem as MUIMenuItem } from '@mui/material';
 
 type MenuItem = {
     text: string;
     onClick: () => void;
+    icon?: string;
 };
 
 type Props = {
@@ -42,7 +43,7 @@ const MenuButton: FC<Props> = ({ buttonElement, menuItems }: Props) => {
                     'aria-labelledby': 'basic-button'
                 }}
             >
-                {menuItems.map(({ text, onClick }) => (
+                {menuItems.map(({ text, icon, onClick }) => (
                     <MUIMenuItem
                         key={text}
                         onClick={() => {
@@ -50,7 +51,12 @@ const MenuButton: FC<Props> = ({ buttonElement, menuItems }: Props) => {
                             onClick();
                         }}
                     >
-                        {text}
+                        {icon && (
+                            <ListItemIcon>
+                                <Icon>{icon}</Icon>
+                            </ListItemIcon>
+                        )}
+                        <ListItemText>{text}</ListItemText>
                     </MUIMenuItem>
                 ))}
             </Menu>

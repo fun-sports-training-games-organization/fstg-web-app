@@ -61,7 +61,7 @@ const CreateEditExerciseForm = ({
         return {
             ...workout,
             exercises: workout.exercises
-                ? workout.exercises.map((e) => (e.id === exerciseId ? updatedExercise : e))
+                ? workout.exercises.map((e) => (e.id === updatedExercise.id ? updatedExercise : e))
                 : []
         };
     };
