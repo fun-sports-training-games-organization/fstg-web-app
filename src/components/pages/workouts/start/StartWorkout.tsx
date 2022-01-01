@@ -55,7 +55,7 @@ const StartWorkout: FC = () => {
                 ></PageTitleActionButton>
                 <Stack
                     mt={2}
-                    mr={2}
+                    mr={{ xs: 0, sm: 2 }}
                     direction="column"
                     border={`2px solid ${theme.palette.grey[300]}`}
                     borderRadius="1rem"

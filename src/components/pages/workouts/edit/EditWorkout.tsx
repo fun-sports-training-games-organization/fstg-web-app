@@ -81,7 +81,7 @@ const EditWorkout: FC = () => {
 
     return (
         <div data-testid={pageName}>
-            <Stack spacing={2} mt={2} ml={2} mr={2}>
+            <Stack spacing={2} mt={2} ml={{ xs: 1, sm: 2 }} mr={{ xs: 1, sm: 2 }}>
                 <PageTitle
                     translationKey={
                         !workout.hasBeenCreated ? 'page.editWorkout.createWorkout' : 'page.editWorkout.editWorkout'
@@ -109,7 +109,7 @@ const EditWorkout: FC = () => {
                     <AddButton onClick={addExerciseToWorkout} testId={`${idPrefix}add_exercise_button`} />
                 </Stack>
             </Stack>
-            <Stack spacing={2} mt={5} ml={2} mr={2}>
+            <Stack spacing={2} mt={5} ml={{ xs: 1, sm: 2 }} mr={{ xs: 1, sm: 2 }}>
                 <SubmitButton
                     testId={`${idPrefix}submit_button`}
                     isCreate={!workout.hasBeenCreated}

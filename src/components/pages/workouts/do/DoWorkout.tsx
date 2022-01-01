@@ -74,7 +74,7 @@ const DoWorkout: FC = () => {
     return (
         <ResponsiveContainer data-testid={pageName} xl={6}>
             {exercises && exercises[currentExerciseIndex] && (
-                <Stack spacing={5}>
+                <Stack spacing={5} ml={{ xs: 1, sm: 2 }} mr={{ xs: 1, sm: 2 }}>
                     <PageTitleActionButton
                         preTitleActionButton={<UnlockLockButton isLocked={isLocked} handleClick={switchIsLocked} />}
                         postTitleActionButton={

@@ -170,7 +170,7 @@ const ManageExercises: FC = (): JSX.Element => {
                 titleTranslationKey="page.manageExercises.exercises"
                 idPrefix={idPrefix}
             />
-            <Stack ml={2} mr={2} mt={3} mb={3}>
+            <Stack ml={{ xs: 0, sm: 2 }} mr={{ xs: 0, sm: 2 }} mt={3} mb={3}>
                 <Accordion
                     accordions={exercises.map((exercise, index) =>
                         getAccordionProp(exercise, exerciseItemPrefix, index)
