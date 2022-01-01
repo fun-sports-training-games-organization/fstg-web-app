@@ -1,18 +1,21 @@
-import { ExerciseInProgress, ExerciseWorkoutSettings } from '../model/Exercise.model';
+import { Exercise, ExerciseInProgress, ExerciseWorkoutSettings } from '../model/Exercise.model';
 import { v4 as uuidv4 } from 'uuid';
 
-const emptyExerciseWorkoutSettings: ExerciseWorkoutSettings = {
+const emptyExercise: Exercise = {
     name: '',
     amountType: 'COUNT_BASED',
     amountValue: 0,
     recordResults: false,
     resultType: 'COUNT_BASED',
-    useDefaultResult: false,
-    exerciseId: 'none'
+    useDefaultResult: false
+};
+
+export const getNewEmptyExercise = (): Exercise => {
+    return { ...emptyExercise, id: uuidv4() };
 };
 
 export const getNewEmptyExerciseWorkoutSettings = (): ExerciseWorkoutSettings => {
-    return { ...emptyExerciseWorkoutSettings, id: uuidv4() };
+    return { ...getNewEmptyExercise(), exerciseId: 'none' };
 };
 
 const defaultSecondsRemaining = 3599;

@@ -1,11 +1,10 @@
 import { Grid, Stack, Typography } from '@mui/material';
-import { FC, useCallback, useEffect, useState } from 'react';
-import { Exercise, ExerciseWorkoutSettings } from '../../../model/Exercise.model';
+import { FC } from 'react';
+import { ExerciseWorkoutSettings } from '../../../model/Exercise.model';
 import ExercisesTimeRepsIcons from '../../organisms/exercises-time-reps-icons/ExercisesTimeRepsIcons';
 import { v4 as uuidv4 } from 'uuid';
 import { ResponsiveStyleValue, SxProps, Theme } from '@mui/system';
 import EditImage from '../edit-image/EditImage';
-import useEntityManager from '../../../hooks/useEntityManager';
 
 export type ExerciseItemProps = {
     exerciseWorkoutSettings: ExerciseWorkoutSettings;
@@ -32,19 +31,6 @@ const ExerciseItem: FC<ExerciseItemProps> = ({
         length = parseInt(exerciseWorkoutSettings.amountValue);
     }
 
-    const [exercise, setExercise] = useState<Exercise>({});
-    const { findById } = useEntityManager<Exercise>('exercises');
-
-    const loadExercise = useCallback((exerciseId) => {
-        findById(exerciseId).then((exercise) => setExercise(exercise));
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    useEffect(() => {
-        exerciseWorkoutSettings.exerciseId ? loadExercise(exerciseWorkoutSettings.exerciseId) : setExercise(exercise);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [exerciseWorkoutSettings.exerciseId, loadExercise]);
-
     return (
         <Grid container display="grid" gridTemplateColumns="repeat(100, 1fr)" gridTemplateRows="7vh" rowGap={rowGap}>
             <Typography
@@ -69,7 +55,7 @@ const ExerciseItem: FC<ExerciseItemProps> = ({
                 justifyContent="flex-start"
                 alignItems="center"
             >
-                <EditImage exercise={exercise} maxHeight={'100%'} />
+                <EditImage exerciseId={exerciseWorkoutSettings.exerciseId} maxHeight={'100%'} />
             </Stack>
             <ExercisesTimeRepsIcons
                 entities={[exerciseWorkoutSettings]}

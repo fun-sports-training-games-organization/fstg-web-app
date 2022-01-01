@@ -121,7 +121,7 @@ const DoWorkout: FC = () => {
                         ) : null}
                     </Stack>
                     <Stack>
-                        <EditImage exercise={exercises[currentExerciseIndex]} noImageIconSize="large" />
+                        <EditImage exerciseId={exercises[currentExerciseIndex].exerciseId} noImageIconSize="large" />
                     </Stack>
                 </Stack>
             )}
