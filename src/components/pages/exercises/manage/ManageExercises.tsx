@@ -18,6 +18,7 @@ import EditImage from '../../../molecules/edit-image/EditImage';
 import ExercisesTimeRepsIcons from '../../../organisms/exercises-time-reps-icons/ExercisesTimeRepsIcons';
 import RecordResultsIcon from '../../../atoms/record-results-icon/RecordResultsIcon';
 import { Delete, Edit } from '@mui/icons-material';
+import ResponsiveContainer from '../../../organisms/responsive-container/ResponsiveContainer';
 
 const ManageExercises: FC = (): JSX.Element => {
     const pageName = 'manage_exercises';
@@ -146,7 +147,7 @@ const ManageExercises: FC = (): JSX.Element => {
     };
 
     return (
-        <>
+        <ResponsiveContainer>
             <PageTitleActionButton
                 actionButton={
                     <AddButton
@@ -160,7 +161,7 @@ const ManageExercises: FC = (): JSX.Element => {
                 titleTranslationKey="page.manageExercises.exercises"
                 idPrefix={idPrefix}
             />
-            <Stack ml={2} mr={2} mt={3} mb={3}>
+            <Stack mt={3} mb={3}>
                 <Accordion
                     accordions={exercises.map((exercise, index) =>
                         getAccordionProp(exercise, exerciseItemPrefix, index)
@@ -190,7 +191,7 @@ const ManageExercises: FC = (): JSX.Element => {
                     closeDialog={() => setOpenDeleteConfirmationDialog(false)}
                 />
             </Stack>
-        </>
+        </ResponsiveContainer>
     );
 };
 export default ManageExercises;

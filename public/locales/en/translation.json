@@ -31,6 +31,10 @@
         "editWorkoutExerciseSettings": {
             "title": "Edit {{workoutName}} - {{exerciseName}} settings",
             "message": "Click save to update the settings for {{workoutName}} - {{exerciseName}} or cancel to discard your changes."
+        },
+        "discardChanges": {
+            "title": "Discard changes",
+            "message": "Are you sure you want to discard the changes you have made and go back to your workouts?"
         }
     },
     "global": {
@@ -161,6 +165,10 @@
             "account": {
                 "saveProfile": "Save profile",
                 "deleteProfilePicture": "Delete Profile Picture"
+            },
+            "editWorkout": {
+                "discardChanges": "Discard changes",
+                "addExercise": "Add an Exercise"
             }
         }
     }

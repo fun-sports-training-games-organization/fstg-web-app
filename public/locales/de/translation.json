@@ -31,6 +31,10 @@
         "editWorkoutExerciseSettings": {
             "title": "{{workoutName}} - {{exerciseName}} Einstellungen bearbeiten",
             "message": "Klicken Sie auf Speichern, um die {{workoutName}} - {{exerciseName}} Einstellungen zu aktualisieren, oder auf Abbrechen, um Ihre Änderungen zu verwerfen."
+        },
+        "discardChanges": {
+            "title": "Änderungen verwerfen",
+            "message": "Möchtest du die vorgenommenen Änderungen wirklich verwerfen und zu deinem Training zurückkehren?"
         }
     },
     "global": {
@@ -161,6 +165,10 @@
             "account": {
                 "saveProfile": "Profil sichern",
                 "deleteProfilePicture": "Profilbild entfernen"
+            },
+            "editWorkout": {
+                "discardChanges": "Änderungen verwerfen",
+                "addExercise": "Übung hinzufügen"
             }
         }
     }

@@ -10,7 +10,7 @@ type Props = {
 
 const PageTitleActionButton = ({ actionButton, titleTranslationKey, idPrefix }: Props): JSX.Element => {
     return (
-        <Stack data-testid={`${idPrefix}title_action`} ml={2} mr={2} mt={3}>
+        <Stack data-testid={`${idPrefix}title_action`} mt={3}>
             <Grid container direction="row" justifyContent="space-between" alignItems="center">
                 <Grid item>
                     <PageTitle translationKey={titleTranslationKey}></PageTitle>

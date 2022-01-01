@@ -28,7 +28,8 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' && pr
     drawerWidth: string | number;
 }>(({ theme, open, drawerWidth }) => ({
     flexGrow: 1,
-    padding: theme.spacing(3),
+    // TODO: set padding based on page and screen size... will need to either use redux or context-provider to do this...
+    padding: theme.spacing(2),
     transition: theme.transitions.create('margin', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen
@@ -127,7 +128,7 @@ const PersistentDrawer: FC<PersistentDrawerProps> = ({
                 {user ? (
                     <Toolbar>
                         <Typography color={'white'} variant="h6" noWrap sx={{ flexGrow: 1 }} component="div">
-                            {/* {appBarText} */}
+                            {/* We can use a static string here because the name of the app will not change. */}
                             Fun Sports Training Games
                         </Typography>
                         {!smDown && (
