@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import PersistentDrawer from './PersistentDrawer';
 import { PersistentDrawerProps } from './PersistentDrawer.types';
 import { mockUser } from '../../../__mocks__/mockUserContext';

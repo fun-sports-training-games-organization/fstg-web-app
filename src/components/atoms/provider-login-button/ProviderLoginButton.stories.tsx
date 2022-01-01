@@ -1,8 +1,6 @@
 import React from 'react';
 import { Meta } from '@storybook/react';
 import ProviderLoginButton, { ProviderLoginProps } from './ProviderLoginButton';
-import { ButtonProps } from '@mui/material';
-import { LoginProvider } from '../../../contexts/AuthContextProvider';
 import { Google as GoogleIcon } from '@mui/icons-material';
 
 export default {

@@ -45,7 +45,6 @@ describe('contains6Digits', () => {
     it(' should be false', () => {
         expect(contains6Digits.test('12345')).toBe(false);
         expect(contains6Digits.test('')).toBe(false);
-        expect(contains6Digits.test(undefined)).toBe(false);
     });
 
     it(' should be true', () => {
@@ -58,7 +57,6 @@ describe('isValidURL', () => {
     it(' should be false', () => {
         expect(isValidURL('httpss://www.google.ch')).toBe(false);
         expect(isValidURL('')).toBe(false);
-        expect(isValidURL(undefined)).toBe(false);
     });
 
     it(' should be true', () => {
