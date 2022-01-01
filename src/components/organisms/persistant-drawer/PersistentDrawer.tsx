@@ -135,8 +135,8 @@ const PersistentDrawer: FC<PersistentDrawerProps> = ({
                             <MenuButton
                                 buttonElement={<Avatar sx={{ height: 30, width: 30 }} src={photoURL} />}
                                 menuItems={[
-                                    { text: t('nav.account'), onClick: () => history.push('Account') },
-                                    { text: t('nav.logout'), onClick: () => logout && logout() }
+                                    { text: t('nav.account'), icon: 'person', onClick: () => history.push('Account') },
+                                    { text: t('nav.logout'), icon: 'logout', onClick: () => logout && logout() }
                                 ]}
                             />
                         )}
