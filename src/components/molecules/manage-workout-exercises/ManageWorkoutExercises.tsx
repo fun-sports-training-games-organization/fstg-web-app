@@ -168,28 +168,6 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: P
                     />
                 );
             })}
-            <ResponsiveDialog
-                title={t('dialog.editWorkoutExerciseSettings.title', {
-                    exerciseName: selectedExercise.name,
-                    workoutName: workout.name
-                })}
-                message={t('dialog.editWorkoutExerciseSettings.message', {
-                    exerciseName: selectedExercise.name,
-                    workoutName: workout.name
-                })}
-                open={openExerciseSettingsDialog}
-                content={
-                    <CreateEditExerciseForm
-                        exerciseId={selectedExercise.id}
-                        inWorkout={true}
-                        workoutId={workout.id}
-                        handleClose={() => {
-                            setOpenExerciseSettingsDialog(false);
-                            save();
-                        }}
-                    />
-                }
-            />
 
             <ResponsiveDialog
                 title={title}
