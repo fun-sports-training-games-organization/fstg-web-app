@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, FormEvent, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, FC, FormEvent, SyntheticEvent, useCallback, useEffect, useState } from 'react';
 import { Button, Stack, TextField } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import { useHistory, useParams } from 'react-router-dom';
@@ -14,6 +14,7 @@ import ManageWorkoutExercises from '../../../molecules/manage-workout-exercises/
 import useEntityManager from '../../../../hooks/useEntityManager';
 import { getNewEmptyExerciseWorkoutSettings, getNewEmptyWorkout } from '../../../../util/workout-util';
 import ResponsiveContainer from '../../../organisms/responsive-container/ResponsiveContainer';
+import ConfirmationDialog from '../../../organisms/confirmation-dialog/ConfirmationDialog';
 
 const EditWorkout: FC = () => {
     const pageName = 'edit_workout';
@@ -31,6 +32,7 @@ const EditWorkout: FC = () => {
             exercises: [...workout.exercises, getNewEmptyExerciseWorkoutSettings()]
         });
 
+    const [openConfirmationDialog, setOpenConfirmationDialog] = useState<boolean>(false);
     const [workout, setWorkout] = useState<Workout>(getNewEmptyWorkout());
 
     const loadWorkout = useCallback(() => {
@@ -81,6 +83,18 @@ const EditWorkout: FC = () => {
         !workout.hasBeenCreated ? handleCreate() : handleUpdate();
     };
 
+    const discardChanges = () => {
+        setOpenConfirmationDialog(true);
+    };
+
+    const onClose = (event: SyntheticEvent<HTMLButtonElement>) => {
+        if (event.currentTarget.value === 'confirm') {
+            history.push('/workouts');
+        } else {
+            setOpenConfirmationDialog(false);
+        }
+    };
+
     return (
         <ResponsiveContainer>
             <div data-testid={pageName}>
@@ -120,9 +134,24 @@ const EditWorkout: FC = () => {
                         >
                             {t('form.button.editWorkout.addExercise')}
                         </Button>
+                        <Button
+                            color={'secondary'}
+                            data-testid={`${idPrefix}discard_changes_button`}
+                            variant={'contained'}
+                            fullWidth={true}
+                            onClick={discardChanges}
+                        >
+                            {t('form.button.editWorkout.discardChanges')}
+                        </Button>
                         <SubmitButton testId={`${idPrefix}submit_button`} isCreate={!workout.hasBeenCreated} />
                     </Stack>
                 </form>
+                <ConfirmationDialog
+                    open={openConfirmationDialog}
+                    title={t('dialog.discardChanges.title')}
+                    message={t('dialog.discardChanges.message')}
+                    onClose={onClose}
+                />
             </div>
         </ResponsiveContainer>
     );
