@@ -1,15 +1,13 @@
 import { DirectionsRun, FitnessCenter, MoreVert, Pool } from '@mui/icons-material';
-import { Meta } from '@storybook/react';
 import React from 'react';
 import MenuButton from '../menu-button/MenuButton';
 import DashboardCard from './DashboardCard';
 import { DashboardCardProps } from './DashboardCard.types';
-import { Grid, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Stack } from '@mui/material';
+import { Grid, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import ExerciseIcon from '../../../assets/exercise.png';
 import { render } from '@testing-library/react';
-import AddButton from '../../atoms/add-button/AddButton';
 
-describe('<AddButton> component test with React Testing Library', () => {
+describe('<DashboardCard> component test with React Testing Library', () => {
     let props: DashboardCardProps;
     beforeEach(() => {
         props = {
