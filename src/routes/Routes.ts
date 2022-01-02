@@ -109,6 +109,13 @@ const routes: IRoute[] = [
         Route
     },
     {
+        path: '/server-error-500',
+        exact: true,
+        component: TermsOfServicePage,
+        key: 'Server Error 500',
+        Route
+    },
+    {
         // catch all route goes to Error 404 page
         key: '404 Error',
         component: PageNotFoundPage,

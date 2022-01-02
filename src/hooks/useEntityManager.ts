@@ -8,6 +8,7 @@ export type EntityWithId<T> = T & Id & CreateInfo & ModifyInfo;
 
 type EntityManager<T> = {
     entities: T[];
+    loading: boolean;
     findById: (id: string) => Promise<T>;
     createEntity: (entity: T) => Promise<string>;
     updateEntity: (entity: EntityWithId<T>) => Promise<void>;
@@ -16,17 +17,20 @@ type EntityManager<T> = {
 
 function useEntityManager<T>(entityName: string, ownerCheck = true): EntityManager<T> {
     const { user } = useAuth();
+    const [loading, setLoading] = useState<boolean>(false);
     const [entities, setEntities] = useState<EntityWithId<T>[]>([]);
     const firestore = useFirestore();
     const firebase = useFirebase();
 
     useEffect(() => {
+        setLoading(true);
         if (
             (user?.uid && ['8D3cIL5a4GM6Dzae8efcP2B9J5k2', 'p85OZGSf7TfTchZtoLd4JJs7UH82'].includes(user?.uid)) ||
             !ownerCheck
         ) {
             firestore.collection(entityName).onSnapshot((snapshot) => {
                 setEntities(snapshot.docs.map((doc) => ({ id: doc.id, ...(doc.data() as T) })));
+                setLoading(false);
             });
         } else {
             firestore
@@ -34,6 +38,7 @@ function useEntityManager<T>(entityName: string, ownerCheck = true): EntityManag
                 .where('createdById', '==', user?.uid)
                 .onSnapshot((snapshot) => {
                     setEntities(snapshot.docs.map((doc) => ({ id: doc.id, ...(doc.data() as T) })));
+                    setLoading(false);
                 });
         }
     }, [entityName, firestore, user?.uid, ownerCheck]);
@@ -66,7 +71,7 @@ function useEntityManager<T>(entityName: string, ownerCheck = true): EntityManag
         await firestore.collection(entityName).doc(id).delete();
     };
 
-    return { entities, findById, createEntity, updateEntity, deleteEntityById };
+    return { loading, entities, findById, createEntity, updateEntity, deleteEntityById };
 }
 
 export default useEntityManager;
