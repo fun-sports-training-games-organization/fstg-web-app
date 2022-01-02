@@ -9,6 +9,7 @@ type Props = {
     variant?: 'text' | 'contained' | 'outlined' | undefined;
     isFullWidth?: boolean;
     testId?: string;
+    color?: 'primary' | 'inherit' | 'secondary' | 'success' | 'error' | 'info' | 'warning' | undefined;
 };
 
 const SubmitButton = ({
@@ -18,12 +19,20 @@ const SubmitButton = ({
     saveTranslationKey = 'global.save',
     variant = 'contained',
     isFullWidth = true,
-    testId = 'submit_button'
+    testId = 'submit_button',
+    color = 'primary'
 }: Props): JSX.Element => {
     const { t } = useTranslation();
 
     return (
-        <Button data-testid={testId} variant={variant} fullWidth={isFullWidth} onClick={onClick} type={'submit'}>
+        <Button
+            data-testid={testId}
+            variant={variant}
+            fullWidth={isFullWidth}
+            onClick={onClick}
+            type={'submit'}
+            color={color}
+        >
             {t(isCreate ? createTranslationKey : saveTranslationKey)}
         </Button>
     );

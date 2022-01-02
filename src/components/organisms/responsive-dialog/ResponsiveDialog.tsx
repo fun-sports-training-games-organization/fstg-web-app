@@ -88,7 +88,9 @@ const ResponsiveDialog: FC<ResponsiveDialogProps> = ({
                             <Button
                                 data-testid={'responsive-dialog-cancel-button'}
                                 color={'secondary'}
-                                onClick={onCancel}
+                                onClick={() => {
+                                    onCancel && onCancel();
+                                }}
                                 autoFocus={autoFocus === 'cancel'}
                             >
                                 {cancelText}

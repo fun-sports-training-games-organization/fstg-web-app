@@ -166,6 +166,11 @@ const ManageExercises: FC = (): JSX.Element => {
         setExerciseId(undefined);
     };
 
+    const handleCloseAndCreate = () => {
+        setExerciseId(undefined);
+        setOpenDialog(false);
+    };
+
     const haveExercises = exercises.length > 0;
     if (loading) {
         return <Loader />;
@@ -206,10 +211,8 @@ const ManageExercises: FC = (): JSX.Element => {
                 content={
                     <CreateEditExerciseForm
                         exerciseId={exerciseId}
-                        handleClose={() => {
-                            setExerciseId(undefined);
-                            setOpenDialog(false);
-                        }}
+                        handleClose={handleCloseAndCreate}
+                        onCreate={handleCloseAndCreate}
                     />
                 }
                 // setOpen={setOpenDialog}

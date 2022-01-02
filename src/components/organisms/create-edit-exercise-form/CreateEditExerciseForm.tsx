@@ -1,4 +1,13 @@
-import React, { ChangeEvent, FormEvent, SyntheticEvent, useCallback, useEffect, useState } from 'react';
+import React, {
+    ChangeEvent,
+    Dispatch,
+    FormEvent,
+    SetStateAction,
+    SyntheticEvent,
+    useCallback,
+    useEffect,
+    useState
+} from 'react';
 import { Button, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Stack } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import TimeField from '../../molecules/time-field/TimeField';
@@ -7,17 +16,17 @@ import LabeledCheckbox from '../../molecules/labeled-checkbox/LabeledCheckbox';
 import * as notification from '../../../util/notifications-util';
 import { useSnackbar } from 'notistack';
 import useEntityManager from '../../../hooks/useEntityManager';
-import { Exercise, ExerciseWorkoutSettings } from '../../../model/Exercise.model';
+import { Exercise } from '../../../model/Exercise.model';
 import TextField from '../../atoms/text-field/TextField';
 import useFileManager from '../../../hooks/useFileManager';
 import { useAuth } from '../../../contexts/AuthContextProvider';
 import { getNumber } from '../../../util/number-util';
 import EditImage from '../../molecules/edit-image/EditImage';
 import { Workout } from '../../../model/Workout.model';
-import { getHasNotBeenCreated, getNewEmptyWorkout } from '../../../util/workout-util';
-import { getNewEmptyExerciseWorkoutSettings } from '../../../util/exercise-util';
-import { useHistory } from 'react-router-dom';
-import * as navigate from '../../../util/navigation-util';
+import { getNewEmptyWorkout } from '../../../util/workout-util';
+import { getNewEmptyExercise } from '../../../util/exercise-util';
+import { getPageIdPrefix } from '../../../util/id-util';
+import SubmitButton from '../../atoms/submit-button/SubmitButton';
 
 type Props = {
     exerciseId?: string;
@@ -25,7 +34,9 @@ type Props = {
     inWorkout?: boolean;
     onCreate?: (exercise: Exercise) => void;
     name?: string;
-    workoutId?: string;
+    index?: number;
+    workout?: Workout;
+    setWorkout?: Dispatch<SetStateAction<Workout>>;
 };
 
 const CreateEditExerciseForm = ({
@@ -34,12 +45,16 @@ const CreateEditExerciseForm = ({
     inWorkout = false,
     onCreate,
     name,
-    workoutId
+    workout,
+    setWorkout,
+    index
 }: Props): JSX.Element => {
-    const history = useHistory();
     const { t } = useTranslation();
     const { enqueueSnackbar } = useSnackbar();
     const { user } = useAuth();
+    const pageName = 'create-edit-exercise-form';
+    const idPrefix = getPageIdPrefix(pageName);
+    const submitTestId = `${idPrefix}submit_button`;
 
     const fileManager = useFileManager<File>('exercises');
     const {
@@ -47,71 +62,54 @@ const CreateEditExerciseForm = ({
         updateEntity: updateExercise,
         findById: findExerciseById
     } = useEntityManager<Exercise>('exercises');
-    const {
-        createEntity: createWorkout,
-        updateEntity: updateWorkout,
-        findById: findWorkoutById
-    } = useEntityManager<Workout>('workouts');
     const [chosenFile, setChosenFile] = useState<File | null>(null);
-    const [exercise, setExercise] = useState<Exercise>({});
-    const [workout, setWorkout] = useState<Workout>(getNewEmptyWorkout());
+    const [exercise, setExercise] = useState<Exercise>(getNewEmptyExercise());
     const PREFIX = 'form.label.exercise';
 
     const getUpdatedWorkout = (updatedExercise: Exercise): Workout => {
-        return {
-            ...workout,
-            exercises: workout.exercises
-                ? workout.exercises.map((e) => (e.id === updatedExercise.id ? updatedExercise : e))
-                : []
-        };
+        return workout
+            ? ({
+                  ...workout,
+                  exercises: workout.exercises
+                      ? workout.exercises.map((e, i) =>
+                            i === index ? { ...updatedExercise, id: e.id, exerciseId: e.exerciseId } : e
+                        )
+                      : []
+              } as Workout)
+            : getNewEmptyWorkout();
     };
 
     const setExerciseAndWorkout = (updatedExercise: Exercise) => {
         setExercise(updatedExercise);
-        workoutId && setWorkout(getUpdatedWorkout(updatedExercise));
+        workout?.id && setWorkout && setWorkout(getUpdatedWorkout(updatedExercise));
     };
 
-    const loadExercise = useCallback(
-        (exerciseId, workoutId) => {
-            if (workoutId && !workoutId.includes(getHasNotBeenCreated())) {
-                findWorkoutById(workoutId).then((workout) => {
-                    setWorkout(workout);
-                    const ex = workout.exercises && workout.exercises.find((exercise) => exercise.id === exerciseId);
-                    const exer = ex ? ex : getNewEmptyExerciseWorkoutSettings();
-                    setExercise(exer);
-                });
+    const loadExerciseAndWorkout = useCallback(
+        (eId: string | undefined, wo: Workout | undefined) => {
+            if (wo) {
+                const woExercise = wo.exercises[index ? index : 0];
+                setExercise({ ...woExercise, name: name ? name : woExercise.name });
             } else {
-                findExerciseById(exerciseId).then((exer) => {
-                    if (workoutId?.includes(getHasNotBeenCreated())) {
-                        const newEmptyWorkout = getNewEmptyWorkout();
-                        const e: ExerciseWorkoutSettings = {
-                            ...exer,
-                            exerciseId: exer.id,
-                            id: newEmptyWorkout.exercises[0].id
-                        };
-                        setExercise(e);
-                        setWorkout({
-                            ...newEmptyWorkout,
-                            id: workoutId,
-                            exercises: [e],
-                            name
-                        });
-                    } else {
+                if (eId) {
+                    findExerciseById(eId).then((exer) => {
                         setExercise(exer);
-                    }
-                });
+                    });
+                } else {
+                    setExercise({
+                        ...getNewEmptyExercise(),
+                        name: name ? name : exercise.name
+                    });
+                }
             }
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        [exerciseId, workoutId]
+        [exerciseId, name]
     );
 
     useEffect(() => {
-        exerciseId
-            ? loadExercise(exerciseId, workoutId)
-            : setExercise({ ...exercise, name: name ? name : exercise.name, amountType: 'COUNT_BASED' });
+        loadExerciseAndWorkout(exerciseId, workout);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [exerciseId, loadExercise, name]);
+    }, [exerciseId, name]);
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         setExerciseAndWorkout({
@@ -132,54 +130,37 @@ const CreateEditExerciseForm = ({
         if (chosenFile) {
             chosenFile && fileManager.uploadFile(chosenFile, user?.uid);
         }
-        if (exercise?.id) {
-            if (workoutId) {
-                if (workoutId.includes(getHasNotBeenCreated())) {
-                    createWorkout(workout)
-                        .then((id) => {
-                            notification.createSuccess(enqueueSnackbar, t, name);
-                            setExercise({});
-                            setWorkout(getNewEmptyWorkout());
-                            handleClose && handleClose();
-                            navigate.toEditWorkout(history, id);
-                        })
-                        .catch(() => {
-                            notification.createError(enqueueSnackbar, t, workout.name);
-                        });
-                } else {
-                    updateWorkout(workout)
-                        .then(() => {
-                            notification.updateSuccess(enqueueSnackbar, t, exercise.name);
-                            setExercise({});
-                            setWorkout(getNewEmptyWorkout());
-                            handleClose && handleClose();
-                        })
-                        .catch(() => {
-                            notification.updateError(enqueueSnackbar, t, exercise.name);
-                        });
-                }
-            } else {
-                updateExercise(exercise)
-                    .then(() => {
-                        notification.updateSuccess(enqueueSnackbar, t, exercise.name);
-                        setExercise({});
-                        handleClose && handleClose();
-                    })
-                    .catch(() => {
-                        notification.updateError(enqueueSnackbar, t, exercise.name);
-                    });
-            }
-        } else {
+
+        if (!workout && exerciseId) {
+            updateExercise(exercise)
+                .then(() => {
+                    notification.updateSuccess(enqueueSnackbar, t, exercise.name);
+                    setExercise(getNewEmptyExercise());
+                    handleClose && handleClose();
+                })
+                .catch(() => {
+                    notification.updateError(enqueueSnackbar, t, exercise.name);
+                });
+        } else if (!exerciseId) {
             createExercise(exercise)
                 .then((id) => {
-                    notification.createSuccess(enqueueSnackbar, t, exercise.name);
+                    setExercise(getNewEmptyExercise());
+                    if (workout && setWorkout) {
+                        setWorkout({
+                            ...workout,
+                            exercises: workout.exercises.map((e, i) =>
+                                i === index ? { ...exercise, id: e.id, exerciseId: id } : e
+                            )
+                        });
+                    }
                     onCreate && onCreate({ ...exercise, id });
-                    setExercise({});
-                    handleClose && handleClose();
+                    notification.createSuccess(enqueueSnackbar, t, exercise.name);
                 })
                 .catch(() => {
                     notification.createError(enqueueSnackbar, t, exercise.name);
                 });
+        } else {
+            handleClose && handleClose();
         }
     };
 
@@ -323,9 +304,9 @@ const CreateEditExerciseForm = ({
                             ))}
                     </>
                 )}
-                <Button type={'submit'} fullWidth color={'primary'} variant={'contained'}>
-                    {t(exerciseId ? 'global.save' : 'global.create')}
-                </Button>
+
+                <SubmitButton testId={submitTestId} isCreate={!exerciseId} />
+
                 <Button fullWidth color={'secondary'} variant={'contained'} onClick={handleClose}>
                     {t('global.cancel')}
                 </Button>
