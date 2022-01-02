@@ -38,10 +38,11 @@ const EditWorkout: FC = () => {
     const [workout, setWorkout] = useState<Workout>(getNewEmptyWorkout());
 
     const loadWorkout = useCallback(() => {
-        workoutId &&
-            entityManager.findById(workoutId).then((wo: Workout) => {
-                setWorkout({ ...wo, id: workoutId, hasBeenCreated: true });
-            });
+        workoutId
+            ? entityManager.findById(workoutId).then((wo: Workout) => {
+                  setWorkout({ ...wo, id: workoutId, hasBeenCreated: true });
+              })
+            : setWorkout(getNewEmptyWorkout());
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -49,25 +50,35 @@ const EditWorkout: FC = () => {
         loadWorkout();
     }, [loadWorkout]);
 
-    const handleUpdate = () => {
+    const handleUpdate = (shouldNavigate = true) => {
         entityManager
             .updateEntity(workout)
             .then(() => {
                 setWorkout(workout);
                 notification.updateSuccess(enqueueSnackbar, t, workout.name);
-                navigate.toManageWorkouts(history);
+
+                if (shouldNavigate) {
+                    navigate.toManageWorkouts(history);
+                    setWorkout(getNewEmptyWorkout());
+                }
             })
             .catch(() => {
                 notification.updateError(enqueueSnackbar, t, workout.name);
             });
     };
 
-    const handleCreate = () => {
+    const handleCreate = (navigateToManageWorkouts = true) => {
         entityManager
             .createEntity(workout)
-            .then(() => {
+            .then((id) => {
                 notification.createSuccess(enqueueSnackbar, t, workout.name);
-                navigate.toManageWorkouts(history);
+                setWorkout(getNewEmptyWorkout());
+
+                if (navigateToManageWorkouts) {
+                    navigate.toManageWorkouts(history);
+                } else {
+                    navigate.toEditWorkout(history, id);
+                }
             })
             .catch(() => {
                 notification.createError(enqueueSnackbar, t, workout.name);
@@ -76,12 +87,14 @@ const EditWorkout: FC = () => {
 
     const onSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        const submitter = (e?.nativeEvent as SubmitEvent)?.submitter;
+        const submitterDataTestId = submitter?.attributes?.getNamedItem('data-testid')?.value;
+        const shouldNavigate = submitterDataTestId === submitTestId;
         const shouldSubmit =
-            (e?.nativeEvent as SubmitEvent)?.submitter?.attributes?.getNamedItem('data-testid')?.value === submitTestId
-                ? true
-                : false;
+            submitterDataTestId !== 'fstg__create-edit-exercise-form__submit_button' ||
+            submitter?.outerText.toLowerCase() === t('global.save').toLowerCase();
         if (shouldSubmit) {
-            !workout.hasBeenCreated ? handleCreate() : handleUpdate();
+            !workout.hasBeenCreated ? handleCreate(shouldNavigate) : handleUpdate(shouldNavigate);
         }
     };
 
@@ -101,7 +114,7 @@ const EditWorkout: FC = () => {
         <ResponsiveContainer xs={11}>
             <div data-testid={pageName}>
                 <form onSubmit={onSubmit}>
-                    <Stack spacing={2}>
+                    <Stack spacing={2} mt={2}>
                         <PageTitle
                             translationKey={
                                 !workout.hasBeenCreated

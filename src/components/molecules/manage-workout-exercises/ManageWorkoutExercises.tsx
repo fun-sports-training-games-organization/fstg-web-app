@@ -10,10 +10,9 @@ import useEntityManager from '../../../hooks/useEntityManager';
 import AddIcon from '@mui/icons-material/Add';
 import ResponsiveDialog from '../../organisms/responsive-dialog';
 import CreateEditExerciseForm from '../../organisms/create-edit-exercise-form/CreateEditExerciseForm';
-import { getNewEmptyExerciseWorkoutSettings } from '../../../util/exercise-util';
+import { getNewEmptyExercise } from '../../../util/exercise-util';
 import ConfirmationDialog from '../../organisms/confirmation-dialog/ConfirmationDialog';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import { getHasNotBeenCreated } from '../../../util/string-util';
 
 type Props = {
     parentIdPrefix: string;
@@ -32,7 +31,7 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout }: Props):
     ): ExerciseWorkoutSettings[] => {
         return workout.exercises.map((exercise) => {
             if (exercise.id === exerciseToUpdate.id) {
-                const newExercise = { ...selectedExercise, exerciseId: exerciseToUpdate.id };
+                const newExercise: ExerciseWorkoutSettings = { ...selectedExercise, id: exerciseToUpdate.id };
                 newExercise.exerciseId = selectedExercise.id;
                 newExercise.id = exerciseToUpdate.id ? exerciseToUpdate.id : uuidv4();
 
@@ -45,20 +44,20 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout }: Props):
     const [openDeleteConfirmationDialog, setOpenDeleteConfirmationDialog] = useState<boolean>(false);
     const { t } = useTranslation();
 
-    const emptyExerciseWorkoutSettings: ExerciseWorkoutSettings = getNewEmptyExerciseWorkoutSettings();
-
+    const noSelectedExercise: Exercise = { ...getNewEmptyExercise(), id: 'none', hasBeenCreated: false };
     const [title, setTitle] = useState<string>();
     const [message, setMessage] = useState<string>();
     const [content, setContent] = useState<JSX.Element>();
     const [openDialog, setOpenDialog] = useState<boolean>(false);
-    const [selectedExercise, setSelectedExercise] = useState<ExerciseWorkoutSettings>(emptyExerciseWorkoutSettings);
+    const [selectedExercise, setSelectedExercise] = useState<ExerciseWorkoutSettings>(noSelectedExercise);
     const [exercises, setExercises] = useState<Exercise[]>([]);
-    const [newExercise, setNewExercise] = useState<Exercise | undefined>({ amountType: 'COUNT_BASED' });
+    const [newExercise, setNewExercise] = useState<Exercise | undefined>(getNewEmptyExercise());
 
     const [onConfirm, setOnConfirm] = useState<() => void>();
 
     useEffect(() => {
-        setExercises([{ name: '', id: 'none' }, ...entities]);
+        setExercises([noSelectedExercise, ...entities]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [entities]);
 
     const handleClose = () => {
@@ -69,52 +68,28 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout }: Props):
         setOnConfirm(undefined);
     };
 
-    const handleConfigureExerciseSettings = (exercise: ExerciseWorkoutSettings) => {
-        setSelectedExercise(exercise);
+    const handleConfigureExerciseSettings = (exerciseId: string, index: number, lastSavedWorkout: Workout) => {
         setTitle(
             t('dialog.editWorkoutExerciseSettings.title', {
-                exerciseName: selectedExercise.name,
+                exerciseName: workout.exercises[index].name,
                 workoutName: workout.name
             })
         );
         setMessage(
             t('dialog.editWorkoutExerciseSettings.message', {
-                exerciseName: selectedExercise.name,
+                exerciseName: workout.exercises[index].name,
                 workoutName: workout.name
             })
         );
         setContent(
             <CreateEditExerciseForm
-                exerciseId={workout.hasBeenCreated ? exercise.id : exercise.exerciseId}
-                workout={{
-                    ...workout,
-                    id: `${workout.hasBeenCreated ? '' : getHasNotBeenCreated() + '-'}${workout.id}`
-                }}
+                exerciseId={exerciseId}
+                workout={workout}
                 setWorkout={setWorkout}
                 inWorkout={true}
                 handleClose={() => {
                     handleClose();
-                }}
-            />
-        );
-        setOpenDialog(true);
-    };
-
-    const handleAddNewExercise = (exercise: Exercise, index: number) => {
-        setSelectedExercise(exercise);
-        setTitle(t('dialog.editExercise.title'));
-        setMessage(t('dialog.editExercise.message'));
-        setContent(
-            <CreateEditExerciseForm
-                workout={{
-                    ...workout,
-                    id: `${workout.hasBeenCreated ? '' : getHasNotBeenCreated() + '-'}${workout.id}`
-                }}
-                setWorkout={setWorkout}
-                handleClose={handleClose}
-                name={newExercise?.name}
-                onCreate={(exercise: Exercise) => {
-                    setExercises([exercise].concat(exercises));
+                    setWorkout(lastSavedWorkout);
                 }}
                 index={index}
             />
@@ -122,34 +97,58 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout }: Props):
         setOpenDialog(true);
     };
 
+    const handleAddNewExercise = (index: number, lastSavedWorkout: Workout) => {
+        setTitle(t('dialog.editExercise.title'));
+        setMessage(t('dialog.editExercise.message'));
+
+        setContent(
+            <CreateEditExerciseForm
+                workout={workout}
+                setWorkout={setWorkout}
+                handleClose={() => {
+                    handleClose();
+                    setWorkout(lastSavedWorkout);
+                }}
+                name={newExercise?.name}
+                index={index}
+                onCreate={() => {
+                    handleClose();
+                }}
+            />
+        );
+        setOpenDialog(true);
+    };
+
+    const getValue = (ews: ExerciseWorkoutSettings) => {
+        const ewsFound = exercises.find((e) => e.id === ews.exerciseId);
+        return ewsFound ? ewsFound : noSelectedExercise;
+    };
+
     return (
         <>
-            {workout.exercises?.map((exercise, index) => {
+            {workout.exercises?.map((exerciseWorkoutSettings, index) => {
                 return (
                     <AutoCompleteSelect
                         key={`${exerciseItemPrefix}${index}__auto-complete-select`}
                         id={`${exerciseItemPrefix}${index}`}
                         label={`Exercise ${index + 1}`}
-                        value={exercise}
+                        value={getValue(exerciseWorkoutSettings)}
                         options={exercises}
                         getOptionLabel={(option: Exercise) => (option?.name ? option.name : '')}
-                        isOptionEqualToValue={(option, value) =>
-                            (option as Exercise)?.id === (value as ExerciseWorkoutSettings)?.exerciseId
-                        }
                         onChange={(_event, value) => {
                             if (value) {
                                 setWorkout({
                                     ...workout,
-                                    exercises: updateExercise(workout, exercise, value)
+                                    exercises: updateExercise(workout, exerciseWorkoutSettings, value)
                                 });
                             }
                         }}
                         onTextChange={(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-                            setNewExercise({ ...newExercise, name: event.target.value })
+                            setNewExercise({ ...newExercise, name: event.target.value } as Exercise)
                         }
                         noOptionsText={
                             <Button
-                                onClick={() => handleAddNewExercise(exercise, index)}
+                                onClick={() => handleAddNewExercise(index, workout)}
                                 variant="text"
                                 startIcon={<AddIcon />}
                             >
@@ -165,7 +164,11 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout }: Props):
                                             workout.exercises[index].exerciseId &&
                                             workout.exercises[index].exerciseId !== 'none'
                                         ) {
-                                            handleConfigureExerciseSettings(exercise);
+                                            handleConfigureExerciseSettings(
+                                                exerciseWorkoutSettings.exerciseId as string,
+                                                index,
+                                                workout
+                                            );
                                         }
                                     }}
                                 >
@@ -179,7 +182,7 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout }: Props):
                                     color={'error'}
                                     key={`${exerciseItemPrefix}${index}__delete_icon-button`}
                                     onClick={() => {
-                                        setSelectedExercise(exercise);
+                                        setSelectedExercise(exerciseWorkoutSettings);
                                         setOpenDeleteConfirmationDialog(true);
                                     }}
                                 >

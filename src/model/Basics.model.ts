@@ -20,9 +20,13 @@ export interface ModifyInfo {
     lastModifiedByDisplayName?: string | null;
 }
 
+export interface CreateAndModifyInfo extends CreateInfo, ModifyInfo {}
+
 export interface AmountTypeAmountValue {
     amountType?: RecordType;
     amountValue?: number;
 }
 
-export interface CreateAndModifyInfo extends CreateInfo, ModifyInfo {}
+export interface HasBeenCreated {
+    hasBeenCreated: boolean;
+}
