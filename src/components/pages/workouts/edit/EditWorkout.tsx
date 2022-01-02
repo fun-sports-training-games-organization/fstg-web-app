@@ -12,7 +12,7 @@ import { Workout } from '../../../../model/Workout.model';
 import { getPageIdPrefix } from '../../../../util/id-util';
 import ManageWorkoutExercises from '../../../molecules/manage-workout-exercises/ManageWorkoutExercises';
 import useEntityManager from '../../../../hooks/useEntityManager';
-import { getNewEmptyWorkout } from '../../../../util/workout-util';
+import { getNewEmptyWorkout, getShouldSubmitAndNavigate } from '../../../../util/workout-util';
 import ResponsiveContainer from '../../../organisms/responsive-container/ResponsiveContainer';
 import ConfirmationDialog from '../../../organisms/confirmation-dialog/ConfirmationDialog';
 import { getNewEmptyExerciseWorkoutSettings } from '../../../../util/exercise-util';
@@ -87,12 +87,7 @@ const EditWorkout: FC = () => {
 
     const onSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const submitter = (e?.nativeEvent as SubmitEvent)?.submitter;
-        const submitterDataTestId = submitter?.attributes?.getNamedItem('data-testid')?.value;
-        const shouldNavigate = submitterDataTestId === submitTestId;
-        const shouldSubmit =
-            submitterDataTestId !== 'fstg__create-edit-exercise-form__submit_button' ||
-            submitter?.outerText.toLowerCase() === t('global.save').toLowerCase();
+        const { shouldSubmit, shouldNavigate } = getShouldSubmitAndNavigate(e, submitTestId, t);
         if (shouldSubmit) {
             !workout.hasBeenCreated ? handleCreate(shouldNavigate) : handleUpdate(shouldNavigate);
         }
