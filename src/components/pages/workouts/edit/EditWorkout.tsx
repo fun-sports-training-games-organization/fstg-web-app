@@ -12,13 +12,15 @@ import { Workout } from '../../../../model/Workout.model';
 import { getPageIdPrefix } from '../../../../util/id-util';
 import ManageWorkoutExercises from '../../../molecules/manage-workout-exercises/ManageWorkoutExercises';
 import useEntityManager from '../../../../hooks/useEntityManager';
-import { getNewEmptyExerciseWorkoutSettings, getNewEmptyWorkout } from '../../../../util/workout-util';
+import { getNewEmptyWorkout } from '../../../../util/workout-util';
 import ResponsiveContainer from '../../../organisms/responsive-container/ResponsiveContainer';
 import ConfirmationDialog from '../../../organisms/confirmation-dialog/ConfirmationDialog';
+import { getNewEmptyExerciseWorkoutSettings } from '../../../../util/exercise-util';
 
 const EditWorkout: FC = () => {
     const pageName = 'edit_workout';
     const idPrefix = getPageIdPrefix(pageName);
+    const submitTestId = `${idPrefix}submit_button`;
     const history = useHistory();
     const { t } = useTranslation();
     const { enqueueSnackbar } = useSnackbar();
@@ -38,6 +40,7 @@ const EditWorkout: FC = () => {
     const loadWorkout = useCallback(() => {
         workoutId &&
             entityManager.findById(workoutId).then((wo: Workout) => {
+                console.log({ wo });
                 setWorkout({ ...wo, id: workoutId, hasBeenCreated: true });
             });
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -47,31 +50,25 @@ const EditWorkout: FC = () => {
         loadWorkout();
     }, [loadWorkout]);
 
-    const handleUpdate = (shouldNavigate = true) => {
+    const handleUpdate = () => {
         entityManager
             .updateEntity(workout)
             .then(() => {
                 setWorkout(workout);
                 notification.updateSuccess(enqueueSnackbar, t, workout.name);
-
-                if (shouldNavigate) {
-                    navigate.toManageWorkouts(history);
-                }
+                navigate.toManageWorkouts(history);
             })
             .catch(() => {
                 notification.updateError(enqueueSnackbar, t, workout.name);
             });
     };
 
-    const handleCreate = (shouldNavigate = true) => {
+    const handleCreate = () => {
         entityManager
             .createEntity(workout)
             .then(() => {
                 notification.createSuccess(enqueueSnackbar, t, workout.name);
-
-                if (shouldNavigate) {
-                    navigate.toManageWorkouts(history);
-                }
+                navigate.toManageWorkouts(history);
             })
             .catch(() => {
                 notification.createError(enqueueSnackbar, t, workout.name);
@@ -80,7 +77,13 @@ const EditWorkout: FC = () => {
 
     const onSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        !workout.hasBeenCreated ? handleCreate() : handleUpdate();
+        const shouldSubmit =
+            (e?.nativeEvent as SubmitEvent)?.submitter?.attributes?.getNamedItem('data-testid')?.value === submitTestId
+                ? true
+                : false;
+        if (shouldSubmit) {
+            !workout.hasBeenCreated ? handleCreate() : handleUpdate();
+        }
     };
 
     const discardChanges = () => {
@@ -96,7 +99,7 @@ const EditWorkout: FC = () => {
     };
 
     return (
-        <ResponsiveContainer>
+        <ResponsiveContainer xs={11}>
             <div data-testid={pageName}>
                 <form onSubmit={onSubmit}>
                     <Stack spacing={2}>
@@ -143,7 +146,7 @@ const EditWorkout: FC = () => {
                         >
                             {t('form.button.editWorkout.discardChanges')}
                         </Button>
-                        <SubmitButton testId={`${idPrefix}submit_button`} isCreate={!workout.hasBeenCreated} />
+                        <SubmitButton testId={submitTestId} isCreate={!workout.hasBeenCreated} />
                     </Stack>
                 </form>
                 <ConfirmationDialog

@@ -14,6 +14,7 @@ import { v4 as uuidv4 } from 'uuid';
 import PageTitleActionButton from '../../../molecules/page-title-action/PageTitleAction';
 import { TypographyOverrideable } from '../../../atoms/typography-overrideable/TypographyOverridable';
 import * as navigate from '../../../../util/navigation-util';
+import ResponsiveContainer from '../../../organisms/responsive-container/ResponsiveContainer';
 
 const StartWorkout: FC = () => {
     const pageName = 'start_workout';
@@ -38,10 +39,10 @@ const StartWorkout: FC = () => {
     }, [loadWorkout]);
 
     return (
-        <div data-testid={pageName}>
+        <ResponsiveContainer xl={6} data-testid={pageName}>
             <Grid container direction="column" justifyContent="space-between" alignItems="stretch">
                 <PageTitleActionButton
-                    actionButton={
+                    postTitleActionButton={
                         <IconButton
                             onClick={() => workout.id && navigate.toDoWorkout(history, workout.id)}
                             sx={{ marginRight: 3 }}
@@ -54,7 +55,7 @@ const StartWorkout: FC = () => {
                 ></PageTitleActionButton>
                 <Stack
                     mt={2}
-                    mr={2}
+                    mr={{ xs: 0, sm: 2 }}
                     direction="column"
                     border={`2px solid ${theme.palette.grey[300]}`}
                     borderRadius="1rem"
@@ -73,6 +74,7 @@ const StartWorkout: FC = () => {
                         workout={workout}
                         parentIdPrefix={idPrefix}
                         typographySx={{ lineHeight: 2.2, marginLeft: '0.7rem' }}
+                        rowGap="1vh"
                     ></ExercisesContent>
                     <Grid
                         mt={5}
@@ -92,7 +94,7 @@ const StartWorkout: FC = () => {
                     </Grid>
                 </Stack>
             </Grid>
-        </div>
+        </ResponsiveContainer>
     );
 };
 

@@ -4,9 +4,10 @@ import './Loader.scss';
 
 export type LoaderProps = {
     testId?: string;
+    minHeight?: string;
 };
 
-const Loader = ({ testId }: LoaderProps): JSX.Element => (
+const Loader = ({ testId, minHeight = '100vh' }: LoaderProps): JSX.Element => (
     <Grid
         container
         data-testid={testId}
@@ -14,7 +15,7 @@ const Loader = ({ testId }: LoaderProps): JSX.Element => (
         direction="column"
         alignItems="center"
         justifyContent="center"
-        style={{ minHeight: '100vh' }}
+        style={{ minHeight }}
     >
         <div className="spinning-loader-container">
             <div className="spinning-loader">

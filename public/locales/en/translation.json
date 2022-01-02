@@ -26,7 +26,11 @@
         },
         "editExercise": {
             "title": "Edit Exercise",
-            "message": "Click save to update the name of your exercise or cancel to discard your changes."
+            "message": "Click save to update your exercise or cancel to discard your changes."
+        },
+        "createExercise": {
+            "title": "Create Exercise",
+            "message": "Click create to add this exercise or cancel to discard it."
         },
         "editWorkoutExerciseSettings": {
             "title": "Edit {{workoutName}} - {{exerciseName}} settings",
@@ -171,5 +175,6 @@
                 "addExercise": "Add an Exercise"
             }
         }
-    }
+    },
+    "Push Ups": "Push Ups"
 }

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, Dispatch, SetStateAction, SyntheticEvent, useEffect, useState } from 'react';
+import { ChangeEvent, Dispatch, SetStateAction, SyntheticEvent, useEffect, useState } from 'react';
 import { Button, IconButton, InputAdornment } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Workout } from '../../../model/Workout.model';
@@ -8,17 +8,18 @@ import AutoCompleteSelect from '../auto-complete-select/AutoCompleteSelect';
 import { v4 as uuidv4 } from 'uuid';
 import useEntityManager from '../../../hooks/useEntityManager';
 import AddIcon from '@mui/icons-material/Add';
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import ResponsiveDialog from '../../organisms/responsive-dialog';
 import CreateEditExerciseForm from '../../organisms/create-edit-exercise-form/CreateEditExerciseForm';
+import { getNewEmptyExerciseWorkoutSettings } from '../../../util/exercise-util';
+import { getHasNotBeenCreated } from '../../../util/workout-util';
 import ConfirmationDialog from '../../organisms/confirmation-dialog/ConfirmationDialog';
-import { getNewEmptyExerciseWorkoutSettings } from '../../../util/workout-util';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
 type Props = {
     parentIdPrefix: string;
     workout: Workout;
     setWorkout: Dispatch<SetStateAction<Workout>>;
-    save: (shouldNavigate?: boolean) => void;
+    save: () => void;
 };
 
 const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: Props): JSX.Element => {
@@ -54,7 +55,9 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: P
     const [selectedExercise, setSelectedExercise] = useState<ExerciseWorkoutSettings>(emptyExerciseWorkoutSettings);
     const [exercises, setExercises] = useState<Exercise[]>([]);
     const [newExercise, setNewExercise] = useState<Exercise | undefined>({ amountType: 'COUNT_BASED' });
+
     const [onConfirm, setOnConfirm] = useState<() => void>();
+
     useEffect(() => {
         setExercises([{ name: '', id: 'none' }, ...entities]);
     }, [entities]);
@@ -67,7 +70,7 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: P
         setOnConfirm(undefined);
     };
 
-    const handleConfigureExerciseSettings = (exercise: Exercise) => {
+    const handleConfigureExerciseSettings = (exercise: ExerciseWorkoutSettings) => {
         setSelectedExercise(exercise);
         setTitle(
             t('dialog.editWorkoutExerciseSettings.title', {
@@ -82,9 +85,17 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: P
             })
         );
         setContent(
-            <CreateEditExerciseForm exerciseId={selectedExercise.id} inWorkout={true} handleClose={handleClose} />
+            <CreateEditExerciseForm
+                exerciseId={workout.hasBeenCreated ? exercise.id : exercise.exerciseId}
+                inWorkout={true}
+                workoutId={`${workout.hasBeenCreated ? '' : getHasNotBeenCreated() + '-'}${workout.id}`}
+                handleClose={() => {
+                    handleClose();
+                }}
+                name={workout.name}
+            />
         );
-        setOnConfirm(() => save(false));
+        setOnConfirm(() => save());
         setOpenDialog(true);
     };
 
@@ -107,6 +118,7 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: P
         );
         setOpenDialog(true);
     };
+
     return (
         <>
             {workout.exercises?.map((exercise, index) => {
@@ -145,7 +157,14 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: P
                             <InputAdornment position={'start'}>
                                 <IconButton
                                     key={`${exerciseItemPrefix}${index}__configure_icon-button`}
-                                    onClick={() => handleConfigureExerciseSettings(exercise)}
+                                    onClick={() => {
+                                        if (
+                                            workout.exercises[index].exerciseId &&
+                                            workout.exercises[index].exerciseId !== 'none'
+                                        ) {
+                                            handleConfigureExerciseSettings(exercise);
+                                        }
+                                    }}
                                 >
                                     <SettingsIcon key={`${exerciseItemPrefix}${index}__configure-icon`} />
                                 </IconButton>
@@ -168,7 +187,6 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: P
                     />
                 );
             })}
-
             <ResponsiveDialog
                 title={title}
                 message={message}

@@ -4,7 +4,6 @@ import { Exercise } from '../../../../model/Exercise.model';
 import DeleteConfirmationDialog from '../../../molecules/delete-confirmation-dialog/DeleteConfirmationDialog';
 import { useTranslation } from 'react-i18next';
 import { getPageIdPrefix } from '../../../../util/id-util';
-import PageTitleActionButton from '../../../molecules/page-title-action/PageTitleAction';
 import useEntityManager from '../../../../hooks/useEntityManager';
 import AddButton from '../../../atoms/add-button/AddButton';
 import ResponsiveDialog from '../../../organisms/responsive-dialog';
@@ -19,6 +18,7 @@ import ExercisesTimeRepsIcons from '../../../organisms/exercises-time-reps-icons
 import RecordResultsIcon from '../../../atoms/record-results-icon/RecordResultsIcon';
 import { Delete, Edit } from '@mui/icons-material';
 import ResponsiveContainer from '../../../organisms/responsive-container/ResponsiveContainer';
+import PageTitleActionButton from '../../../molecules/page-title-action/PageTitleAction';
 
 const ManageExercises: FC = (): JSX.Element => {
     const pageName = 'manage_exercises';
@@ -33,8 +33,14 @@ const ManageExercises: FC = (): JSX.Element => {
     const [exerciseToDelete, setExerciseToDelete] = useState<Exercise>();
     const [exerciseId, setExerciseId] = useState<string>();
     const [expandedIndex, setExpandedIndex] = useState<number>(-1);
+    const getCreateExerciseTitle = () => t('dialog.createExercise.title');
+    const getCreateExerciseMessage = () => t('dialog.createExercise.message');
+    const getEditExerciseTitle = () => t('dialog.editExercise.title');
+    const getEditExerciseMessage = () => t('dialog.editExercise.message');
+    const [responsiveDialogTitle, setResponsiveDialogTitle] = useState<string>(getCreateExerciseTitle());
+    const [responsiveDialogMessage, setResponsiveDialogMessage] = useState<string>(getCreateExerciseMessage());
 
-    const handleDelete = (exercise: Exercise) => {
+    const deleteClick = (exercise: Exercise) => {
         setExerciseToDelete(exercise);
         setOpenDeleteConfirmationDialog(true);
     };
@@ -43,7 +49,9 @@ const ManageExercises: FC = (): JSX.Element => {
         setExercises(entities);
     }, [entities]);
 
-    const handleUpdate = (exercise: Exercise) => {
+    const editClick = (exercise: Exercise) => {
+        setResponsiveDialogTitle(getEditExerciseTitle());
+        setResponsiveDialogMessage(getEditExerciseMessage());
         setExerciseId(exercise.id);
         setOpenDialog(true);
     };
@@ -105,13 +113,13 @@ const ManageExercises: FC = (): JSX.Element => {
                         options={[
                             {
                                 name: 'edit',
-                                handleClick: () => handleUpdate(exercise),
+                                handleClick: () => editClick(exercise),
                                 translationKey: 'actionMenu.exercise.edit',
                                 icon: <Edit htmlColor={'steelblue'} />
                             },
                             {
                                 name: 'delete',
-                                handleClick: () => handleDelete(exercise),
+                                handleClick: () => deleteClick(exercise),
                                 translationKey: 'actionMenu.exercise.delete',
                                 icon: <Delete htmlColor={'palevioletred'} />
                             }
@@ -149,9 +157,11 @@ const ManageExercises: FC = (): JSX.Element => {
     return (
         <ResponsiveContainer>
             <PageTitleActionButton
-                actionButton={
+                postTitleActionButton={
                     <AddButton
                         onClick={() => {
+                            setResponsiveDialogTitle(getCreateExerciseTitle());
+                            setResponsiveDialogMessage(getCreateExerciseMessage());
                             setOpenDialog(true);
                             setExerciseId(undefined);
                         }}
@@ -169,8 +179,8 @@ const ManageExercises: FC = (): JSX.Element => {
                     setExpandedIndex={setExpandedIndex}
                 />
                 <ResponsiveDialog
-                    title={t('dialog.editExercise.title')}
-                    message={t('dialog.editExercise.message')}
+                    title={responsiveDialogTitle}
+                    message={responsiveDialogMessage}
                     open={openDialog}
                     content={
                         <CreateEditExerciseForm

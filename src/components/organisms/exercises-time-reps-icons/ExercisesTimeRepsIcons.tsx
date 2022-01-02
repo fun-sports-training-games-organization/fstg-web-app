@@ -18,6 +18,22 @@ export type ExercisesTimeRepsIconsProps = {
     display?: ResponsiveStyleValue<any> | undefined;
     gridColumns?: ExercisesTimeRepsIconsGridColumns;
     displayInGrid?: boolean;
+    variant?:
+        | 'h1'
+        | 'h2'
+        | 'h3'
+        | 'h4'
+        | 'h5'
+        | 'h6'
+        | 'subtitle1'
+        | 'subtitle2'
+        | 'body1'
+        | 'body2'
+        | 'caption'
+        | 'button'
+        | 'overline'
+        | 'inherit'
+        | undefined;
 };
 const ExercisesTimeRepsIcons: FC<ExercisesTimeRepsIconsProps> = ({
     entities,
@@ -28,7 +44,8 @@ const ExercisesTimeRepsIcons: FC<ExercisesTimeRepsIconsProps> = ({
     type,
     display,
     gridColumns = { exercisesOrRepsIcon: '41 / 57', timeIcon: '58 / 77', repsIcon: '78 / 94' },
-    displayInGrid = false
+    displayInGrid = false,
+    variant = undefined
 }: ExercisesTimeRepsIconsProps) => {
     const exercisesOrRepsIcon = (
         <ExercisesOrRepsIcon
@@ -38,6 +55,7 @@ const ExercisesTimeRepsIcons: FC<ExercisesTimeRepsIconsProps> = ({
             index={index}
             type={type}
             display={display}
+            variant={variant}
         />
     );
     const timeIcon = (
@@ -48,6 +66,7 @@ const ExercisesTimeRepsIcons: FC<ExercisesTimeRepsIconsProps> = ({
             index={index}
             type={type}
             display={display}
+            variant={variant}
         />
     );
 
@@ -59,6 +78,7 @@ const ExercisesTimeRepsIcons: FC<ExercisesTimeRepsIconsProps> = ({
             index={index}
             type={type}
             display={display}
+            variant={variant}
         />
     );
 
