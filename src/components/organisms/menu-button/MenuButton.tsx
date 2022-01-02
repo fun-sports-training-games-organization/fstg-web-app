@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { FC } from 'react';
-import Button from '@mui/material/Button';
-import { Icon, ListItemIcon, ListItemText, Menu, MenuItem as MUIMenuItem } from '@mui/material';
+import { Icon, IconButton, ListItemIcon, ListItemText, Menu, MenuItem as MUIMenuItem } from '@mui/material';
 
 type MenuItem = {
     text: string;
@@ -25,7 +24,7 @@ const MenuButton: FC<Props> = ({ buttonElement, menuItems }: Props) => {
 
     return (
         <div>
-            <Button
+            <IconButton
                 id="basic-button"
                 aria-controls={open ? 'basic-menu' : undefined}
                 aria-haspopup="true"
@@ -33,7 +32,7 @@ const MenuButton: FC<Props> = ({ buttonElement, menuItems }: Props) => {
                 onClick={handleClick}
             >
                 {buttonElement}
-            </Button>
+            </IconButton>
             <Menu
                 id="basic-menu"
                 anchorEl={anchorEl}
