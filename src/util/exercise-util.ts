@@ -7,7 +7,8 @@ const emptyExercise: Exercise = {
     amountValue: 0,
     recordResults: false,
     resultType: 'COUNT_BASED',
-    useDefaultResult: false
+    useDefaultResult: false,
+    hasBeenCreated: false
 };
 
 export const getNewEmptyExercise = (): Exercise => {

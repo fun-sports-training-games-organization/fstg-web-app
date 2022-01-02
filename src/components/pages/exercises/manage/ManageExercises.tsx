@@ -154,8 +154,13 @@ const ManageExercises: FC = (): JSX.Element => {
         };
     };
 
+    const handleCloseAndCreate = () => {
+        setExerciseId(undefined);
+        setOpenDialog(false);
+    };
+
     return (
-        <ResponsiveContainer>
+        <ResponsiveContainer xl={8}>
             <PageTitleActionButton
                 postTitleActionButton={
                     <AddButton
@@ -185,10 +190,8 @@ const ManageExercises: FC = (): JSX.Element => {
                     content={
                         <CreateEditExerciseForm
                             exerciseId={exerciseId}
-                            handleClose={() => {
-                                setExerciseId(undefined);
-                                setOpenDialog(false);
-                            }}
+                            handleClose={handleCloseAndCreate}
+                            onCreate={handleCloseAndCreate}
                         />
                     }
                     // setOpen={setOpenDialog}
