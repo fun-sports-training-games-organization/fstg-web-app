@@ -1,11 +1,10 @@
 import { Grid, Stack, Typography } from '@mui/material';
-import { FC, useCallback, useEffect, useState } from 'react';
-import { Exercise, ExerciseWorkoutSettings } from '../../../model/Exercise.model';
+import { FC } from 'react';
+import { ExerciseWorkoutSettings } from '../../../model/Exercise.model';
 import ExercisesTimeRepsIcons from '../../organisms/exercises-time-reps-icons/ExercisesTimeRepsIcons';
 import { v4 as uuidv4 } from 'uuid';
 import { ResponsiveStyleValue, SxProps, Theme } from '@mui/system';
 import EditImage from '../edit-image/EditImage';
-import useEntityManager from '../../../hooks/useEntityManager';
 
 export type ExerciseItemProps = {
     exerciseWorkoutSettings: ExerciseWorkoutSettings;
@@ -14,6 +13,7 @@ export type ExerciseItemProps = {
     typographySx?: SxProps<Theme> | undefined;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     typographyMarginLeft?: ResponsiveStyleValue<any> | undefined;
+    rowGap?: string;
 };
 
 const ExerciseItem: FC<ExerciseItemProps> = ({
@@ -21,7 +21,8 @@ const ExerciseItem: FC<ExerciseItemProps> = ({
     parentIdPrefix,
     index = 0,
     typographySx,
-    typographyMarginLeft
+    typographyMarginLeft,
+    rowGap = '0'
 }: ExerciseItemProps) => {
     let length = 0;
     if (typeof exerciseWorkoutSettings.amountValue === 'number') {
@@ -30,21 +31,8 @@ const ExerciseItem: FC<ExerciseItemProps> = ({
         length = parseInt(exerciseWorkoutSettings.amountValue);
     }
 
-    const [exercise, setExercise] = useState<Exercise>({});
-    const { findById } = useEntityManager<Exercise>('exercises');
-
-    const loadExercise = useCallback((exerciseId) => {
-        findById(exerciseId).then((exercise) => setExercise(exercise));
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    useEffect(() => {
-        exerciseWorkoutSettings.exerciseId ? loadExercise(exerciseWorkoutSettings.exerciseId) : setExercise(exercise);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [exerciseWorkoutSettings.exerciseId, loadExercise]);
-
     return (
-        <Grid container display="grid" gridTemplateColumns="repeat(100, 1fr)" gridTemplateRows="7vh">
+        <Grid container display="grid" gridTemplateColumns="repeat(100, 1fr)" gridTemplateRows="7vh" rowGap={rowGap}>
             <Typography
                 key={exerciseWorkoutSettings.id}
                 id={`${parentIdPrefix}name__${index}`}
@@ -52,7 +40,7 @@ const ExerciseItem: FC<ExerciseItemProps> = ({
                 variant="body2"
                 sx={typographySx}
                 marginLeft={typographyMarginLeft}
-                gridColumn={{ xs: '1 / 50', sm: '8 / 50', lg: '6 / 50' }}
+                gridColumn={{ xs: '1 / 50', sm: '8 / 50', lg: '6 / 48' }}
                 display="flex"
                 flexDirection="row"
                 justifyContent="flex-start"
@@ -61,13 +49,13 @@ const ExerciseItem: FC<ExerciseItemProps> = ({
                 {exerciseWorkoutSettings.name}
             </Typography>
             <Stack
-                gridColumn={{ xs: '55 / 75', sm: '51 / 75', lg: '51 / 70' }}
+                gridColumn={{ xs: '55 / 75', sm: '51 / 75', lg: '49 / 81' }}
                 display="flex"
                 flexDirection="row"
                 justifyContent="flex-start"
                 alignItems="center"
             >
-                <EditImage exercise={exercise} maxHeight={'100%'} />
+                <EditImage exerciseId={exerciseWorkoutSettings.exerciseId} maxHeight={'100%'} />
             </Stack>
             <ExercisesTimeRepsIcons
                 entities={[exerciseWorkoutSettings]}
@@ -77,9 +65,9 @@ const ExerciseItem: FC<ExerciseItemProps> = ({
                 index={index}
                 type={exerciseWorkoutSettings.amountType}
                 gridColumns={{
-                    exercisesOrRepsIcon: { xs: '81 / 99', lg: '78 / 99' },
-                    timeIcon: { xs: '81 / 99', lg: '78 / 99' },
-                    repsIcon: { xs: '81 / 99', lg: '78 / 99' }
+                    exercisesOrRepsIcon: { xs: '81 / 99', lg: '82 / 99' },
+                    timeIcon: { xs: '81 / 99', lg: '82 / 99' },
+                    repsIcon: { xs: '81 / 99', lg: '82 / 99' }
                 }}
                 displayInGrid={true}
             ></ExercisesTimeRepsIcons>

@@ -3,19 +3,32 @@ import { ReactNode } from 'react';
 import PageTitle from '../../atoms/page-title/PageTitle';
 
 type Props = {
-    actionButton: ReactNode;
+    preTitleActionButton?: ReactNode;
+    postTitleActionButton?: ReactNode;
     titleTranslationKey: string;
     idPrefix: string;
+    ml?: string | number;
+    mr?: string | number;
+    mt?: string | number;
 };
 
-const PageTitleActionButton = ({ actionButton, titleTranslationKey, idPrefix }: Props): JSX.Element => {
+const PageTitleActionButton = ({
+    preTitleActionButton,
+    postTitleActionButton,
+    titleTranslationKey,
+    idPrefix,
+    ml = 2,
+    mr = 2,
+    mt = 3
+}: Props): JSX.Element => {
     return (
-        <Stack data-testid={`${idPrefix}title_action`} ml={2} mr={2} mt={3}>
+        <Stack data-testid={`${idPrefix}title_action`} ml={ml} mr={mr} mt={mt}>
             <Grid container direction="row" justifyContent="space-between" alignItems="center">
+                {preTitleActionButton && <Grid item>{preTitleActionButton}</Grid>}
                 <Grid item>
                     <PageTitle translationKey={titleTranslationKey}></PageTitle>
                 </Grid>
-                <Grid item>{actionButton}</Grid>
+                {postTitleActionButton && <Grid item>{postTitleActionButton}</Grid>}
             </Grid>
         </Stack>
     );

@@ -26,11 +26,19 @@
         },
         "editExercise": {
             "title": "Edit Exercise",
-            "message": "Click save to update the name of your exercise or cancel to discard your changes."
+            "message": "Click save to update your exercise or cancel to discard your changes."
+        },
+        "createExercise": {
+            "title": "Create Exercise",
+            "message": "Click create to add this exercise or cancel to discard it."
         },
         "editWorkoutExerciseSettings": {
             "title": "Edit {{workoutName}} - {{exerciseName}} settings",
             "message": "Click save to update the settings for {{workoutName}} - {{exerciseName}} or cancel to discard your changes."
+        },
+        "discardChanges": {
+            "title": "Discard changes",
+            "message": "Are you sure you want to discard the changes you have made and go back to your workouts?"
         }
     },
     "global": {
@@ -165,6 +173,10 @@
             "account": {
                 "saveProfile": "Save profile",
                 "deleteProfilePicture": "Delete Profile Picture"
+            },
+            "editWorkout": {
+                "discardChanges": "Discard changes",
+                "addExercise": "Add an Exercise"
             }
         }
     },
@@ -182,5 +194,6 @@
         "mustContainSymbol": "Must contain a symbol!",
         "mustContainLowercase": "Must contain at least one lowercase letter!",
         "mustContainUppercase": "Must contain at least one uppercase letter!"
-    }
+    },
+    "Push Ups": "Push Ups"
 }

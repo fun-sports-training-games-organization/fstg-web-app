@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { AutoCompleteSelectorProps } from './AutoCompleteSelect.types';
-import { Autocomplete as MUIAutocomplete, AutocompleteRenderInputParams } from '@mui/material';
+import { Autocomplete as MUIAutocomplete, AutocompleteRenderInputParams, Stack } from '@mui/material';
 import TextField from '../../atoms/text-field/TextField';
 
 const AutoCompleteSelect: React.FC<AutoCompleteSelectorProps> = (props) => {
@@ -19,6 +19,8 @@ const AutoCompleteSelect: React.FC<AutoCompleteSelectorProps> = (props) => {
         multiple,
         noOptionsText,
         isOptionEqualToValue,
+        startAdornment,
+        endAdornment,
         ...inputFieldProps
     } = props;
 
@@ -43,8 +45,26 @@ const AutoCompleteSelect: React.FC<AutoCompleteSelectorProps> = (props) => {
                         inputRef={params.InputProps.ref}
                         fullWidth={params.fullWidth}
                         disabled={params.disabled}
-                        startAdornment={params.InputProps.startAdornment}
-                        endAdornment={params.InputProps.endAdornment}
+                        startAdornment={
+                            startAdornment ? (
+                                <Stack direction={'row'} spacing={1}>
+                                    {startAdornment}
+                                    {params.InputProps.startAdornment}
+                                </Stack>
+                            ) : (
+                                params.InputProps.startAdornment
+                            )
+                        }
+                        endAdornment={
+                            endAdornment ? (
+                                <Stack direction={'row'} spacing={1}>
+                                    {params.InputProps.endAdornment}
+                                    {endAdornment}
+                                </Stack>
+                            ) : (
+                                params.InputProps.endAdornment
+                            )
+                        }
                         inputProps={params.inputProps}
                         onChange={onTextChange}
                         {...inputFieldProps}

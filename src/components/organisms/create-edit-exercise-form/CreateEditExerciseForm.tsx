@@ -7,14 +7,17 @@ import LabeledCheckbox from '../../molecules/labeled-checkbox/LabeledCheckbox';
 import * as notification from '../../../util/notifications-util';
 import { useSnackbar } from 'notistack';
 import useEntityManager from '../../../hooks/useEntityManager';
-import { Exercise } from '../../../model/Exercise.model';
+import { Exercise, ExerciseWorkoutSettings } from '../../../model/Exercise.model';
 import TextField from '../../atoms/text-field/TextField';
 import useFileManager from '../../../hooks/useFileManager';
 import { useAuth } from '../../../contexts/AuthContextProvider';
 import { getNumber } from '../../../util/number-util';
 import EditImage from '../../molecules/edit-image/EditImage';
 import { Workout } from '../../../model/Workout.model';
-import { getNewEmptyExerciseWorkoutSettings, getNewEmptyWorkout } from '../../../util/workout-util';
+import { getHasNotBeenCreated, getNewEmptyWorkout } from '../../../util/workout-util';
+import { getNewEmptyExerciseWorkoutSettings } from '../../../util/exercise-util';
+import { useHistory } from 'react-router-dom';
+import * as navigate from '../../../util/navigation-util';
 
 type Props = {
     exerciseId?: string;
@@ -33,6 +36,7 @@ const CreateEditExerciseForm = ({
     name,
     workoutId
 }: Props): JSX.Element => {
+    const history = useHistory();
     const { t } = useTranslation();
     const { enqueueSnackbar } = useSnackbar();
     const { user } = useAuth();
@@ -43,7 +47,11 @@ const CreateEditExerciseForm = ({
         updateEntity: updateExercise,
         findById: findExerciseById
     } = useEntityManager<Exercise>('exercises');
-    const { updateEntity: updateWorkout, findById: findWorkoutById } = useEntityManager<Workout>('workouts');
+    const {
+        createEntity: createWorkout,
+        updateEntity: updateWorkout,
+        findById: findWorkoutById
+    } = useEntityManager<Workout>('workouts');
     const [chosenFile, setChosenFile] = useState<File | null>(null);
     const [exercise, setExercise] = useState<Exercise>({});
     const [workout, setWorkout] = useState<Workout>(getNewEmptyWorkout());
@@ -52,7 +60,9 @@ const CreateEditExerciseForm = ({
     const getUpdatedWorkout = (updatedExercise: Exercise): Workout => {
         return {
             ...workout,
-            exercises: workout.exercises.map((e) => (e.id === exerciseId ? updatedExercise : e))
+            exercises: workout.exercises
+                ? workout.exercises.map((e) => (e.id === updatedExercise.id ? updatedExercise : e))
+                : []
         };
     };
 
@@ -63,14 +73,34 @@ const CreateEditExerciseForm = ({
 
     const loadExercise = useCallback(
         (exerciseId, workoutId) => {
-            workoutId
-                ? findWorkoutById(workoutId).then((workout) => {
-                      setWorkout(workout);
-                      const ex = workout.exercises.find((exercise) => exercise.id === exerciseId);
-                      const exer = ex ? ex : getNewEmptyExerciseWorkoutSettings();
-                      setExercise(exer);
-                  })
-                : findExerciseById(exerciseId).then((exercise) => setExercise(exercise));
+            if (workoutId && !workoutId.includes(getHasNotBeenCreated())) {
+                findWorkoutById(workoutId).then((workout) => {
+                    setWorkout(workout);
+                    const ex = workout.exercises && workout.exercises.find((exercise) => exercise.id === exerciseId);
+                    const exer = ex ? ex : getNewEmptyExerciseWorkoutSettings();
+                    setExercise(exer);
+                });
+            } else {
+                findExerciseById(exerciseId).then((exer) => {
+                    if (workoutId?.includes(getHasNotBeenCreated())) {
+                        const newEmptyWorkout = getNewEmptyWorkout();
+                        const e: ExerciseWorkoutSettings = {
+                            ...exer,
+                            exerciseId: exer.id,
+                            id: newEmptyWorkout.exercises[0].id
+                        };
+                        setExercise(e);
+                        setWorkout({
+                            ...newEmptyWorkout,
+                            id: workoutId,
+                            exercises: [e],
+                            name
+                        });
+                    } else {
+                        setExercise(exer);
+                    }
+                });
+            }
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [exerciseId, workoutId]
@@ -104,16 +134,30 @@ const CreateEditExerciseForm = ({
         }
         if (exercise?.id) {
             if (workoutId) {
-                updateWorkout(workout)
-                    .then(() => {
-                        notification.updateSuccess(enqueueSnackbar, t, exercise.name);
-                        setExercise({});
-                        setWorkout(getNewEmptyWorkout());
-                        handleClose && handleClose();
-                    })
-                    .catch(() => {
-                        notification.updateError(enqueueSnackbar, t, exercise.name);
-                    });
+                if (workoutId.includes(getHasNotBeenCreated())) {
+                    createWorkout(workout)
+                        .then((id) => {
+                            notification.createSuccess(enqueueSnackbar, t, name);
+                            setExercise({});
+                            setWorkout(getNewEmptyWorkout());
+                            handleClose && handleClose();
+                            navigate.toEditWorkout(history, id);
+                        })
+                        .catch(() => {
+                            notification.createError(enqueueSnackbar, t, workout.name);
+                        });
+                } else {
+                    updateWorkout(workout)
+                        .then(() => {
+                            notification.updateSuccess(enqueueSnackbar, t, exercise.name);
+                            setExercise({});
+                            setWorkout(getNewEmptyWorkout());
+                            handleClose && handleClose();
+                        })
+                        .catch(() => {
+                            notification.updateError(enqueueSnackbar, t, exercise.name);
+                        });
+                }
             } else {
                 updateExercise(exercise)
                     .then(() => {

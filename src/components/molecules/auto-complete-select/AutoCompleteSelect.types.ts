@@ -1,5 +1,10 @@
 import * as React from 'react';
-import { AutocompleteChangeDetails, AutocompleteChangeReason, FilterOptionsState } from '@mui/material';
+import {
+    AutocompleteChangeDetails,
+    AutocompleteChangeReason,
+    AutocompleteProps,
+    FilterOptionsState
+} from '@mui/material';
 import { ReactNode } from 'react';
 
 export interface SelectorProps<T> {
@@ -26,6 +31,8 @@ export interface SelectorProps<T> {
     placeholder?: string;
     fullWidth?: boolean;
     disabled?: boolean;
+    startAdornment?: JSX.Element | React.ReactNode;
+    endAdornment?: JSX.Element | React.ReactNode;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
