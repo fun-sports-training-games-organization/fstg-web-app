@@ -13,6 +13,7 @@ type OwnProps = {
     typographyProps?: TypographyProps;
     onTick?: CountdownTimeDeltaFn | undefined;
     countdownRef?: (countdown: Countdown | null) => void | null;
+    autoStart?: boolean;
 };
 
 export type CountdownTimerProps = Omit<CountdownProps, 'renderer'> & OwnProps;
@@ -26,6 +27,7 @@ const CountdownTimer: FC<CountdownTimerProps> = ({
     children,
     countdownRef,
     onTick,
+    autoStart,
     ...rest
 }: Omit<CountdownProps, 'renderer'> & Omit<CountdownProps, 'onTick'> & OwnProps) => {
     // Renderer callback with condition
@@ -58,6 +60,7 @@ const CountdownTimer: FC<CountdownTimerProps> = ({
             date={Date.now() + seconds * 1000}
             renderer={renderer}
             {...rest}
+            autoStart={autoStart}
         />
     );
 };

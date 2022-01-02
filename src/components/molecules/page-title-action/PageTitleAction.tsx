@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Grid, Stack } from '@mui/material';
+import { ResponsiveStyleValue, Theme } from '@mui/system';
 import { ReactNode } from 'react';
 import PageTitle from '../../atoms/page-title/PageTitle';
 
@@ -10,6 +12,12 @@ type Props = {
     ml?: string | number;
     mr?: string | number;
     mt?: string | number;
+    position?:
+        | ResponsiveStyleValue<any | (any | undefined)[] | undefined>
+        | ((theme: Theme) => ResponsiveStyleValue<any | (any | undefined)[] | undefined>);
+    top?: ResponsiveStyleValue<any | any[] | undefined> | ((theme: Theme) => ResponsiveStyleValue<any>);
+    height?: ResponsiveStyleValue<any | any[] | undefined> | ((theme: Theme) => ResponsiveStyleValue<any>);
+    bgcolor?: ResponsiveStyleValue<any | any[] | undefined> | ((theme: Theme) => ResponsiveStyleValue<any>);
 };
 
 const PageTitleActionButton = ({
@@ -19,10 +27,23 @@ const PageTitleActionButton = ({
     idPrefix,
     ml = 2,
     mr = 2,
-    mt = 3
+    mt = 3,
+    position,
+    top,
+    height,
+    bgcolor
 }: Props): JSX.Element => {
     return (
-        <Stack data-testid={`${idPrefix}title_action`} ml={ml} mr={mr} mt={mt}>
+        <Stack
+            data-testid={`${idPrefix}title_action`}
+            ml={ml}
+            mr={mr}
+            mt={mt}
+            position={position}
+            top={top}
+            height={height}
+            bgcolor={bgcolor}
+        >
             <Grid container direction="row" justifyContent="space-between" alignItems="center">
                 {preTitleActionButton && <Grid item>{preTitleActionButton}</Grid>}
                 <Grid item>

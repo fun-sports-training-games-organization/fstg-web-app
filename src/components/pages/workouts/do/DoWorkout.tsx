@@ -1,5 +1,5 @@
 import { FC, useCallback, useEffect, useState } from 'react';
-import { Stack, Theme, useMediaQuery } from '@mui/material';
+import { Stack } from '@mui/material';
 import { Id } from '../../../../model/Basics.model';
 import { Workout } from '../../../../model/Workout.model';
 import { getPageIdPrefix } from '../../../../util/id-util';
@@ -9,23 +9,18 @@ import PageTitleActionButton from '../../../molecules/page-title-action/PageTitl
 import ResponsiveContainer from '../../../organisms/responsive-container/ResponsiveContainer';
 import PausePlayButton from '../../../atoms/pause-play-button/PausePlayButton';
 import UnlockLockButton from '../../../atoms/unlock-lock-button/UnlockLockButton';
-import EditImage from '../../../molecules/edit-image/EditImage';
-import ExercisesTimeRepsIcons from '../../../organisms/exercises-time-reps-icons/ExercisesTimeRepsIcons';
 import { ExerciseInProgress } from '../../../../model/Exercise.model';
-import CountdownTimer from '../../../molecules/countdown-timer/CountdownTimer';
 import {
-    getCurrentExerciseId,
-    getCurrentExerciseLength,
     getCurrentExerciseName,
-    getExercise,
     mapToExercisesInProgress,
     updateSecondsRemaining
 } from '../../../../util/exercise-util';
 import { useParams } from 'react-router-dom';
 import Countdown, { CountdownApi } from 'react-countdown';
+import DoWorkoutItem from '../../../organisms/do-workout-item/DoWorkoutItem';
 
 const DoWorkout: FC = () => {
-    const pageName = 'edit_workout';
+    const pageName = 'do_workout';
     const idPrefix = getPageIdPrefix(pageName);
     const params = useParams() as Id;
     const workoutId = params?.id ? params.id : undefined;
@@ -57,8 +52,7 @@ const DoWorkout: FC = () => {
             entityManager.findById(workoutId).then((wo: Workout) => {
                 setWorkout({
                     ...wo,
-                    id: workoutId,
-                    hasBeenCreated: true
+                    id: workoutId
                 });
                 setExercises(mapToExercisesInProgress(wo.exercises));
             });
@@ -69,7 +63,11 @@ const DoWorkout: FC = () => {
         loadWorkout();
     }, [loadWorkout]);
 
-    const smUp = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
+    const handleOnTick = (exercise: ExerciseInProgress, index: number) => {
+        if (isRunning && index === currentExerciseIndex) {
+            setExercises(updateSecondsRemaining(exercises, currentExerciseIndex, exercise.secondsRemaining - 1));
+        }
+    };
 
     return (
         <ResponsiveContainer data-testid={pageName} xl={6}>
@@ -82,47 +80,28 @@ const DoWorkout: FC = () => {
                         }
                         titleTranslationKey={getCurrentExerciseName(exercises, currentExerciseIndex)}
                         idPrefix={idPrefix}
+                        mt="-15px"
                         ml={0}
                         mr={0}
+                        position="sticky"
+                        top={70}
+                        height="13vh"
+                        bgcolor="white"
                     ></PageTitleActionButton>
-                    <Stack direction="row" alignItems="center" justifyContent="space-between">
-                        <ExercisesTimeRepsIcons
-                            entities={[getExercise(exercises, currentExerciseIndex)]}
-                            id={getCurrentExerciseId(exercises, currentExerciseIndex)}
-                            length={getCurrentExerciseLength(exercises, currentExerciseIndex)}
-                            parentIdPrefix={idPrefix}
-                            index={currentExerciseIndex}
-                            type={workout.exercises[currentExerciseIndex].amountType}
-                            variant={smUp ? 'h4' : 'h5'}
+                    {exercises.map((exercise, index) => (
+                        <DoWorkoutItem
+                            key={exercise.id}
+                            exercise={exercise}
+                            index={index}
+                            onTick={() => handleOnTick(exercise, index)}
+                            onComplete={() => {
+                                setExercises(updateSecondsRemaining(exercises, currentExerciseIndex, 0));
+                                setCurrentExerciseIndex(currentExerciseIndex + 1);
+                            }}
+                            setCountdownApiFromRef={currentExerciseIndex === index ? setCountdownApiFromRef : undefined}
+                            isCurrent={currentExerciseIndex === index}
                         />
-                        {exercises[currentExerciseIndex].amountType === 'TIME_BASED' &&
-                        exercises[currentExerciseIndex].secondsRemaining >= 0 ? (
-                            <CountdownTimer
-                                onTick={() => {
-                                    if (isRunning) {
-                                        setExercises(
-                                            updateSecondsRemaining(
-                                                exercises,
-                                                currentExerciseIndex,
-                                                exercises[currentExerciseIndex].secondsRemaining - 1
-                                            )
-                                        );
-                                    }
-                                }}
-                                seconds={exercises[currentExerciseIndex].secondsRemaining}
-                                typographyProps={{ variant: smUp ? 'h4' : 'h5' }}
-                                onComplete={() => {
-                                    setExercises(updateSecondsRemaining(exercises, currentExerciseIndex, 0));
-                                    setCurrentExerciseIndex(currentExerciseIndex + 1);
-                                }}
-                                key={exercises[currentExerciseIndex].id}
-                                countdownRef={setCountdownApiFromRef}
-                            />
-                        ) : null}
-                    </Stack>
-                    <Stack>
-                        <EditImage exerciseId={exercises[currentExerciseIndex].exerciseId} noImageIconSize="large" />
-                    </Stack>
+                    ))}
                 </Stack>
             )}
         </ResponsiveContainer>
