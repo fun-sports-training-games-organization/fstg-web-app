@@ -4,7 +4,6 @@ import MenuButton from '../menu-button/MenuButton';
 import DashboardCard from './DashboardCard';
 import { DashboardCardProps } from './DashboardCard.types';
 import { Grid, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
-import ExerciseIcon from '../../../assets/exercise.png';
 import { render } from '@testing-library/react';
 
 describe('<DashboardCard> component test with React Testing Library', () => {
@@ -12,6 +11,8 @@ describe('<DashboardCard> component test with React Testing Library', () => {
     beforeEach(() => {
         props = {
             cardProps: { sx: { maxWidth: 400 } },
+            cardMediaProps: { sx: { maxWidth: 300 }, src: '../../../assets/exercise.png' },
+            cardActionsProps: { sx: { maxWidth: 300 } },
             cardHeaderProps: {
                 title: 'Exercises',
                 action: (
@@ -29,7 +30,7 @@ describe('<DashboardCard> component test with React Testing Library', () => {
 
     const renderComponent = () =>
         render(
-            <DashboardCard data-testid={'test-dashboard-card'} {...props}>
+            <DashboardCard {...props}>
                 <Grid
                     container
                     spacing={1}
@@ -37,15 +38,6 @@ describe('<DashboardCard> component test with React Testing Library', () => {
                     alignContent={'center'}
                     justifyContent={'space-between'}
                 >
-                    <Grid item xs={4}>
-                        <img
-                            style={{ verticalAlign: 'center', textAlign: 'center' }}
-                            src={ExerciseIcon}
-                            alt={'exercise icon'}
-                            width={75}
-                            height={75}
-                        />
-                    </Grid>
                     <Grid item xs={8}>
                         <List>
                             <ListItem disablePadding>
