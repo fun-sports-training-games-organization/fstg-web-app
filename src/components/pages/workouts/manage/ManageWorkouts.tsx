@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import { Stack, Theme, useMediaQuery } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import DeleteConfirmationDialog from '../../../molecules/delete-confirmation-dialog/DeleteConfirmationDialog';
@@ -18,13 +18,20 @@ import ResponsiveContainer from '../../../organisms/responsive-container/Respons
 import theme from '../../../../theme/theme';
 import FunctionsIcon from '@mui/icons-material/Functions';
 import { Delete, Edit, PlayArrow } from '@mui/icons-material';
+import BlankSlate from '../../../templates/blank-slate/BlankSlate';
+import WorkoutIcon from '../../../../assets/workout.png';
+import { useTranslation } from 'react-i18next';
+import { Exercise } from '../../../../model/Exercise.model';
 
 const ManageWorkouts: FC = () => {
+    const containerRef = useRef(null);
+    const { t } = useTranslation();
     const pageName = 'manage_workouts';
     const idPrefix = getPageIdPrefix(pageName);
     const exerciseItemPrefix = `${idPrefix}exercise_list__item_`;
     const history = useHistory();
     const { entities } = useEntityManager<Workout>('workouts');
+    const { entities: exercises } = useEntityManager<Exercise>('exercises');
 
     const [workouts, setWorkouts] = useState<Workout[]>([]);
     const [openDeleteConfirmationDialog, setOpenDeleteConfirmationDialog] = useState<boolean>(false);
@@ -112,33 +119,54 @@ const ManageWorkouts: FC = () => {
         };
     };
 
+    const haveWorkouts = workouts.length > 0;
+    const haveExercises = exercises.length > 0;
     return (
-        <ResponsiveContainer xl={8}>
-            <div data-testid={pageName}>
-                <PageTitleActionButton
-                    postTitleActionButton={
-                        <AddButton
-                            onClick={() => navigate.toEditWorkout(history, undefined)}
-                            testId={`${idPrefix}add_button`}
-                        />
-                    }
-                    titleTranslationKey="page.manageWorkouts.workouts"
-                    idPrefix={idPrefix}
+        <ResponsiveContainer xl={8} ref={containerRef}>
+            {!haveExercises ? (
+                <BlankSlate
+                    slideProps={{ container: containerRef.current }}
+                    imageAttributes={{ src: WorkoutIcon, alt: 'Workout Icon', height: '250px', width: '250px' }}
+                    message={t('blankSlate.noExercises.message')}
+                    buttonText={t('blankSlate.noExercises.button')}
+                    buttonAction={() => navigate.toExercises(history)}
                 />
-                <Stack mt={3} mb={3}>
-                    <Accordion
-                        accordions={workouts.map((workout, index) =>
-                            getAccordionProp(workout, exerciseItemPrefix, index)
-                        )}
+            ) : haveWorkouts ? (
+                <>
+                    <PageTitleActionButton
+                        postTitleActionButton={
+                            <AddButton
+                                onClick={() => navigate.toEditWorkout(history, undefined)}
+                                testId={`${idPrefix}add_button`}
+                            />
+                        }
+                        titleTranslationKey="page.manageWorkouts.workouts"
+                        idPrefix={idPrefix}
                     />
-                    <DeleteConfirmationDialog
-                        openDeleteConfirmationDialog={openDeleteConfirmationDialog}
-                        itemToDelete={workoutToDelete}
-                        entityName="workouts"
-                        closeDialog={() => setOpenDeleteConfirmationDialog(false)}
-                    />
-                </Stack>
-            </div>
+                    <Stack mt={3} mb={3}>
+                        <Accordion
+                            accordions={workouts.map((workout, index) =>
+                                getAccordionProp(workout, exerciseItemPrefix, index)
+                            )}
+                        />
+                    </Stack>
+                </>
+            ) : (
+                <BlankSlate
+                    slideProps={{ container: containerRef.current }}
+                    titleTranslateKey={'page.manageWorkouts.workouts'}
+                    imageAttributes={{ src: WorkoutIcon, alt: 'Workout Icon', height: '250px', width: '250px' }}
+                    message={t('blankSlate.workouts.message')}
+                    buttonText={t('blankSlate.workouts.button')}
+                    buttonAction={() => navigate.toEditWorkout(history, undefined)}
+                />
+            )}
+            <DeleteConfirmationDialog
+                openDeleteConfirmationDialog={openDeleteConfirmationDialog}
+                itemToDelete={workoutToDelete}
+                entityName="workouts"
+                closeDialog={() => setOpenDeleteConfirmationDialog(false)}
+            />
         </ResponsiveContainer>
     );
 };

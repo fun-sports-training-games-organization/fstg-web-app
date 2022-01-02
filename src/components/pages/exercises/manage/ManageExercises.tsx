@@ -1,5 +1,5 @@
 import { Stack } from '@mui/material';
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import { Exercise } from '../../../../model/Exercise.model';
 import DeleteConfirmationDialog from '../../../molecules/delete-confirmation-dialog/DeleteConfirmationDialog';
 import { useTranslation } from 'react-i18next';
@@ -19,13 +19,18 @@ import RecordResultsIcon from '../../../atoms/record-results-icon/RecordResultsI
 import { Delete, Edit } from '@mui/icons-material';
 import ResponsiveContainer from '../../../organisms/responsive-container/ResponsiveContainer';
 import PageTitleActionButton from '../../../molecules/page-title-action/PageTitleAction';
+import ExerciseIcon from '../../../../assets/exercise.png';
+import BlankSlate from '../../../templates/blank-slate/BlankSlate';
+import Loader from '../../../atoms/loader/Loader';
 
 const ManageExercises: FC = (): JSX.Element => {
+    const containerRef = useRef(null);
+
     const pageName = 'manage_exercises';
     const idPrefix = getPageIdPrefix(pageName);
     const exerciseItemPrefix = `${idPrefix}exercise_list__item_`;
     const { t } = useTranslation();
-    const { entities } = useEntityManager<Exercise>('exercises');
+    const { loading, entities } = useEntityManager<Exercise>('exercises');
 
     const [exercises, setExercises] = useState<Exercise[]>([]);
     const [openDialog, setOpenDialog] = useState<boolean>(false);
@@ -154,53 +159,68 @@ const ManageExercises: FC = (): JSX.Element => {
         };
     };
 
+    const handleAdd = () => {
+        setResponsiveDialogTitle(getCreateExerciseTitle());
+        setResponsiveDialogMessage(getCreateExerciseMessage());
+        setOpenDialog(true);
+        setExerciseId(undefined);
+    };
+
+    const haveExercises = exercises.length > 0;
+    if (loading) {
+        return <Loader />;
+    }
     return (
-        <ResponsiveContainer>
-            <PageTitleActionButton
-                postTitleActionButton={
-                    <AddButton
-                        onClick={() => {
-                            setResponsiveDialogTitle(getCreateExerciseTitle());
-                            setResponsiveDialogMessage(getCreateExerciseMessage());
-                            setOpenDialog(true);
+        <ResponsiveContainer xl={8} ref={containerRef}>
+            {haveExercises ? (
+                <>
+                    <PageTitleActionButton
+                        postTitleActionButton={<AddButton onClick={handleAdd} testId={`${idPrefix}add_button`} />}
+                        titleTranslationKey="page.manageExercises.exercises"
+                        idPrefix={idPrefix}
+                    />
+                    <Stack mt={3} mb={3}>
+                        <Accordion
+                            accordions={exercises.map((exercise, index) =>
+                                getAccordionProp(exercise, exerciseItemPrefix, index)
+                            )}
+                            setExpandedIndex={setExpandedIndex}
+                        />
+                    </Stack>
+                </>
+            ) : (
+                <BlankSlate
+                    slideProps={{ container: containerRef.current }}
+                    imageAttributes={{ src: ExerciseIcon, alt: 'Exercise Icon', height: '250px', width: '250px' }}
+                    titleTranslateKey={'page.manageExercises.exercises'}
+                    message={t('blankSlate.exercises.message')}
+                    buttonText={t('blankSlate.exercises.button')}
+                    buttonAction={handleAdd}
+                />
+            )}
+
+            <ResponsiveDialog
+                title={responsiveDialogTitle}
+                message={responsiveDialogMessage}
+                open={openDialog}
+                content={
+                    <CreateEditExerciseForm
+                        exerciseId={exerciseId}
+                        handleClose={() => {
                             setExerciseId(undefined);
+                            setOpenDialog(false);
                         }}
-                        testId={`${idPrefix}add_button`}
                     />
                 }
-                titleTranslationKey="page.manageExercises.exercises"
-                idPrefix={idPrefix}
+                // setOpen={setOpenDialog}
+                // exerciseId={exerciseId}
             />
-            <Stack mt={3} mb={3}>
-                <Accordion
-                    accordions={exercises.map((exercise, index) =>
-                        getAccordionProp(exercise, exerciseItemPrefix, index)
-                    )}
-                    setExpandedIndex={setExpandedIndex}
-                />
-                <ResponsiveDialog
-                    title={responsiveDialogTitle}
-                    message={responsiveDialogMessage}
-                    open={openDialog}
-                    content={
-                        <CreateEditExerciseForm
-                            exerciseId={exerciseId}
-                            handleClose={() => {
-                                setExerciseId(undefined);
-                                setOpenDialog(false);
-                            }}
-                        />
-                    }
-                    // setOpen={setOpenDialog}
-                    // exerciseId={exerciseId}
-                />
-                <DeleteConfirmationDialog
-                    openDeleteConfirmationDialog={openDeleteConfirmationDialog}
-                    itemToDelete={exerciseToDelete}
-                    entityName="exercises"
-                    closeDialog={() => setOpenDeleteConfirmationDialog(false)}
-                />
-            </Stack>
+            <DeleteConfirmationDialog
+                openDeleteConfirmationDialog={openDeleteConfirmationDialog}
+                itemToDelete={exerciseToDelete}
+                entityName="exercises"
+                closeDialog={() => setOpenDeleteConfirmationDialog(false)}
+            />
         </ResponsiveContainer>
     );
 };

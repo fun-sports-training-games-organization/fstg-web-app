@@ -51,8 +51,8 @@ function useFileManager<T extends File | Blob>(basePath?: string): FileManager<T
                 // Insert url into an <img> tag to "download"
                 return url;
             })
-            .catch((error) => {
-                console.log(error);
+            .catch(() => {
+                // console.log(error);
                 return '';
                 // in the future we may want to use these error messages,
                 // but for now we're just gonna return an empty string when it fails to retrieve the file

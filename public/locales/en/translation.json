@@ -176,5 +176,19 @@
             }
         }
     },
+    "blankSlate": {
+        "workouts": {
+            "message": "You don't have any workouts yet! Feel free to add one now!",
+            "button": "Add Workout"
+        },
+        "noExercises": {
+            "message": "Sorry, but you need at least one exercise to create a workout!",
+            "button": "Go to Exercises page"
+        },
+        "exercises": {
+            "message": "You don't have any exercises yet! Feel free to add one now!",
+            "button": "Add Exercise"
+        }
+    },
     "Push Ups": "Push Ups"
 }

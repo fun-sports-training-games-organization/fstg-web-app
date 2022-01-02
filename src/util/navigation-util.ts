@@ -23,3 +23,7 @@ export const toDashboard = (history: History<unknown>): void => {
 export const toBase = (history: History<unknown>): void => {
     history.push('/');
 };
+
+export const toExercises = (history: History<unknown>): void => {
+    history.push('/exercises');
+};

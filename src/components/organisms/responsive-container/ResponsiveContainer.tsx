@@ -1,7 +1,8 @@
 import { Grid, GridSize } from '@mui/material';
-import { FC, PropsWithChildren } from 'react';
+import { FC, PropsWithChildren, RefObject } from 'react';
 
 type Props = {
+    ref?: ((instance: HTMLDivElement | null) => void) | RefObject<HTMLDivElement> | null | undefined;
     xs?: boolean | GridSize;
     sm?: boolean | GridSize;
     md?: boolean | GridSize;
@@ -10,6 +11,7 @@ type Props = {
 };
 
 const ResponsiveContainer: FC<Props> = ({
+    ref,
     xs = 12,
     sm = 10,
     md = 8,
@@ -17,7 +19,7 @@ const ResponsiveContainer: FC<Props> = ({
     xl = 4,
     children
 }: PropsWithChildren<Props>) => (
-    <Grid container justifyContent="center">
+    <Grid ref={ref} container justifyContent="center">
         <Grid item xs={xs} sm={sm} md={md} lg={lg} xl={xl}>
             {children}
         </Grid>
