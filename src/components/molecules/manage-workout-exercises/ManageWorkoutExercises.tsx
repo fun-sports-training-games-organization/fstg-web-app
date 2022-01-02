@@ -11,18 +11,17 @@ import AddIcon from '@mui/icons-material/Add';
 import ResponsiveDialog from '../../organisms/responsive-dialog';
 import CreateEditExerciseForm from '../../organisms/create-edit-exercise-form/CreateEditExerciseForm';
 import { getNewEmptyExerciseWorkoutSettings } from '../../../util/exercise-util';
-import { getHasNotBeenCreated } from '../../../util/workout-util';
 import ConfirmationDialog from '../../organisms/confirmation-dialog/ConfirmationDialog';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import { getHasNotBeenCreated } from '../../../util/string-util';
 
 type Props = {
     parentIdPrefix: string;
     workout: Workout;
     setWorkout: Dispatch<SetStateAction<Workout>>;
-    save: () => void;
 };
 
-const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: Props): JSX.Element => {
+const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout }: Props): JSX.Element => {
     const idPrefix = `${parentIdPrefix}manage_exercise_list__`;
     const exerciseItemPrefix = `${idPrefix}item_`;
     const { entities } = useEntityManager<Exercise>('exercises');
@@ -87,33 +86,37 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: P
         setContent(
             <CreateEditExerciseForm
                 exerciseId={workout.hasBeenCreated ? exercise.id : exercise.exerciseId}
+                workout={{
+                    ...workout,
+                    id: `${workout.hasBeenCreated ? '' : getHasNotBeenCreated() + '-'}${workout.id}`
+                }}
+                setWorkout={setWorkout}
                 inWorkout={true}
-                workoutId={`${workout.hasBeenCreated ? '' : getHasNotBeenCreated() + '-'}${workout.id}`}
                 handleClose={() => {
                     handleClose();
                 }}
-                name={workout.name}
             />
         );
-        setOnConfirm(() => save());
         setOpenDialog(true);
     };
 
-    const handleAddNewExercise = (exercise: Exercise) => {
+    const handleAddNewExercise = (exercise: Exercise, index: number) => {
         setSelectedExercise(exercise);
         setTitle(t('dialog.editExercise.title'));
         setMessage(t('dialog.editExercise.message'));
         setContent(
             <CreateEditExerciseForm
+                workout={{
+                    ...workout,
+                    id: `${workout.hasBeenCreated ? '' : getHasNotBeenCreated() + '-'}${workout.id}`
+                }}
+                setWorkout={setWorkout}
                 handleClose={handleClose}
                 name={newExercise?.name}
                 onCreate={(exercise: Exercise) => {
-                    setExercises([...exercises, exercise]);
-                    setWorkout({
-                        ...workout,
-                        exercises: updateExercise(workout, selectedExercise, exercise)
-                    });
+                    setExercises([exercise].concat(exercises));
                 }}
+                index={index}
             />
         );
         setOpenDialog(true);
@@ -146,7 +149,7 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout, save }: P
                         }
                         noOptionsText={
                             <Button
-                                onClick={() => handleAddNewExercise(exercise)}
+                                onClick={() => handleAddNewExercise(exercise, index)}
                                 variant="text"
                                 startIcon={<AddIcon />}
                             >

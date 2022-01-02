@@ -40,7 +40,6 @@ const EditWorkout: FC = () => {
     const loadWorkout = useCallback(() => {
         workoutId &&
             entityManager.findById(workoutId).then((wo: Workout) => {
-                console.log({ wo });
                 setWorkout({ ...wo, id: workoutId, hasBeenCreated: true });
             });
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -122,12 +121,7 @@ const EditWorkout: FC = () => {
                                 setWorkout({ ...workout, name: event.target.value })
                             }
                         />
-                        <ManageWorkoutExercises
-                            parentIdPrefix={idPrefix}
-                            workout={workout}
-                            setWorkout={setWorkout}
-                            save={() => loadWorkout()}
-                        />
+                        <ManageWorkoutExercises parentIdPrefix={idPrefix} workout={workout} setWorkout={setWorkout} />
                         <Button
                             color={'info'}
                             data-testid={`${idPrefix}add_exercise_button`}

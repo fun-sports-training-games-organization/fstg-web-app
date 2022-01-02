@@ -8,8 +8,6 @@ const emptyWorkout: Workout = {
     hasBeenCreated: false
 };
 
-export const getHasNotBeenCreated = (): string => 'hasNotBeenCreated';
-
 export const getNewEmptyWorkout = (): Workout => {
     return { ...emptyWorkout, id: uuidv4() };
 };

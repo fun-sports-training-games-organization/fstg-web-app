@@ -155,7 +155,7 @@ const ManageExercises: FC = (): JSX.Element => {
     };
 
     return (
-        <ResponsiveContainer>
+        <ResponsiveContainer xl={8}>
             <PageTitleActionButton
                 postTitleActionButton={
                     <AddButton
