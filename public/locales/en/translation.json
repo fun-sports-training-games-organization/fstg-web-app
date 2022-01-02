@@ -178,7 +178,8 @@
                 "discardChanges": "Discard changes",
                 "addExercise": "Add an Exercise"
             }
-        }
+        },
+        "Push Ups": "Push Ups"
     },
     "validation": {
         "invalidEmail": "Invalid email address!",
@@ -194,6 +195,5 @@
         "mustContainSymbol": "Must contain a symbol!",
         "mustContainLowercase": "Must contain at least one lowercase letter!",
         "mustContainUppercase": "Must contain at least one uppercase letter!"
-    },
-    "Push Ups": "Push Ups"
+    }
 }
