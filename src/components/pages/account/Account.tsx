@@ -84,8 +84,8 @@ const RegistrationForm: FC = () => {
                 .updateEntity({
                     firstName,
                     lastName,
-                    username,
                     id: user?.uid,
+                    ...(username && { username }),
                     ...(profilePicturePath && { profilePicturePath })
                 })
                 .then(() => {

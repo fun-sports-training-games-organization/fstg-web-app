@@ -31,9 +31,9 @@ export const Drawer = (args: PersistentDrawerProps & { authenticated: boolean })
                 value={{
                     user: args.authenticated ? mockUser : null,
                     loginWith: () => console.log(''),
-                    loginWithEmail: () => console.log(''),
-                    registerWithEmail: () => console.log(''),
-                    sendResetPasswordLink: () => console.log(''),
+                    loginWithEmail: async () => console.log(''),
+                    registerWithEmail: async () => console.log(''),
+                    sendResetPasswordLink: async () => console.log(''),
                     loginFailed: () => console.log(''),
                     logout: () => console.log('')
                 }}

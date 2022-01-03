@@ -1,9 +1,8 @@
-import { FC, useEffect } from 'react';
-import { Button, Stack } from '@mui/material';
+import { FC } from 'react';
+import { Stack } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { Field, InjectedFormProps, reduxForm } from 'redux-form';
+import { Field, Form, InjectedFormProps, reduxForm } from 'redux-form';
 
-import TextField from '../../../atoms/text-field/TextField';
 import {
     alphaNumeric,
     email,
@@ -18,11 +17,11 @@ import {
     mustContainUppercase,
     required
 } from '../../../../util/validation';
-import PasswordField from '../../../molecules/password-field/PasswordField';
 import i18n from 'i18next';
-import { WrappedFieldProps } from 'redux-form/lib/Field';
 import { fetchSignInMethodsForEmail } from 'firebase/auth';
 import { auth } from '../../../../config/firebase';
+import { LoadingButton } from '@mui/lab';
+import { renderPasswordField, renderTextField } from '../../../molecules/ReduxFields';
 
 export interface RegistrationFormFields {
     username?: string;
@@ -58,34 +57,14 @@ const validate = (values: RegistrationFormFields) => {
     return error;
 };
 
-const renderTextField = (props: WrappedFieldProps & { label: string | undefined }) => {
-    const {
-        input,
-        label,
-        meta: { touched, error }
-    } = props;
-    return <TextField {...input} label={label} helperText={touched && error} error={!!error} />;
-};
-
-const renderPasswordField = ({
-    input,
-    label,
-    meta: { touched, error }
-}: WrappedFieldProps & { label: string | undefined }) => (
-    <PasswordField {...input} label={label} helperText={touched && error} error={!!error} />
-);
-
 const RegistrationForm: FC<InjectedFormProps<RegistrationFormFields>> = (
     props: InjectedFormProps<RegistrationFormFields>
 ) => {
-    const { handleSubmit, pristine, /*reset,*/ submitting, valid } = props;
+    const { handleSubmit, pristine, submitting } = props;
     const { t } = useTranslation();
 
-    useEffect(() => {
-        console.log(valid);
-    }, [valid]);
     return (
-        <form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit}>
             <Stack padding={2} spacing={2} alignItems={'center'}>
                 <Field
                     name={'username'}
@@ -134,8 +113,9 @@ const RegistrationForm: FC<InjectedFormProps<RegistrationFormFields>> = (
                     validate={[required]}
                     label={t('form.label.registration.confirmPassword')}
                 />
-
-                <Button
+                <LoadingButton
+                    loading={submitting}
+                    loadingPosition="start"
                     type={'submit'}
                     variant={'contained'}
                     color={'primary'}
@@ -144,9 +124,9 @@ const RegistrationForm: FC<InjectedFormProps<RegistrationFormFields>> = (
                     // disabled={!state.email || !state.password || !state.confirmPassword}
                 >
                     {t('form.button.registration.register')}
-                </Button>
+                </LoadingButton>
             </Stack>
-        </form>
+        </Form>
     );
 };
 

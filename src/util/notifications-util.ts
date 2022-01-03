@@ -42,6 +42,11 @@ export const loginFailedWrongCredentials = (
     t: TFunction<'translation', undefined>
 ): SnackbarKey => notification(enqueueSnackbar, t, 'auth.message.login.wrongCredentials', 'error');
 
+export const registrationSuccess = (
+    enqueueSnackbar: (message: SnackbarMessage, options?: OptionsObject | undefined) => SnackbarKey,
+    t: TFunction<'translation', undefined>
+): SnackbarKey => notification(enqueueSnackbar, t, 'auth.message.registration.successful', 'success');
+
 export const logoutSuccess = (
     enqueueSnackbar: (message: SnackbarMessage, options?: OptionsObject | undefined) => SnackbarKey,
     t: TFunction<'translation', undefined>

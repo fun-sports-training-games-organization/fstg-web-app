@@ -32,15 +32,15 @@ export type AuthContextData = {
     user: Partial<User> | null;
     logout: () => void;
     loginWith: (provider: Provider) => void;
-    loginWithEmail: (email: string, password: string) => void;
+    loginWithEmail: (email: string, password: string) => Promise<void>;
     registerWithEmail: (
         email?: string,
         password?: string,
         firstName?: string,
         lastName?: string,
         username?: string
-    ) => void;
-    sendResetPasswordLink: (email: string) => void;
+    ) => Promise<void>;
+    sendResetPasswordLink: (email: string) => Promise<void>;
     loginFailed: (error: Error) => void;
 };
 
@@ -82,8 +82,8 @@ const AuthContextProvider: FC<PropsWithChildren<Record<string, unknown>>> = (
     };
 
     const loggedInSuccessfully = () => {
-        navigate.toDashboard(history);
         notification.loginSuccess(enqueueSnackbar, t);
+        return navigate.toDashboard(history);
     };
 
     const loginWith = (provider: Provider) => {
@@ -96,8 +96,8 @@ const AuthContextProvider: FC<PropsWithChildren<Record<string, unknown>>> = (
             .catch(loginFailed);
     };
 
-    const loginWithEmail = (email: string, password: string) => {
-        signInWithEmailAndPassword(auth, email, password).then(loggedInSuccessfully).catch(loginFailed);
+    const loginWithEmail = async (email: string, password: string): Promise<void> => {
+        await signInWithEmailAndPassword(auth, email, password).then(loggedInSuccessfully).catch(loginFailed);
     };
 
     const registerWithEmail = async (
@@ -106,21 +106,22 @@ const AuthContextProvider: FC<PropsWithChildren<Record<string, unknown>>> = (
         firstName?: string,
         lastName?: string,
         username?: string
-    ) => {
+    ): Promise<void> => {
         email &&
             password &&
-            firebase
-                .createUser({ email, password }, { username, firstName, lastName })
+            (await firebase
+                .createUser({ email, password }, { ...(username && { username }), firstName, lastName })
                 .then(() => {
-                    navigate.toBase(history);
+                    notification.registrationSuccess(enqueueSnackbar, t);
+                    return navigate.toBase(history);
                     // console.log(`Provier ID: ${user.providerId}`);
                     // console.log(`UUID: ${user.uid}`);
                 })
-                .catch(console.error);
+                .catch(console.error));
     };
 
-    const sendResetPasswordLink = (email: string) => {
-        sendPasswordResetEmail(auth, email)
+    const sendResetPasswordLink = async (email: string): Promise<void> => {
+        await sendPasswordResetEmail(auth, email)
             .then(() => notification.passwordResetEmailSuccess(enqueueSnackbar, t))
             .catch(() => notification.passwordResetEmailError(enqueueSnackbar, t));
     };

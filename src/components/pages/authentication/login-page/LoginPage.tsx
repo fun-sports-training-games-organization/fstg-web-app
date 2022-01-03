@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { capitalize, Divider, Grid, Link, Stack, Theme, Typography, useMediaQuery } from '@mui/material';
-import EmailLoginForm from '../email-login-form/EmailLoginForm';
+import EmailLoginForm, { EmailLoginFormField } from '../email-login-form/EmailLoginForm';
 import ProviderLoginButton from '../../../atoms/provider-login-button/ProviderLoginButton';
 import AuthContainer from '../../../organisms/auth-container/AuthContainer';
 import SwipingTabs from '../../../organisms/swiping-tabs/SwipingTabs';
@@ -11,11 +11,20 @@ import RegistrationForm, { RegistrationFormFields } from '../registration-form/R
 const LoginPage: FC = (): JSX.Element => {
     const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
     const { t } = useTranslation();
-    const { registerWithEmail } = useAuth();
+    const { registerWithEmail, loginWithEmail, sendResetPasswordLink } = useAuth();
 
     const LoginWithExternal = () => (
         <>
-            <EmailLoginForm />
+            <EmailLoginForm
+                onSubmit={({ email, password }: EmailLoginFormField) => {
+                    if (email && password) {
+                        loginWithEmail(email, password);
+                    } else if (email) {
+                        sendResetPasswordLink(email);
+                    }
+                    // forgotPasswordMode ? resetPassword() : signIn();
+                }}
+            />
             <Stack spacing={2}>
                 <Divider sx={{ marginTop: 2 }}>OR</Divider>
                 {LoginProviders.map(({ name, color, icon }: LoginProvider) => (
