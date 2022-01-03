@@ -38,7 +38,7 @@ const DoWorkoutItem: FC<DoWorkoutItemProps> = ({
             sx={{
                 bgcolor: isCurrent ? theme.palette.grey[400] : theme.palette.grey[100],
                 padding: 1,
-                mt: `${index === 0 ? 40 : '3vh !important'}`
+                mt: '3vh !important'
             }}
         >
             <Stack direction="row" alignItems="center" justifyContent="space-between" margin={{ xs: 1, sm: 2 }}>

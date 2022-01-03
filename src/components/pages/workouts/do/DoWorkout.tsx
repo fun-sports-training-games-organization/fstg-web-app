@@ -83,10 +83,10 @@ const DoWorkout: FC = () => {
                         mt={0}
                         ml={0}
                         mr={0}
-                        pt={15}
+                        pt="2.2rem"
                         position="sticky"
-                        top={56}
-                        height="85px"
+                        top="3rem"
+                        height="6rem"
                         bgcolor="white"
                         maxTitleWidth="65vw"
                     ></PageTitleActionButton>
