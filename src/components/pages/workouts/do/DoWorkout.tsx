@@ -1,23 +1,28 @@
 import { FC, useCallback, useEffect, useState } from 'react';
-import { Stack } from '@mui/material';
+import { Grid, Stack, Theme, Typography, useMediaQuery } from '@mui/material';
 import { Id } from '../../../../model/Basics.model';
 import { Workout } from '../../../../model/Workout.model';
 import { getPageIdPrefix } from '../../../../util/id-util';
 import useEntityManager from '../../../../hooks/useEntityManager';
 import { getNewEmptyWorkout } from '../../../../util/workout-util';
-import PageTitleActionButton from '../../../molecules/page-title-action/PageTitleAction';
 import ResponsiveContainer from '../../../organisms/responsive-container/ResponsiveContainer';
 import PausePlayButton from '../../../atoms/pause-play-button/PausePlayButton';
 import UnlockLockButton from '../../../atoms/unlock-lock-button/UnlockLockButton';
 import { ExerciseInProgress } from '../../../../model/Exercise.model';
 import {
-    getCurrentExerciseName,
+    getCurrentExerciseAmountType,
+    getCurrentExerciseId,
+    getCurrentExerciseSecondsRemaining,
+    getExercise,
     mapToExercisesInProgress,
     updateSecondsRemaining
 } from '../../../../util/exercise-util';
 import { useParams } from 'react-router-dom';
 import Countdown, { CountdownApi } from 'react-countdown';
 import DoWorkoutItem from '../../../organisms/do-workout-item/DoWorkoutItem';
+import CountdownTimer from '../../../molecules/countdown-timer/CountdownTimer';
+import CountUp from 'react-countup';
+import { formatSecondsValueInHoursMinutesAndSeconds } from '../../../../util/date-util';
 
 const DoWorkout: FC = () => {
     const pageName = 'do_workout';
@@ -27,6 +32,12 @@ const DoWorkout: FC = () => {
     const entityManager = useEntityManager<Workout>('workouts');
     const [workout, setWorkout] = useState<Workout>(getNewEmptyWorkout());
     const [exercises, setExercises] = useState<ExerciseInProgress[]>([]);
+    const [currentExerciseStartTimeMs, setCurrentExerciseStartTimeMs] = useState<number>(0);
+    const [nextExerciseStartTimeMs, setNextExerciseStartTimeMs] = useState<number>(0);
+    const [lastPauseTimeMs, setLastPauseTimeMs] = useState<number>(0);
+    const [lastStartTimeMs, setLastStartTimeMs] = useState<number>(0);
+    const [duration, setDuration] = useState<number>(7198);
+    const [startSeconds, setStartSeconds] = useState<number>(0);
     const [countdownApi, setCountdownApi] = useState<CountdownApi | null>();
     const [isLocked, setIsLocked] = useState<boolean>(false);
     const switchIsLocked = () => {
@@ -41,8 +52,22 @@ const DoWorkout: FC = () => {
 
     const [isRunning, setIsRunning] = useState<boolean>(true);
 
-    const switchIsRunning = () => {
-        isRunning ? pause() : start();
+    const switchIsRunning = (pauseResume: () => void) => {
+        if (getCurrentExerciseAmountType(exercises, currentExerciseIndex) === 'COUNT_BASED') {
+            const now = Date.now();
+            const secondsSinceLastPauseTime = (now - lastPauseTimeMs) / 1000;
+            const secondsSinceLastStartTime = (now - lastStartTimeMs) / 1000;
+            if (isRunning) {
+                setLastPauseTimeMs(now);
+                setStartSeconds(startSeconds + secondsSinceLastStartTime);
+            } else {
+                setLastStartTimeMs(now);
+                setDuration(duration + secondsSinceLastPauseTime);
+            }
+            pauseResume();
+        } else {
+            isRunning ? pause() : start();
+        }
         setIsRunning(!isRunning);
     };
     const [currentExerciseIndex, setCurrentExerciseIndex] = useState<number>(0);
@@ -69,38 +94,106 @@ const DoWorkout: FC = () => {
         }
     };
 
+    const smUp = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
+
     return (
         <ResponsiveContainer data-testid={pageName} xl={6}>
             {exercises && exercises[currentExerciseIndex] && (
                 <Stack spacing={5} ml={{ xs: 1, sm: 2 }} mr={{ xs: 1, sm: 2 }}>
-                    <PageTitleActionButton
-                        preTitleActionButton={<UnlockLockButton isLocked={isLocked} handleClick={switchIsLocked} />}
-                        postTitleActionButton={
-                            <PausePlayButton isRunning={isRunning} disabled={isLocked} handleClick={switchIsRunning} />
-                        }
-                        titleTranslationKey={getCurrentExerciseName(exercises, currentExerciseIndex)}
-                        idPrefix={idPrefix}
-                        mt={0}
+                    <Stack
+                        data-testid={`${idPrefix}title_action`}
                         ml={0}
                         mr={0}
-                        pt={15}
+                        mt={0}
+                        pt="2.2rem"
                         position="sticky"
-                        top={56}
-                        height="85px"
+                        top="3rem"
+                        height="6rem"
                         bgcolor="white"
-                        maxTitleWidth="65vw"
-                    ></PageTitleActionButton>
+                    >
+                        <CountUp
+                            className="account-balance"
+                            end={3599}
+                            duration={duration}
+                            start={startSeconds}
+                            delay={0}
+                            formattingFn={formatSecondsValueInHoursMinutesAndSeconds}
+                            onStart={() => {
+                                const now = Date.now();
+                                setCurrentExerciseStartTimeMs(now);
+                                setLastStartTimeMs(now);
+                            }}
+                        >
+                            {({ countUpRef, pauseResume }) => (
+                                <Grid container direction="row" justifyContent="space-between" alignItems="center">
+                                    <Grid item>
+                                        <UnlockLockButton isLocked={isLocked} handleClick={switchIsLocked} />
+                                    </Grid>
+                                    <Grid item>
+                                        {getCurrentExerciseAmountType(exercises, currentExerciseIndex) ===
+                                            'TIME_BASED' &&
+                                        getCurrentExerciseSecondsRemaining(exercises, currentExerciseIndex) >= 0 ? (
+                                            <CountdownTimer
+                                                onTick={() =>
+                                                    handleOnTick(
+                                                        getExercise(exercises, currentExerciseIndex),
+                                                        currentExerciseIndex
+                                                    )
+                                                }
+                                                seconds={getCurrentExerciseSecondsRemaining(
+                                                    exercises,
+                                                    currentExerciseIndex
+                                                )}
+                                                typographyProps={{ variant: smUp ? 'h4' : 'h5' }}
+                                                onComplete={() => {
+                                                    setExercises(
+                                                        updateSecondsRemaining(exercises, currentExerciseIndex, 0)
+                                                    );
+                                                    setCurrentExerciseIndex(currentExerciseIndex + 1);
+                                                    start();
+                                                }}
+                                                key={getCurrentExerciseId(exercises, currentExerciseIndex)}
+                                                countdownRef={setCountdownApiFromRef}
+                                            />
+                                        ) : null}
+                                        {getCurrentExerciseAmountType(exercises, currentExerciseIndex) ===
+                                            'COUNT_BASED' && (
+                                            <>
+                                                <Typography
+                                                    variant={smUp ? 'h4' : 'h5'}
+                                                    display={isRunning ? undefined : 'none'}
+                                                >
+                                                    <span ref={countUpRef} />
+                                                </Typography>
+                                                <Typography
+                                                    variant={smUp ? 'h4' : 'h5'}
+                                                    display={!isRunning ? undefined : 'none'}
+                                                >
+                                                    <span>
+                                                        {formatSecondsValueInHoursMinutesAndSeconds(
+                                                            Math.floor(startSeconds)
+                                                        )}
+                                                    </span>
+                                                </Typography>
+                                            </>
+                                        )}
+                                    </Grid>
+                                    <Grid item>
+                                        <PausePlayButton
+                                            isRunning={isRunning}
+                                            disabled={isLocked}
+                                            handleClick={() => switchIsRunning(pauseResume)}
+                                        />
+                                    </Grid>
+                                </Grid>
+                            )}
+                        </CountUp>
+                    </Stack>
                     {exercises.map((exercise, index) => (
                         <DoWorkoutItem
                             key={exercise.id}
                             exercise={exercise}
                             index={index}
-                            onTick={() => handleOnTick(exercise, index)}
-                            onComplete={() => {
-                                setExercises(updateSecondsRemaining(exercises, currentExerciseIndex, 0));
-                                setCurrentExerciseIndex(currentExerciseIndex + 1);
-                            }}
-                            setCountdownApiFromRef={currentExerciseIndex === index ? setCountdownApiFromRef : undefined}
                             isCurrent={currentExerciseIndex === index}
                         />
                     ))}

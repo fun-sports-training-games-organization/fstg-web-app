@@ -1,5 +1,6 @@
 import { Exercise, ExerciseInProgress, ExerciseWorkoutSettings } from '../model/Exercise.model';
 import { v4 as uuidv4 } from 'uuid';
+import { RecordType } from '../model/Basics.model';
 
 const emptyExercise: Exercise = {
     name: '',
@@ -51,6 +52,10 @@ export const getCurrentExerciseLength = (exercises: ExerciseInProgress[], index:
     return getExercise(exercises, index).amountValue as number;
 };
 
+export const getCurrentExerciseAmountType = (exercises: ExerciseInProgress[], index: number): RecordType => {
+    return getExercise(exercises, index).amountType as RecordType;
+};
+
 export const getCurrentExerciseSecondsRemaining = (exercises: ExerciseInProgress[], index: number): number => {
     return getExercise(exercises, index).secondsRemaining;
 };
@@ -65,4 +70,12 @@ export const updateSecondsRemaining = (
     secondsRemaining: number
 ): ExerciseInProgress[] => {
     return exercises.map((e, i) => (i === index ? { ...exercises[i], secondsRemaining } : e));
+};
+
+export const updateResultValue = (
+    exercises: ExerciseInProgress[],
+    index: number,
+    resultValue: number
+): ExerciseInProgress[] => {
+    return exercises.map((e, i) => (i === index ? { ...exercises[i], resultValue } : e));
 };

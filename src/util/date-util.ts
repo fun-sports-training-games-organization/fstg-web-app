@@ -13,10 +13,12 @@ export const getFormattedTotalWorkoutTime = (entities: AmountTypeAmountValue[]):
             .reduce((a, b) => a + b, 0);
     };
     const totalWorkoutSeconds = getTotalWorkoutSeconds();
-    const formattedWorkoutHours =
-        totalWorkoutSeconds >= 3600 ? `${addLeadingZero(Math.floor(totalWorkoutSeconds / 3600))}:` : '';
-    const formattedWorkoutMinutes =
-        totalWorkoutSeconds >= 60 ? addLeadingZero(Math.floor(totalWorkoutSeconds / 60)) : '0';
-    const formattedWorkoutSeconds = addLeadingZero(totalWorkoutSeconds % 60);
+    return formatSecondsValueInHoursMinutesAndSeconds(totalWorkoutSeconds);
+};
+
+export const formatSecondsValueInHoursMinutesAndSeconds = (secondsValue: number): string => {
+    const formattedWorkoutHours = secondsValue >= 3600 ? `${addLeadingZero(Math.floor(secondsValue / 3600))}:` : '';
+    const formattedWorkoutMinutes = secondsValue >= 60 ? addLeadingZero(Math.floor(secondsValue / 60)) : '0';
+    const formattedWorkoutSeconds = addLeadingZero(secondsValue % 60);
     return `${formattedWorkoutHours}${formattedWorkoutMinutes}:${formattedWorkoutSeconds}`;
 };
