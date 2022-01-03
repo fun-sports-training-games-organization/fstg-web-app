@@ -36,7 +36,7 @@ const DoWorkout: FC = () => {
     const [nextExerciseStartTimeMs, setNextExerciseStartTimeMs] = useState<number>(0);
     const [lastPauseTimeMs, setLastPauseTimeMs] = useState<number>(0);
     const [lastStartTimeMs, setLastStartTimeMs] = useState<number>(0);
-    const [duration, setDuration] = useState<number>(7198);
+    const [duration, setDuration] = useState<number>(6600);
     const [startSeconds, setStartSeconds] = useState<number>(0);
     const [countdownApi, setCountdownApi] = useState<CountdownApi | null>();
     const [isLocked, setIsLocked] = useState<boolean>(false);
