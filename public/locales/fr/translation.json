@@ -194,9 +194,7 @@
             "button": "Ajouter un exercice"
         }
     },
-    "Push Ups": "Pompes"
-        "Push Ups": "Pompes"
-    },
+    "Push Ups": "Pompes",
     "validation": {
         "invalidEmail": "Adresse e-mail invalide!",
         "required": "Ce champ est obligatoire!",

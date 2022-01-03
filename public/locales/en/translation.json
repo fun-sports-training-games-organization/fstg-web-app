@@ -194,10 +194,7 @@
             "button": "Add Exercise"
         }
     },
-    "Push Ups": "Push Ups"
-        },
-        "Push Ups": "Push Ups"
-    },
+    "Push Ups": "Push Ups",
     "validation": {
         "invalidEmail": "Invalid email address!",
         "required": "This field is required!",
