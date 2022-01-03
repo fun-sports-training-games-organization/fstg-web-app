@@ -12,12 +12,14 @@ type Props = {
     ml?: string | number;
     mr?: string | number;
     mt?: string | number;
+    pt?: string | number;
     position?:
         | ResponsiveStyleValue<any | (any | undefined)[] | undefined>
         | ((theme: Theme) => ResponsiveStyleValue<any | (any | undefined)[] | undefined>);
     top?: ResponsiveStyleValue<any | any[] | undefined> | ((theme: Theme) => ResponsiveStyleValue<any>);
     height?: ResponsiveStyleValue<any | any[] | undefined> | ((theme: Theme) => ResponsiveStyleValue<any>);
     bgcolor?: ResponsiveStyleValue<any | any[] | undefined> | ((theme: Theme) => ResponsiveStyleValue<any>);
+    maxTitleWidth?: ResponsiveStyleValue<any | any[] | undefined> | ((theme: Theme) => ResponsiveStyleValue<any>);
 };
 
 const PageTitleActionButton = ({
@@ -28,10 +30,12 @@ const PageTitleActionButton = ({
     ml = 2,
     mr = 2,
     mt = 3,
+    pt,
     position,
     top,
     height,
-    bgcolor
+    bgcolor,
+    maxTitleWidth
 }: Props): JSX.Element => {
     return (
         <Stack
@@ -39,6 +43,7 @@ const PageTitleActionButton = ({
             ml={ml}
             mr={mr}
             mt={mt}
+            pt={pt}
             position={position}
             top={top}
             height={height}
@@ -46,7 +51,7 @@ const PageTitleActionButton = ({
         >
             <Grid container direction="row" justifyContent="space-between" alignItems="center">
                 {preTitleActionButton && <Grid item>{preTitleActionButton}</Grid>}
-                <Grid item>
+                <Grid maxWidth={maxTitleWidth} item>
                     <PageTitle translationKey={titleTranslationKey}></PageTitle>
                 </Grid>
                 {postTitleActionButton && <Grid item>{postTitleActionButton}</Grid>}

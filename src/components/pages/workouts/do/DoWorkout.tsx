@@ -80,13 +80,15 @@ const DoWorkout: FC = () => {
                         }
                         titleTranslationKey={getCurrentExerciseName(exercises, currentExerciseIndex)}
                         idPrefix={idPrefix}
-                        mt="-15px"
+                        mt={0}
                         ml={0}
                         mr={0}
+                        pt={15}
                         position="sticky"
-                        top={70}
-                        height="13vh"
+                        top={56}
+                        height="85px"
                         bgcolor="white"
+                        maxTitleWidth="65vw"
                     ></PageTitleActionButton>
                     {exercises.map((exercise, index) => (
                         <DoWorkoutItem
