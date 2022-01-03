@@ -38,7 +38,7 @@
         },
         "discardChanges": {
             "title": "Änderungen verwerfen",
-            "message": "Möchtest du die vorgenommenen Änderungen wirklich verwerfen und zu deinem Training zurückkehren?"
+            "message": "Möchten Sie die vorgenommenen Änderungen wirklich verwerfen und zu deinem Training zurückkehren?"
         }
     },
     "global": {
@@ -178,6 +178,23 @@
                 "discardChanges": "Änderungen verwerfen",
                 "addExercise": "Übung hinzufügen"
             }
+        }
+    },
+    "blankSlate": {
+        "workouts": {
+            "message": "Sie haben noch keine Trainingseinheiten! Füge jetzt gerne eine hinzu!",
+            "button": "Training hinzufügen"
+        },
+        "noExercises": {
+            "message": "Entschuldigung, aber Sie brauchen mindestens eine Übung, um ein Workout zu erstellen!",
+            "button": "Zur Übungsseite gehen"
+        },
+        "exercises": {
+            "message": "Sie haben noch keine Übungen! Füge jetzt gerne eine hinzu!",
+            "button": "Übung hinzufügen"
+        }
+    },
+    "Push Ups": "Liegestütze"
         },
         "Push Ups": "Liegestütze"
     },

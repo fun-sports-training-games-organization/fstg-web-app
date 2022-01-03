@@ -178,7 +178,23 @@
                 "discardChanges": "Annuler les modifications",
                 "addExercise": "ajouter un exercice"
             }
+        }
+    },
+    "blankSlate": {
+        "workouts": {
+            "message": "Vous n'avez pas encore d'entraînements! N'hésitez pas à en ajouter un maintenant!",
+            "button": "Ajouter un entraînement"
         },
+        "noExercises": {
+            "message": "Désolé, mais vous avez besoin d'au moins un exercice pour créer un entraînement!",
+            "button": "Aller à la page Exercices"
+        },
+        "exercises": {
+            "message": "Vous n'avez pas encore d'exercices! N'hésitez pas à en ajouter un maintenant!",
+            "button": "Ajouter un exercice"
+        }
+    },
+    "Push Ups": "Pompes"
         "Push Ups": "Pompes"
     },
     "validation": {
