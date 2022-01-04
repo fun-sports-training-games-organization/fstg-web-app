@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Stack, Typography } from '@mui/material';
 import React, { FC } from 'react';
 import Countdown, { CountdownProps } from 'react-countdown';
@@ -6,6 +7,7 @@ import { CountdownRenderProps, CountdownTimeDeltaFn } from 'react-countdown/dist
 import { addLeadingZero } from '../../../util/number-util';
 import AlarmIcon from '@mui/icons-material/Alarm';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
+import { ResponsiveStyleValue, Theme } from '@mui/system';
 type OwnProps = {
     seconds?: number;
     showHours?: boolean;
@@ -14,6 +16,9 @@ type OwnProps = {
     onTick?: CountdownTimeDeltaFn | undefined;
     countdownRef?: (countdown: Countdown | null) => void | null;
     autoStart?: boolean;
+    display?:
+        | ResponsiveStyleValue<any | any[] | undefined>
+        | ((theme: Theme) => ResponsiveStyleValue<any | any[] | undefined>);
 };
 
 export type CountdownTimerProps = Omit<CountdownProps, 'renderer'> & OwnProps;
@@ -28,6 +33,7 @@ const CountdownTimer: FC<CountdownTimerProps> = ({
     countdownRef,
     onTick,
     autoStart,
+    display,
     ...rest
 }: Omit<CountdownProps, 'renderer'> & Omit<CountdownProps, 'onTick'> & OwnProps) => {
     // Renderer callback with condition
@@ -41,7 +47,7 @@ const CountdownTimer: FC<CountdownTimerProps> = ({
             // TODO : add animation when timer is low on seconds
             // source : https://stackoverflow.com/questions/52568739/blink-animation-in-mui
             return (
-                <Stack direction={'row'} spacing={1} alignItems={'center'}>
+                <Stack direction={'row'} spacing={1} alignItems={'center'} display={display}>
                     {showIcon && <AlarmIcon />}
                     <Typography {...typographyProps}>
                         {showHours && addLeadingZero(hours)}

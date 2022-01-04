@@ -16,7 +16,13 @@ export const getFormattedTotalWorkoutTime = (entities: AmountTypeAmountValue[]):
     return formatSecondsValueInHoursMinutesAndSeconds(totalWorkoutSeconds);
 };
 
-export const formatSecondsValueInHoursMinutesAndSeconds = (secondsValue: number): string => {
+export const formatSecondsValueInHoursMinutesAndSeconds = (
+    secondsValue: number,
+    showZeroWhenNegative = true
+): string => {
+    if (showZeroWhenNegative && secondsValue < 0) {
+        return '0:00';
+    }
     const formattedWorkoutHours = secondsValue >= 3600 ? `${addLeadingZero(Math.floor(secondsValue / 3600))}:` : '';
     const formattedWorkoutMinutes = secondsValue >= 60 ? addLeadingZero(Math.floor(secondsValue / 60)) : '0';
     const formattedWorkoutSeconds = addLeadingZero(secondsValue % 60);
