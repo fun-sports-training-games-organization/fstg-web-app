@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useState } from 'react';
+import { createRef, FC, RefObject, useCallback, useEffect, useState } from 'react';
 import { Grid, IconButton, Stack, Theme, Typography, useMediaQuery } from '@mui/material';
 import { Id } from '../../../../model/Basics.model';
 import { Workout } from '../../../../model/Workout.model';
@@ -19,7 +19,6 @@ import SkipNextIcon from '@mui/icons-material/SkipNext';
 import theme from '../../../../theme/theme';
 import { useTranslation } from 'react-i18next';
 import { useSnackbar } from 'notistack';
-import * as notification from '../../../../util/notifications-util';
 
 const DoWorkout: FC = () => {
     const pageName = 'do_workout';
@@ -34,10 +33,11 @@ const DoWorkout: FC = () => {
     const [currentExerciseStartTimeMs, setCurrentExerciseStartTimeMs] = useState<number>(0);
     const [nextExerciseStartTimeMs, setNextExerciseStartTimeMs] = useState<number>(0);
     const [isLocked, setIsLocked] = useState<boolean>(false);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const [workoutRefs, setWorkoutRefs] = useState<RefObject<any>[]>([]);
     const switchIsLocked = () => {
         setIsLocked(!isLocked);
     };
-
     const [isRunning, setIsRunning] = useState<boolean>(true);
 
     const [currentExerciseIndex, setCurrentExerciseIndex] = useState<number>(0);
@@ -53,6 +53,7 @@ const DoWorkout: FC = () => {
                 const mappedExercises = mapToExercisesInProgress(wo.exercises);
                 setExercises(mappedExercises);
                 setCurrentExercise(mappedExercises[0]);
+                setWorkoutRefs(mappedExercises.map(() => createRef()));
             });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [workoutId]);
@@ -72,6 +73,18 @@ const DoWorkout: FC = () => {
     const smUp = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
     const [exerciseSeconds, setExerciseSeconds] = useState<number>(0);
     const [workoutSeconds, setWorkoutSeconds] = useState<number>(0);
+
+    const scrollToCurrentExercise = (cei: number) => {
+        if (cei === 0) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+            workoutRefs[cei].current.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center',
+                inline: 'center'
+            });
+        }
+    };
 
     return (
         <ResponsiveContainer data-testid={pageName} xl={6}>
@@ -102,11 +115,13 @@ const DoWorkout: FC = () => {
                                             typographyProps={{ variant: smUp ? 'h4' : 'h5' }}
                                             onComplete={() => {
                                                 const cei = currentExerciseIndex + 1;
+                                                scrollToCurrentExercise(cei);
+                                                const nextExercise = getExercise(exercises, cei);
                                                 setExercises(
                                                     updateSecondsRemaining(exercises, currentExerciseIndex, 0)
                                                 );
                                                 setCurrentExerciseIndex(cei);
-                                                setCurrentExercise(getExercise(exercises, cei));
+                                                setCurrentExercise(nextExercise);
                                             }}
                                             key={currentExercise.id}
                                         />
@@ -132,12 +147,14 @@ const DoWorkout: FC = () => {
                             </Grid>
                         </Stack>
                         {exercises.map((exercise, index) => (
-                            <DoWorkoutItem
-                                key={exercise.id}
-                                exercise={exercise}
-                                index={index}
-                                isCurrent={currentExerciseIndex === index}
-                            />
+                            <div style={{ marginTop: 0 }} key={exercise.id + '-div'} ref={workoutRefs[index]}>
+                                <DoWorkoutItem
+                                    key={exercise.id}
+                                    exercise={exercise}
+                                    index={index}
+                                    isCurrent={currentExerciseIndex === index}
+                                />
+                            </div>
                         ))}
                     </Stack>
                     <Stack
@@ -155,13 +172,17 @@ const DoWorkout: FC = () => {
                             <Grid item>
                                 <IconButton
                                     onClick={() => {
-                                        setCurrentExerciseIndex(currentExerciseIndex - 1);
-                                        setCurrentExercise(getExercise(exercises, currentExerciseIndex));
+                                        const cei = currentExerciseIndex - 1;
+                                        scrollToCurrentExercise(cei);
+                                        setCurrentExerciseIndex(cei);
+                                        setCurrentExercise(getExercise(exercises, cei));
                                     }}
-                                    disabled={isLocked}
+                                    disabled={isLocked || currentExerciseIndex === 0}
                                 >
                                     <SkipPreviousIcon
-                                        htmlColor={isLocked ? theme.palette.grey[500] : 'black'}
+                                        htmlColor={
+                                            isLocked || currentExerciseIndex === 0 ? theme.palette.grey[500] : 'black'
+                                        }
                                         transform="scale(2)"
                                     />
                                 </IconButton>
@@ -181,15 +202,19 @@ const DoWorkout: FC = () => {
                                     onClick={() => {
                                         const ce = { ...currentExercise, resultValue: exerciseSeconds };
                                         const cei = currentExerciseIndex + 1;
+                                        scrollToCurrentExercise(cei);
                                         setExerciseSeconds(0);
                                         setExercises(exercises.map((e, i) => (i === currentExerciseIndex ? ce : e)));
                                         ce.resultType === 'TIME_BASED' &&
-                                            notification.exerciseCompletedTimeResultSuccess(enqueueSnackbar, t, {
-                                                exerciseName: ce.name ? ce.name : '',
-                                                resultValue: formatSecondsValueInHoursMinutesAndSeconds(
-                                                    ce.resultValue ? ce.resultValue : 0
-                                                )
-                                            });
+                                            enqueueSnackbar(
+                                                t('notifications.exerciseCompletedTimeResultSuccess', {
+                                                    exerciseName: ce.name ? ce.name : '',
+                                                    resultValue: formatSecondsValueInHoursMinutesAndSeconds(
+                                                        ce.resultValue ? ce.resultValue : 0
+                                                    )
+                                                }),
+                                                { variant: 'success', autoHideDuration: 3000 }
+                                            );
                                         setCurrentExerciseIndex(cei);
                                         setCurrentExercise(getExercise(exercises, cei));
                                     }}

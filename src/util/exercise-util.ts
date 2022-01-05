@@ -26,7 +26,8 @@ export const getNewEmptyExerciseInProgress = (): ExerciseInProgress => {
     return {
         ...getNewEmptyExerciseWorkoutSettings(),
         secondsRemaining: -1,
-        originalSecondsRemaining: -1
+        originalSecondsRemaining: -1,
+        secondsElapsed: 0
     };
 };
 
