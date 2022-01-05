@@ -16,11 +16,11 @@ const LoginPage: FC = (): JSX.Element => {
     const LoginWithExternal = () => (
         <>
             <EmailLoginForm
-                onSubmit={({ email, password }: EmailLoginFormField) => {
+                onSubmit={async ({ email, password }: EmailLoginFormField) => {
                     if (email && password) {
-                        loginWithEmail(email, password);
+                        await loginWithEmail(email, password);
                     } else if (email) {
-                        sendResetPasswordLink(email);
+                        await sendResetPasswordLink(email);
                     }
                     // forgotPasswordMode ? resetPassword() : signIn();
                 }}

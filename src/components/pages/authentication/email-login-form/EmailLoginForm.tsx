@@ -49,6 +49,7 @@ const EmailLoginForm: FC<InjectedFormProps<EmailLoginFormField>> = (props: Injec
                 )}
                 <LoadingButton
                     loading={submitting}
+                    loadingPosition="start"
                     type={'submit'}
                     variant={'contained'}
                     color={'primary'}
