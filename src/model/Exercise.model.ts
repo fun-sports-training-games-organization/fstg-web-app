@@ -14,5 +14,6 @@ export interface ExerciseWorkoutSettings extends Exercise {
 
 export interface ExerciseInProgress extends ExerciseWorkoutSettings {
     secondsRemaining: number;
+    secondsElapsed: number;
     originalSecondsRemaining: number;
 }

@@ -2,6 +2,13 @@ import { StringMap, TOptions } from 'i18next';
 import { OptionsObject, SnackbarKey, SnackbarMessage, VariantType } from 'notistack';
 import { TFunction } from 'react-i18next';
 
+export const exerciseCompletedTimeResultSuccess = (
+    enqueueSnackbar: (message: SnackbarMessage, options?: OptionsObject | undefined) => SnackbarKey,
+    t: TFunction<'translation', undefined>,
+    variables: { exerciseName: string; resultValue: string }
+): SnackbarKey =>
+    notification(enqueueSnackbar, t, 'notifications.exerciseCompletedTimeResultSuccess', 'success', variables);
+
 export const createSuccess = (
     enqueueSnackbar: (message: SnackbarMessage, options?: OptionsObject | undefined) => SnackbarKey,
     t: TFunction<'translation', undefined>,
