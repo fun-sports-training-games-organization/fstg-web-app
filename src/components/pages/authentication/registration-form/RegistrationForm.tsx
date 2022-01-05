@@ -21,7 +21,7 @@ import i18n from 'i18next';
 import { fetchSignInMethodsForEmail } from 'firebase/auth';
 import { auth } from '../../../../config/firebase';
 import { renderPasswordField, renderTextField } from '../../../molecules/ReduxFields';
-import LoadingButton from '../../../molecules/loading-button/LoadingButon';
+import LoadingButton from '../../../molecules/loading-button/LoadingButton';
 
 export interface RegistrationFormFields {
     username?: string;
