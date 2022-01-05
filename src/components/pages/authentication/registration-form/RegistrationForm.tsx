@@ -20,8 +20,8 @@ import {
 import i18n from 'i18next';
 import { fetchSignInMethodsForEmail } from 'firebase/auth';
 import { auth } from '../../../../config/firebase';
-import { LoadingButton } from '@mui/lab';
 import { renderPasswordField, renderTextField } from '../../../molecules/ReduxFields';
+import LoadingButton from '../../../molecules/loading-button/LoadingButon';
 
 export interface RegistrationFormFields {
     username?: string;
@@ -113,16 +113,7 @@ const RegistrationForm: FC<InjectedFormProps<RegistrationFormFields>> = (
                     validate={[required]}
                     label={t('form.label.registration.confirmPassword')}
                 />
-                <LoadingButton
-                    loading={submitting}
-                    loadingPosition="start"
-                    type={'submit'}
-                    variant={'contained'}
-                    color={'primary'}
-                    fullWidth
-                    disabled={pristine || submitting}
-                    // disabled={!state.email || !state.password || !state.confirmPassword}
-                >
+                <LoadingButton loading={submitting} disabled={pristine || submitting}>
                     {t('form.button.registration.register')}
                 </LoadingButton>
             </Stack>
