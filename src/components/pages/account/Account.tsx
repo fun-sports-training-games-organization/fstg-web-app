@@ -1,48 +1,40 @@
-import { ChangeEvent, FC, FormEvent, useCallback, useEffect, useState } from 'react';
-import { Avatar, Button, Stack } from '@mui/material';
-import { useTranslation } from 'react-i18next';
-import TextField from '../../atoms/text-field/TextField';
+import AccountForm from '../../organisms/account-form/AccountForm';
+import { AccountDispatcher, AccountState } from '../../../reducers/account-reducer';
+import { FC, useCallback, useEffect, useState } from 'react';
 import { useAuth } from '../../../contexts/AuthContextProvider';
-import useEntityManager from '../../../hooks/useEntityManager';
-import FileChooser from '../../molecules/file-input/FileChooser';
+import { useTranslation } from 'react-i18next';
 import useFileManager from '../../../hooks/useFileManager';
+import useEntityManager from '../../../hooks/useEntityManager';
 import { useSnackbar } from 'notistack';
-import ResponsiveContainer from '../../organisms/responsive-container/ResponsiveContainer';
+import { useDispatch } from 'react-redux';
 
-interface State {
-    username?: string;
-    firstName?: string;
-    lastName?: string;
-    email?: string | null;
-    profilePicture?: File;
-    profilePicturePath?: string;
-}
-
-export type UserProfile = {
-    firstName?: string;
-    lastName?: string;
-    username?: string;
-    profilePicturePath?: string;
-};
-
-const RegistrationForm: FC = () => {
-    const { t } = useTranslation();
+const Account: FC = () => {
     const { user } = useAuth();
+    const { t } = useTranslation();
     const { enqueueSnackbar } = useSnackbar();
-    const fileManager = useFileManager<File>('profile_pictures');
-    const entityManager = useEntityManager<UserProfile>('users', false);
 
-    const [state, setState] = useState<State>();
+    const dispatch = useDispatch();
+    const accountDispatcher = new AccountDispatcher(dispatch);
+
+    const fileManager = useFileManager<File>('profile_pictures');
+    const entityManager = useEntityManager<AccountState>('users', false);
+    const [profilePicturePath, setProfilePicturePath] = useState<string>();
     const [profilePictureURL, setProfilePictureURL] = useState<string>();
 
     const loadProfile = useCallback(() => {
         user &&
             user.uid &&
             user.email &&
-            entityManager.findById(user?.uid).then((u: UserProfile) => {
-                const { firstName, lastName, username, profilePicturePath } = u;
+            entityManager.findById(user?.uid).then((account: AccountState) => {
+                const { firstName, lastName, username, profilePicturePath } = account;
                 const { email } = user;
-                setState({ ...state, firstName, lastName, username, email, profilePicturePath });
+                accountDispatcher.load({ firstName, lastName, username, email, profilePicturePath });
+                setProfilePicturePath(profilePicturePath);
+                if (profilePicturePath) {
+                    fileManager.getFileURL(`profile_pictures/${user?.uid}/${profilePicturePath}`).then((url) => {
+                        setProfilePictureURL(url);
+                    });
+                }
             });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -51,41 +43,21 @@ const RegistrationForm: FC = () => {
         loadProfile();
     }, [loadProfile]);
 
-    useEffect(() => {
-        if (state?.profilePicturePath) {
-            fileManager.getFileURL(`profile_pictures/${user?.uid}/${state?.profilePicturePath}`).then((url) => {
-                setProfilePictureURL(url);
-            });
-        }
-    }, [state?.profilePicturePath, user?.uid, fileManager]);
-
-    const handleChangeEvent = (event: ChangeEvent<HTMLInputElement>) => {
-        if (event.target.type === 'file') {
-            const file = event.target.files && event.target.files[0];
-            setState({
-                ...state,
-                [event.target.name]: file
-            });
-        } else {
-            setState({
-                ...state,
-                [event.target.name]: event.target.value
-            });
-        }
-    };
-
-    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        if (state) {
-            const { firstName, lastName, username, profilePicture } = state;
-            state.profilePicture && fileManager.uploadFile(state?.profilePicture, user?.uid);
-            const profilePicturePath = profilePicture?.name;
+    const handleSubmit = (values: AccountState) => {
+        if (values) {
+            const { firstName, lastName, username, profilePicture } = values;
+            let emptyUsername;
+            if (typeof username === 'string' && username.trim().length === 0) {
+                emptyUsername = true;
+            }
+            profilePicture && fileManager.uploadFile(profilePicture[0], user?.uid);
+            const profilePicturePath = profilePicture && profilePicture[0].name;
             entityManager
                 .updateEntity({
+                    id: user?.uid,
                     firstName,
                     lastName,
-                    username,
-                    id: user?.uid,
+                    ...((username || emptyUsername) && { username }),
                     ...(profilePicturePath && { profilePicturePath })
                 })
                 .then(() => {
@@ -98,8 +70,9 @@ const RegistrationForm: FC = () => {
                 .finally(loadProfile);
         }
     };
+
     const handleDeleteProfilePicture = async () =>
-        await fileManager.deleteFile(`profile_pictures/${user?.uid}/${state?.profilePicturePath}`).finally(() => {
+        await fileManager.deleteFile(`profile_pictures/${user?.uid}/${profilePicturePath}`).finally(() => {
             entityManager
                 .updateEntity({ id: user?.uid, profilePicturePath: '' })
                 .then(() => {
@@ -108,78 +81,18 @@ const RegistrationForm: FC = () => {
                 .catch(() => {
                     enqueueSnackbar(t('notifications.profile.deleteProfilePicture.failed'), { variant: 'error' });
                 })
-                .finally(loadProfile);
+                .finally(() => {
+                    loadProfile();
+                    setProfilePictureURL(undefined);
+                });
         });
 
     return (
-        <ResponsiveContainer>
-            <form onSubmit={handleSubmit}>
-                <Stack padding={2} spacing={2} alignItems={'center'}>
-                    {profilePictureURL ? (
-                        <>
-                            <Avatar sx={{ height: 56, width: 56 }} alt="Profile Picture" src={profilePictureURL} />
-                            <Button color="secondary" variant="contained" onClick={handleDeleteProfilePicture}>
-                                Delete profile picture
-                            </Button>
-                        </>
-                    ) : (
-                        <FileChooser
-                            fullWidth
-                            id={'profilePicture-field'}
-                            label={t('form.label.account.profilePicture')}
-                            name={'profilePicture'}
-                            onChange={handleChangeEvent}
-                        />
-                    )}
-
-                    <TextField
-                        shrinkLabel={true}
-                        fullWidth
-                        autoFocus
-                        id={'username-field'}
-                        label={t('form.label.registration.username')}
-                        value={state?.username}
-                        name={'username'}
-                        onChange={handleChangeEvent}
-                    />
-                    <TextField
-                        shrinkLabel={true}
-                        fullWidth
-                        id={'first-name-field'}
-                        label={t('form.label.registration.firstName')}
-                        value={state?.firstName}
-                        name={'firstName'}
-                        required
-                        onChange={handleChangeEvent}
-                    />
-                    <TextField
-                        shrinkLabel={true}
-                        fullWidth
-                        id={'last-name-field'}
-                        label={t('form.label.registration.lastName')}
-                        value={state?.lastName}
-                        name={'lastName'}
-                        required
-                        onChange={handleChangeEvent}
-                    />
-                    <TextField
-                        shrinkLabel={true}
-                        fullWidth
-                        id={'email-field'}
-                        label={t('form.label.registration.email')}
-                        value={state?.email}
-                        name={'email'}
-                        required
-                        readOnly
-                        onChange={handleChangeEvent}
-                    />
-                    <Button type={'submit'} variant={'contained'} color={'primary'} fullWidth>
-                        {t('form.button.account.saveProfile')}
-                    </Button>
-                </Stack>
-            </form>
-        </ResponsiveContainer>
+        <AccountForm
+            onSubmit={handleSubmit}
+            profilePictureURL={profilePictureURL}
+            handleDeleteProfilePicture={handleDeleteProfilePicture}
+        />
     );
 };
-
-export default RegistrationForm;
+export default Account;

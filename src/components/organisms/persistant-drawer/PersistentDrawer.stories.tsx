@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import PersistentDrawer from './PersistentDrawer';
 import { PersistentDrawerProps } from './PersistentDrawer.types';
 import { mockUser } from '../../../__mocks__/mockUserContext';
@@ -31,9 +31,9 @@ export const Drawer = (args: PersistentDrawerProps & { authenticated: boolean })
                 value={{
                     user: args.authenticated ? mockUser : null,
                     loginWith: () => console.log(''),
-                    loginWithEmail: () => console.log(''),
-                    registerWithEmail: () => console.log(''),
-                    sendResetPasswordLink: () => console.log(''),
+                    loginWithEmail: async () => console.log(''),
+                    registerWithEmail: async () => console.log(''),
+                    sendResetPasswordLink: async () => console.log(''),
                     loginFailed: () => console.log(''),
                     logout: () => console.log('')
                 }}

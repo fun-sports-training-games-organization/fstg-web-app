@@ -9,12 +9,12 @@ import { useAuth } from '../contexts/AuthContextProvider';
 import { useTranslation } from 'react-i18next';
 import { Theme, useMediaQuery } from '@mui/material';
 import useEntityManager from '../hooks/useEntityManager';
-import { UserProfile } from './pages/account/Account';
 import useFileManager from '../hooks/useFileManager';
+import { AccountState } from '../reducers/account-reducer';
 
 function App(): JSX.Element {
     const { logout, user } = useAuth();
-    const { findById } = useEntityManager<UserProfile>('users', false);
+    const { findById } = useEntityManager<AccountState>('users', false);
     const fileManager = useFileManager<File>('profile_pictures');
     const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
     const [photoURL, setPhotoURL] = useState<string>();

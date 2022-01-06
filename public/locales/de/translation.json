@@ -101,6 +101,10 @@
             "button": {
                 "login": "Anmelden",
                 "reset": "Passwort zurücksetzen"
+            },
+            "tabLabel": {
+                "login": "Einloggen",
+                "register": "Registrieren"
             }
         },
         "home": {
@@ -192,4 +196,22 @@
         }
     },
     "Push Ups": "Liegestütze"
+        },
+        "Push Ups": "Liegestütze"
+    },
+    "validation": {
+        "invalidEmail": "Ungültige E-Mail-Adresse!",
+        "required": "Dieses Feld ist Pflicht!",
+        "minLength": "Muss {{min}} Zeichen oder mehr sein",
+        "minLength_plural": "Muss mindestens {{min}} Zeichen lang sein",
+        "maxlength": "Muss höchstens {{max}} Zeichen lang sein",
+        "number": "Muss eine Zahl sein",
+        "minValue": "Muss mindestens {{min}} sein",
+        "maxValue": "darf {{max}} nicht überschreiten",
+        "alphanumeric": "Nur alphanumerische Zeichen, Punkt und Unterstrich sind erlaubt",
+        "passwordsDoNotMatch": "Passwörter stimmen nicht überein!",
+        "mustContainSymbol": "Muss ein Symbol enthalten!",
+        "mustContainLowercase": "Muss mindestens einen Kleinbuchstaben enthalten!",
+        "mustContainUppercase": "Muss mindestens einen Grossbuchstaben enthalten!"
+    }
 }

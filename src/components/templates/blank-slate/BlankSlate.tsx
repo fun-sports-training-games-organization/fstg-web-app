@@ -12,7 +12,7 @@ const BlankSlate: FC<BlankSlateProps> = ({
     buttonAction
 }: BlankSlateProps) => (
     <Slide direction={'up'} in={true} timeout={500} {...slideProps}>
-        <Stack mt={2} spacing={2} justifyContent={'center'} alignContent={'center'} alignItems={'center'}>
+        <Stack padding={1} mt={2} spacing={2} justifyContent={'center'} alignContent={'center'} alignItems={'center'}>
             {titleTranslateKey && <PageTitle translationKey={titleTranslateKey} />}
             {imageAttributes && <img alt={imageAttributes.alt} {...imageAttributes} />}
             {message && <Typography variant={'body1'}>{message}</Typography>}

@@ -1,6 +1,4 @@
 import IRoute from './route.interface';
-
-import RegistrationForm from '../components/pages/authentication/registration-form/RegistrationForm';
 import ManageExercises from '../components/pages/exercises/manage/ManageExercises';
 import ManageWorkouts from '../components/pages/workouts/manage/ManageWorkouts';
 import Account from '../components/pages/account/Account';
@@ -30,13 +28,6 @@ const routes: IRoute[] = [
         component: Dashboard,
         key: 'dashboard',
         Route: AuthRoute
-    },
-    {
-        path: '/register',
-        exact: true,
-        component: RegistrationForm,
-        key: 'Registration Page',
-        Route: NoAuthRoute
     },
     {
         path: '/login',

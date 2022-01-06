@@ -1,48 +1,37 @@
-import React, { ChangeEvent, FC, useState } from 'react';
-import { Stack, Button, Link, TextField } from '@mui/material';
+import React, { FC, useState } from 'react';
+import { Button, Link, Stack } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useAuth } from '../../../../contexts/AuthContextProvider';
-import PasswordField from '../../../molecules/password-field/PasswordField';
+import { Field, Form, InjectedFormProps, reduxForm } from 'redux-form';
+import { LoadingButton } from '@mui/lab';
+import { email, maxLengthEmail, required } from '../../../../util/validation';
+import { renderPasswordField, renderTextField } from '../../../molecules/ReduxFields';
+import SendIcon from '@mui/icons-material/Send';
+export type EmailLoginFormField = { email?: string; password?: string };
 
-const EmailLoginForm: FC = () => {
+const EmailLoginForm: FC<InjectedFormProps<EmailLoginFormField>> = (props: InjectedFormProps<EmailLoginFormField>) => {
+    const { handleSubmit, pristine, submitting } = props;
     const { t } = useTranslation();
-    const { loginWithEmail, sendResetPasswordLink } = useAuth();
-    const [email, setEmail] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
     const [forgotPasswordMode, setForgotPasswordMode] = useState<boolean>(false);
 
-    const signIn = () => {
-        loginWithEmail(email, password);
-        setPassword('');
-        setEmail('');
-    };
-    const resetPassword = () => {
-        sendResetPasswordLink(email);
-        setPassword('');
-        setEmail('');
-    };
-
     return (
-        <form>
+        <Form onSubmit={handleSubmit}>
             <Stack spacing={2}>
-                <TextField
+                <Field
+                    autoComplete={'email'}
                     autoFocus
                     fullWidth
-                    id={'email-field'}
-                    autoComplete={'email'}
+                    name={'email'}
                     label={t('form.label.login.email')}
-                    value={email}
-                    required
-                    onChange={(event: ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)}
+                    validate={[required, email, maxLengthEmail]}
+                    component={renderTextField}
                 />
                 {!forgotPasswordMode && (
-                    <PasswordField
-                        id={'password-field'}
+                    <Field
                         autoComplete={'current-password'}
                         label={t('form.label.login.password')}
-                        value={password}
-                        required
-                        onChange={(event: ChangeEvent<HTMLInputElement>) => setPassword(event.target.value)}
+                        name={'password'}
+                        validate={[required]}
+                        component={renderPasswordField}
                     />
                 )}
                 {!forgotPasswordMode && (
@@ -58,22 +47,21 @@ const EmailLoginForm: FC = () => {
                         {t('global.back')}
                     </Button>
                 )}
-                <Button
+                <LoadingButton
+                    loading={submitting}
+                    loadingPosition="start"
                     type={'submit'}
                     variant={'contained'}
                     color={'primary'}
                     fullWidth
-                    disabled={(!forgotPasswordMode && !email) || (!forgotPasswordMode && !password)}
-                    onClick={(e) => {
-                        e.preventDefault();
-                        forgotPasswordMode ? resetPassword() : signIn();
-                    }}
+                    disabled={pristine || submitting}
+                    startIcon={<SendIcon />}
                 >
                     {t(forgotPasswordMode ? 'page.login.button.reset' : 'page.login.button.login')}
-                </Button>
+                </LoadingButton>
             </Stack>
-        </form>
+        </Form>
     );
 };
 
-export default EmailLoginForm;
+export default reduxForm({ form: 'loginForm' })(EmailLoginForm);
