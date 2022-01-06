@@ -8,6 +8,8 @@ import { SaveOutlined } from '@mui/icons-material';
 import { connect, RootStateOrAny } from 'react-redux';
 import { LoadingButton } from '@mui/lab';
 import { AccountState } from '../../../reducers/account-reducer';
+import { alphaNumeric, email, maxLength30, minLength2, minLengthName, required } from '../../../util/validation';
+import { lower, name } from '../../../util/normalize';
 
 type OwnProps = {
     profilePictureURL?: string;
@@ -42,23 +44,31 @@ const AccountForm: FC<OwnProps & InjectedFormProps<AccountState>> = (
                         autoComplete={'username'}
                         name={'username'}
                         label={t('form.label.registration.username')}
+                        validate={[alphaNumeric, minLength2, maxLength30]}
+                        normalize={lower}
                         component={renderTextField}
                     />
                     <Field
                         autoComplete={'given-name'}
                         name={'firstName'}
                         label={t('form.label.registration.firstName')}
+                        validate={[required, minLengthName, maxLength30]}
+                        normalize={name}
                         component={renderTextField}
                     />
                     <Field
                         autoComplete={'family-name'}
                         name={'lastName'}
                         label={t('form.label.registration.lastName')}
+                        validate={[required, minLengthName, maxLength30]}
+                        normalize={name}
                         component={renderTextField}
                     />
                     <Field
                         label={t('form.label.registration.email')}
                         name={'email'}
+                        validate={[email]}
+                        normalize={lower}
                         component={renderReadOnlyTextField}
                     />
                     <LoadingButton

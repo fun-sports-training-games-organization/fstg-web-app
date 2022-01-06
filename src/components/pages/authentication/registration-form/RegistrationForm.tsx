@@ -23,6 +23,7 @@ import { auth } from '../../../../config/firebase';
 import { LoadingButton } from '@mui/lab';
 import { renderPasswordField, renderTextField } from '../../../molecules/ReduxFields';
 import EditIcon from '@mui/icons-material/Edit';
+import { lower, name } from '../../../../util/normalize';
 
 export interface RegistrationFormFields {
     username?: string;
@@ -62,12 +63,14 @@ const RegistrationForm: FC<InjectedFormProps<RegistrationFormFields>> = (
                     name={'username'}
                     validate={[alphaNumeric, minLength2, maxLength30]}
                     component={renderTextField}
+                    normalize={lower}
                     label={t('form.label.registration.username')}
                 />
                 <Field
                     name={'firstName'}
                     component={renderTextField}
                     validate={[required, minLengthName, maxLength30]}
+                    normalize={name}
                     validationMessage={'Required'}
                     label={t('form.label.registration.firstName')}
                 />
@@ -75,6 +78,7 @@ const RegistrationForm: FC<InjectedFormProps<RegistrationFormFields>> = (
                     name={'lastName'}
                     component={renderTextField}
                     validate={[required, minLengthName, maxLength30]}
+                    normalize={name}
                     validationMessage={'Required'}
                     label={t('form.label.registration.lastName')}
                 />
@@ -83,6 +87,7 @@ const RegistrationForm: FC<InjectedFormProps<RegistrationFormFields>> = (
                     name={'email'}
                     component={renderTextField}
                     validate={[required, email, maxLengthEmail]}
+                    normalize={lower}
                     label={t('form.label.registration.email')}
                 />
                 <Field
