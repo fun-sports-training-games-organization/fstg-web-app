@@ -72,6 +72,7 @@
         }
     },
     "notifications": {
+        "exerciseCompletedTimeResultSuccess": "{{exerciseName}} wurde in {{resultValue}} abgeschlossen",
         "updateSuccess": "{{item}} wurde erfolgreich aktualisiert",
         "updateFailure": "{{item}} konnte nicht aktualisiert werden",
         "createSuccess": "{{item}} wurde erfolgreich erstellt",
