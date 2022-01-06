@@ -22,6 +22,7 @@ import { fetchSignInMethodsForEmail } from 'firebase/auth';
 import { auth } from '../../../../config/firebase';
 import { LoadingButton } from '@mui/lab';
 import { renderPasswordField, renderTextField } from '../../../molecules/ReduxFields';
+import EditIcon from '@mui/icons-material/Edit';
 
 export interface RegistrationFormFields {
     username?: string;
@@ -30,15 +31,6 @@ export interface RegistrationFormFields {
     email?: string;
     password?: string;
     confirmPassword?: string;
-}
-
-export interface RegistrationErrorState {
-    usernameError?: string;
-    firstNameError?: string;
-    lastNameError?: string;
-    emailError?: string;
-    passwordError?: string;
-    confirmPasswordError?: string;
 }
 
 const asyncValidate = async (values: RegistrationFormFields) => {
@@ -121,6 +113,7 @@ const RegistrationForm: FC<InjectedFormProps<RegistrationFormFields>> = (
                     color={'primary'}
                     fullWidth
                     disabled={pristine || submitting}
+                    startIcon={<EditIcon/>}
                     // disabled={!state.email || !state.password || !state.confirmPassword}
                 >
                     {t('form.button.registration.register')}

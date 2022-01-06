@@ -5,7 +5,7 @@ import { Field, Form, InjectedFormProps, reduxForm } from 'redux-form';
 import { LoadingButton } from '@mui/lab';
 import { email, maxLengthEmail, required } from '../../../../util/validation';
 import { renderPasswordField, renderTextField } from '../../../molecules/ReduxFields';
-
+import SendIcon from '@mui/icons-material/Send';
 export type EmailLoginFormField = { email?: string; password?: string };
 
 const EmailLoginForm: FC<InjectedFormProps<EmailLoginFormField>> = (props: InjectedFormProps<EmailLoginFormField>) => {
@@ -55,6 +55,7 @@ const EmailLoginForm: FC<InjectedFormProps<EmailLoginFormField>> = (props: Injec
                     color={'primary'}
                     fullWidth
                     disabled={pristine || submitting}
+                    startIcon={<SendIcon />}
                 >
                     {t(forgotPasswordMode ? 'page.login.button.reset' : 'page.login.button.login')}
                 </LoadingButton>

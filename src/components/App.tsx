@@ -9,7 +9,7 @@ import { useAuth } from '../contexts/AuthContextProvider';
 import { useTranslation } from 'react-i18next';
 import { Theme, useMediaQuery } from '@mui/material';
 import useEntityManager from '../hooks/useEntityManager';
-import { UserProfile } from './pages/account/Account';
+import { UserProfile } from './pages/account/AccountForm';
 import useFileManager from '../hooks/useFileManager';
 
 function App(): JSX.Element {

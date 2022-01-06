@@ -61,7 +61,8 @@ const DoWorkout: FC = () => {
 
     useEffect(() => {
         loadWorkout();
-    }, [loadWorkout]);
+        console.log(workout);
+    }, [loadWorkout, workout]);
 
     const handleOnTick = (exercise: ExerciseInProgress, index: number) => {
         if (isRunning && index === currentExerciseIndex) {
