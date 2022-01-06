@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Field, Form, InjectedFormProps, reduxForm } from 'redux-form';
 import { email, maxLengthEmail, required } from '../../../../util/validation';
 import { renderPasswordField, renderTextField } from '../../../molecules/ReduxFields';
-import LoadingButton from '../../../molecules/loading-button/LoadingButton';
+import LoadingButton from '../../../molecules/loading-button/LoadingButon';
 
 export type EmailLoginFormField = { email?: string; password?: string };
 
