@@ -113,7 +113,7 @@ const RegistrationForm: FC<InjectedFormProps<RegistrationFormFields>> = (
                     color={'primary'}
                     fullWidth
                     disabled={pristine || submitting}
-                    startIcon={<EditIcon/>}
+                    startIcon={<EditIcon />}
                     // disabled={!state.email || !state.password || !state.confirmPassword}
                 >
                     {t('form.button.registration.register')}

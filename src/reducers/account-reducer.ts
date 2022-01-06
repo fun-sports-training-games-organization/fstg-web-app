@@ -19,7 +19,7 @@ export enum ActionType {
     LOAD
 }
 
-const accountReducer = (state = initialState, action: DispatchAction) => {
+const accountReducer = (state = initialState, action: DispatchAction): Account & { data?: Account } => {
     switch (action.type) {
         case ActionType.LOAD:
             return {

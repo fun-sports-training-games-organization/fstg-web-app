@@ -13,7 +13,7 @@ import { useSnackbar } from 'notistack';
 import { LoadingButton } from '@mui/lab';
 import { AccountDispatcher } from '../../../reducers/account-reducer';
 
-interface AccountFormFields {
+export interface AccountFormFields {
     username?: string;
     firstName?: string;
     lastName?: string;
