@@ -1,4 +1,4 @@
-import AccountForm from './AccountForm';
+import AccountForm from '../../organisms/account-form/AccountForm';
 import { AccountDispatcher, AccountState } from '../../../reducers/account-reducer';
 import { FC, useCallback, useEffect, useState } from 'react';
 import { useAuth } from '../../../contexts/AuthContextProvider';

@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Avatar, Button, Stack } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import ResponsiveContainer from '../../organisms/responsive-container/ResponsiveContainer';
+import ResponsiveContainer from '../responsive-container/ResponsiveContainer';
 import { Field, Form, InjectedFormProps, reduxForm } from 'redux-form';
 import { renderFileChooser, renderReadOnlyTextField, renderTextField } from '../../molecules/ReduxFields';
 import { SaveOutlined } from '@mui/icons-material';
