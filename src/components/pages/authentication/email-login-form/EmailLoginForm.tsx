@@ -2,9 +2,9 @@ import React, { FC, useState } from 'react';
 import { Button, Link, Stack } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Field, Form, InjectedFormProps, reduxForm } from 'redux-form';
+import { LoadingButton } from '@mui/lab';
 import { email, maxLengthEmail, required } from '../../../../util/validation';
 import { renderPasswordField, renderTextField } from '../../../molecules/ReduxFields';
-import LoadingButton from '../../../molecules/loading-button/LoadingButon';
 
 export type EmailLoginFormField = { email?: string; password?: string };
 
@@ -47,7 +47,15 @@ const EmailLoginForm: FC<InjectedFormProps<EmailLoginFormField>> = (props: Injec
                         {t('global.back')}
                     </Button>
                 )}
-                <LoadingButton loading={submitting} disabled={pristine || submitting}>
+                <LoadingButton
+                    loading={submitting}
+                    loadingPosition="start"
+                    type={'submit'}
+                    variant={'contained'}
+                    color={'primary'}
+                    fullWidth
+                    disabled={pristine || submitting}
+                >
                     {t(forgotPasswordMode ? 'page.login.button.reset' : 'page.login.button.login')}
                 </LoadingButton>
             </Stack>
