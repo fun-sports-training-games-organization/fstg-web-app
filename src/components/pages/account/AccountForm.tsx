@@ -185,6 +185,10 @@ const AccountForm: FC<InjectedFormProps<AccountFormFields>> = (props: InjectedFo
     );
 };
 
-export default reduxForm({ form: 'accountForm' /*, validate, asyncValidate*/ })(
-    connect((state: RootStateOrAny) => ({ initialValues: state.account.data }))(AccountForm)
+const reduxFormAccountForm = reduxForm({ form: 'accountForm' /*, validate, asyncValidate*/ })(AccountForm);
+
+const connectedReduxFormAccountForm = connect((state: RootStateOrAny) => ({ initialValues: state.account.data }))(
+    reduxFormAccountForm
 );
+
+export default connectedReduxFormAccountForm;
