@@ -22,6 +22,11 @@ export const renderTextField = (props: WrappedFieldProps & { label: string | und
     return <TextField {...input} label={label} helperText={touched && error} error={!!error} />;
 };
 
+export const renderReadOnlyTextField = (props: WrappedFieldProps & { label: string | undefined }): JSX.Element => {
+    const { input, label } = props;
+    return <TextField {...input} label={label} readOnly />;
+};
+
 export const renderPasswordField = ({
     input,
     label,
