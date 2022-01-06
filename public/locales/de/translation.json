@@ -195,7 +195,6 @@
             "button": "Übung hinzufügen"
         }
     },
-    "Push Ups": "Liegestütze",
     "validation": {
         "invalidEmail": "Ungültige E-Mail-Adresse!",
         "required": "Dieses Feld ist Pflicht!",
@@ -210,5 +209,6 @@
         "mustContainSymbol": "Muss ein Symbol enthalten!",
         "mustContainLowercase": "Muss mindestens einen Kleinbuchstaben enthalten!",
         "mustContainUppercase": "Muss mindestens einen Grossbuchstaben enthalten!"
-    }
+    },
+    "Push Ups": "Liegestütze"
 }

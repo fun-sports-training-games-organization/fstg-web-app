@@ -195,7 +195,6 @@
             "button": "Add Exercise"
         }
     },
-    "Push Ups": "Push Ups",
     "validation": {
         "invalidEmail": "Invalid email address!",
         "required": "This field is required!",
@@ -210,5 +209,6 @@
         "mustContainSymbol": "Must contain a symbol!",
         "mustContainLowercase": "Must contain at least one lowercase letter!",
         "mustContainUppercase": "Must contain at least one uppercase letter!"
-    }
+    },
+    "Push Ups": "Push Ups"
 }
