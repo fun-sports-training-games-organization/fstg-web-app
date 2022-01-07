@@ -1,16 +1,5 @@
-import {
-    Avatar,
-    Grid,
-    List,
-    ListItem,
-    ListItemButton,
-    ListItemIcon,
-    ListItemText,
-    Stack,
-    Typography
-} from '@mui/material';
-import ExerciseIcon from '../../../../assets/exercise.png';
-import { DirectionsRun, FitnessCenter, Pool } from '@mui/icons-material';
+import { Avatar, Grid, List, ListItem, ListItemButton, ListItemText, Stack, Typography } from '@mui/material';
+import Dumbbells from '../../../../assets/dumbbells.png';
 import DashboardCard from '../dashboard-card/DashboardCard';
 import * as React from 'react';
 import useEntityManager from '../../../../hooks/useEntityManager';
@@ -21,52 +10,69 @@ import EmptyCard from '../../blank-slate/template/empty-card/EmptyCard';
 import Fitness from '../../../../assets/fitness.png';
 import { useTranslation } from 'react-i18next';
 import PageTitle from '../../../atoms/page-title/PageTitle';
+import ExerciseCardItem from './ExerciseCardItem';
+import Loader from '../../../atoms/loader/Loader';
 
 const ExerciseCard = (): JSX.Element => {
     const history = useHistory();
     const { t } = useTranslation();
-    const { entities: exercises } = useEntityManager<Exercise>('exercises');
+    const { entities: exercises, loading } = useEntityManager<Exercise>('exercises');
 
-    return exercises.length > 0 ? (
-        <DashboardCard cardProps={{ elevation: 5 }} cardHeaderProps={{ title: 'Exercises' }}>
+    const goToExercisePage = () => navigate.toExercises(history);
+    const ExerciseTitle = <PageTitle translationKey={'page.dashboard.blankExercise.title'} align={'center'} />;
+    return loading ? (
+        <Loader />
+    ) : exercises.length > 0 ? (
+        <DashboardCard cardProps={{ elevation: 5 }} cardHeaderProps={{ title: ExerciseTitle }}>
             <Grid container spacing={1} alignItems={'center'} alignContent={'center'} justifyContent={'space-between'}>
                 <Grid item xs={4}>
                     <img
-                        style={{ verticalAlign: 'center', textAlign: 'center' }}
-                        src={ExerciseIcon}
-                        alt={'exercise icon'}
-                        width={75}
-                        height={75}
+                        style={{ verticalAlign: 'center', textAlign: 'center', marginLeft: 30 }}
+                        src={Dumbbells}
+                        alt={'dumbbells  icon'}
+                        width={200}
+                        height={200}
                     />
                 </Grid>
-                <Grid item xs={8}>
+                <Grid item xs={6}>
                     <List>
+                        {exercises.slice(0, 3).map(
+                            (exercise) => (
+                                <ExerciseCardItem key={exercise.id} exercise={exercise} />
+                            )
+                            // <ListItem key={exercise.id} disablePadding>
+                            //     <ListItemIcon>
+                            //         <img src={squats} alt={'squats'} />
+                            //     </ListItemIcon>
+                            //     <ListItemText primary={exercise.name} />
+                            // </ListItem>
+                        )}
+                        {/*<ListItem disablePadding>*/}
+                        {/*    <ListItemButton>*/}
+                        {/*        <ListItemIcon>*/}
+                        {/*            <FitnessCenter />*/}
+                        {/*        </ListItemIcon>*/}
+                        {/*        <ListItemText primary="Weight Lifts" />*/}
+                        {/*    </ListItemButton>*/}
+                        {/*</ListItem>*/}
+                        {/*<ListItem disablePadding>*/}
+                        {/*    <ListItemButton>*/}
+                        {/*        <ListItemIcon>*/}
+                        {/*            <DirectionsRun />*/}
+                        {/*        </ListItemIcon>*/}
+                        {/*        <ListItemText primary="Jogging" />*/}
+                        {/*    </ListItemButton>*/}
+                        {/*</ListItem>*/}
+                        {/*<ListItem disablePadding>*/}
+                        {/*    <ListItemButton>*/}
+                        {/*        <ListItemIcon>*/}
+                        {/*            <Pool />*/}
+                        {/*        </ListItemIcon>*/}
+                        {/*        <ListItemText primary="Swimming" />*/}
+                        {/*    </ListItemButton>*/}
+                        {/*</ListItem>*/}
                         <ListItem disablePadding>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <FitnessCenter />
-                                </ListItemIcon>
-                                <ListItemText primary="Weight Lifts" />
-                            </ListItemButton>
-                        </ListItem>
-                        <ListItem disablePadding>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <DirectionsRun />
-                                </ListItemIcon>
-                                <ListItemText primary="Jogging" />
-                            </ListItemButton>
-                        </ListItem>
-                        <ListItem disablePadding>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <Pool />
-                                </ListItemIcon>
-                                <ListItemText primary="Swimming" />
-                            </ListItemButton>
-                        </ListItem>
-                        <ListItem disablePadding>
-                            <ListItemButton>
+                            <ListItemButton onClick={goToExercisePage}>
                                 <ListItemText primary="See More..." />
                             </ListItemButton>
                         </ListItem>
@@ -76,7 +82,7 @@ const ExerciseCard = (): JSX.Element => {
         </DashboardCard>
     ) : (
         <EmptyCard
-            title={<PageTitle translationKey={'page.dashboard.blankExercise.title'} align={'center'} />}
+            title={ExerciseTitle}
             message={
                 <Stack spacing={2} alignItems={'center'}>
                     <Avatar style={{ height: 200, width: 200 }} src={Fitness} />
@@ -86,7 +92,7 @@ const ExerciseCard = (): JSX.Element => {
                 </Stack>
             }
             buttonText={t('page.dashboard.blankExercise.button')}
-            buttonAction={() => navigate.toExercises(history)}
+            buttonAction={goToExercisePage}
         />
     );
 };
