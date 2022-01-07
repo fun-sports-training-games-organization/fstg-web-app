@@ -132,6 +132,18 @@
         },
         "startWorkout": {
             "title": "Commencer l'entraînement"
+        },
+        "dashboard": {
+            "exercice vierge": {
+                "title": "Exercices",
+                "message": "Vous n'avez actuellement aucun exercice disponible! Si vous souhaitez en ajouter un maintenant, veuillez vous rendre sur la page des exercices!",
+                "button": "Aller aux exercices"
+            },
+            "blankWorkout": {
+                "title": "Entraînements",
+                "message": "Désolé, mais vous n'avez pas encore d'entraînement! Veuillez en créer un maintenant!",
+                "button": "Aller aux entraînements"
+            }
         }
     },
     "form": {

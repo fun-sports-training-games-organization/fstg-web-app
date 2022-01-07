@@ -124,14 +124,26 @@
             "exercises": "Übungen"
         },
         "manageWorkouts": {
-            "workouts": "Workouts"
+            "workouts": "Trainingseinheiten"
         },
         "editWorkout": {
-            "createWorkout": "Workout erstellen",
-            "editWorkout": "Workout editieren"
+            "createWorkout": "Training erstellen",
+            "editWorkout": "Training editieren"
         },
         "startWorkout": {
-            "title": "Workout starten"
+            "title": "Training starten"
+        },
+        "dashboard": {
+            "blankExercise": {
+                "title": "Übungen",
+                "message": "Sie haben derzeit keine Übungen zur Verfügung! Wenn Sie jetzt eine hinzufügen möchten, gehen Sie bitte zur Übungsseite!",
+                "button": "Gehe zu Übungen"
+            },
+            "blankWorkout": {
+                "title": "Trainingseinheiten",
+                "message": "Entschuldigung, aber Sie haben noch keine Trainingseinheiten! Bitte erstellen Sie jetzt eine!",
+                "button": "Gehe zu Trainingseinheiten"
+            }
         }
     },
     "form": {

@@ -21,7 +21,7 @@ import i18n from 'i18next';
 import { fetchSignInMethodsForEmail } from 'firebase/auth';
 import { auth } from '../../../../config/firebase';
 import { LoadingButton } from '@mui/lab';
-import { renderPasswordField, renderTextField } from '../../../molecules/ReduxFields';
+import { renderPasswordField, renderTextField } from '../../../molecules/inputs/redux-fields/ReduxFields';
 import EditIcon from '@mui/icons-material/Edit';
 import { lower, name } from '../../../../util/normalize';
 

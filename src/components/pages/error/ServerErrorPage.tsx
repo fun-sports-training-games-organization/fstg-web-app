@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Stack, Typography } from '@mui/material';
-import ResponsiveContainer from '../../organisms/responsive-container/ResponsiveContainer';
+import ResponsiveContainer from '../../templates/containers/responsive-container/ResponsiveContainer';
 
 const ServerErrorPage: FC = (): JSX.Element => (
     <ResponsiveContainer>

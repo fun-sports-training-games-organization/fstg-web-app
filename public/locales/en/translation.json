@@ -132,6 +132,18 @@
         },
         "startWorkout": {
             "title": "Start workout"
+        },
+        "dashboard": {
+            "blankExercise": {
+                "title": "Exercises",
+                "message": "You currently don't have any exercises available! If you wish to add one now, please proceed to the exercises page!",
+                "button": "Go to Exercises"
+            },
+            "blankWorkout": {
+                "title": "Workouts",
+                "message": "Sorry, but you don't have any workouts yet! Please go ahead and create one now!",
+                "button": "Go to Workouts"
+            }
         }
     },
     "form": {

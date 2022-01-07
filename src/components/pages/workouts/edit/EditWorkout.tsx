@@ -13,8 +13,8 @@ import { getPageIdPrefix } from '../../../../util/id-util';
 import ManageWorkoutExercises from '../../../molecules/manage-workout-exercises/ManageWorkoutExercises';
 import useEntityManager from '../../../../hooks/useEntityManager';
 import { getNewEmptyWorkout, getShouldSubmitAndNavigate } from '../../../../util/workout-util';
-import ResponsiveContainer from '../../../organisms/responsive-container/ResponsiveContainer';
-import ConfirmationDialog from '../../../organisms/confirmation-dialog/ConfirmationDialog';
+import ResponsiveContainer from '../../../templates/containers/responsive-container/ResponsiveContainer';
+import ConfirmationDialog from '../../../organisms/dialogs/confirmation-dialog/ConfirmationDialog';
 import { getNewEmptyExerciseWorkoutSettings } from '../../../../util/exercise-util';
 
 const EditWorkout: FC = () => {

@@ -19,8 +19,8 @@ import { MenuListItem, PersistentDrawerProps } from './PersistentDrawer.types';
 import { Avatar, Icon, Stack, Theme, useMediaQuery } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import HeaderBar from '../header-bar/HeaderBar';
-import LanguageMenu from '../language-menu/LanguageMenu';
-import MenuButton from '../menu-button/MenuButton';
+import LanguageMenu from '../../molecules/menus/language-menu/LanguageMenu';
+import MenuButton from '../../molecules/menus/menu-button/MenuButton';
 import { useTranslation } from 'react-i18next';
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' && prop !== 'drawerWidth' })<{

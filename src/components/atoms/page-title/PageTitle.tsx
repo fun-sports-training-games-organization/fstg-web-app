@@ -5,15 +5,16 @@ import { TypographyOverrideable } from '../typography-overrideable/TypographyOve
 
 type OwnProps = {
     translationKey: string;
+    align?: 'inherit' | 'left' | 'center' | 'right' | 'justify';
 };
 
 export type PageTitleProps = OwnProps & OutlinedInputProps;
 
-const PageTitle = ({ translationKey }: PageTitleProps): JSX.Element => {
+const PageTitle = ({ translationKey, align }: PageTitleProps): JSX.Element => {
     const { t } = useTranslation();
 
     return (
-        <TypographyOverrideable fontSize={'twentySix'} fontWeight={'sixHundred'} variant="h5">
+        <TypographyOverrideable align={align} fontSize={'twentySix'} fontWeight={'sixHundred'} variant="h5">
             {t(translationKey)}
         </TypographyOverrideable>
     );
