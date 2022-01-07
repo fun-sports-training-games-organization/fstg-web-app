@@ -4,14 +4,14 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import { Workout } from '../../../model/Workout.model';
 import { useTranslation } from 'react-i18next';
 import { Exercise, ExerciseWorkoutSettings } from '../../../model/Exercise.model';
-import AutoCompleteSelect from '../auto-complete-select/AutoCompleteSelect';
+import AutoCompleteSelect from '../inputs/auto-complete-select/AutoCompleteSelect';
 import { v4 as uuidv4 } from 'uuid';
 import useEntityManager from '../../../hooks/useEntityManager';
 import AddIcon from '@mui/icons-material/Add';
-import ResponsiveDialog from '../../organisms/responsive-dialog';
-import CreateEditExerciseForm from '../../organisms/create-edit-exercise-form/CreateEditExerciseForm';
+import ResponsiveDialog from '../../organisms/dialogs/responsive-dialog';
+import CreateEditExerciseForm from '../../organisms/forms/create-edit-exercise-form/CreateEditExerciseForm';
 import { getNewEmptyExercise } from '../../../util/exercise-util';
-import ConfirmationDialog from '../../organisms/confirmation-dialog/ConfirmationDialog';
+import ConfirmationDialog from '../../organisms/dialogs/confirmation-dialog/ConfirmationDialog';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
 type Props = {

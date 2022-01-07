@@ -3,7 +3,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import { capitalize, Divider, Grid, Link, Stack, Theme, Typography, useMediaQuery } from '@mui/material';
 import EmailLoginForm, { EmailLoginFormField } from '../email-login-form/EmailLoginForm';
 import ProviderLoginButton from '../../../atoms/provider-login-button/ProviderLoginButton';
-import AuthContainer from '../../../organisms/auth-container/AuthContainer';
+import AuthContainer from '../../../templates/containers/auth-container/AuthContainer';
 import SwipingTabs from '../../../organisms/swiping-tabs/SwipingTabs';
 import { LoginProvider, LoginProviders, useAuth } from '../../../../contexts/AuthContextProvider';
 import RegistrationForm, { RegistrationFormFields } from '../registration-form/RegistrationForm';
