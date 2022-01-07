@@ -27,7 +27,7 @@ const DoWorkout: FC = () => {
     const workoutId = params?.id ? params.id : undefined;
     const { t } = useTranslation();
     const { enqueueSnackbar } = useSnackbar();
-    const entityManager = useEntityManager<Workout>('workouts');
+    const { findById } = useEntityManager<Workout>('workouts');
     const [workout, setWorkout] = useState<Workout>(getNewEmptyWorkout());
     const [exercises, setExercises] = useState<ExerciseInProgress[]>([]);
     const [currentExerciseStartTimeMs, setCurrentExerciseStartTimeMs] = useState<number>(0);
@@ -45,7 +45,7 @@ const DoWorkout: FC = () => {
 
     const loadWorkout = useCallback(() => {
         workoutId &&
-            entityManager.findById(workoutId).then((wo: Workout) => {
+            findById(workoutId).then((wo: Workout) => {
                 setWorkout({
                     ...wo,
                     id: workoutId
@@ -61,7 +61,8 @@ const DoWorkout: FC = () => {
     useEffect(() => {
         loadWorkout();
         console.log(workout);
-    }, [loadWorkout, workout]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const handleOnTick = (exercise: ExerciseInProgress, index: number) => {
         if (isRunning && index === currentExerciseIndex) {
