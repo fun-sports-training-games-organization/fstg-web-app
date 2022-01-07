@@ -17,9 +17,6 @@ const ExerciseCardItem: FC<ExerciseCardItemProps> = ({ exercise }: ExerciseCardI
             });
     }, [exercise.name]);
 
-    useEffect(() => {
-        console.log(image);
-    }, [image]);
     return (
         <ListItem key={exercise.id} disablePadding>
             <ListItemIcon>

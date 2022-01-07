@@ -9,9 +9,9 @@ const Dashboard = () => {
     return (
         <ResponsiveContainer>
             <Stack spacing={2} padding={2}>
-                {/*<StatisticsCard />*/}
-                <ExerciseCard />
                 <WorkoutCard />
+                <ExerciseCard />
+                {/*<StatisticsCard />*/}
             </Stack>
         </ResponsiveContainer>
     );

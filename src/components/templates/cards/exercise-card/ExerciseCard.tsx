@@ -36,41 +36,9 @@ const ExerciseCard = (): JSX.Element => {
                 </Grid>
                 <Grid item xs={6}>
                     <List>
-                        {exercises.slice(0, 3).map(
-                            (exercise) => (
-                                <ExerciseCardItem key={exercise.id} exercise={exercise} />
-                            )
-                            // <ListItem key={exercise.id} disablePadding>
-                            //     <ListItemIcon>
-                            //         <img src={squats} alt={'squats'} />
-                            //     </ListItemIcon>
-                            //     <ListItemText primary={exercise.name} />
-                            // </ListItem>
-                        )}
-                        {/*<ListItem disablePadding>*/}
-                        {/*    <ListItemButton>*/}
-                        {/*        <ListItemIcon>*/}
-                        {/*            <FitnessCenter />*/}
-                        {/*        </ListItemIcon>*/}
-                        {/*        <ListItemText primary="Weight Lifts" />*/}
-                        {/*    </ListItemButton>*/}
-                        {/*</ListItem>*/}
-                        {/*<ListItem disablePadding>*/}
-                        {/*    <ListItemButton>*/}
-                        {/*        <ListItemIcon>*/}
-                        {/*            <DirectionsRun />*/}
-                        {/*        </ListItemIcon>*/}
-                        {/*        <ListItemText primary="Jogging" />*/}
-                        {/*    </ListItemButton>*/}
-                        {/*</ListItem>*/}
-                        {/*<ListItem disablePadding>*/}
-                        {/*    <ListItemButton>*/}
-                        {/*        <ListItemIcon>*/}
-                        {/*            <Pool />*/}
-                        {/*        </ListItemIcon>*/}
-                        {/*        <ListItemText primary="Swimming" />*/}
-                        {/*    </ListItemButton>*/}
-                        {/*</ListItem>*/}
+                        {exercises.slice(0, 3).map((exercise) => (
+                            <ExerciseCardItem key={exercise.id} exercise={exercise} />
+                        ))}
                         <ListItem disablePadding>
                             <ListItemButton onClick={goToExercisePage}>
                                 <ListItemText primary="See More..." />
