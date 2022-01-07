@@ -21,7 +21,6 @@ import { Delete, Edit, PlayArrow } from '@mui/icons-material';
 import BlankPage from '../../../templates/blank-slate/template/blank-page/BlankPage';
 import WorkoutIcon from '../../../../assets/workout.png';
 import { useTranslation } from 'react-i18next';
-import { Exercise } from '../../../../model/Exercise.model';
 
 const ManageWorkouts: FC = () => {
     const containerRef = useRef(null);
@@ -31,7 +30,6 @@ const ManageWorkouts: FC = () => {
     const exerciseItemPrefix = `${idPrefix}exercise_list__item_`;
     const history = useHistory();
     const { entities } = useEntityManager<Workout>('workouts');
-    const { entities: exercises } = useEntityManager<Exercise>('exercises');
 
     const [workouts, setWorkouts] = useState<Workout[]>([]);
     const [openDeleteConfirmationDialog, setOpenDeleteConfirmationDialog] = useState<boolean>(false);
