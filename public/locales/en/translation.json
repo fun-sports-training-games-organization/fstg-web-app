@@ -63,11 +63,16 @@
             "registration": {
                 "emailAlreadyExists": "Email already exists!",
                 "passwordTooWeak": "Your password is too weak! (minimum 6 characters is required)",
-                "failed": "Registration failed: {{code}}"
+                "successful": "You have successfully registered your FSTG account! Please check your inbox to verify your email address!",
+                "failed": "Registration failed: {{errorCode}}: {{errorMessage}}"
             },
             "resetPassword": {
                 "emailSent": "Password reset link has been sent! Please check your mail!",
                 "emailError": "Password reset link could not be sent. Please wait a moment and try again."
+            },
+            "emailVerification": {
+                "sent": "Email verification sent! Please check your inbox or junk mail to confirm your email address.",
+                "error": "Failed to send email verification! Please try again later!"
             }
         }
     },
@@ -101,10 +106,6 @@
         "login": {
             "header": "Login",
             "forgotPassword": "Forgot password?",
-            "button": {
-                "login": "Login",
-                "reset": "Reset Password"
-            },
             "tabLabel": {
                 "login": "Login",
                 "register": "Register"
@@ -178,6 +179,16 @@
             "editWorkout": {
                 "discardChanges": "Discard changes",
                 "addExercise": "Add an Exercise"
+            },
+            "login": {
+                "loginWithEmail": "Login with Email",
+                "resetPassword": "Reset Password"
+            }
+        },
+        "tooltip": {
+            "account": {
+                "emailVerified": "Email verified!",
+                "sendVerificationEmail": "Click here to send a verification email!"
             }
         }
     },

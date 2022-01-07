@@ -20,8 +20,13 @@ const Account: FC = () => {
     const entityManager = useEntityManager<AccountState>('users', false);
     const [profilePicturePath, setProfilePicturePath] = useState<string>();
     const [profilePictureURL, setProfilePictureURL] = useState<string>();
+    const [isExternalProvider, setIsExternalProvider] = useState<boolean>();
 
     const loadProfile = useCallback(() => {
+        console.log(user);
+        user?.providerData &&
+            user.providerData[0] &&
+            setIsExternalProvider(user?.providerData[0].providerId !== 'password');
         user &&
             user.uid &&
             user.email &&
@@ -34,6 +39,8 @@ const Account: FC = () => {
                     fileManager.getFileURL(`profile_pictures/${user?.uid}/${profilePicturePath}`).then((url) => {
                         setProfilePictureURL(url);
                     });
+                } else if (user.photoURL) {
+                    setProfilePictureURL(user.photoURL);
                 }
             });
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -50,8 +57,11 @@ const Account: FC = () => {
             if (typeof username === 'string' && username.trim().length === 0) {
                 emptyUsername = true;
             }
-            profilePicture && fileManager.uploadFile(profilePicture[0], user?.uid);
-            const profilePicturePath = profilePicture && profilePicture[0].name;
+            let profilePicturePath;
+            if (profilePicture && profilePicture.length > 0) {
+                profilePicture && fileManager.uploadFile(profilePicture[0], user?.uid);
+                profilePicturePath = profilePicture && profilePicture[0].name;
+            }
             entityManager
                 .updateEntity({
                     id: user?.uid,
@@ -89,6 +99,7 @@ const Account: FC = () => {
 
     return (
         <AccountForm
+            isExternalProvider={isExternalProvider}
             onSubmit={handleSubmit}
             profilePictureURL={profilePictureURL}
             handleDeleteProfilePicture={handleDeleteProfilePicture}

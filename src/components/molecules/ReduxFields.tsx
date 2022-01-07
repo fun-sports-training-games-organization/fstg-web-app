@@ -2,6 +2,7 @@ import { WrappedFieldProps } from 'redux-form/lib/Field';
 import TextField from '../atoms/text-field/TextField';
 import PasswordField from './password-field/PasswordField';
 import FileChooser from './file-input/FileChooser';
+import EmailField from './email-field/EmailField';
 
 export const renderFileChooser = (props: WrappedFieldProps & { label: string | undefined }): JSX.Element => {
     const {
@@ -22,9 +23,9 @@ export const renderTextField = (props: WrappedFieldProps & { label: string | und
     return <TextField {...input} label={label} helperText={touched && error} error={!!error} />;
 };
 
-export const renderReadOnlyTextField = (props: WrappedFieldProps & { label: string | undefined }): JSX.Element => {
+export const renderEmailField = (props: WrappedFieldProps & { label: string | undefined }): JSX.Element => {
     const { input, label } = props;
-    return <TextField {...input} label={label} readOnly />;
+    return <EmailField {...input} label={label} readOnly />;
 };
 
 export const renderPasswordField = ({
