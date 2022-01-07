@@ -34,6 +34,7 @@ export const Drawer = (args: PersistentDrawerProps & { authenticated: boolean })
                     loginWithEmail: async () => console.log(''),
                     registerWithEmail: async () => console.log(''),
                     sendResetPasswordLink: async () => console.log(''),
+                    sendVerificationEmail: async () => console.log(''),
                     loginFailed: () => console.log(''),
                     logout: () => console.log('')
                 }}

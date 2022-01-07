@@ -3,7 +3,7 @@ import { Avatar, Button, Stack } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import ResponsiveContainer from '../responsive-container/ResponsiveContainer';
 import { Field, Form, InjectedFormProps, reduxForm } from 'redux-form';
-import { renderFileChooser, renderReadOnlyTextField, renderTextField } from '../../molecules/ReduxFields';
+import { renderEmailField, renderFileChooser, renderTextField } from '../../molecules/ReduxFields';
 import { SaveOutlined } from '@mui/icons-material';
 import { connect, RootStateOrAny } from 'react-redux';
 import { LoadingButton } from '@mui/lab';
@@ -14,12 +14,17 @@ import { lower, name } from '../../../util/normalize';
 type OwnProps = {
     profilePictureURL?: string;
     handleDeleteProfilePicture: () => void;
+    isExternalProvider?: boolean;
 };
 
-const AccountForm: FC<OwnProps & InjectedFormProps<AccountState>> = (
-    props: OwnProps & InjectedFormProps<AccountState>
-) => {
-    const { handleSubmit, pristine, submitting, profilePictureURL, handleDeleteProfilePicture } = props;
+const AccountForm: FC<OwnProps & InjectedFormProps<AccountState>> = ({
+    handleSubmit,
+    pristine,
+    submitting,
+    profilePictureURL,
+    handleDeleteProfilePicture,
+    isExternalProvider
+}: OwnProps & InjectedFormProps<AccountState>) => {
     const { t } = useTranslation();
     return (
         <ResponsiveContainer>
@@ -28,11 +33,13 @@ const AccountForm: FC<OwnProps & InjectedFormProps<AccountState>> = (
                     {profilePictureURL ? (
                         <>
                             <Avatar sx={{ height: 56, width: 56 }} alt="Profile Picture" src={profilePictureURL} />
-                            <Button color="secondary" variant="contained" onClick={handleDeleteProfilePicture}>
-                                Delete profile picture
-                            </Button>
+                            {!isExternalProvider && (
+                                <Button color="secondary" variant="contained" onClick={handleDeleteProfilePicture}>
+                                    Delete profile picture
+                                </Button>
+                            )}
                         </>
-                    ) : (
+                    ) : isExternalProvider ? null : (
                         <Field
                             name={'profilePicture'}
                             label={t('form.label.account.profilePicture')}
@@ -64,13 +71,15 @@ const AccountForm: FC<OwnProps & InjectedFormProps<AccountState>> = (
                         normalize={name}
                         component={renderTextField}
                     />
-                    <Field
-                        label={t('form.label.registration.email')}
-                        name={'email'}
-                        validate={[email]}
-                        normalize={lower}
-                        component={renderReadOnlyTextField}
-                    />
+                    {!isExternalProvider && (
+                        <Field
+                            label={t('form.label.registration.email')}
+                            name={'email'}
+                            validate={[email]}
+                            normalize={lower}
+                            component={renderEmailField}
+                        />
+                    )}
                     <LoadingButton
                         loading={submitting}
                         loadingPosition="start"
@@ -80,6 +89,7 @@ const AccountForm: FC<OwnProps & InjectedFormProps<AccountState>> = (
                         fullWidth
                         disabled={pristine || submitting}
                         startIcon={<SaveOutlined />}
+                        style={{ textTransform: 'none' }}
                     >
                         {t('form.button.account.saveProfile')}
                     </LoadingButton>

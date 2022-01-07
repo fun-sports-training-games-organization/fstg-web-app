@@ -54,6 +54,12 @@ export const registrationSuccess = (
     t: TFunction<'translation', undefined>
 ): SnackbarKey => notification(enqueueSnackbar, t, 'auth.message.registration.successful', 'success');
 
+export const registrationFailure = (
+    enqueueSnackbar: (message: SnackbarMessage, options?: OptionsObject | undefined) => SnackbarKey,
+    t: TFunction<'translation', undefined>,
+    options?: string | TOptions<StringMap> | undefined
+): SnackbarKey => notification(enqueueSnackbar, t, 'auth.message.registration.failure', 'error', options);
+
 export const logoutSuccess = (
     enqueueSnackbar: (message: SnackbarMessage, options?: OptionsObject | undefined) => SnackbarKey,
     t: TFunction<'translation', undefined>
@@ -73,6 +79,16 @@ export const passwordResetEmailError = (
     enqueueSnackbar: (message: SnackbarMessage, options?: OptionsObject | undefined) => SnackbarKey,
     t: TFunction<'translation', undefined>
 ): SnackbarKey => notification(enqueueSnackbar, t, 'auth.message.resetPassword.emailError', 'error');
+
+export const emailVerificationSentSuccess = (
+    enqueueSnackbar: (message: SnackbarMessage, options?: OptionsObject | undefined) => SnackbarKey,
+    t: TFunction<'translation', undefined>
+): SnackbarKey => notification(enqueueSnackbar, t, 'auth.message.emailVerification.sent', 'success');
+
+export const emailVerificationSentError = (
+    enqueueSnackbar: (message: SnackbarMessage, options?: OptionsObject | undefined) => SnackbarKey,
+    t: TFunction<'translation', undefined>
+): SnackbarKey => notification(enqueueSnackbar, t, 'auth.message.emailVerification.error', 'error');
 
 const notificationItem = (
     enqueueSnackbar: (message: SnackbarMessage, options?: OptionsObject | undefined) => SnackbarKey,

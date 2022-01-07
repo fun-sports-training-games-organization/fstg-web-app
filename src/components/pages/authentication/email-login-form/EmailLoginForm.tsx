@@ -56,8 +56,9 @@ const EmailLoginForm: FC<InjectedFormProps<EmailLoginFormField>> = (props: Injec
                     fullWidth
                     disabled={pristine || submitting}
                     startIcon={<SendIcon />}
+                    style={{ textTransform: 'none' }}
                 >
-                    {t(forgotPasswordMode ? 'page.login.button.reset' : 'page.login.button.login')}
+                    {t(forgotPasswordMode ? 'form.button.login.resetPassword' : 'form.button.login.loginWithEmail')}
                 </LoadingButton>
             </Stack>
         </Form>

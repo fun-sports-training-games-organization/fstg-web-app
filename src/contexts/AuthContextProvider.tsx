@@ -1,12 +1,21 @@
 import React, { createContext, FC, PropsWithChildren, useContext, useEffect, useState } from 'react';
-import { onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, User } from 'firebase/auth';
+import {
+    getAuth,
+    getRedirectResult,
+    onAuthStateChanged,
+    sendEmailVerification,
+    sendPasswordResetEmail,
+    signInWithEmailAndPassword,
+    User,
+    UserCredential
+} from 'firebase/auth';
 import Loader from '../components/atoms/loader/Loader';
 import { useSnackbar } from 'notistack';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { useFirebase } from 'react-redux-firebase';
 import { auth } from '../config/firebase';
-import { Google as GoogleIcon, Twitter as TwitterIcon } from '@mui/icons-material';
+import { Facebook as FacebookIcon, Google as GoogleIcon, Twitter as TwitterIcon } from '@mui/icons-material';
 import * as notification from '../util/notifications-util';
 import * as navigate from '../util/navigation-util';
 
@@ -24,7 +33,7 @@ export type LoginProvider = {
 
 export const LoginProviders: LoginProvider[] = [
     { name: 'google', color: '#db4437', icon: <GoogleIcon /> },
-    // { name: 'facebook', color: '#3b5998', icon: <FacebookIcon /> },
+    { name: 'facebook', color: '#3b5998', icon: <FacebookIcon /> },
     { name: 'twitter', color: '#55acee', icon: <TwitterIcon /> }
 ];
 
@@ -41,6 +50,7 @@ export type AuthContextData = {
         username?: string
     ) => Promise<void>;
     sendResetPasswordLink: (email: string) => Promise<void>;
+    sendVerificationEmail: () => Promise<void>;
     loginFailed: (error: Error) => void;
 };
 
@@ -51,22 +61,18 @@ const AuthContextProvider: FC<PropsWithChildren<Record<string, unknown>>> = (
 ) => {
     const [user, setUser] = useState<User | null>(null);
     const [authenticating, setAuthenticating] = useState<boolean>(true);
+    const [newlyRegistered, setNewlyRegistered] = useState<boolean>(false);
     const { t } = useTranslation();
     const { enqueueSnackbar } = useSnackbar();
     const firebase = useFirebase();
     const history = useHistory();
 
     useEffect(() => {
-        // console.log('user loaded...');
-    }, [user]);
-
-    useEffect(() => {
         onAuthStateChanged(auth, (user: User | null) => {
-            console.log(user);
             setUser(user);
             setAuthenticating(false);
         });
-    }, []);
+    }, [user]);
 
     const loginFailed = (error: Error) => {
         // Handle Errors here.
@@ -93,8 +99,17 @@ const AuthContextProvider: FC<PropsWithChildren<Record<string, unknown>>> = (
                 provider,
                 type: 'popup'
             })
-            .then(loggedInSuccessfully)
+            .then(() => {
+                if (provider === 'facebook') {
+                    getRedirectRes();
+                }
+                loggedInSuccessfully();
+            })
             .catch(loginFailed);
+    };
+
+    const getRedirectRes = () => {
+        getRedirectResult(getAuth()).then((result: UserCredential | null) => console.log(result));
     };
 
     const loginWithEmail = async (email: string, password: string): Promise<void> => {
@@ -114,11 +129,13 @@ const AuthContextProvider: FC<PropsWithChildren<Record<string, unknown>>> = (
                 .createUser({ email, password }, { ...(username && { username }), firstName, lastName })
                 .then(() => {
                     notification.registrationSuccess(enqueueSnackbar, t);
+                    setNewlyRegistered(true);
                     return navigate.toBase(history);
-                    // console.log(`Provier ID: ${user.providerId}`);
-                    // console.log(`UUID: ${user.uid}`);
                 })
-                .catch(console.error));
+                .catch((error) => {
+                    const { code: errorCode, message: errorMessage } = error;
+                    notification.registrationFailure(enqueueSnackbar, t, { errorCode, errorMessage });
+                }));
     };
 
     const sendResetPasswordLink = async (email: string): Promise<void> => {
@@ -126,6 +143,20 @@ const AuthContextProvider: FC<PropsWithChildren<Record<string, unknown>>> = (
             .then(() => notification.passwordResetEmailSuccess(enqueueSnackbar, t))
             .catch(() => notification.passwordResetEmailError(enqueueSnackbar, t));
     };
+    const sendVerificationEmail = async (): Promise<void> => {
+        user &&
+            (await sendEmailVerification(user)
+                .then(() => notification.emailVerificationSentSuccess(enqueueSnackbar, t))
+                .catch(() => notification.emailVerificationSentError(enqueueSnackbar, t)));
+    };
+
+    useEffect(() => {
+        if (user && !user.emailVerified && newlyRegistered) {
+            sendVerificationEmail();
+            setNewlyRegistered(false);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [user, newlyRegistered]);
 
     if (authenticating) {
         return <Loader />;
@@ -143,7 +174,16 @@ const AuthContextProvider: FC<PropsWithChildren<Record<string, unknown>>> = (
 
     return (
         <AuthContext.Provider
-            value={{ user, loginWith, loginWithEmail, registerWithEmail, sendResetPasswordLink, loginFailed, logout }}
+            value={{
+                user,
+                loginWith,
+                loginWithEmail,
+                registerWithEmail,
+                sendResetPasswordLink,
+                sendVerificationEmail,
+                loginFailed,
+                logout
+            }}
         >
             {props.children}
         </AuthContext.Provider>
