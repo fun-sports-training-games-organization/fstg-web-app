@@ -143,7 +143,8 @@
                 "title": "Trainingseinheiten",
                 "message": "Entschuldigung, aber Sie haben noch keine Trainingseinheiten! Bitte erstellen Sie jetzt eine!",
                 "button": "Gehe zu Trainingseinheiten"
-            }
+            },
+            "showMore": "Mehr anzeigen..."
         }
     },
     "form": {
@@ -165,8 +166,8 @@
                 "imgUrl": "Bild-/GIF-URL",
                 "defaultAmountType": "Standardbetragstyp",
                 "amountType": "Betragstyp",
-                "countBased": "Count-based",
-                "timeBased": "zeitbasiert",
+                "countBased": "Zahlbasiert",
+                "timeBased": "Zeitbasiert",
                 "defaultTime": "Standardzeit",
                 "time": "Zeit",
                 "recordResultsByDefault": "Ergebnisse standardmäßig aufzeichnen",
@@ -181,6 +182,9 @@
             }
         },
         "button": {
+            "exercise": {
+                "deleteImage": "Bild entfernen"
+            },
             "registration": {
                 "register": "Registrieren"
             },

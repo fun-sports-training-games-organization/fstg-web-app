@@ -127,7 +127,7 @@ const EditImage = ({
             )}
             {imgUrl && setExercise && (
                 <Button variant={'contained'} color={'secondary'} onClick={deleteImage}>
-                    {t('Delete Image')}
+                    {t('form.button.exercise.deleteImage')}
                 </Button>
             )}
             {!imgUrl && setExercise && setChosenFile && (

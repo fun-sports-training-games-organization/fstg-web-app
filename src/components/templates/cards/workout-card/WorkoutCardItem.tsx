@@ -8,7 +8,7 @@ type WorkoutCardItemProps = {
 };
 const WorkoutCardItem: FC<WorkoutCardItemProps> = ({ workout }: WorkoutCardItemProps) => {
     return (
-        <ListItem key={workout.id} disablePadding>
+        <ListItem key={workout.id} disablePadding sx={{ marginBottom: 1 }}>
             <ListItemText primary={workout.name} />
         </ListItem>
     );

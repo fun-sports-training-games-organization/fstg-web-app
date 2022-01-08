@@ -143,7 +143,8 @@
                 "title": "Workouts",
                 "message": "Sorry, but you don't have any workouts yet! Please go ahead and create one now!",
                 "button": "Go to Workouts"
-            }
+            },
+            "showMore": "Show More..."
         }
     },
     "form": {
@@ -181,6 +182,9 @@
             }
         },
         "button": {
+            "exercise": {
+                "deleteImage": "Delete Image"
+            },
             "registration": {
                 "register": "Register"
             },

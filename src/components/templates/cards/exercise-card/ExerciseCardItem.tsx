@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import { Exercise } from '../../../../model/Exercise.model';
-import { ListItem, ListItemIcon, ListItemText } from '@mui/material';
+import { ListItem, ListItemIcon, ListItemText, Theme, useMediaQuery } from '@mui/material';
 import * as React from 'react';
 import { FitnessCenter } from '@mui/icons-material';
 
@@ -9,6 +9,8 @@ type ExerciseCardItemProps = {
 };
 const ExerciseCardItem: FC<ExerciseCardItemProps> = ({ exercise }: ExerciseCardItemProps) => {
     const [image, setImage] = useState<string>();
+    const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
+    const iconSize = smDown ? 35 : 50;
     useEffect(() => {
         import(`../../../../assets/exercise/icons/${exercise.name?.toLowerCase().trim().split(' ').join('_')}.png`)
             .then((image: { default: string }) => setImage(image.default))
@@ -21,9 +23,9 @@ const ExerciseCardItem: FC<ExerciseCardItemProps> = ({ exercise }: ExerciseCardI
         <ListItem key={exercise.id} disablePadding>
             <ListItemIcon>
                 {image ? (
-                    <img style={{ height: 50, width: 50 }} src={image} alt={exercise.name} />
+                    <img style={{ height: iconSize, width: iconSize }} src={image} alt={exercise.name} />
                 ) : (
-                    <FitnessCenter sx={{ height: 50, width: 50 }} />
+                    <FitnessCenter sx={{ height: iconSize, width: iconSize }} />
                 )}
             </ListItemIcon>
             <ListItemText primary={exercise.name} />

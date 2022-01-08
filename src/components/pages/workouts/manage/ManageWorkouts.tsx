@@ -21,6 +21,7 @@ import { Delete, Edit, PlayArrow } from '@mui/icons-material';
 import BlankPage from '../../../templates/blank-slate/template/blank-page/BlankPage';
 import WorkoutIcon from '../../../../assets/workout.png';
 import { useTranslation } from 'react-i18next';
+import Loader from '../../../atoms/loader/Loader';
 
 const ManageWorkouts: FC = () => {
     const containerRef = useRef(null);
@@ -29,7 +30,7 @@ const ManageWorkouts: FC = () => {
     const idPrefix = getPageIdPrefix(pageName);
     const exerciseItemPrefix = `${idPrefix}exercise_list__item_`;
     const history = useHistory();
-    const { entities } = useEntityManager<Workout>('workouts');
+    const { entities, loading } = useEntityManager<Workout>('workouts');
 
     const [workouts, setWorkouts] = useState<Workout[]>([]);
     const [openDeleteConfirmationDialog, setOpenDeleteConfirmationDialog] = useState<boolean>(false);
@@ -120,7 +121,9 @@ const ManageWorkouts: FC = () => {
     const haveWorkouts = workouts.length > 0;
     return (
         <ResponsiveContainer xl={8} ref={containerRef}>
-            {haveWorkouts ? (
+            {loading ? (
+                <Loader />
+            ) : haveWorkouts ? (
                 <>
                     <PageTitleActionButton
                         postTitleActionButton={

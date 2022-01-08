@@ -41,7 +41,8 @@ const TimePicker: FC<OwnProps> = ({ label, value, setValue }: OwnProps): JSX.Ele
                     value={minutes}
                     type={'number'}
                     onChange={onChange}
-                    inputProps={{ min: 0, max: 60, maxLength: 2 }}
+                    fullWidth
+                    inputProps={{ min: 0, max: 60, maxLength: 2, pattern: '[0-9]*' }}
                 />
                 <Divider orientation={'vertical'}>:</Divider>
                 <TextField
@@ -50,7 +51,8 @@ const TimePicker: FC<OwnProps> = ({ label, value, setValue }: OwnProps): JSX.Ele
                     value={seconds}
                     type={'number'}
                     onChange={onChange}
-                    inputProps={{ min: 0, max: 60, maxLength: 2 }}
+                    fullWidth
+                    inputProps={{ min: 0, max: 60, maxLength: 2, pattern: '[0-9]*' }}
                 />
             </Stack>
         </>

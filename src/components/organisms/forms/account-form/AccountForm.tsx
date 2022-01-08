@@ -36,7 +36,7 @@ const AccountForm: FC<OwnProps & InjectedFormProps<AccountState>> = ({
                 <Stack padding={2} spacing={2} alignItems={'center'}>
                     {profilePictureURL ? (
                         <>
-                            <Avatar sx={{ height: 56, width: 56 }} alt="Profile Picture" src={profilePictureURL} />
+                            <Avatar sx={{ height: 80, width: 80 }} alt="Profile Picture" src={profilePictureURL} />
                             {!isExternalProvider && (
                                 <Button color="secondary" variant="contained" onClick={handleDeleteProfilePicture}>
                                     Delete profile picture
