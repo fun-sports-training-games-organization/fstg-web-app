@@ -7,6 +7,7 @@ import AuthContainer from '../../../templates/containers/auth-container/AuthCont
 import SwipingTabs from '../../../organisms/swiping-tabs/SwipingTabs';
 import { LoginProvider, LoginProviders, useAuth } from '../../../../contexts/AuthContextProvider';
 import RegistrationForm, { RegistrationFormFields } from '../registration-form/RegistrationForm';
+import PageTitle from '../../../atoms/page-title/PageTitle';
 
 const LoginPage: FC = (): JSX.Element => {
     const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
@@ -62,15 +63,9 @@ const LoginPage: FC = (): JSX.Element => {
             alignItems="center"
             justifyContent="center"
             width={'100%'}
-            style={{ marginTop: smDown ? '50px' : '100px' }}
+            style={{ marginTop: smDown ? '0px' : '100px' }}
         >
-            <AuthContainer
-                header={
-                    <Typography align={'center'} variant={'h4'}>
-                        {t('page.login.header')}
-                    </Typography>
-                }
-            >
+            <AuthContainer header={<PageTitle align={'center'} translationKey={'FSTG'} />}>
                 <SwipingTabs
                     tabs={[
                         { label: t('page.login.tabLabel.login'), content: LoginWithExternal() },
