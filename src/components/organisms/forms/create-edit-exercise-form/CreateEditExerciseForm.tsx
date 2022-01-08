@@ -27,6 +27,7 @@ import { getNewEmptyWorkout } from '../../../../util/workout-util';
 import { getNewEmptyExercise } from '../../../../util/exercise-util';
 import { getPageIdPrefix } from '../../../../util/id-util';
 import SubmitButton from '../../../atoms/submit-button/SubmitButton';
+import TimeOrCountField from '../../../atoms/time-or-count-field/TimeOrCountField';
 
 type Props = {
     exerciseId?: string;
@@ -283,25 +284,17 @@ const CreateEditExerciseForm = ({
                             onChange={onCheckboxChange}
                             label={t(`${PREFIX}.useDefaultResult`)}
                         />
-                        {exercise.useDefaultResult &&
-                            (exercise.resultType === 'TIME_BASED' ? (
-                                <TimeField
-                                    label={t(`${PREFIX}.defaultResult`)}
-                                    value={exercise.resultValue ? exercise.resultValue : 0}
-                                    setValue={(seconds: number) => {
-                                        setExerciseAndWorkout({ ...exercise, resultValue: seconds });
-                                    }}
-                                />
-                            ) : (
-                                <CountField
-                                    min={0}
-                                    max={100}
-                                    value={exercise.resultValue ? exercise.resultValue : 0}
-                                    setValue={(value: number) => {
-                                        setExerciseAndWorkout({ ...exercise, resultValue: value });
-                                    }}
-                                />
-                            ))}
+                        <TimeOrCountField
+                            show={exercise.useDefaultResult}
+                            resultType={exercise.resultType}
+                            timeLabel={t(`${PREFIX}.defaultResult`)}
+                            value={exercise.resultValue}
+                            itemToUpdate={exercise}
+                            updateItem={(item) => {
+                                const exercise = item as Exercise;
+                                setExerciseAndWorkout(exercise);
+                            }}
+                        />
                     </>
                 )}
 

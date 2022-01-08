@@ -47,7 +47,10 @@
         "save": "Save",
         "create": "Create",
         "add": "Add",
-        "back": "Back"
+        "back": "Back",
+        "result": "result",
+        "colon": ":",
+        "ok": "OK"
     },
     "auth": {
         "message": {

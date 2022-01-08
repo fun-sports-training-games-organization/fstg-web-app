@@ -47,7 +47,10 @@
         "save": "Speichern",
         "create": "Erstellen",
         "add": "Hinzufügen",
-        "back": "Zurück"
+        "back": "Zurück",
+        "result": "Ergebnis",
+        "colon": ":",
+        "ok": "OK"
     },
     "auth": {
         "message": {

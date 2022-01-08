@@ -1,11 +1,17 @@
-import { AmountTypeAmountValue, CreateAndModifyInfo, IdName, RecordType, HasBeenCreated } from './Basics.model';
+import {
+    AmountTypeAmountValue,
+    CreateAndModifyInfo,
+    IdName,
+    RecordType,
+    HasBeenCreated,
+    ResultValue
+} from './Basics.model';
 
-export interface Exercise extends IdName, CreateAndModifyInfo, AmountTypeAmountValue, HasBeenCreated {
+export interface Exercise extends IdName, CreateAndModifyInfo, AmountTypeAmountValue, HasBeenCreated, ResultValue {
     imageOrGifUrl?: string;
     recordResults?: boolean;
     resultType?: RecordType;
     useDefaultResult?: boolean;
-    resultValue?: number;
 }
 
 export interface ExerciseWorkoutSettings extends Exercise {

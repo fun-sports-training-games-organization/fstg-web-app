@@ -61,10 +61,12 @@ const ResponsiveDialog: FC<ResponsiveDialogProps> = ({
     autoFocus,
     onClose,
     showCloseButton,
+    fullScreenOverride,
     ...rest
 }: ResponsiveDialogProps) => {
     const theme = useTheme();
-    const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+    const isMdDown = useMediaQuery(theme.breakpoints.down('md'));
+    const fullScreen = fullScreenOverride === undefined ? isMdDown : fullScreenOverride;
 
     return (
         <Dialog fullScreen={fullScreen} onClose={onClose} aria-labelledby="responsive-dialog-title" {...rest}>

@@ -47,7 +47,10 @@
         "save": "Enregistrer",
         "create": "Créer",
         "add": "Ajouter",
-        "back": "Retour"
+        "back": "Retour",
+        "result": "résultat",
+        "colon": " :",
+        "ok": "OK"
     },
     "auth": {
         "message": {

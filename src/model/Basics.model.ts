@@ -30,3 +30,7 @@ export interface AmountTypeAmountValue {
 export interface HasBeenCreated {
     hasBeenCreated: boolean;
 }
+
+export interface ResultValue {
+    resultValue?: number;
+}

@@ -17,6 +17,7 @@ export interface OwnProps {
           }['bivarianceHack'];
     autoFocus?: 'confirm' | 'cancel';
     showCloseButton?: boolean;
+    fullScreenOverride?: boolean;
 }
 
 export type ResponsiveDialogProps = Omit<DialogProps, 'onClose' | 'title'> & OwnProps;
