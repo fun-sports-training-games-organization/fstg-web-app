@@ -164,7 +164,7 @@
                 "password": "Password"
             },
             "registration": {
-                "username": "Username (Optional)",
+                "nickname": "Nickname (Optional)",
                 "firstName": "First Name",
                 "lastName": "Last Name",
                 "email": "Email",

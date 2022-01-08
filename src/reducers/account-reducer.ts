@@ -2,10 +2,14 @@ import { Dispatch } from 'react';
 import { Action } from 'redux';
 
 export interface AccountState {
-    username?: string;
+    nickname?: string;
     firstName?: string;
     lastName?: string;
     email?: string | null;
+    gender?: string;
+    weight?: number;
+    height?: number;
+    dateOfBirth?: string;
     profilePicture?: FileList;
     profilePicturePath?: string;
 }

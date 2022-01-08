@@ -1,18 +1,32 @@
 import { FC } from 'react';
-import { Avatar, Button, Stack } from '@mui/material';
+import { Avatar, Button, FormControlLabel, Radio, Stack } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import ResponsiveContainer from '../../../templates/containers/responsive-container/ResponsiveContainer';
 import { Field, Form, InjectedFormProps, reduxForm } from 'redux-form';
 import {
     renderEmailField,
     renderFileChooser,
+    renderNumberField,
+    renderRadioGroup,
     renderTextField
 } from '../../../molecules/inputs/redux-fields/ReduxFields';
 import { SaveOutlined } from '@mui/icons-material';
 import { connect, RootStateOrAny } from 'react-redux';
 import { LoadingButton } from '@mui/lab';
 import { AccountState } from '../../../../reducers/account-reducer';
-import { alphaNumeric, email, maxLength30, minLength2, minLengthName, required } from '../../../../util/validation';
+import {
+    alphaNumeric,
+    email,
+    heavierThanLightestPersonEver,
+    lighterThanHeaviestPersonEver,
+    maxLength30,
+    minLength2,
+    minLengthName,
+    number,
+    required,
+    shorterThanTallestPersonEver,
+    tallerThanShortestPersonEver
+} from '../../../../util/validation';
 import { lower, name } from '../../../../util/normalize';
 
 type OwnProps = {
@@ -51,10 +65,19 @@ const AccountForm: FC<OwnProps & InjectedFormProps<AccountState>> = ({
                             // onChange={handleChangeEvent}
                         />
                     )}
+                    {!isExternalProvider && (
+                        <Field
+                            label={t('form.label.registration.email')}
+                            name={'email'}
+                            validate={[email]}
+                            normalize={lower}
+                            component={renderEmailField}
+                        />
+                    )}
                     <Field
-                        autoComplete={'username'}
-                        name={'username'}
-                        label={t('form.label.registration.username')}
+                        autoComplete={'nickname'}
+                        name={'nickname'}
+                        label={t('form.label.registration.nickname')}
                         validate={[alphaNumeric, minLength2, maxLength30]}
                         normalize={lower}
                         component={renderTextField}
@@ -75,15 +98,27 @@ const AccountForm: FC<OwnProps & InjectedFormProps<AccountState>> = ({
                         normalize={name}
                         component={renderTextField}
                     />
-                    {!isExternalProvider && (
-                        <Field
-                            label={t('form.label.registration.email')}
-                            name={'email'}
-                            validate={[email]}
-                            normalize={lower}
-                            component={renderEmailField}
-                        />
-                    )}
+                    <Field style={{ width: '100%' }} name={'gender'} label={t('Gender')} component={renderRadioGroup}>
+                        <Stack direction={'row'} alignItems={'flex-start'}>
+                            <FormControlLabel value={'male'} control={<Radio />} label={'Male'} />
+                            <FormControlLabel value={'female'} control={<Radio />} label={'Female'} />
+                            <FormControlLabel value={'other'} control={<Radio />} label={'Other'} />
+                        </Stack>
+                    </Field>
+                    {/*<Field name={'dateOfBirth'} label={t('Date of Birth')} component={renderDatePicker} />*/}
+                    <Field
+                        name={'height'}
+                        label={t('Height (cm)')}
+                        validate={[number, tallerThanShortestPersonEver, shorterThanTallestPersonEver]}
+                        component={renderNumberField}
+                    />
+                    <Field
+                        name={'weight'}
+                        label={t('Weight (kg)')}
+                        validate={[number, heavierThanLightestPersonEver, lighterThanHeaviestPersonEver]}
+                        component={renderNumberField}
+                    />
+
                     <LoadingButton
                         loading={submitting}
                         loadingPosition="start"

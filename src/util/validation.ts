@@ -97,6 +97,17 @@ export const maxLength30 = maxLength(30);
 export const maxLengthEmail = maxLength(320);
 export const ONE_MEGABYTE = 1 * 1024 * 1024;
 
+/**
+ * @param date the date to be checked to see if it is a valid.
+ * @return true if it is a valid date, otherwise it will return false
+ */
+export const isDate = (date: string | Date | undefined): boolean => {
+    if (typeof date === 'undefined') {
+        return false;
+    }
+    return typeof date === 'string' ? !isNaN(new Date(date).getTime()) : !isNaN(date.getTime());
+};
+
 export const number = (value: string | number): string | undefined =>
     value && isNaN(Number(value)) ? i18n.t('validation.number') : undefined;
 export const minValue =
@@ -107,6 +118,11 @@ export const maxValue =
     (max: number) =>
     (value: number): string | undefined =>
         value && value > max ? i18n.t('validation.maxValue', { max }) : undefined;
+
+export const heavierThanLightestPersonEver = minValue(2.1);
+export const lighterThanHeaviestPersonEver = maxValue(635);
+export const tallerThanShortestPersonEver = minValue(61);
+export const shorterThanTallestPersonEver = maxValue(272.01);
 export const email = (value: string): string | undefined =>
     value && !emailRegex.test(value.trim()) ? i18n.t('validation.invalidEmail') : undefined;
 export const alphaNumeric = (value: string): string | undefined =>

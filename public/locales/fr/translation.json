@@ -164,7 +164,7 @@
                 "password": "Mot de passe"
             },
             "registration": {
-                "username": "Nom d'utilisateur (facultatif)",
+                "nickname": "Surnom (facultatif)",
                 "firstName": "Prénom",
                 "lastName": "Nom de famille ",
                 "email": "E-mail",

@@ -33,9 +33,20 @@ const Account: FC = () => {
             user.uid &&
             user.email &&
             entityManager.findById(user?.uid).then((account: AccountState) => {
-                const { firstName, lastName, username, profilePicturePath } = account;
+                const { firstName, lastName, nickname, profilePicturePath, weight, height, gender, dateOfBirth } =
+                    account;
                 const { email } = user;
-                accountDispatcher.load({ firstName, lastName, username, email, profilePicturePath });
+                accountDispatcher.load({
+                    firstName,
+                    lastName,
+                    nickname,
+                    email,
+                    profilePicturePath,
+                    weight,
+                    height,
+                    gender,
+                    dateOfBirth
+                });
                 setProfilePicturePath(profilePicturePath);
                 if (profilePicturePath) {
                     fileManager.getFileURL(`profile_pictures/${user?.uid}/${profilePicturePath}`).then((url) => {
@@ -54,10 +65,10 @@ const Account: FC = () => {
 
     const handleSubmit = async (values: AccountState): Promise<void | SubmissionError> => {
         if (values) {
-            const { firstName, lastName, username, profilePicture } = values;
-            let emptyUsername;
-            if (typeof username === 'string' && username.trim().length === 0) {
-                emptyUsername = true;
+            const { firstName, lastName, nickname, gender, height, weight, profilePicture, dateOfBirth } = values;
+            let emptyNickname;
+            if (typeof nickname === 'string' && nickname.trim().length === 0) {
+                emptyNickname = true;
             }
             let profilePicturePath;
             if (profilePicture && profilePicture.length > 0) {
@@ -74,7 +85,11 @@ const Account: FC = () => {
                     id: user?.uid,
                     firstName,
                     lastName,
-                    ...((username || emptyUsername) && { username }),
+                    ...(gender && { gender }),
+                    ...(height && { height }),
+                    ...(weight && { weight }),
+                    ...(dateOfBirth && { dateOfBirth }),
+                    ...((nickname || emptyNickname) && { nickname }),
                     ...(profilePicturePath && { profilePicturePath })
                 })
                 .then(() => {
