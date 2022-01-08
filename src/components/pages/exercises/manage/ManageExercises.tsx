@@ -1,27 +1,27 @@
 import { Stack } from '@mui/material';
 import { FC, useEffect, useRef, useState } from 'react';
 import { Exercise } from '../../../../model/Exercise.model';
-import DeleteConfirmationDialog from '../../../molecules/delete-confirmation-dialog/DeleteConfirmationDialog';
+import DeleteConfirmationDialog from '../../../organisms/dialogs/delete-confirmation-dialog/DeleteConfirmationDialog';
 import { useTranslation } from 'react-i18next';
 import { getPageIdPrefix } from '../../../../util/id-util';
 import useEntityManager from '../../../../hooks/useEntityManager';
 import AddButton from '../../../atoms/add-button/AddButton';
-import ResponsiveDialog from '../../../organisms/responsive-dialog';
-import CreateEditExerciseForm from '../../../organisms/create-edit-exercise-form/CreateEditExerciseForm';
-import ActionsMenu from '../../../molecules/actions-menu/ActionsMenu';
-import Accordion from '../../../molecules/accordion/Accordion';
-import { AccordionProp } from '../../../molecules/accordion/Accordion.types';
+import ResponsiveDialog from '../../../organisms/dialogs/responsive-dialog';
+import CreateEditExerciseForm from '../../../organisms/forms/create-edit-exercise-form/CreateEditExerciseForm';
+import ActionsMenu from '../../../molecules/menus/actions-menu/ActionsMenu';
+import Accordion from '../../../templates/containers/accordion/Accordion';
+import { AccordionProp } from '../../../templates/containers/accordion/Accordion.types';
 import { v4 as uuidv4 } from 'uuid';
 import { getNumber } from '../../../../util/number-util';
 import EditImage from '../../../molecules/edit-image/EditImage';
 import ExercisesTimeRepsIcons from '../../../organisms/exercises-time-reps-icons/ExercisesTimeRepsIcons';
 import RecordResultsIcon from '../../../atoms/record-results-icon/RecordResultsIcon';
 import { Delete, Edit } from '@mui/icons-material';
-import ResponsiveContainer from '../../../organisms/responsive-container/ResponsiveContainer';
+import ResponsiveContainer from '../../../templates/containers/responsive-container/ResponsiveContainer';
 import PageTitleActionButton from '../../../molecules/page-title-action/PageTitleAction';
 import ExerciseIcon from '../../../../assets/exercise.png';
-import BlankSlate from '../../../templates/blank-slate/BlankSlate';
 import Loader from '../../../atoms/loader/Loader';
+import BlankPage from '../../../templates/blank-slate/template/blank-page/BlankPage';
 
 const ManageExercises: FC = (): JSX.Element => {
     const containerRef = useRef(null);
@@ -194,7 +194,7 @@ const ManageExercises: FC = (): JSX.Element => {
                     </Stack>
                 </>
             ) : (
-                <BlankSlate
+                <BlankPage
                     slideProps={{ container: containerRef.current }}
                     imageAttributes={{ src: ExerciseIcon, alt: 'Exercise Icon', height: '250px', width: '250px' }}
                     titleTranslateKey={'page.manageExercises.exercises'}

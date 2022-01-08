@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { AppBar, Avatar, IconButton, Toolbar } from '@mui/material';
 import { Logout as LogoutIcon, Menu as MenuIcon } from '@mui/icons-material';
 import { Box } from '@mui/system';
-import LanguageMenu from '../language-menu/LanguageMenu';
+import LanguageMenu from '../../molecules/menus/language-menu/LanguageMenu';
 import { HeaderBarProps } from './HeaderBar.types';
 
 const HeaderBar: FC<HeaderBarProps> = ({ user, logout }: HeaderBarProps): JSX.Element => {

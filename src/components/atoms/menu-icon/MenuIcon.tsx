@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { IconButton } from '@mui/material';
-import Menu from '../../organisms/menu/Menu';
+import Menu from '../../molecules/menus/menu/Menu';
 
 export interface MenuIconProps {
     icon: React.ReactNode;

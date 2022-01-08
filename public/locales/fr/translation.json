@@ -63,11 +63,16 @@
             "registration": {
                 "emailAlreadyExists": "L'e-mail existe déjà!",
                 "passwordTooWeak": "Votre mot de passe est trop faible! (au moins 6 caractères sont requis)",
+                "successful": "Vous avez enregistré avec succès votre compte FSTG! Veuillez vérifier votre boîte de réception pour vérifier votre adresse e-mail!",
                 "failed": "L'enregistrement a échoué: {{code}}"
             },
             "resetPassword": {
                 "emailSent": "Le lien de réinitialisation du mot de passe a été envoyé! Veuillez vérifier votre courrier!",
                 "emailError": "Le lien de réinitialisation du mot de passe n'a pas pu être envoyé. Veuillez attendre un moment et réessayer."
+            },
+            "emailVerification": {
+                "sent": "Confirmation par e-mail envoyée! Veuillez vérifier votre boîte de réception ou vos courriers indésirables pour confirmer votre adresse e-mail.",
+                "error": "Échec de l'envoi de la vérification par e-mail! Veuillez réessayer plus tard!"
             }
         }
     },
@@ -101,10 +106,6 @@
         "login": {
             "header": "Connexion",
             "forgotPassword": "Mot de passe oublié?",
-            "button": {
-                "login": "Connexion",
-                "reset": "Réinitialiser le mot de passe"
-            },
             "tabLabel": {
                 "login": "Connexion",
                 "register": "Enregistrer"
@@ -131,6 +132,19 @@
         },
         "startWorkout": {
             "title": "Commencer l'entraînement"
+        },
+        "dashboard": {
+            "exercice vierge": {
+                "title": "Exercices",
+                "message": "Vous n'avez actuellement aucun exercice disponible! Si vous souhaitez en ajouter un maintenant, veuillez vous rendre sur la page des exercices!",
+                "button": "Aller aux exercices"
+            },
+            "blankWorkout": {
+                "title": "Entraînements",
+                "message": "Désolé, mais vous n'avez pas encore d'entraînement! Veuillez en créer un maintenant!",
+                "button": "Aller aux entraînements"
+            },
+            "showMore": "Montre plus..."
         }
     },
     "form": {
@@ -168,6 +182,9 @@
             }
         },
         "button": {
+            "exercise": {
+                "deleteImage": "Supprimer l'image"
+            },
             "registration": {
                 "register": "S'inscrire"
             },
@@ -178,6 +195,16 @@
             "editWorkout": {
                 "discardChanges": "Annuler les modifications",
                 "addExercise": "ajouter un exercice"
+            },
+            "login": {
+                "loginWithEmail": "Connexion avec e-mail",
+                "resetPassword": "Réinitialiser le mot de passe"
+            }
+        },
+        "tooltip": {
+            "account": {
+                "emailVerified": "Email vérifié!",
+                "sendVerificationEmail": "Cliquez ici pour envoyer un e-mail de vérification!"
             }
         }
     },
@@ -195,7 +222,6 @@
             "button": "Ajouter un exercice"
         }
     },
-    "Push Ups": "Pompes",
     "validation": {
         "invalidEmail": "Adresse e-mail invalide!",
         "required": "Ce champ est obligatoire!",
@@ -210,5 +236,6 @@
         "mustContainSymbol": "Doit contenir un symbole!",
         "mustContainLowercase": "Doit contenir au moins une lettre minuscule!",
         "mustContainUppercase": "Doit contenir au moins une lettre majuscule!"
-    }
+    },
+    "Push Ups": "Pompes"
 }

@@ -63,11 +63,16 @@
             "registration": {
                 "emailAlreadyExists": "E-Mail existiert bereits!",
                 "passwordTooWeak": "Ihr Passwort ist zu schwach! (mindestens 6 Zeichen erforderlich)",
+                "successful": "Sie haben Ihr FSTG-Konto erfolgreich registriert! Bitte überprüfen Sie Ihren Posteingang, um Ihre E-Mail-Adresse zu bestätigen!",
                 "failed": "Registrierung fehlgeschlagen: {{code}}"
             },
             "resetPassword": {
                 "emailSent": "Link zum Zurücksetzen des Passworts wurde gesendet! Bitte überprüfen Sie Ihre E-Mails!",
                 "emailError": "Der Link zum Zurücksetzen des Passworts konnte nicht gesendet werden. Bitte warten Sie einen Moment und versuchen Sie es erneut."
+            },
+            "emailVerification": {
+                "sent": "E-Mail-Bestätigung gesendet! Bitte überprüfen Sie Ihren Posteingang oder Junk-Mail, um Ihre E-Mail-Adresse zu bestätigen.",
+                "error": "Fehler beim Senden der E-Mail-Bestätigung! Bitte versuchen Sie es später noch einmal!"
             }
         }
     },
@@ -98,10 +103,6 @@
         "login": {
             "header": "Anmeldung",
             "forgotPassword": "Passwort vergessen?",
-            "button": {
-                "login": "Anmelden",
-                "reset": "Passwort zurücksetzen"
-            },
             "tabLabel": {
                 "login": "Einloggen",
                 "register": "Registrieren"
@@ -123,14 +124,27 @@
             "exercises": "Übungen"
         },
         "manageWorkouts": {
-            "workouts": "Workouts"
+            "workouts": "Trainingseinheiten"
         },
         "editWorkout": {
-            "createWorkout": "Workout erstellen",
-            "editWorkout": "Workout editieren"
+            "createWorkout": "Training erstellen",
+            "editWorkout": "Training editieren"
         },
         "startWorkout": {
-            "title": "Workout starten"
+            "title": "Training starten"
+        },
+        "dashboard": {
+            "blankExercise": {
+                "title": "Übungen",
+                "message": "Sie haben derzeit keine Übungen zur Verfügung! Wenn Sie jetzt eine hinzufügen möchten, gehen Sie bitte zur Übungsseite!",
+                "button": "Gehe zu Übungen"
+            },
+            "blankWorkout": {
+                "title": "Trainingseinheiten",
+                "message": "Entschuldigung, aber Sie haben noch keine Trainingseinheiten! Bitte erstellen Sie jetzt eine!",
+                "button": "Gehe zu Trainingseinheiten"
+            },
+            "showMore": "Mehr anzeigen..."
         }
     },
     "form": {
@@ -152,8 +166,8 @@
                 "imgUrl": "Bild-/GIF-URL",
                 "defaultAmountType": "Standardbetragstyp",
                 "amountType": "Betragstyp",
-                "countBased": "Count-based",
-                "timeBased": "zeitbasiert",
+                "countBased": "Zahlbasiert",
+                "timeBased": "Zeitbasiert",
                 "defaultTime": "Standardzeit",
                 "time": "Zeit",
                 "recordResultsByDefault": "Ergebnisse standardmäßig aufzeichnen",
@@ -168,6 +182,9 @@
             }
         },
         "button": {
+            "exercise": {
+                "deleteImage": "Bild entfernen"
+            },
             "registration": {
                 "register": "Registrieren"
             },
@@ -178,6 +195,16 @@
             "editWorkout": {
                 "discardChanges": "Änderungen verwerfen",
                 "addExercise": "Übung hinzufügen"
+            },
+            "login": {
+                "loginWithEmail": "Anmelden mit E-mail",
+                "resetPassword": "Passwort zurücksetzen"
+            }
+        },
+        "tooltip": {
+            "account": {
+                "emailVerified": "E-Mail verifiziert!",
+                "sendVerificationEmail": "Klicken Sie hier, um eine Bestätigungs-E-Mail zu senden!"
             }
         }
     },
@@ -195,10 +222,6 @@
             "button": "Übung hinzufügen"
         }
     },
-    "Push Ups": "Liegestütze"
-        },
-        "Push Ups": "Liegestütze"
-    },
     "validation": {
         "invalidEmail": "Ungültige E-Mail-Adresse!",
         "required": "Dieses Feld ist Pflicht!",
@@ -213,5 +236,6 @@
         "mustContainSymbol": "Muss ein Symbol enthalten!",
         "mustContainLowercase": "Muss mindestens einen Kleinbuchstaben enthalten!",
         "mustContainUppercase": "Muss mindestens einen Grossbuchstaben enthalten!"
-    }
+    },
+    "Push Ups": "Liegestütze"
 }

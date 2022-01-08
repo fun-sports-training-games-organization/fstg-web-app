@@ -5,7 +5,7 @@ import { Workout } from '../../../../model/Workout.model';
 import { getPageIdPrefix } from '../../../../util/id-util';
 import useEntityManager from '../../../../hooks/useEntityManager';
 import { getNewEmptyWorkout } from '../../../../util/workout-util';
-import ResponsiveContainer from '../../../organisms/responsive-container/ResponsiveContainer';
+import ResponsiveContainer from '../../../templates/containers/responsive-container/ResponsiveContainer';
 import PausePlayButton from '../../../atoms/pause-play-button/PausePlayButton';
 import UnlockLockButton from '../../../atoms/unlock-lock-button/UnlockLockButton';
 import { ExerciseInProgress } from '../../../../model/Exercise.model';

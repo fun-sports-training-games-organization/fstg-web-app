@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Field, Form, InjectedFormProps, reduxForm } from 'redux-form';
 import { LoadingButton } from '@mui/lab';
 import { email, maxLengthEmail, required } from '../../../../util/validation';
-import { renderPasswordField, renderTextField } from '../../../molecules/ReduxFields';
+import { renderPasswordField, renderTextField } from '../../../molecules/inputs/redux-fields/ReduxFields';
 import SendIcon from '@mui/icons-material/Send';
 export type EmailLoginFormField = { email?: string; password?: string };
 
@@ -56,8 +56,9 @@ const EmailLoginForm: FC<InjectedFormProps<EmailLoginFormField>> = (props: Injec
                     fullWidth
                     disabled={pristine || submitting}
                     startIcon={<SendIcon />}
+                    style={{ textTransform: 'none' }}
                 >
-                    {t(forgotPasswordMode ? 'page.login.button.reset' : 'page.login.button.login')}
+                    {t(forgotPasswordMode ? 'form.button.login.resetPassword' : 'form.button.login.loginWithEmail')}
                 </LoadingButton>
             </Stack>
         </Form>

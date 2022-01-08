@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { Button, Stack } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import FileChooser from '../file-input/FileChooser';
+import FileChooser from '../inputs/file-input/FileChooser';
 import useEntityManager from '../../../hooks/useEntityManager';
 import { Exercise } from '../../../model/Exercise.model';
 import useFileManager from '../../../hooks/useFileManager';
@@ -127,7 +127,7 @@ const EditImage = ({
             )}
             {imgUrl && setExercise && (
                 <Button variant={'contained'} color={'secondary'} onClick={deleteImage}>
-                    {t('Delete Image')}
+                    {t('form.button.exercise.deleteImage')}
                 </Button>
             )}
             {!imgUrl && setExercise && setChosenFile && (
