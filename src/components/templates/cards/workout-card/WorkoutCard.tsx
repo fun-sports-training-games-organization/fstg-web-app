@@ -1,4 +1,4 @@
-import { Avatar, Button, Grid, List, ListItem, Stack, Typography } from '@mui/material';
+import { Avatar, Button, Grid, List, ListItem, Stack, Theme, Typography, useMediaQuery } from '@mui/material';
 import WorkoutIcon from '../../../../assets/workout_plan_3.png';
 import DashboardCard from '../dashboard-card/DashboardCard';
 import * as React from 'react';
@@ -16,6 +16,7 @@ import Loader from '../../../atoms/loader/Loader';
 const WorkoutCard = (): JSX.Element => {
     const history = useHistory();
     const { t } = useTranslation();
+    const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
     const { entities: workouts, loading } = useEntityManager<Workout>('workouts');
     const WorkoutTitle = <PageTitle translationKey={'page.dashboard.blankWorkout.title'} align={'center'} />;
     const goToWorkoutPage = () => navigate.toManageWorkouts(history);
@@ -23,7 +24,11 @@ const WorkoutCard = (): JSX.Element => {
     return loading ? (
         <Loader />
     ) : workouts.length > 0 ? (
-        <DashboardCard cardProps={{ elevation: 5 }} cardHeaderProps={{ title: WorkoutTitle }}>
+        <DashboardCard
+            cardProps={{ elevation: 5 }}
+            cardHeaderProps={{ title: WorkoutTitle, ...(smDown && { sx: { paddingBottom: 0 } }) }}
+            cardContentProps={smDown ? { sx: { paddingTop: 0 } } : undefined}
+        >
             <Grid container spacing={1} alignItems={'center'} alignContent={'center'} justifyContent={'space-between'}>
                 <Grid item md={1} />
                 <Grid item xs={4}>
@@ -47,7 +52,13 @@ const WorkoutCard = (): JSX.Element => {
                             <WorkoutCardItem key={workout.id} workout={workout} />
                         ))}
                         <ListItem disablePadding sx={{ marginTop: 1 }}>
-                            <Button variant={'contained'} onClick={goToWorkoutPage} color={'primary'}>
+                            <Button
+                                fullWidth
+                                style={{ textTransform: 'none' }}
+                                variant={'contained'}
+                                onClick={goToWorkoutPage}
+                                color={'primary'}
+                            >
                                 {t('page.dashboard.showMore')}
                             </Button>
                         </ListItem>

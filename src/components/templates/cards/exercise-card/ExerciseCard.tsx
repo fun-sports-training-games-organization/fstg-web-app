@@ -1,4 +1,4 @@
-import { Avatar, Button, Grid, List, ListItem, Stack, Typography } from '@mui/material';
+import { Avatar, Button, Grid, List, ListItem, Stack, Theme, Typography, useMediaQuery } from '@mui/material';
 import Dumbbells from '../../../../assets/dumbbells.png';
 import DashboardCard from '../dashboard-card/DashboardCard';
 import * as React from 'react';
@@ -16,6 +16,7 @@ import Loader from '../../../atoms/loader/Loader';
 const ExerciseCard = (): JSX.Element => {
     const history = useHistory();
     const { t } = useTranslation();
+    const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
     const { entities: exercises, loading } = useEntityManager<Exercise>('exercises');
 
     const goToExercisePage = () => navigate.toExercises(history);
@@ -23,7 +24,11 @@ const ExerciseCard = (): JSX.Element => {
     return loading ? (
         <Loader />
     ) : exercises.length > 0 ? (
-        <DashboardCard cardProps={{ elevation: 5 }} cardHeaderProps={{ title: ExerciseTitle }}>
+        <DashboardCard
+            cardProps={{ elevation: 5 }}
+            cardHeaderProps={{ title: ExerciseTitle, ...(smDown && { sx: { paddingBottom: 0 } }) }}
+            cardContentProps={smDown ? { sx: { paddingTop: 0 } } : undefined}
+        >
             <Grid container spacing={1} alignItems={'center'} alignContent={'center'} justifyContent={'space-between'}>
                 <Grid item md={1} />
                 <Grid item xs={4}>
@@ -44,7 +49,13 @@ const ExerciseCard = (): JSX.Element => {
                             <ExerciseCardItem key={exercise.id} exercise={exercise} />
                         ))}
                         <ListItem disablePadding sx={{ marginTop: 1 }}>
-                            <Button variant={'contained'} onClick={goToExercisePage} color={'primary'}>
+                            <Button
+                                fullWidth
+                                style={{ textTransform: 'none' }}
+                                variant={'contained'}
+                                onClick={goToExercisePage}
+                                color={'primary'}
+                            >
                                 {t('page.dashboard.showMore')}
                             </Button>
                         </ListItem>
