@@ -52,8 +52,10 @@ const DialogTitleWithCloseButton = (props: DialogTitleProps) => {
 const ResponsiveDialog: FC<ResponsiveDialogProps> = ({
     title,
     message,
+    messageFontWeight,
     content,
     dialogActions,
+    dialogActionsJustifyContent,
     cancelText,
     confirmText,
     onCancel,
@@ -78,11 +80,11 @@ const ResponsiveDialog: FC<ResponsiveDialogProps> = ({
                 <DialogTitle id="responsive-dialog-title">{title}</DialogTitle>
             )}
             <DialogContent>
-                {message && <DialogContentText>{message}</DialogContentText>}
+                {message && <DialogContentText fontWeight={messageFontWeight}>{message}</DialogContentText>}
                 {typeof content === 'string' ? <DialogContentText>{content}</DialogContentText> : content}
             </DialogContent>
             {!showCloseButton && (
-                <DialogActions>
+                <DialogActions sx={{ justifyContent: dialogActionsJustifyContent }}>
                     {dialogActions ? (
                         dialogActions
                     ) : (

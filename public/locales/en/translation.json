@@ -45,12 +45,19 @@
         "confirm": "Confirm",
         "cancel": "Cancel",
         "save": "Save",
+        "exit": "Exit",
+        "restart": "Restart",
+        "discard": "Discard",
         "create": "Create",
         "add": "Add",
         "back": "Back",
         "result": "result",
+        "results": "Results",
         "colon": ":",
-        "ok": "OK"
+        "ok": "OK",
+        "workout": "Workout",
+        "completedIn": "Completed in",
+        "repsCompleted": "Reps completed"
     },
     "auth": {
         "message": {
@@ -84,6 +91,7 @@
         "updateSuccess": "{{item}} was successfully updated",
         "updateFailure": "{{item}} could not be updated",
         "createSuccess": "{{item}} has been created successfully",
+        "workoutResultFor": "workout result for",
         "createFailure": "{{item}} could not be created",
         "profile": {
             "update": {
@@ -135,6 +143,13 @@
         },
         "startWorkout": {
             "title": "Start workout"
+        },
+        "doWorkout": {
+            "workoutCompleteCongratulations": "Congratulations, you have completed your workout!",
+            "reviewWorkoutResults": " Please review your results below and adjust them if anything was entered incorrectly during the workout.",
+            "notRecordingResults": "You currently aren't recording any results for this workout, if you wish to change that at any point you can do so by",
+            "adjustingWorkoutSettings": "adjusting the workout settings",
+            "workoutCompletedIn": "Workout completed in"
         },
         "dashboard": {
             "blankExercise": {

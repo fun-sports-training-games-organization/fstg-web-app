@@ -45,12 +45,19 @@
         "confirm": "Confirmer",
         "cancel": "Annuler",
         "save": "Enregistrer",
+        "exit": "Quitter",
+        "restart": "Redémarrer",
+        "discard": "Jeter",
         "create": "Créer",
         "add": "Ajouter",
         "back": "Retour",
         "result": "résultat",
+        "results": "Résultats",
         "colon": " :",
-        "ok": "OK"
+        "ok": "OK",
+        "workout": "Entraînement",
+        "completedIn": "Terminé en",
+        "repsCompleted": "répétitions terminées"
     },
     "auth": {
         "message": {
@@ -85,6 +92,7 @@
         "updateFailure": "{{item}} n'a pas pu être mis à jour",
         "createSuccess": "{{item}} a été créé avec succès",
         "createFailure": "{{item}} n'a pas pu être créé",
+        "workoutResultFor": "résultat de l'entraînement pour",
         "profile": {
             "update": {
                 "success": "Votre profil a été mis à jour avec succès!",
@@ -134,7 +142,14 @@
             "editWorkout": "Modifier l'entraînement"
         },
         "startWorkout": {
-            "title": "Commencer l'entraînement"
+            "title": "Dèbut l'entraînement"
+        },
+        "doWorkout": {
+            "workoutCompleteCongratulations": "Félicitations, vous avez terminé votre séance d'entraînement !",
+            "reviewWorkoutResults": " Please review your results below and adjust them if anything was entered incorrectly during the workout.",
+            "notRecordingResults": "Vous n'enregistrez actuellement aucun résultat pour cette séance d'entraînement. Si vous souhaitez changer cela à tout moment, vous pouvez le faire en",
+            "adjustingWorkoutSettings": "modifiant les paramètres de la séance d'entraînement",
+            "workoutCompletedIn": "Entraînement terminé en"
         },
         "dashboard": {
             "exercice vierge": {

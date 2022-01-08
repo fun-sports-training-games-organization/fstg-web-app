@@ -45,12 +45,19 @@
         "confirm": "Bestätigen",
         "cancel": "Abbrechen",
         "save": "Speichern",
+        "exit": "Beenden",
+        "restart": "Neustarten",
+        "discard": "Verwerfen",
         "create": "Erstellen",
         "add": "Hinzufügen",
         "back": "Zurück",
         "result": "Ergebnis",
+        "results": "Ergebnisse",
         "colon": ":",
-        "ok": "OK"
+        "ok": "OK",
+        "workout": "Training",
+        "completedIn": "Abgeschlossen in",
+        "repsCompleted": "Wiederholungen abgeschlossen"
     },
     "auth": {
         "message": {
@@ -85,6 +92,7 @@
         "updateFailure": "{{item}} konnte nicht aktualisiert werden",
         "createSuccess": "{{item}} wurde erfolgreich erstellt",
         "createFailure": "{{item}} konnte nicht erstellt werden",
+        "workoutResultFor": "Trainingsergebnis für",
         "profile": {
             "update": {
                 "success": "Ihr Profil wurde erfolgreich aktualisiert!",
@@ -135,6 +143,13 @@
         },
         "startWorkout": {
             "title": "Training starten"
+        },
+        "doWorkout": {
+            "workoutCompleteCongratulations": "Herzlichen Glückwunsch, Sie haben Ihr Training abgeschlossen!",
+            "reviewWorkoutResults": "Bitte überprüfen Sie Ihre Ergebnisse unten und korrigieren Sie die Werte, falls Sie während des Trainings etwas falsch eingegeben haben.",
+            "notRecordingResults": "Sie speichern derzeit keine Ergebnisse für dieses Training. Wenn Sie dies ändern möchten, können Sie dies in den",
+            "adjustingWorkoutSettings": "Trainingseinstellungen anpassen",
+            "workoutCompletedIn": "Training abgeschlossen in"
         },
         "dashboard": {
             "blankExercise": {

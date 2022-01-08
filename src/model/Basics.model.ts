@@ -34,3 +34,15 @@ export interface HasBeenCreated {
 export interface ResultValue {
     resultValue?: number;
 }
+
+export interface ExerciseId {
+    exerciseId?: string;
+}
+
+export interface ResultType {
+    resultType?: RecordType;
+}
+
+export interface SecondsElapsed {
+    secondsElapsed: number;
+}

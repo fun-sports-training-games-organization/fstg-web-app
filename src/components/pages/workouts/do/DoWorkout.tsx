@@ -1,16 +1,17 @@
-import { createRef, FC, RefObject, useCallback, useEffect, useState } from 'react';
-import { Grid, IconButton, Stack, Theme, Typography, useMediaQuery } from '@mui/material';
-import { Id } from '../../../../model/Basics.model';
-import { Workout } from '../../../../model/Workout.model';
+/* eslint-disable unused-imports/no-unused-vars */
+import { createRef, FC, RefObject, SyntheticEvent, useCallback, useEffect, useState } from 'react';
+import { Button, Grid, IconButton, Link, Stack, Theme, Typography, useMediaQuery } from '@mui/material';
+import { Id, RecordType } from '../../../../model/Basics.model';
+import { Workout, WorkoutResult } from '../../../../model/Workout.model';
 import { getPageIdPrefix } from '../../../../util/id-util';
 import useEntityManager from '../../../../hooks/useEntityManager';
 import { getNewEmptyWorkout } from '../../../../util/workout-util';
 import ResponsiveContainer from '../../../templates/containers/responsive-container/ResponsiveContainer';
 import PausePlayButton from '../../../atoms/pause-play-button/PausePlayButton';
 import UnlockLockButton from '../../../atoms/unlock-lock-button/UnlockLockButton';
-import { ExerciseInProgress } from '../../../../model/Exercise.model';
+import { ExerciseInProgress, ExerciseResult } from '../../../../model/Exercise.model';
 import { getExercise, mapToExercisesInProgress, updateSecondsRemaining } from '../../../../util/exercise-util';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import DoWorkoutItem from '../../../organisms/do-workout-item/DoWorkoutItem';
 import CountdownTimer from '../../../molecules/countdown-timer/CountdownTimer';
 import { formatSecondsValueInHoursMinutesAndSeconds } from '../../../../util/date-util';
@@ -18,9 +19,17 @@ import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import theme from '../../../../theme/theme';
 import { useTranslation } from 'react-i18next';
-import { useSnackbar } from 'notistack';
 import ResponsiveDialog from '../../../organisms/dialogs/responsive-dialog';
 import TimeOrCountField from '../../../atoms/time-or-count-field/TimeOrCountField';
+import * as navigate from '../../../../util/navigation-util';
+import SettingsIcon from '@mui/icons-material/Settings';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import SaveIcon from '@mui/icons-material/Save';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import ConfirmationDialog from '../../../organisms/dialogs/confirmation-dialog/ConfirmationDialog';
+import * as notification from '../../../../util/notifications-util';
+import { useSnackbar } from 'notistack';
 
 const DoWorkout: FC = () => {
     const pageName = 'do_workout';
@@ -29,13 +38,20 @@ const DoWorkout: FC = () => {
     const workoutId = params?.id ? params.id : undefined;
     const { t } = useTranslation();
     const { enqueueSnackbar } = useSnackbar();
+    const history = useHistory();
     const { findById } = useEntityManager<Workout>('workouts');
+    const { createEntity } = useEntityManager<WorkoutResult>('workoutResults');
     const [workout, setWorkout] = useState<Workout>(getNewEmptyWorkout());
     const [exercises, setExercises] = useState<ExerciseInProgress[]>([]);
-    const [currentExerciseStartTimeMs, setCurrentExerciseStartTimeMs] = useState<number>(0);
-    const [nextExerciseStartTimeMs, setNextExerciseStartTimeMs] = useState<number>(0);
+    const [originalExercises, setOriginalExercises] = useState<ExerciseInProgress[]>([]);
     const [isLocked, setIsLocked] = useState<boolean>(false);
-    const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+    const [isExerciseResultDialogOpen, setIsExerciseResultDialogOpen] = useState<boolean>(false);
+    const [isCompleteWorkoutDialogOpen, setIsCompleteWorkoutDialogOpen] = useState<boolean>(false);
+    const [isConfirmationDialogOpen, setIsConfirmationDialogOpen] = useState<boolean>(false);
+    const [confirmationDialogTitle, setConfirmationDialogTitle] = useState<string>('');
+    const [confirmationDialogMessage, setConfirmationDialogMessage] = useState<string>('');
+    const [confirmationDialogOnClose, setConfirmationDialogOnClose] =
+        useState<(event: SyntheticEvent<HTMLButtonElement, Event>) => void>();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [workoutRefs, setWorkoutRefs] = useState<RefObject<any>[]>([]);
     const switchIsLocked = () => {
@@ -55,6 +71,7 @@ const DoWorkout: FC = () => {
                 });
                 const mappedExercises = mapToExercisesInProgress(wo.exercises);
                 setExercises(mappedExercises);
+                setOriginalExercises(mappedExercises);
                 setCurrentExercise(mappedExercises[0]);
                 setWorkoutRefs(mappedExercises.map(() => createRef()));
             });
@@ -66,7 +83,7 @@ const DoWorkout: FC = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const handleOnTick = (exercise: ExerciseInProgress, index: number) => {
+    const countdownTimerTick = (exercise: ExerciseInProgress, index: number) => {
         if (isRunning && index === currentExerciseIndex) {
             const secondsRemaining = exercise.secondsRemaining - 1;
             setExercises(updateSecondsRemaining(exercises, currentExerciseIndex, secondsRemaining));
@@ -75,6 +92,7 @@ const DoWorkout: FC = () => {
     };
 
     const smUp = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
+    const mdUp = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'));
     const [exerciseSeconds, setExerciseSeconds] = useState<number>(0);
     const [workoutSeconds, setWorkoutSeconds] = useState<number>(0);
 
@@ -82,33 +100,174 @@ const DoWorkout: FC = () => {
         if (cei === 0) {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         } else {
-            workoutRefs[cei].current.scrollIntoView({
-                behavior: 'smooth',
-                block: 'center',
-                inline: 'center'
-            });
+            workoutRefs &&
+                workoutRefs[cei] &&
+                workoutRefs[cei].current &&
+                workoutRefs[cei].current.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center',
+                    inline: 'center'
+                });
         }
     };
 
     const updateExercisesAndMoveNext = () => {
-        setIsDialogOpen(false);
+        setIsExerciseResultDialogOpen(false);
         const ce: ExerciseInProgress = { ...currentExercise, resultValue: exerciseSeconds } as ExerciseInProgress;
         const cei = currentExerciseIndex + 1;
-        setTimeout(() => scrollToCurrentExercise(cei), 100);
-        setExerciseSeconds(0);
-        setExercises(exercises.map((e, i) => (i === currentExerciseIndex ? ce : e)));
-        // ce.resultType === 'TIME_BASED' &&
-        //     enqueueSnackbar(
-        //         t('notifications.exerciseCompletedTimeResultSuccess', {
-        //             exerciseName: ce.name ? ce.name : '',
-        //             resultValue: formatSecondsValueInHoursMinutesAndSeconds(
-        //                 ce.resultValue ? ce.resultValue : 0
-        //             )
-        //         }),
-        //         { variant: 'success', autoHideDuration: 3000 }
-        //     );
+        if (cei < exercises.length) {
+            setExerciseSeconds(0);
+            setExercises(exercises.map((e, i) => (i === currentExerciseIndex ? ce : e)));
+            setCurrentExerciseIndex(cei);
+            setCurrentExercise(getExercise(exercises, cei));
+            setTimeout(() => scrollToCurrentExercise(cei), 10);
+        } else {
+            setIsRunning(false);
+            setIsCompleteWorkoutDialogOpen(true);
+        }
+    };
+
+    const nextExercise = (recordResults = false) => {
+        if (recordResults) {
+            setIsExerciseResultDialogOpen(true);
+        } else {
+            updateExercisesAndMoveNext();
+        }
+    };
+    const completeExercise = () => {
+        const cei = currentExerciseIndex + 1;
+        scrollToCurrentExercise(cei);
+        const nextExercise = getExercise(exercises, cei);
+        setExercises(updateSecondsRemaining(exercises, currentExerciseIndex, 0));
+        setCurrentExerciseIndex(cei);
+        setCurrentExercise(nextExercise);
+    };
+    const previousExercise = () => {
+        const cei = currentExerciseIndex - 1;
+        scrollToCurrentExercise(cei);
         setCurrentExerciseIndex(cei);
         setCurrentExercise(getExercise(exercises, cei));
+    };
+    const getIconColor = (isDisabled: boolean, amountType: RecordType = 'COUNT_BASED') => {
+        return isDisabled && amountType === 'TIME_BASED' ? theme.palette.grey[500] : 'black';
+    };
+    const countupTimerTick = (isTimerRunning: boolean, seconds: number) =>
+        isTimerRunning && setExerciseSeconds(seconds + 1);
+    const areAnyResultsRecorded = (exers: ExerciseInProgress[]): boolean =>
+        exers.map((e) => (e.recordResults ? 1 : 0) as number).reduce((a, b) => a + b) > 0;
+
+    const completeWorkout = () => navigate.toDashboard(history);
+
+    const saveWorkoutResults = (onSuccess?: () => void, onFailure?: () => void) => {
+        const workoutResult: WorkoutResult = {
+            id: workout.id,
+            secondsElapsed: workoutSeconds,
+            exercises: exercises
+                .filter((e) => e.recordResults)
+                .map((e) => {
+                    const {
+                        imageOrGifUrl,
+                        recordResults,
+                        useDefaultResult,
+                        createdUTCMilliseconds,
+                        createdById,
+                        createdByDisplayName,
+                        lastModifiedUTCMilliseconds,
+                        lastModifiedById,
+                        lastModifiedByDisplayName,
+                        originalSecondsRemaining,
+                        secondsRemaining,
+                        ...exerciseResult
+                    } = e;
+                    return exerciseResult as ExerciseResult;
+                }),
+            hasBeenCreated: false
+        };
+        createEntity(workoutResult)
+            .then(() => onSuccess && onSuccess())
+            .catch(() => onFailure && onFailure());
+    };
+
+    const discardWorkoutResults = () => {
+        setIsConfirmationDialogOpen(true);
+        setConfirmationDialogOnClose(() => (event: SyntheticEvent<HTMLButtonElement>) => {
+            if (event.currentTarget.value === 'confirm') {
+                navigate.toDashboard(history);
+            } else {
+                setIsConfirmationDialogOpen(false);
+            }
+        });
+        setConfirmationDialogTitle(t('dialog.deleteConfirmation.title'));
+        setConfirmationDialogMessage(t('dialog.deleteConfirmation.message', { name: workout.name }));
+    };
+
+    const restartWorkout = () => {
+        setExercises(originalExercises);
+        setCurrentExercise(originalExercises[0]);
+        setCurrentExerciseIndex(0);
+        setWorkoutSeconds(0);
+        setExerciseSeconds(0);
+    };
+
+    const saveWorkoutResultsAndRestartWorkout = () => {
+        setIsConfirmationDialogOpen(true);
+        setConfirmationDialogOnClose(() => (event: SyntheticEvent<HTMLButtonElement>) => {
+            if (event.currentTarget.value === 'confirm') {
+                setIsConfirmationDialogOpen(false);
+                setIsCompleteWorkoutDialogOpen(false);
+                saveWorkoutResults(
+                    () => {
+                        notification.createSuccess(
+                            enqueueSnackbar,
+                            t,
+                            `${t('notifications.workoutResultFor')}${t('global.colon')} ${workout.name}`
+                        );
+                        restartWorkout();
+                    },
+                    () => {
+                        notification.createError(
+                            enqueueSnackbar,
+                            t,
+                            `${t('notifications.workoutResultFor')}${t('global.colon')} ${workout.name}`
+                        );
+                    }
+                );
+            } else {
+                setIsConfirmationDialogOpen(false);
+            }
+        });
+        setConfirmationDialogTitle(t('dialog.deleteConfirmation.title'));
+        setConfirmationDialogMessage(t('dialog.deleteConfirmation.message', { name: workout.name }));
+    };
+
+    const saveWorkoutResultsAndExitWorkout = () => {
+        setIsConfirmationDialogOpen(true);
+        setConfirmationDialogOnClose(() => (event: SyntheticEvent<HTMLButtonElement>) => {
+            if (event.currentTarget.value === 'confirm') {
+                saveWorkoutResults(
+                    () => {
+                        notification.createSuccess(
+                            enqueueSnackbar,
+                            t,
+                            `${t('notifications.workoutResultFor')}${t('global.colon')} ${workout.name}`
+                        );
+                        navigate.toDashboard(history);
+                    },
+                    () => {
+                        notification.createError(
+                            enqueueSnackbar,
+                            t,
+                            `${t('notifications.workoutResultFor')}${t('global.colon')} ${workout.name}`
+                        );
+                    }
+                );
+                setIsConfirmationDialogOpen(false);
+            } else {
+                setIsConfirmationDialogOpen(false);
+            }
+        });
+        setConfirmationDialogTitle(t('dialog.deleteConfirmation.title'));
+        setConfirmationDialogMessage(t('dialog.deleteConfirmation.message', { name: workout.name }));
     };
 
     return (
@@ -136,26 +295,17 @@ const DoWorkout: FC = () => {
                                         {currentExercise.amountType === 'TIME_BASED' &&
                                         currentExercise.secondsRemaining >= 0 ? (
                                             <CountdownTimer
-                                                onTick={() => handleOnTick(currentExercise, currentExerciseIndex)}
+                                                onTick={() => countdownTimerTick(currentExercise, currentExerciseIndex)}
                                                 seconds={currentExercise.secondsRemaining}
                                                 typographyProps={{ variant: smUp ? 'h4' : 'h5' }}
-                                                onComplete={() => {
-                                                    const cei = currentExerciseIndex + 1;
-                                                    scrollToCurrentExercise(cei);
-                                                    const nextExercise = getExercise(exercises, cei);
-                                                    setExercises(
-                                                        updateSecondsRemaining(exercises, currentExerciseIndex, 0)
-                                                    );
-                                                    setCurrentExerciseIndex(cei);
-                                                    setCurrentExercise(nextExercise);
-                                                }}
+                                                onComplete={completeExercise}
                                                 key={currentExercise.id}
                                             />
                                         ) : null}
                                         {currentExercise.amountType === 'COUNT_BASED' && (
                                             <Typography variant={smUp ? 'h4' : 'h5'}>
                                                 <CountdownTimer
-                                                    onTick={() => isRunning && setExerciseSeconds(exerciseSeconds + 1)}
+                                                    onTick={() => countupTimerTick(isRunning, exerciseSeconds)}
                                                     seconds={360000}
                                                     display="none"
                                                 />
@@ -197,20 +347,11 @@ const DoWorkout: FC = () => {
                             <Grid container direction="row" justifyContent="space-between" alignItems="center">
                                 <Grid item>
                                     <IconButton
-                                        onClick={() => {
-                                            const cei = currentExerciseIndex - 1;
-                                            scrollToCurrentExercise(cei);
-                                            setCurrentExerciseIndex(cei);
-                                            setCurrentExercise(getExercise(exercises, cei));
-                                        }}
+                                        onClick={previousExercise}
                                         disabled={isLocked || currentExerciseIndex === 0}
                                     >
                                         <SkipPreviousIcon
-                                            htmlColor={
-                                                isLocked || currentExerciseIndex === 0
-                                                    ? theme.palette.grey[500]
-                                                    : 'black'
-                                            }
+                                            htmlColor={getIconColor(isLocked, currentExercise.amountType)}
                                             transform="scale(2)"
                                         />
                                     </IconButton>
@@ -227,21 +368,11 @@ const DoWorkout: FC = () => {
                                 </Grid>
                                 <Grid item>
                                     <IconButton
-                                        onClick={() => {
-                                            if (currentExercise.recordResults) {
-                                                setIsDialogOpen(true);
-                                            } else {
-                                                updateExercisesAndMoveNext();
-                                            }
-                                        }}
+                                        onClick={() => nextExercise(currentExercise.recordResults)}
                                         disabled={isLocked && currentExercise.amountType === 'TIME_BASED'}
                                     >
                                         <SkipNextIcon
-                                            htmlColor={
-                                                isLocked && currentExercise.amountType === 'TIME_BASED'
-                                                    ? theme.palette.grey[500]
-                                                    : 'black'
-                                            }
+                                            htmlColor={getIconColor(isLocked, currentExercise.amountType)}
                                             transform="scale(2)"
                                         />
                                     </IconButton>
@@ -254,12 +385,16 @@ const DoWorkout: FC = () => {
             {exercises && currentExercise && (
                 <ResponsiveDialog
                     title={`${currentExercise.name} ${t(`global.result`)}${t(`global.colon`)}`}
-                    open={isDialogOpen}
+                    open={isExerciseResultDialogOpen}
                     content={
                         <TimeOrCountField
                             show={currentExercise.useDefaultResult}
                             resultType={currentExercise.resultType}
-                            timeLabel={'something'}
+                            timeLabel={t(
+                                currentExercise.resultType === 'TIME_BASED'
+                                    ? 'global.completedIn'
+                                    : 'global.repsCompleted'
+                            )}
                             value={
                                 currentExercise.resultType === 'TIME_BASED'
                                     ? exerciseSeconds
@@ -267,8 +402,7 @@ const DoWorkout: FC = () => {
                             }
                             itemToUpdate={currentExercise}
                             updateItem={(item) => {
-                                const eip = item as ExerciseInProgress;
-                                setCurrentExercise(eip);
+                                setCurrentExercise(item as ExerciseInProgress);
                             }}
                         />
                     }
@@ -278,6 +412,123 @@ const DoWorkout: FC = () => {
                     fullScreenOverride={false}
                     confirmText={t('global.ok')}
                 />
+            )}
+            {exercises && exercises.length > 0 && (
+                <>
+                    <ResponsiveDialog
+                        title={`${workout?.name ? workout.name : `global.workout`} ${t(`global.results`)}${t(
+                            `global.colon`
+                        )}`}
+                        message={`${t('page.doWorkout.workoutCompleteCongratulations')}${
+                            areAnyResultsRecorded(exercises) ? ` ${t('page.doWorkout.reviewWorkoutResults')}` : ''
+                        }`}
+                        messageFontWeight="bold"
+                        open={isCompleteWorkoutDialogOpen}
+                        content={
+                            <Stack display="flex" direction="column" mt="1rem" gap="1rem" color={'rgba(0, 0, 0, 0.6)'}>
+                                <Typography variant="body1" fontWeight="bold">
+                                    {`${t('page.doWorkout.workoutCompletedIn')}${t(
+                                        'global.colon'
+                                    )} ${formatSecondsValueInHoursMinutesAndSeconds(workoutSeconds)}`}
+                                </Typography>
+                                {areAnyResultsRecorded(exercises) ? (
+                                    exercises.map((e) => {
+                                        return (
+                                            <TimeOrCountField
+                                                key={e.id}
+                                                show={e.recordResults}
+                                                resultType={e.resultType}
+                                                timeLabel={t(
+                                                    e.resultType === 'TIME_BASED'
+                                                        ? 'global.completedIn'
+                                                        : 'global.repsCompleted'
+                                                )}
+                                                value={e.resultValue}
+                                                itemToUpdate={e}
+                                                updateItem={(item) => {
+                                                    setCurrentExercise(item as ExerciseInProgress);
+                                                }}
+                                            />
+                                        );
+                                    })
+                                ) : (
+                                    <>
+                                        <Typography variant="body1" fontStyle="italic" fontWeight="normal">
+                                            {`*** ${t('page.doWorkout.notRecordingResults')}${t('global.colon')}`}
+                                        </Typography>
+                                        <Link
+                                            variant="caption"
+                                            sx={{
+                                                bgcolor: theme.palette.grey[200],
+                                                padding: 1,
+                                                borderRadius: 2,
+                                                textAlign: 'center',
+                                                fontWeight: 'bold',
+                                                fontSize: '80%',
+                                                display: 'flex',
+                                                justifyContent: 'space-around',
+                                                alignItems: 'center',
+                                                cursor: 'pointer',
+                                                textDecoration: 'none',
+                                                ':hover': { opacity: 0.7 }
+                                            }}
+                                            onClick={() => {
+                                                navigate.toEditWorkout(history, workout.id);
+                                            }}
+                                        >
+                                            {t('page.doWorkout.adjustingWorkoutSettings')}
+                                            <SettingsIcon />
+                                        </Link>
+                                    </>
+                                )}
+                            </Stack>
+                        }
+                        onClose={completeWorkout}
+                        onCancel={completeWorkout}
+                        onConfirm={completeWorkout}
+                        fullScreenOverride={false}
+                        dialogActions={
+                            <>
+                                <Button
+                                    data-testid={`${idPrefix}-discard-workout-results`}
+                                    color={'secondary'}
+                                    onClick={discardWorkoutResults}
+                                >
+                                    {mdUp && t('global.discard')}
+                                    <DeleteForeverIcon />
+                                    <ExitToAppIcon />
+                                </Button>
+                                <Button
+                                    data-testid={`${idPrefix}-save-workout-results-and-restart-workout`}
+                                    color={'info'}
+                                    onClick={saveWorkoutResultsAndRestartWorkout}
+                                >
+                                    {mdUp && t('global.restart')}
+                                    <SaveIcon />
+                                    <RestartAltIcon />
+                                </Button>
+                                <Button
+                                    data-testid={`${idPrefix}-save-workout-results-and-exit-workout`}
+                                    color={'primary'}
+                                    onClick={saveWorkoutResultsAndExitWorkout}
+                                >
+                                    {mdUp && t('global.exit')}
+                                    <SaveIcon />
+                                    <ExitToAppIcon />
+                                </Button>
+                            </>
+                        }
+                        dialogActionsJustifyContent="space-between"
+                    />
+                    <ConfirmationDialog
+                        open={isConfirmationDialogOpen}
+                        title={confirmationDialogTitle}
+                        message={confirmationDialogMessage}
+                        onClose={(event: SyntheticEvent<HTMLButtonElement>) =>
+                            confirmationDialogOnClose && confirmationDialogOnClose(event)
+                        }
+                    />
+                </>
             )}
         </>
     );
