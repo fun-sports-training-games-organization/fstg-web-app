@@ -91,6 +91,11 @@
                 "success": "Profilbild erfolgreich gelöscht!",
                 "failed": "Das Profilbild konnte nicht gelöscht werden! Bitte versuchen Sie es erneut!"
             }
+        },
+        "upload": {
+            "failure": {
+                "tooLarge": "Dateigrösse darf das Limit von {{limit}} nicht überschreiten!"
+            }
         }
     },
     "idp": {

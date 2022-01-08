@@ -90,6 +90,12 @@ export const emailVerificationSentError = (
     t: TFunction<'translation', undefined>
 ): SnackbarKey => notification(enqueueSnackbar, t, 'auth.message.emailVerification.error', 'error');
 
+export const fileSizeTooLarge = (
+    enqueueSnackbar: (message: SnackbarMessage, options?: OptionsObject | undefined) => SnackbarKey,
+    t: TFunction<'translation', undefined>,
+    options?: string | TOptions<StringMap> | undefined
+): SnackbarKey => notification(enqueueSnackbar, t, 'notifications.upload.failure.tooLarge', 'error', options);
+
 const notificationItem = (
     enqueueSnackbar: (message: SnackbarMessage, options?: OptionsObject | undefined) => SnackbarKey,
     t: TFunction<'translation', undefined>,
