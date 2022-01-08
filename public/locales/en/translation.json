@@ -149,7 +149,12 @@
                 "message": "Sorry, but you don't have any workouts yet! Please go ahead and create one now!",
                 "button": "Go to Workouts"
             },
-            "showMore": "Show More..."
+            "profile": {
+                "title": "Profile",
+                "memberSince": "Member since {{datetime}}"
+            },
+            "showMore": "Show More...",
+            "toAccount": "Go to Account"
         }
     },
     "form": {
