@@ -25,7 +25,7 @@ See more information about Fun Sports Training Games below including the Project
 
 ### Authentication
 
-- Sign In with Google or Twitter
+- Sign In with Google, Facebook or Twitter
 
 ### Nice to Haves
 
@@ -41,7 +41,7 @@ See more information about Fun Sports Training Games below including the Project
 
 ### Backlog
 
-https://trello.com/b/ZLoRVBFX/project-2-fstg-cas-frontend-engineering
+https://github.com/fun-sports-training-games-organization/fstg-web-app/projects/2
 
 ### Wireframing
 
