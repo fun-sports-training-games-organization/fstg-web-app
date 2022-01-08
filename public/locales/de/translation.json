@@ -144,7 +144,12 @@
                 "message": "Entschuldigung, aber Sie haben noch keine Trainingseinheiten! Bitte erstellen Sie jetzt eine!",
                 "button": "Gehe zu Trainingseinheiten"
             },
+            "profile": {
+                "title": "Profil",
+                "memberSince": "Mitglied seit {{datetime}}"
+            },
             "showMore": "Mehr anzeigen..."
+            "toAccount": "Gehe zu Konto"
         }
     },
     "form": {
