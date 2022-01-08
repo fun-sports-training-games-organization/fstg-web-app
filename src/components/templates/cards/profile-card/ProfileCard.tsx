@@ -1,4 +1,4 @@
-import { Button, Grid, List, ListItem, ListItemText, Theme, Typography, useMediaQuery } from '@mui/material';
+import { Avatar, Button, Grid, List, ListItem, ListItemText, Theme, Typography, useMediaQuery } from '@mui/material';
 import DashboardCard from '../dashboard-card/DashboardCard';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
@@ -12,6 +12,37 @@ import { AccountState } from '../../../../reducers/account-reducer';
 import { useAuth } from '../../../../contexts/AuthContextProvider';
 import useFileManager from '../../../../hooks/useFileManager';
 import { convertStringToDateWithLocale } from '../../../../util/date-util';
+
+function stringToColor(string: string) {
+    let hash = 0;
+    let i;
+
+    /* eslint-disable no-bitwise */
+    for (i = 0; i < string.length; i += 1) {
+        hash = string.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    let color = '#';
+
+    for (i = 0; i < 3; i += 1) {
+        const value = (hash >> (i * 8)) & 0xff;
+        color += `00${value.toString(16)}`.substr(-2);
+    }
+    /* eslint-enable no-bitwise */
+
+    return color;
+}
+
+function stringAvatar(name: string) {
+    return {
+        sx: {
+            background: stringToColor(name),
+            height: 100,
+            width: 100
+        },
+        children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`
+    };
+}
 
 const ProfileCard = (): JSX.Element => {
     const history = useHistory();
@@ -51,17 +82,21 @@ const ProfileCard = (): JSX.Element => {
             <Grid container spacing={1} alignItems={'center'} alignContent={'center'} justifyContent={'space-between'}>
                 <Grid item md={1} />
                 <Grid item xs={4}>
-                    <img
-                        style={{
-                            verticalAlign: 'center',
-                            textAlign: 'center',
-                            maxWidth: '100%',
-                            height: 'auto',
-                            borderRadius: 100
-                        }}
-                        src={profilePictureURL}
-                        alt={'profile pic'}
-                    />
+                    {profilePictureURL ? (
+                        <img
+                            style={{
+                                verticalAlign: 'center',
+                                textAlign: 'center',
+                                maxWidth: '100%',
+                                height: 'auto',
+                                borderRadius: 100
+                            }}
+                            src={profilePictureURL}
+                            alt={'profile pic'}
+                        />
+                    ) : (
+                        <Avatar {...stringAvatar(user?.displayName || `${account.firstName} ${account.lastName}`)} />
+                    )}
                 </Grid>
                 <Grid item xs={6}>
                     <List>
