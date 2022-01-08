@@ -95,6 +95,7 @@ export const maxLengthPassword = maxLength(250);
 export const minLength2 = minLength(2);
 export const maxLength30 = maxLength(30);
 export const maxLengthEmail = maxLength(320);
+export const ONE_MEGABYTE = 1 * 1024 * 1024;
 
 export const number = (value: string | number): string | undefined =>
     value && isNaN(Number(value)) ? i18n.t('validation.number') : undefined;

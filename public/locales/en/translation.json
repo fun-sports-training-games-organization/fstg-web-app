@@ -91,6 +91,11 @@
                 "success": "Profile picture successfully deleted!",
                 "failed": "Failed to delete profile picture! Please try again!"
             }
+        },
+        "upload": {
+            "failure": {
+                "tooLarge": "File size cannot exceed the limit of {{limit}}!"
+            }
         }
     },
     "idp": {
