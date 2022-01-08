@@ -1,4 +1,4 @@
-import { Avatar, Grid, List, ListItem, ListItemButton, ListItemText, Stack, Typography } from '@mui/material';
+import { Avatar, Button, Grid, List, ListItem, Stack, Typography } from '@mui/material';
 import Dumbbells from '../../../../assets/dumbbells.png';
 import DashboardCard from '../dashboard-card/DashboardCard';
 import * as React from 'react';
@@ -25,13 +25,19 @@ const ExerciseCard = (): JSX.Element => {
     ) : exercises.length > 0 ? (
         <DashboardCard cardProps={{ elevation: 5 }} cardHeaderProps={{ title: ExerciseTitle }}>
             <Grid container spacing={1} alignItems={'center'} alignContent={'center'} justifyContent={'space-between'}>
+                <Grid item xs={1} />
                 <Grid item xs={4}>
                     <img
-                        style={{ verticalAlign: 'center', textAlign: 'center', marginLeft: 30 }}
+                        style={{
+                            verticalAlign: 'center',
+                            textAlign: 'center',
+                            maxWidth: '100%',
+                            height: 'auto'
+                        }}
                         src={Dumbbells}
                         alt={'dumbbells  icon'}
-                        width={200}
-                        height={200}
+                        // width={200}
+                        // height={200}
                     />
                 </Grid>
                 <Grid item xs={6}>
@@ -39,10 +45,10 @@ const ExerciseCard = (): JSX.Element => {
                         {exercises.slice(0, 3).map((exercise) => (
                             <ExerciseCardItem key={exercise.id} exercise={exercise} />
                         ))}
-                        <ListItem disablePadding>
-                            <ListItemButton onClick={goToExercisePage}>
-                                <ListItemText primary="See More..." />
-                            </ListItemButton>
+                        <ListItem disablePadding sx={{ marginTop: 1 }}>
+                            <Button variant={'contained'} onClick={goToExercisePage} color={'primary'}>
+                                {t('page.dashboard.showMore')}
+                            </Button>
                         </ListItem>
                     </List>
                 </Grid>

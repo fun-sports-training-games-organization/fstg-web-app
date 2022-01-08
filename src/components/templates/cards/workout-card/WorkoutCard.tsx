@@ -1,4 +1,4 @@
-import { Avatar, Grid, List, ListItem, ListItemButton, ListItemText, Stack, Typography } from '@mui/material';
+import { Avatar, Button, Grid, List, ListItem, Stack, Typography } from '@mui/material';
 import WorkoutIcon from '../../../../assets/workout_plan_3.png';
 import DashboardCard from '../dashboard-card/DashboardCard';
 import * as React from 'react';
@@ -25,14 +25,15 @@ const WorkoutCard = (): JSX.Element => {
     ) : workouts.length > 0 ? (
         <DashboardCard cardProps={{ elevation: 5 }} cardHeaderProps={{ title: WorkoutTitle }}>
             <Grid container spacing={1} alignItems={'center'} alignContent={'center'} justifyContent={'space-between'}>
+                <Grid item xs={1} />
                 <Grid item xs={4}>
-                    <Avatar
+                    <img
                         style={{
                             verticalAlign: 'center',
                             textAlign: 'center',
-                            marginLeft: 30,
-                            height: 200,
-                            width: 200
+                            maxWidth: '100%',
+                            height: 'auto',
+                            borderRadius: 100
                         }}
                         src={WorkoutIcon}
                         alt={'workout icon'}
@@ -45,10 +46,10 @@ const WorkoutCard = (): JSX.Element => {
                         {workouts.slice(0, 3).map((workout) => (
                             <WorkoutCardItem key={workout.id} workout={workout} />
                         ))}
-                        <ListItem disablePadding>
-                            <ListItemButton onClick={goToWorkoutPage}>
-                                <ListItemText primary="See More..." />
-                            </ListItemButton>
+                        <ListItem disablePadding sx={{ marginTop: 1 }}>
+                            <Button variant={'contained'} onClick={goToWorkoutPage} color={'primary'}>
+                                {t('page.dashboard.showMore')}
+                            </Button>
                         </ListItem>
                     </List>
                 </Grid>
