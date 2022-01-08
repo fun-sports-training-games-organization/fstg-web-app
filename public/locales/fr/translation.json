@@ -91,6 +91,11 @@
                 "success": "Photo de profil supprimée avec succès!",
                 "failed": "Impossible de supprimer la photo de profil! Veuillez réessayer!"
             }
+        },
+        "upload": {
+            "failure": {
+                "tooLarge": "La taille du fichier ne peut pas dépasser la limite de {{limit}}!"
+            }
         }
     },
     "idp": {
