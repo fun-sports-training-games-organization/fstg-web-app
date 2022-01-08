@@ -25,7 +25,7 @@ const ExerciseCard = (): JSX.Element => {
     ) : exercises.length > 0 ? (
         <DashboardCard cardProps={{ elevation: 5 }} cardHeaderProps={{ title: ExerciseTitle }}>
             <Grid container spacing={1} alignItems={'center'} alignContent={'center'} justifyContent={'space-between'}>
-                <Grid item xs={1} />
+                <Grid item md={1} />
                 <Grid item xs={4}>
                     <img
                         style={{
@@ -36,8 +36,6 @@ const ExerciseCard = (): JSX.Element => {
                         }}
                         src={Dumbbells}
                         alt={'dumbbells  icon'}
-                        // width={200}
-                        // height={200}
                     />
                 </Grid>
                 <Grid item xs={6}>
