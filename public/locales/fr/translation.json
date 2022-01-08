@@ -182,6 +182,9 @@
             }
         },
         "button": {
+            "exercise": {
+                "deleteImage": "Supprimer l'image"
+            },
             "registration": {
                 "register": "S'inscrire"
             },
