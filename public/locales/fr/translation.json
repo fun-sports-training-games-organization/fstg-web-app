@@ -236,7 +236,7 @@
                 "useDefaultResult": "Utiliser le résultat par défaut",
                 "defaultResult": "Résultat par défaut"
             },
-            "account": {
+            "profile": {
                 "profilePicture": "Image de profil"
             }
         },
@@ -274,7 +274,7 @@
             }
         },
         "tooltip": {
-            "account": {
+            "profile": {
                 "emailVerified": "Email vérifié!",
                 "sendVerificationEmail": "Cliquez ici pour envoyer un e-mail de vérification!"
             }

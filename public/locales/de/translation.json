@@ -228,7 +228,7 @@
                 "useDefaultResult": "Standardergebnis verwenden",
                 "defaultResult": "Standardergebnis"
             },
-            "account": {
+            "profile": {
                 "profilePicture": "Profilbild"
             }
         },
@@ -266,7 +266,7 @@
             }
         },
         "tooltip": {
-            "account": {
+            "profile": {
                 "emailVerified": "E-Mail verifiziert!",
                 "sendVerificationEmail": "Klicken Sie hier, um eine Bestätigungs-E-Mail zu senden!"
             }
