@@ -78,6 +78,11 @@ const DoWorkout: FC = () => {
                     setExercises(mappedExercises);
                     setOriginalExercises(mappedExercises);
                     setCurrentExercise(mappedExercises[0]);
+                    setExerciseSeconds(
+                        mappedExercises[0].amountValue && mappedExercises[0].amountType === 'TIME_BASED'
+                            ? mappedExercises[0].amountValue
+                            : 0
+                    );
                     setWorkoutRefs(mappedExercises.map(() => createRef()));
                     setIsLoading(false);
                 })
@@ -94,11 +99,16 @@ const DoWorkout: FC = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const countdownTimerTick = (exercise: ExerciseInProgress, index: number) => {
-        if (isRunning && index === currentExerciseIndex) {
+    const countdownTimerTick = (isTimerRunning: boolean, exercise: ExerciseInProgress, index: number) => {
+        if (isTimerRunning && index === currentExerciseIndex) {
             const secondsRemaining = exercise.secondsRemaining - 1;
+            setExerciseSeconds(secondsRemaining);
             setExercises(updateSecondsRemaining(exercises, currentExerciseIndex, secondsRemaining));
             setCurrentExercise({ ...exercise, secondsRemaining });
+
+            if (secondsRemaining < 1) {
+                nextExercise(exercise.recordResults);
+            }
         }
     };
 
@@ -144,7 +154,10 @@ const DoWorkout: FC = () => {
         const ce = { ...currentExercise } as ExerciseInProgress;
         const cei = currentExerciseIndex + 1;
         if (cei < exercises.length) {
-            setExerciseSeconds(0);
+            const nextExercise = getExercise(exercises, cei);
+            setExerciseSeconds(
+                nextExercise.amountValue && nextExercise.amountType === 'TIME_BASED' ? nextExercise.amountValue : 0
+            );
             setExercises(exercises.map((e, i) => (i === currentExerciseIndex ? ce : e)));
             setCurrentExerciseIndex(cei);
             setCurrentExercise(getExercise(exercises, cei));
@@ -355,26 +368,23 @@ const DoWorkout: FC = () => {
                                         <UnlockLockButton isLocked={isLocked} handleClick={switchIsLocked} />
                                     </Grid>
                                     <Grid item>
-                                        {currentExercise.amountType === 'TIME_BASED' &&
-                                        currentExercise.secondsRemaining >= 0 ? (
+                                        <Typography variant={smUp ? 'h4' : 'h5'}>
                                             <CountdownTimer
-                                                onTick={() => countdownTimerTick(currentExercise, currentExerciseIndex)}
-                                                seconds={currentExercise.secondsRemaining}
-                                                typographyProps={{ variant: smUp ? 'h4' : 'h5' }}
-                                                onComplete={() => nextExercise(currentExercise.recordResults)}
+                                                onTick={() =>
+                                                    currentExercise.amountType === 'COUNT_BASED'
+                                                        ? countupTimerTick(isRunning, exerciseSeconds)
+                                                        : countdownTimerTick(
+                                                              isRunning,
+                                                              currentExercise,
+                                                              currentExerciseIndex
+                                                          )
+                                                }
+                                                seconds={360000}
+                                                display="none"
                                                 key={currentExercise.id}
                                             />
-                                        ) : null}
-                                        {currentExercise.amountType === 'COUNT_BASED' && (
-                                            <Typography variant={smUp ? 'h4' : 'h5'}>
-                                                <CountdownTimer
-                                                    onTick={() => countupTimerTick(isRunning, exerciseSeconds)}
-                                                    seconds={360000}
-                                                    display="none"
-                                                />
-                                                {formatSecondsValueInHoursMinutesAndSeconds(exerciseSeconds)}
-                                            </Typography>
-                                        )}
+                                            {formatSecondsValueInHoursMinutesAndSeconds(exerciseSeconds)}
+                                        </Typography>
                                     </Grid>
                                     <Grid item>
                                         <PausePlayButton
