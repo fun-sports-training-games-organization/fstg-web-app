@@ -106,7 +106,11 @@ const DoWorkout: FC = () => {
             setExercises(updateSecondsRemaining(exercises, currentExerciseIndex, secondsRemaining));
             setCurrentExercise({ ...exercise, secondsRemaining });
 
-            if (secondsRemaining < 1) {
+            if (secondsRemaining === 1) {
+                if (isExerciseResultDialogOpen) {
+                    closeExerciseResultDialog();
+                }
+            } else if (secondsRemaining < 1) {
                 nextExercise(exercise.recordResults);
             }
         }
@@ -132,13 +136,14 @@ const DoWorkout: FC = () => {
     };
 
     const nextExercise = (recordResults = false) => {
+        const ce = {
+            ...currentExercise,
+            resultValue: currentExercise?.resultType === 'TIME_BASED' ? exerciseSeconds : currentExercise?.resultValue
+        } as ExerciseInProgress;
+        const cei = currentExerciseIndex + 1;
+
         if (recordResults) {
             if (currentExercise) {
-                const ce = {
-                    ...currentExercise,
-                    resultValue:
-                        currentExercise.resultType === 'TIME_BASED' ? exerciseSeconds : currentExercise.resultValue
-                };
                 setCurrentExercise(ce);
                 setExerciseBeingEdited(ce);
                 setExercises(exercises.map((e) => (e.id === ce.id ? ce : e)));
@@ -146,13 +151,11 @@ const DoWorkout: FC = () => {
 
             setIsExerciseResultDialogOpen(true);
         } else {
-            if (currentExerciseIndex + 1 >= exercises.length) {
+            if (cei >= exercises.length) {
                 setIsCompleteWorkoutDialogOpen(true);
             }
         }
 
-        const ce = { ...currentExercise } as ExerciseInProgress;
-        const cei = currentExerciseIndex + 1;
         if (cei < exercises.length) {
             const nextExercise = getExercise(exercises, cei);
             setExerciseSeconds(
@@ -463,7 +466,6 @@ const DoWorkout: FC = () => {
                     open={isExerciseResultDialogOpen}
                     content={
                         <TimeOrCountField
-                            show={exerciseBeingEdited.useDefaultResult}
                             resultType={exerciseBeingEdited.resultType}
                             label={`${t(
                                 exerciseBeingEdited.resultType === 'TIME_BASED'

@@ -278,23 +278,27 @@ const CreateEditExerciseForm = ({
                                 />
                             </RadioGroup>
                         </FormControl>
-                        <LabeledCheckbox
-                            checked={exercise.useDefaultResult ? exercise.useDefaultResult : false}
-                            name={'useDefaultResult'}
-                            onChange={onCheckboxChange}
-                            label={`${t(`${PREFIX}.useDefaultResult`)}${t('global.colon')}`}
-                        />
-                        <TimeOrCountField
-                            show={exercise.useDefaultResult}
-                            resultType={exercise.resultType}
-                            label={t(`${PREFIX}.defaultResult`)}
-                            value={exercise.resultValue}
-                            itemToUpdate={exercise}
-                            updateItem={(item) => {
-                                const exercise = item as Exercise;
-                                setExerciseAndWorkout(exercise);
-                            }}
-                        />
+                        {exercise.resultType === 'COUNT_BASED' && (
+                            <>
+                                <LabeledCheckbox
+                                    checked={exercise.useDefaultResult ? exercise.useDefaultResult : false}
+                                    name={'useDefaultResult'}
+                                    onChange={onCheckboxChange}
+                                    label={`${t(`${PREFIX}.useDefaultResult`)}${t('global.colon')}`}
+                                />
+                                <TimeOrCountField
+                                    show={exercise.useDefaultResult}
+                                    resultType={exercise.resultType}
+                                    label={t(`${PREFIX}.defaultResult`)}
+                                    value={exercise.resultValue}
+                                    itemToUpdate={exercise}
+                                    updateItem={(item) => {
+                                        const exercise = item as Exercise;
+                                        setExerciseAndWorkout(exercise);
+                                    }}
+                                />
+                            </>
+                        )}
                     </>
                 )}
 
