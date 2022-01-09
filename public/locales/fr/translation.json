@@ -202,6 +202,16 @@
                 "email": "E-mail",
                 "password": "Mot de passe"
             },
+            "profile": {
+                "nickname": "Surnom (facultatif)",
+                "firstName": "Prénom",
+                "lastName": "Nom de famille ",
+                "email": "E-mail",
+                "dateOfBirth": "Date de naissance",
+                "height": "Hauteur",
+                "weight": "Poids",
+                "genre": "Genre"
+            },
             "registration": {
                 "nickname": "Surnom (facultatif)",
                 "firstName": "Prénom",
@@ -228,6 +238,19 @@
             },
             "account": {
                 "profilePicture": "Image de profil"
+            }
+        },
+        "options": {
+            "profile": {
+                "gender": {
+                    "male": "Homme",
+                    "female": "Femme",
+                    "other": "Autre"
+                },
+                "unit": {
+                    "metric": "Métrique",
+                    "imperial": "Impérial"
+                }
             }
         },
         "button": {

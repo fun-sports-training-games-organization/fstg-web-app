@@ -202,13 +202,15 @@
                 "email": "E-mail",
                 "password": "Kennwort"
             },
-            "registration": {
+            "profile": {
                 "nickname": "Spitzname (optional)",
                 "firstName": "Vorname",
                 "lastName": "Nachname",
                 "email": "E-mail",
-                "password": "Kennwort",
-                "confirmPassword": "Kennwort bestätigen"
+                "dateOfBirth": "Geburtsdatum",
+                "height": "Höhe",
+                "weight": "Gewicht",
+                "gender": "Geschlecht"
             },
             "exercise": {
                 "name": "Name der Übung",
@@ -228,6 +230,19 @@
             },
             "account": {
                 "profilePicture": "Profilbild"
+            }
+        },
+        "options": {
+            "profile": {
+                "gender": {
+                    "male": "Mann",
+                    "female": "Weiblich",
+                    "other": "Andere"
+                },
+                "unit": {
+                    "metric": "Metrisch",
+                    "imperial": "Imperial"
+                }
             }
         },
         "button": {

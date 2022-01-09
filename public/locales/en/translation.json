@@ -202,6 +202,16 @@
                 "email": "Email",
                 "password": "Password"
             },
+            "profile": {
+                "nickname": "Nickname (optional)",
+                "firstName": "First Name",
+                "lastName": "Last Name",
+                "email": "E-mail",
+                "dateOfBirth": "Date of Birth",
+                "height": "Height",
+                "weight": "Weight",
+                "gender": "Gender"
+            },
             "registration": {
                 "nickname": "Nickname (Optional)",
                 "firstName": "First Name",
@@ -228,6 +238,19 @@
             },
             "account": {
                 "profilePicture": "Profile Picture"
+            }
+        },
+        "options": {
+            "profile": {
+                "gender": {
+                    "male": "Male",
+                    "female": "Female",
+                    "other": "Other"
+                },
+                "unit": {
+                    "metric": "Metric",
+                    "imperial": "Imperial"
+                }
             }
         },
         "button": {

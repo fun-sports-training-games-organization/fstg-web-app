@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { ChangeEvent, FC, useState } from 'react';
 import { Avatar, Button, FormControlLabel, Radio, Stack } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import ResponsiveContainer from '../../../templates/containers/responsive-container/ResponsiveContainer';
@@ -14,7 +14,7 @@ import {
 import { SaveOutlined } from '@mui/icons-material';
 import { connect, RootStateOrAny } from 'react-redux';
 import { LoadingButton } from '@mui/lab';
-import { AccountState } from '../../../../reducers/account-reducer';
+import { AccountState, Unit } from '../../../../reducers/account-reducer';
 import {
     alphaNumeric,
     email,
@@ -45,6 +45,7 @@ const AccountForm: FC<OwnProps & InjectedFormProps<AccountState>> = ({
     isExternalProvider
 }: OwnProps & InjectedFormProps<AccountState>) => {
     const { t, i18n } = useTranslation();
+    const [unit, setUnit] = useState<Unit>(Unit.METRIC);
     return (
         <ResponsiveContainer>
             <Form onSubmit={handleSubmit}>
@@ -68,7 +69,7 @@ const AccountForm: FC<OwnProps & InjectedFormProps<AccountState>> = ({
                     )}
                     {!isExternalProvider && (
                         <Field
-                            label={t('form.label.registration.email')}
+                            label={t('form.label.profile.email')}
                             name={'email'}
                             validate={[email]}
                             normalize={lower}
@@ -76,9 +77,33 @@ const AccountForm: FC<OwnProps & InjectedFormProps<AccountState>> = ({
                         />
                     )}
                     <Field
+                        style={{ width: '100%' }}
+                        name={'gender'}
+                        label={t('form.label.profile.gender')}
+                        component={renderRadioGroup}
+                    >
+                        <Stack direction={'row'} alignItems={'flex-start'}>
+                            <FormControlLabel
+                                value={'male'}
+                                control={<Radio />}
+                                label={t('form.options.profile.gender.male')}
+                            />
+                            <FormControlLabel
+                                value={'female'}
+                                control={<Radio />}
+                                label={t('form.options.profile.gender.female')}
+                            />
+                            <FormControlLabel
+                                value={'other'}
+                                control={<Radio />}
+                                label={t('form.options.profile.gender.other')}
+                            />
+                        </Stack>
+                    </Field>
+                    <Field
                         autoComplete={'nickname'}
                         name={'nickname'}
-                        label={t('form.label.registration.nickname')}
+                        label={t('form.label.profile.nickname')}
                         validate={[alphaNumeric, minLength2, maxLength30]}
                         normalize={lower}
                         component={renderTextField}
@@ -86,7 +111,7 @@ const AccountForm: FC<OwnProps & InjectedFormProps<AccountState>> = ({
                     <Field
                         autoComplete={'given-name'}
                         name={'firstName'}
-                        label={t('form.label.registration.firstName')}
+                        label={t('form.label.profile.firstName')}
                         validate={[required, minLengthName, maxLength30]}
                         normalize={name}
                         component={renderTextField}
@@ -94,33 +119,46 @@ const AccountForm: FC<OwnProps & InjectedFormProps<AccountState>> = ({
                     <Field
                         autoComplete={'family-name'}
                         name={'lastName'}
-                        label={t('form.label.registration.lastName')}
+                        label={t('form.label.profile.lastName')}
                         validate={[required, minLengthName, maxLength30]}
                         normalize={name}
                         component={renderTextField}
                     />
-                    <Field style={{ width: '100%' }} name={'gender'} label={t('Gender')} component={renderRadioGroup}>
-                        <Stack direction={'row'} alignItems={'flex-start'}>
-                            <FormControlLabel value={'male'} control={<Radio />} label={'Male'} />
-                            <FormControlLabel value={'female'} control={<Radio />} label={'Female'} />
-                            <FormControlLabel value={'other'} control={<Radio />} label={'Other'} />
-                        </Stack>
-                    </Field>
                     <Field
                         name={'dateOfBirth'}
-                        label={t('Date of Birth')}
+                        label={t('form.label.profile.dateOfBirth')}
                         component={renderDatePicker}
                         locale={i18n.language.split('-')[0]}
                     />
                     <Field
+                        style={{ width: '100%' }}
+                        name={'unit'}
+                        label={t('form.label.profile.unit')}
+                        component={renderRadioGroup}
+                        onChange={(changeEvent: ChangeEvent<any>) => setUnit(changeEvent as any)}
+                    >
+                        <Stack direction={'row'} alignItems={'flex-start'}>
+                            <FormControlLabel
+                                value={Unit.METRIC}
+                                control={<Radio />}
+                                label={t('form.options.profile.unit.metric')}
+                            />
+                            <FormControlLabel
+                                value={Unit.IMPERIAL}
+                                control={<Radio />}
+                                label={t('form.options.profile.unit.imperial')}
+                            />
+                        </Stack>
+                    </Field>
+                    <Field
                         name={'height'}
-                        label={t('Height (cm)')}
+                        label={`${t('form.label.profile.height')} (${unit === Unit.METRIC ? 'cm' : 'ft'})`}
                         validate={[number, tallerThanShortestPersonEver, shorterThanTallestPersonEver]}
                         component={renderNumberField}
                     />
                     <Field
                         name={'weight'}
-                        label={t('Weight (kg)')}
+                        label={`${t('form.label.profile.weight')} (${unit === Unit.METRIC ? 'kg' : 'lb'})`}
                         validate={[number, heavierThanLightestPersonEver, lighterThanHeaviestPersonEver]}
                         component={renderNumberField}
                     />

@@ -42,6 +42,7 @@ const Account: FC = () => {
                     weight,
                     height,
                     gender,
+                    unit,
                     dateOfBirth: dob
                 } = account;
                 const { email } = user;
@@ -56,6 +57,7 @@ const Account: FC = () => {
                     weight,
                     height,
                     gender,
+                    unit,
                     dateOfBirth
                 });
 
@@ -77,7 +79,7 @@ const Account: FC = () => {
 
     const handleSubmit = async (values: AccountState): Promise<void | SubmissionError> => {
         if (values) {
-            const { firstName, lastName, nickname, gender, height, weight, profilePicture, dateOfBirth } = values;
+            const { firstName, lastName, nickname, gender, height, weight, unit, profilePicture, dateOfBirth } = values;
             let emptyNickname;
             if (typeof nickname === 'string' && nickname.trim().length === 0) {
                 emptyNickname = true;
@@ -97,6 +99,7 @@ const Account: FC = () => {
                     id: user?.uid,
                     firstName,
                     lastName,
+                    ...(unit && { unit }),
                     ...(gender && { gender }),
                     ...(height && { height }),
                     ...(weight && { weight }),
