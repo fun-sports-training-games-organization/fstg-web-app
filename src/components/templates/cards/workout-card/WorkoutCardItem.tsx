@@ -4,7 +4,7 @@ import { ListItem, ListItemButton, ListItemIcon, ListItemText, Tooltip } from '@
 import { Workout } from '../../../../model/Workout.model';
 import { PlayArrow } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
-import { toDoWorkout } from '../../../../util/navigation-util';
+import { toStartWorkout as navigateToStartWorkout } from '../../../../util/navigation-util';
 import { useHistory } from 'react-router-dom';
 
 type WorkoutCardItemProps = {
@@ -13,7 +13,7 @@ type WorkoutCardItemProps = {
 const WorkoutCardItem: FC<WorkoutCardItemProps> = ({ workout }: WorkoutCardItemProps) => {
     const { t } = useTranslation();
     const history = useHistory();
-    const goToWorkout = () => workout.id && toDoWorkout(history, workout.id);
+    const goToWorkout = () => workout.id && navigateToStartWorkout(history, workout.id);
 
     return (
         <ListItem key={workout.id} disablePadding sx={{ marginBottom: 1 }}>
