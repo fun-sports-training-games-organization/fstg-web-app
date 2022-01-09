@@ -76,7 +76,8 @@
         "ok": "OK",
         "workout": "Entraînement",
         "completedIn": "Terminé en",
-        "repsCompleted": "répétitions terminées"
+        "repsCompleted": "répétitions terminées",
+        "repsCompletedNotSentenceBegin": "répétitions terminées"
     },
     "auth": {
         "message": {
@@ -156,6 +157,7 @@
             }
         },
         "manageExercises": {
+            "exercise": "Exercice",
             "exercises": "Exercices"
         },
         "manageWorkouts": {
@@ -176,15 +178,16 @@
             "workoutCompletedIn": "Entraînement terminé en"
         },
         "dashboard": {
-            "blankExercise": {
+            "exercise": {
                 "title": "Exercices",
                 "message": "Vous n'avez actuellement aucun exercice disponible! Si vous souhaitez en ajouter un maintenant, veuillez vous rendre sur la page des exercices!",
                 "button": "Aller aux exercices"
             },
-            "blankWorkout": {
+            "workout": {
                 "title": "Entraînements",
                 "message": "Désolé, mais vous n'avez pas encore d'entraînement! Veuillez en créer un maintenant!",
-                "button": "Aller aux entraînements"
+                "button": "Aller aux entraînements",
+                "tooltip": "Commencez cette séance d'entraînement maintenant!"
             },
             "profile": {
                 "title": "Profil",
@@ -226,6 +229,8 @@
                 "imgUrl": "URL de l'image/GIF",
                 "defaultAmountType": "Type de montant par défaut",
                 "amountType": "Type de montant",
+                "defaultAmount": "Montant par défaut",
+                "amount": "Montant",
                 "countBased": "Basé sur le nombre",
                 "timeBased": "Basé sur le temps",
                 "defaultTime": "Heure par défaut",
@@ -236,6 +241,9 @@
                 "resultType": "Type de résultat",
                 "useDefaultResult": "Utiliser le résultat par défaut",
                 "defaultResult": "Résultat par défaut"
+            },
+            "workout": {
+                "name": "Nom de l'entraînement"
             }
         },
         "options": {
@@ -307,5 +315,14 @@
         "mustContainLowercase": "Doit contenir au moins une lettre minuscule!",
         "mustContainUppercase": "Doit contenir au moins une lettre majuscule!"
     },
-    "Push Ups": "Pompes"
+    "Rest": "Repos",
+    "Jumping Jacks": "sauts à l'élastique",
+    "Prepare": "Préparez",
+    "Squats": "flexions",
+    "Push-Ups": "Pompes",
+    "Burpees": "Sauts d'obstacles",
+    "Jogging": "Jogging",
+    "Lunges": "fentes",
+    "T Superman": "T Superman",
+    "Pull-up Superman": "Pull-up Superman"
 }

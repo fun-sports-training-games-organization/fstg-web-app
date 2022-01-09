@@ -69,15 +69,17 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout }: Props):
     };
 
     const handleConfigureExerciseSettings = (exerciseId: string, index: number, lastSavedWorkout: Workout) => {
+        const untranslatedExerciseName = workout.exercises[index].name;
+        const exerciseName = t(untranslatedExerciseName ? untranslatedExerciseName : '');
         setTitle(
             t('dialog.editWorkoutExerciseSettings.title', {
-                exerciseName: workout.exercises[index].name,
+                exerciseName,
                 workoutName: workout.name
             })
         );
         setMessage(
             t('dialog.editWorkoutExerciseSettings.message', {
-                exerciseName: workout.exercises[index].name,
+                exerciseName,
                 workoutName: workout.name
             })
         );
@@ -131,11 +133,10 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout }: Props):
                     <AutoCompleteSelect
                         key={`${exerciseItemPrefix}${index}__auto-complete-select`}
                         id={`${exerciseItemPrefix}${index}`}
-                        // TODO : localize this!
-                        label={`Exercise ${index + 1}`}
+                        label={`${t('page.manageExercises.exercise')} ${index + 1}`}
                         value={getValue(exerciseWorkoutSettings)}
                         options={exercises}
-                        getOptionLabel={(option: Exercise) => (option?.name ? option.name : '')}
+                        getOptionLabel={(option: Exercise) => t(option?.name ? option.name : '')}
                         onChange={(_event, value) => {
                             if (value) {
                                 setWorkout({
@@ -208,7 +209,9 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout }: Props):
             <ConfirmationDialog
                 open={openDeleteConfirmationDialog}
                 title={t('dialog.deleteConfirmation.title')}
-                message={t('dialog.deleteConfirmation.message', { name: selectedExercise?.name })}
+                message={t('dialog.deleteConfirmation.message', {
+                    name: t(selectedExercise?.name ? selectedExercise.name : '')
+                })}
                 onClose={async (event: SyntheticEvent<HTMLButtonElement>) => {
                     if (event.currentTarget.value === 'confirm') {
                         setWorkout({

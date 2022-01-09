@@ -20,7 +20,7 @@ const WorkoutCard: FC<DraggableProps> = ({ id, index, moveCard }: DraggableProps
     const { t } = useTranslation();
     const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
     const { entities: workouts, loading } = useEntityManager<Workout>('workouts');
-    const WorkoutTitle = <PageTitle translationKey={'page.dashboard.blankWorkout.title'} align={'center'} />;
+    const WorkoutTitle = <PageTitle translationKey={'page.dashboard.workout.title'} align={'center'} />;
     const goToWorkoutPage = () => navigate.toManageWorkouts(history);
 
     return loading ? (
@@ -81,11 +81,11 @@ const WorkoutCard: FC<DraggableProps> = ({ id, index, moveCard }: DraggableProps
                 <Stack spacing={2} alignItems={'center'}>
                     <Avatar style={{ height: 200, width: 200, padding: 25, background: '#63a5f5' }} src={WorkoutPlan} />
                     <Typography align={'justify'} variant={'body1'}>
-                        {t('page.dashboard.blankWorkout.message')}
+                        {t('page.dashboard.workout.message')}
                     </Typography>
                 </Stack>
             }
-            buttonText={t('page.dashboard.blankWorkout.button')}
+            buttonText={t('page.dashboard.workout.button')}
             buttonAction={goToWorkoutPage}
         />
     );

@@ -76,7 +76,8 @@
         "ok": "OK",
         "workout": "Training",
         "completedIn": "Abgeschlossen in",
-        "repsCompleted": "Wiederholungen abgeschlossen"
+        "repsCompleted": "Wiederholungen abgeschlossen",
+        "repsCompletedNotSentenceBegin": "Wiederholungen abgeschlossen"
     },
     "auth": {
         "message": {
@@ -156,6 +157,7 @@
             }
         },
         "manageExercises": {
+            "exercise": "Übung",
             "exercises": "Übungen"
         },
         "manageWorkouts": {
@@ -163,7 +165,7 @@
         },
         "editWorkout": {
             "createWorkout": "Training erstellen",
-            "editWorkout": "Training editieren"
+            "editWorkout": "Training bearbeiten"
         },
         "startWorkout": {
             "title": "Training starten"
@@ -176,15 +178,16 @@
             "workoutCompletedIn": "Training abgeschlossen in"
         },
         "dashboard": {
-            "blankExercise": {
+            "exercise": {
                 "title": "Übungen",
                 "message": "Sie haben derzeit keine Übungen zur Verfügung! Wenn Sie jetzt eine hinzufügen möchten, gehen Sie bitte zur Übungsseite!",
                 "button": "Gehe zu Übungen"
             },
-            "blankWorkout": {
+            "workout": {
                 "title": "Trainingseinheiten",
                 "message": "Entschuldigung, aber Sie haben noch keine Trainingseinheiten! Bitte erstellen Sie jetzt eine!",
-                "button": "Gehe zu Trainingseinheiten"
+                "button": "Gehe zu Trainingseinheiten",
+                "tooltip": "Starte dieses Training jetzt!"
             },
             "profile": {
                 "title": "Profil",
@@ -226,6 +229,8 @@
                 "imgUrl": "Bild-/GIF-URL",
                 "defaultAmountType": "Standardbetragstyp",
                 "amountType": "Betragstyp",
+                "defaultAmount": "Standardbetrag",
+                "amount": "Betrag",
                 "countBased": "Zahlbasiert",
                 "timeBased": "Zeitbasiert",
                 "defaultTime": "Standardzeit",
@@ -236,6 +241,9 @@
                 "resultType": "Ergebnistyp",
                 "useDefaultResult": "Standardergebnis verwenden",
                 "defaultResult": "Standardergebnis"
+            },
+            "workout": {
+                "name": "Training-Name"
             }
         },
         "options": {
@@ -307,5 +315,14 @@
         "mustContainLowercase": "Muss mindestens einen Kleinbuchstaben enthalten!",
         "mustContainUppercase": "Muss mindestens einen Grossbuchstaben enthalten!"
     },
-    "Push Ups": "Liegestütze"
+    "Rest": "Pause",
+    "Jumping Jacks": "Hampelmänner",
+    "Prepare": "Vorbereiten",
+    "Squats": "Kniebeugen",
+    "Push-Ups": "Liegestütze",
+    "Burpees": "Liegestützsprüngen",
+    "Jogging": "Joggen",
+    "Lunges": "Ausfallschritte",
+    "T Superman": "T Superman",
+    "Pull-up Superman": "Klimmzug-Superman"
 }

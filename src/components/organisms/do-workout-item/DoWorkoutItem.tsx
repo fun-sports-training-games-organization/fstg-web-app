@@ -5,6 +5,7 @@ import ExercisesTimeRepsIcons from '../../organisms/exercises-time-reps-icons/Ex
 import { ExerciseInProgress } from '../../../model/Exercise.model';
 import { FC } from 'react';
 import theme from '../../../theme/theme';
+import { useTranslation } from 'react-i18next';
 
 export type DoWorkoutItemProps = {
     exercise: ExerciseInProgress;
@@ -15,7 +16,7 @@ export type DoWorkoutItemProps = {
 const DoWorkoutItem: FC<DoWorkoutItemProps> = ({ exercise, index, isCurrent }: DoWorkoutItemProps) => {
     const pageName = 'edit_workout';
     const idPrefix = getPageIdPrefix(pageName);
-
+    const { t } = useTranslation();
     const smUp = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
 
     return (
@@ -29,7 +30,7 @@ const DoWorkoutItem: FC<DoWorkoutItemProps> = ({ exercise, index, isCurrent }: D
         >
             <Stack direction="row" alignItems="center" justifyContent="space-between" margin={{ xs: 1, sm: 2 }}>
                 <Typography variant={smUp ? 'h4' : 'h5'}>{index + 1}.</Typography>
-                <Typography variant={smUp ? 'h4' : 'h5'}>{exercise.name ? exercise.name : ''}</Typography>
+                <Typography variant={smUp ? 'h4' : 'h5'}>{t(exercise.name ? exercise.name : '')}</Typography>
                 <ExercisesTimeRepsIcons
                     entities={[exercise]}
                     id={exercise.id ? exercise.id : ''}

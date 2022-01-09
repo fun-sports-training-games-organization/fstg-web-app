@@ -1,5 +1,6 @@
 import { Stack, Typography } from '@mui/material';
 import { Workout } from '../../../model/Workout.model';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
     parentIdPrefix: string;
@@ -9,6 +10,7 @@ type Props = {
 const DisplayWorkoutExercises = ({ parentIdPrefix, workout }: Props): JSX.Element => {
     const idPrefix = `${parentIdPrefix}display_exercise_list__`;
     const exerciseItemPrefix = `${idPrefix}item_`;
+    const { t } = useTranslation();
 
     return (
         <>
@@ -16,7 +18,7 @@ const DisplayWorkoutExercises = ({ parentIdPrefix, workout }: Props): JSX.Elemen
                 {workout.exercises?.map((exercise, index) => {
                     return (
                         <Typography key={exercise.id} id={`${exerciseItemPrefix}${index}`} align="left" variant="body2">
-                            {exercise.name}
+                            {t(exercise?.name ? exercise.name : '')}
                         </Typography>
                     );
                 })}

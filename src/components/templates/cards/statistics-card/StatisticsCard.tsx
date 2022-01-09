@@ -48,7 +48,7 @@ const StatisticsCard: FC<DraggableProps> = ({ id, index, moveCard }: DraggablePr
                                 <ListItemIcon>
                                     <Pool />
                                 </ListItemIcon>
-                                <ListItemText primary="Push Ups" />
+                                <ListItemText primary="Push-Ups" />
                             </ListItemButton>
                         </ListItem>
                         <ListItem disablePadding>

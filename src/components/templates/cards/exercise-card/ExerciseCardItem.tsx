@@ -3,6 +3,7 @@ import { Exercise } from '../../../../model/Exercise.model';
 import { ListItem, ListItemIcon, ListItemText, Theme, useMediaQuery } from '@mui/material';
 import * as React from 'react';
 import { FitnessCenter } from '@mui/icons-material';
+import { useTranslation } from 'react-i18next';
 
 type ExerciseCardItemProps = {
     exercise: Exercise;
@@ -11,6 +12,8 @@ const ExerciseCardItem: FC<ExerciseCardItemProps> = ({ exercise }: ExerciseCardI
     const [image, setImage] = useState<string>();
     const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
     const iconSize = smDown ? 35 : 50;
+    const { t } = useTranslation();
+
     useEffect(() => {
         import(`../../../../assets/exercise/icons/${exercise.name?.toLowerCase().trim().split(' ').join('_')}.png`)
             .then((image: { default: string }) => setImage(image.default))
@@ -28,7 +31,7 @@ const ExerciseCardItem: FC<ExerciseCardItemProps> = ({ exercise }: ExerciseCardI
                     <FitnessCenter sx={{ height: iconSize, width: iconSize }} />
                 )}
             </ListItemIcon>
-            <ListItemText primary={exercise.name} />
+            <ListItemText primary={t(exercise.name ? exercise.name : '')} />
         </ListItem>
     );
 };
