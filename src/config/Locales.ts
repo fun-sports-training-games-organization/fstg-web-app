@@ -23,5 +23,11 @@ export const locales: Locale[] = [
         key: 'en',
         value: 'en',
         text: 'English'
+    },
+    {
+        label: 'Italy',
+        key: 'it',
+        value: 'it',
+        text: 'Italiano'
     }
 ];
