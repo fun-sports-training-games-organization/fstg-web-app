@@ -32,23 +32,25 @@ const EmailField: FC<TextFieldProps> = (props) => {
                         : (t('form.tooltip.account.sendVerificationEmail') as string)
                 }
             >
-                <IconButton
-                    data-testid={'show-hide-password-toggle-button'}
-                    aria-label="toggle password visibility"
-                    onClick={handleOnClick}
-                    onMouseDown={handleMouseDownPassword}
-                    disabled={emailIsVerified}
-                    disableFocusRipple
-                    disableRipple
-                    edge="end"
-                    tabIndex={-1}
-                >
-                    {emailIsVerified ? (
-                        <CheckCircleOutline color={'success'} />
-                    ) : (
-                        <WarningAmber style={{ fill: 'orange' }} />
-                    )}
-                </IconButton>
+                <span>
+                    <IconButton
+                        data-testid={'show-hide-password-toggle-button'}
+                        aria-label="toggle password visibility"
+                        onClick={handleOnClick}
+                        onMouseDown={handleMouseDownPassword}
+                        disabled={emailIsVerified}
+                        disableFocusRipple
+                        disableRipple
+                        edge="end"
+                        tabIndex={-1}
+                    >
+                        {emailIsVerified ? (
+                            <CheckCircleOutline color={'success'} />
+                        ) : (
+                            <WarningAmber style={{ fill: 'orange' }} />
+                        )}
+                    </IconButton>
+                </span>
             </Tooltip>
         </InputAdornment>
     );

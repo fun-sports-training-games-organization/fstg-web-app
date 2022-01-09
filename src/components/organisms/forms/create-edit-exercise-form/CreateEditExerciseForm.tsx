@@ -28,6 +28,8 @@ import { getNewEmptyExercise } from '../../../../util/exercise-util';
 import { getPageIdPrefix } from '../../../../util/id-util';
 import SubmitButton from '../../../atoms/submit-button/SubmitButton';
 import TimeOrCountField from '../../../atoms/time-or-count-field/TimeOrCountField';
+import { ONE_MEGABYTE } from '../../../../util/validation';
+import { fileSizeTooLarge } from '../../../../util/notifications-util';
 
 type Props = {
     exerciseId?: string;
@@ -128,40 +130,47 @@ const CreateEditExerciseForm = ({
 
     const handleCreateOrUpdate = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        let error;
         if (chosenFile) {
-            chosenFile && fileManager.uploadFile(chosenFile, user?.uid);
+            if (chosenFile.size > ONE_MEGABYTE) {
+                error = true;
+                fileSizeTooLarge(enqueueSnackbar, t, { limit: '1MB' });
+            } else {
+                chosenFile && fileManager.uploadFile(chosenFile, user?.uid);
+            }
         }
-
-        if (!workout && exerciseId) {
-            updateExercise(exercise)
-                .then(() => {
-                    notification.updateSuccess(enqueueSnackbar, t, exercise.name);
-                    setExercise(getNewEmptyExercise());
-                    handleClose && handleClose();
-                })
-                .catch(() => {
-                    notification.updateError(enqueueSnackbar, t, exercise.name);
-                });
-        } else if (!exerciseId) {
-            createExercise(exercise)
-                .then((id) => {
-                    setExercise(getNewEmptyExercise());
-                    if (workout && setWorkout) {
-                        setWorkout({
-                            ...workout,
-                            exercises: workout.exercises.map((e, i) =>
-                                i === index ? { ...exercise, id: e.id, exerciseId: id } : e
-                            )
-                        });
-                    }
-                    onCreate && onCreate({ ...exercise, id });
-                    notification.createSuccess(enqueueSnackbar, t, exercise.name);
-                })
-                .catch(() => {
-                    notification.createError(enqueueSnackbar, t, exercise.name);
-                });
-        } else {
-            handleClose && handleClose();
+        if (!error) {
+            if (!workout && exerciseId) {
+                updateExercise(exercise)
+                    .then(() => {
+                        notification.updateSuccess(enqueueSnackbar, t, exercise.name);
+                        setExercise(getNewEmptyExercise());
+                        handleClose && handleClose();
+                    })
+                    .catch(() => {
+                        notification.updateError(enqueueSnackbar, t, exercise.name);
+                    });
+            } else if (!exerciseId) {
+                createExercise(exercise)
+                    .then((id) => {
+                        setExercise(getNewEmptyExercise());
+                        if (workout && setWorkout) {
+                            setWorkout({
+                                ...workout,
+                                exercises: workout.exercises.map((e, i) =>
+                                    i === index ? { ...exercise, id: e.id, exerciseId: id } : e
+                                )
+                            });
+                        }
+                        onCreate && onCreate({ ...exercise, id });
+                        notification.createSuccess(enqueueSnackbar, t, exercise.name);
+                    })
+                    .catch(() => {
+                        notification.createError(enqueueSnackbar, t, exercise.name);
+                    });
+            } else {
+                handleClose && handleClose();
+            }
         }
     };
 

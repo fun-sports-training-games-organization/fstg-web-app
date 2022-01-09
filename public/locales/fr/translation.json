@@ -102,6 +102,11 @@
                 "success": "Photo de profil supprimée avec succès!",
                 "failed": "Impossible de supprimer la photo de profil! Veuillez réessayer!"
             }
+        },
+        "upload": {
+            "failure": {
+                "tooLarge": "La taille du fichier ne peut pas dépasser la limite de {{limit}}!"
+            }
         }
     },
     "idp": {
@@ -162,7 +167,12 @@
                 "message": "Désolé, mais vous n'avez pas encore d'entraînement! Veuillez en créer un maintenant!",
                 "button": "Aller aux entraînements"
             },
-            "showMore": "Montre plus..."
+            "profile": {
+                "title": "Profil",
+                "memberSince": "Membre depuis {{datetime}}"
+            },
+            "showMore": "Montre plus...",
+            "toAccount": "Aller au Compte"
         }
     },
     "form": {

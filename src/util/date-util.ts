@@ -28,3 +28,21 @@ export const formatSecondsValueInHoursMinutesAndSeconds = (
     const formattedWorkoutSeconds = addLeadingZero(secondsValue % 60);
     return `${formattedWorkoutHours}${formattedWorkoutMinutes}:${formattedWorkoutSeconds}`;
 };
+
+/**
+ *
+ * @param date the date string to be returned as a [[`Date`]] object with a specified locale (default 'de-CH').
+ * @param locale locale string to define the date's locale (default 'de-CH')
+ * @return date object with the given locale (default 'de-CH').
+ */
+export const convertStringToDateWithLocale = (date?: string | Date | null, locale = 'de-CH'): string => {
+    return date ? new Date(date).toLocaleDateString(locale) : '';
+};
+
+/**
+ * @param date The date string to be returned as a {@link Date} object
+ * @return Date object or undefined
+ */
+export const convertStringToDate = (date?: string | Date): Date | undefined => {
+    return date ? new Date(date) : undefined;
+};

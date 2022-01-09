@@ -102,6 +102,11 @@
                 "success": "Profile picture successfully deleted!",
                 "failed": "Failed to delete profile picture! Please try again!"
             }
+        },
+        "upload": {
+            "failure": {
+                "tooLarge": "File size cannot exceed the limit of {{limit}}!"
+            }
         }
     },
     "idp": {
@@ -162,7 +167,12 @@
                 "message": "Sorry, but you don't have any workouts yet! Please go ahead and create one now!",
                 "button": "Go to Workouts"
             },
-            "showMore": "Show More..."
+            "profile": {
+                "title": "Profile",
+                "memberSince": "Member since {{datetime}}"
+            },
+            "showMore": "Show More...",
+            "toAccount": "Go to Account"
         }
     },
     "form": {
