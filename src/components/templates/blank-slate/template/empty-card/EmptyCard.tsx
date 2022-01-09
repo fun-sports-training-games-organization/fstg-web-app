@@ -1,6 +1,7 @@
 import DashboardCard from '../../../cards/dashboard-card/DashboardCard';
 import { FC, ReactNode } from 'react';
 import { Button } from '@mui/material';
+import { DraggableProps } from '../../../cards/dashboard-card/DashboardCard.types';
 
 type EmptyCardProps = {
     title: string | ReactNode;
@@ -9,9 +10,20 @@ type EmptyCardProps = {
     buttonAction: () => void;
 };
 
-const EmptyCard: FC<EmptyCardProps> = ({ title, message, buttonText, buttonAction }: EmptyCardProps) => {
+const EmptyCard: FC<EmptyCardProps & DraggableProps> = ({
+    title,
+    message,
+    buttonText,
+    buttonAction,
+    id,
+    index,
+    moveCard
+}: EmptyCardProps & DraggableProps) => {
     return (
         <DashboardCard
+            id={id}
+            index={index}
+            moveCard={moveCard}
             cardProps={{ elevation: 5 }}
             cardHeaderProps={{ title }}
             cardActionsProps={{

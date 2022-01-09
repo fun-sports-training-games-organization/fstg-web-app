@@ -1,7 +1,7 @@
 import { Avatar, Button, Grid, List, ListItem, ListItemText, Theme, Typography, useMediaQuery } from '@mui/material';
 import DashboardCard from '../dashboard-card/DashboardCard';
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import useEntityManager from '../../../../hooks/useEntityManager';
 import * as navigate from '../../../../util/navigation-util';
 import { useHistory } from 'react-router-dom';
@@ -13,6 +13,7 @@ import { useAuth } from '../../../../contexts/AuthContextProvider';
 import useFileManager from '../../../../hooks/useFileManager';
 import { convertStringToDateWithLocale, getAge } from '../../../../util/date-util';
 import { calculateBmiInImperial, calculateBmiInMetric } from '../../../../util/bmi-util';
+import { DraggableProps } from '../dashboard-card/DashboardCard.types';
 
 function stringToColor(string: string) {
     let hash = 0;
@@ -54,7 +55,7 @@ const generateListItemText = (text?: string) =>
         </ListItem>
     );
 
-const ProfileCard = (): JSX.Element => {
+const ProfileCard: FC<DraggableProps> = ({ id, index, moveCard }: DraggableProps): JSX.Element => {
     const history = useHistory();
     const { t } = useTranslation();
     const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
@@ -85,6 +86,9 @@ const ProfileCard = (): JSX.Element => {
         <Loader />
     ) : (
         <DashboardCard
+            id={id}
+            index={index}
+            moveCard={moveCard}
             cardProps={{ elevation: 5 }}
             cardHeaderProps={{ title: ExerciseTitle, ...(smDown && { sx: { paddingBottom: 0 } }) }}
             cardContentProps={smDown ? { sx: { paddingTop: 0 } } : undefined}

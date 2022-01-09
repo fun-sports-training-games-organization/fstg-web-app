@@ -12,8 +12,10 @@ import PageTitle from '../../../atoms/page-title/PageTitle';
 import WorkoutCardItem from './WorkoutCardItem';
 import { Workout } from '../../../../model/Workout.model';
 import Loader from '../../../atoms/loader/Loader';
+import { FC } from 'react';
+import { DraggableProps } from '../dashboard-card/DashboardCard.types';
 
-const WorkoutCard = (): JSX.Element => {
+const WorkoutCard: FC<DraggableProps> = ({ id, index, moveCard }: DraggableProps): JSX.Element => {
     const history = useHistory();
     const { t } = useTranslation();
     const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
@@ -25,6 +27,9 @@ const WorkoutCard = (): JSX.Element => {
         <Loader />
     ) : workouts.length > 0 ? (
         <DashboardCard
+            id={id}
+            index={index}
+            moveCard={moveCard}
             cardProps={{ elevation: 5 }}
             cardHeaderProps={{ title: WorkoutTitle, ...(smDown && { sx: { paddingBottom: 0 } }) }}
             cardContentProps={smDown ? { sx: { paddingTop: 0 } } : undefined}
@@ -68,6 +73,9 @@ const WorkoutCard = (): JSX.Element => {
         </DashboardCard>
     ) : (
         <EmptyCard
+            id={id}
+            index={index}
+            moveCard={moveCard}
             title={WorkoutTitle}
             message={
                 <Stack spacing={2} alignItems={'center'}>
