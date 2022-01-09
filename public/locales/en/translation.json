@@ -4,7 +4,7 @@
         "dashboard": "Dashboard",
         "exercises": "Exercises",
         "workouts": "Workouts",
-        "account": "Account",
+        "profile": "Profile",
         "logout": "Logout"
     },
     "actionMenu": {
@@ -193,7 +193,7 @@
                 "bmi": "BMI: {{bmi}}"
             },
             "showMore": "Show More...",
-            "toAccount": "Go to Account"
+            "goToProfile": "Go to Profile"
         }
     },
     "form": {
@@ -210,7 +210,8 @@
                 "dateOfBirth": "Date of Birth",
                 "height": "Height",
                 "weight": "Weight",
-                "gender": "Gender"
+                "gender": "Gender",
+                "profilePicture": "Profile Picture"
             },
             "registration": {
                 "nickname": "Nickname (Optional)",
@@ -235,9 +236,6 @@
                 "resultType": "Result Type",
                 "useDefaultResult": "Use Default Result",
                 "defaultResult": "Default Result"
-            },
-            "account": {
-                "profilePicture": "Profile Picture"
             }
         },
         "options": {
@@ -260,7 +258,7 @@
             "registration": {
                 "register": "Register"
             },
-            "account": {
+            "profile": {
                 "saveProfile": "Save profile",
                 "deleteProfilePicture": "Delete Profile Picture"
             },
@@ -274,7 +272,7 @@
             }
         },
         "tooltip": {
-            "account": {
+            "profile": {
                 "emailVerified": "Email verified!",
                 "sendVerificationEmail": "Click here to send a verification email!"
             }

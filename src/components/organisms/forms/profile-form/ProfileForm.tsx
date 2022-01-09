@@ -14,7 +14,7 @@ import {
 import { SaveOutlined } from '@mui/icons-material';
 import { connect, RootStateOrAny } from 'react-redux';
 import { LoadingButton } from '@mui/lab';
-import { AccountState, Unit } from '../../../../reducers/account-reducer';
+import { ProfileState, Unit } from '../../../../reducers/profile-reducer';
 import {
     alphaNumeric,
     email,
@@ -37,7 +37,7 @@ type OwnProps = {
     formUnit?: Unit;
 };
 
-const AccountForm: FC<OwnProps & InjectedFormProps<AccountState>> = ({
+const ProfileForm: FC<OwnProps & InjectedFormProps<ProfileState>> = ({
     handleSubmit,
     pristine,
     submitting,
@@ -45,7 +45,7 @@ const AccountForm: FC<OwnProps & InjectedFormProps<AccountState>> = ({
     handleDeleteProfilePicture,
     isExternalProvider,
     formUnit
-}: OwnProps & InjectedFormProps<AccountState>) => {
+}: OwnProps & InjectedFormProps<ProfileState>) => {
     const { t, i18n } = useTranslation();
 
     return (
@@ -64,7 +64,7 @@ const AccountForm: FC<OwnProps & InjectedFormProps<AccountState>> = ({
                     ) : isExternalProvider ? null : (
                         <Field
                             name={'profilePicture'}
-                            label={t('form.label.account.profilePicture')}
+                            label={t('form.label.profile.profilePicture')}
                             component={renderFileChooser}
                             // onChange={handleChangeEvent}
                         />
@@ -159,7 +159,7 @@ const AccountForm: FC<OwnProps & InjectedFormProps<AccountState>> = ({
                     />
                     <Field
                         name={'weight'}
-                        label={`${t('form.label.profile.weight')} (${formUnit === Unit.IMPERIAL ? 'ft' : 'cm'})`}
+                        label={`${t('form.label.profile.weight')} (${formUnit === Unit.IMPERIAL ? 'lb' : 'kg'})`}
                         validate={[number, heavierThanLightestPersonEver, lighterThanHeaviestPersonEver]}
                         component={renderNumberField}
                     />
@@ -174,7 +174,7 @@ const AccountForm: FC<OwnProps & InjectedFormProps<AccountState>> = ({
                         startIcon={<SaveOutlined />}
                         style={{ textTransform: 'none' }}
                     >
-                        {t('form.button.account.saveProfile')}
+                        {t('form.button.profile.saveProfile')}
                     </LoadingButton>
                 </Stack>
             </Form>
@@ -183,16 +183,16 @@ const AccountForm: FC<OwnProps & InjectedFormProps<AccountState>> = ({
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const reduxFormAccountForm = reduxForm<any, any>({ form: 'profileForm' /*, validate, asyncValidate*/ })(AccountForm);
+const reduxFormProfileForm = reduxForm<any, any>({ form: 'profileForm' /*, validate, asyncValidate*/ })(ProfileForm);
 
-const connectedReduxFormAccountForm = connect((state: RootStateOrAny) => ({ initialValues: state.account.data }))(
-    reduxFormAccountForm
+const connectedReduxFormProfileForm = connect((state: RootStateOrAny) => ({ initialValues: state.profile.data }))(
+    reduxFormProfileForm
 );
 
 const selector = formValueSelector('profileForm');
-const connectedReduxFormAccountFormWithSelector = connect((state: RootStateOrAny) => {
+const connectedReduxFormProfileFormWithSelector = connect((state: RootStateOrAny) => {
     const formUnit = selector(state, 'unit');
     return { formUnit };
-})(connectedReduxFormAccountForm);
+})(connectedReduxFormProfileForm);
 
-export default connectedReduxFormAccountFormWithSelector;
+export default connectedReduxFormProfileFormWithSelector;

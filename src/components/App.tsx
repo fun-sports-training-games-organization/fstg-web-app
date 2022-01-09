@@ -10,11 +10,11 @@ import { useTranslation } from 'react-i18next';
 import { Theme, useMediaQuery } from '@mui/material';
 import useEntityManager from '../hooks/useEntityManager';
 import useFileManager from '../hooks/useFileManager';
-import { AccountState } from '../reducers/account-reducer';
+import { ProfileState } from '../reducers/profile-reducer';
 
 function App(): JSX.Element {
     const { logout, user } = useAuth();
-    const { findById } = useEntityManager<AccountState>('users', false);
+    const { findById } = useEntityManager<ProfileState>('users', false);
     const fileManager = useFileManager<File>('profile_pictures');
     const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
     const [photoURL, setPhotoURL] = useState<string>();
@@ -44,7 +44,7 @@ function App(): JSX.Element {
 
     const bottomMenuList: MenuListItem[] | undefined = smDown
         ? [
-              { key: 'profile', text: t('nav.account'), icon: 'person', path: '/account' },
+              { key: 'profile', text: t('nav.profile'), icon: 'person', path: '/profile' },
               { key: 'logout', text: t('nav.logout'), icon: 'logout', onClick: () => logout() }
           ]
         : undefined;
