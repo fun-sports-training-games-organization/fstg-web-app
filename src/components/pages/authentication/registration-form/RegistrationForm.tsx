@@ -26,7 +26,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { lower, name } from '../../../../util/normalize';
 
 export interface RegistrationFormFields {
-    username?: string;
+    nickname?: string;
     firstName?: string;
     lastName?: string;
     email?: string;
@@ -60,11 +60,11 @@ const RegistrationForm: FC<InjectedFormProps<RegistrationFormFields>> = (
         <Form onSubmit={handleSubmit}>
             <Stack padding={2} spacing={2} alignItems={'center'}>
                 <Field
-                    name={'username'}
+                    name={'nickname'}
                     validate={[alphaNumeric, minLength2, maxLength30]}
                     component={renderTextField}
                     normalize={lower}
-                    label={t('form.label.registration.username')}
+                    label={t('form.label.registration.nickname')}
                 />
                 <Field
                     name={'firstName'}

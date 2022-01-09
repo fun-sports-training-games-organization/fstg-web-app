@@ -78,9 +78,9 @@ const LoginPage: FC = (): JSX.Element => {
                                         password,
                                         firstName,
                                         lastName,
-                                        username
+                                        nickname
                                     }: RegistrationFormFields) =>
-                                        registerWithEmail(email, password, firstName, lastName, username)
+                                        registerWithEmail(email, password, firstName, lastName, nickname)
                                     }
                                 />
                             )

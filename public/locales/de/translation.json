@@ -4,7 +4,7 @@
         "dashboard": "Dashboard",
         "exercises": "Übungen",
         "workouts": "Training",
-        "account": "Konto",
+        "profile": "Profil",
         "logout": "Abmelden"
     },
     "actionMenu": {
@@ -189,10 +189,12 @@
             },
             "profile": {
                 "title": "Profil",
-                "memberSince": "Mitglied seit {{datetime}}"
+                "memberSince": "Mitglied seit {{datetime}}",
+                "age": "Alter: {{age}}",
+                "bmi": "KMZ: {{bmi}}"
             },
             "showMore": "Mehr anzeigen...",
-            "toAccount": "Gehe zu Konto"
+            "goToProfile": "Gehe zu Profil"
         }
     },
     "form": {
@@ -201,13 +203,24 @@
                 "email": "E-mail",
                 "password": "Kennwort"
             },
-            "registration": {
-                "username": "Benutzername (optional)",
+            "profile": {
+                "nickname": "Spitzname (optional)",
                 "firstName": "Vorname",
                 "lastName": "Nachname",
                 "email": "E-mail",
-                "password": "Kennwort",
-                "confirmPassword": "Kennwort bestätigen"
+                "dateOfBirth": "Geburtsdatum",
+                "height": "Höhe",
+                "weight": "Gewicht",
+                "gender": "Geschlecht",
+                "profilePicture": "Profilbild"
+            },
+            "registration": {
+                "nickname": "Spitzname (optional)",
+                "firstName": "Vorname",
+                "lastName": "Nachname",
+                "email": "E-mail",
+                "password": "Passwort",
+                "confirmPassword": "Passwort bestätigen"
             },
             "exercise": {
                 "name": "Name der Übung",
@@ -226,9 +239,19 @@
                 "resultType": "Ergebnistyp",
                 "useDefaultResult": "Standardergebnis verwenden",
                 "defaultResult": "Standardergebnis"
-            },
-            "account": {
-                "profilePicture": "Profilbild"
+            }
+        },
+        "options": {
+            "profile": {
+                "gender": {
+                    "male": "Mann",
+                    "female": "Weiblich",
+                    "other": "Andere"
+                },
+                "unit": {
+                    "metric": "Metrisch",
+                    "imperial": "Imperial"
+                }
             }
         },
         "button": {
@@ -238,7 +261,7 @@
             "registration": {
                 "register": "Registrieren"
             },
-            "account": {
+            "profile": {
                 "saveProfile": "Profil sichern",
                 "deleteProfilePicture": "Profilbild entfernen"
             },
@@ -252,7 +275,7 @@
             }
         },
         "tooltip": {
-            "account": {
+            "profile": {
                 "emailVerified": "E-Mail verifiziert!",
                 "sendVerificationEmail": "Klicken Sie hier, um eine Bestätigungs-E-Mail zu senden!"
             }

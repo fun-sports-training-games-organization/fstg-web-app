@@ -8,10 +8,11 @@ import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import PageTitle from '../../../atoms/page-title/PageTitle';
 import Loader from '../../../atoms/loader/Loader';
-import { AccountState } from '../../../../reducers/account-reducer';
+import { ProfileState, Unit } from '../../../../reducers/profile-reducer';
 import { useAuth } from '../../../../contexts/AuthContextProvider';
 import useFileManager from '../../../../hooks/useFileManager';
-import { convertStringToDateWithLocale } from '../../../../util/date-util';
+import { convertStringToDateWithLocale, getAge } from '../../../../util/date-util';
+import { calculateBmiInImperial, calculateBmiInMetric } from '../../../../util/bmi-util';
 
 function stringToColor(string: string) {
     let hash = 0;
@@ -44,21 +45,30 @@ function stringAvatar(name: string) {
     };
 }
 
+const generateListItemText = (text?: string) =>
+    text && (
+        <ListItem disablePadding sx={{ marginTop: 1 }}>
+            <ListItemText>
+                <Typography variant={'body1'}>{text}</Typography>
+            </ListItemText>
+        </ListItem>
+    );
+
 const ProfileCard = (): JSX.Element => {
     const history = useHistory();
     const { t } = useTranslation();
     const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
     const { user } = useAuth();
     const fileManager = useFileManager<File>('profile_pictures');
-    const { findById, loading } = useEntityManager<AccountState>('users', false);
+    const { findById, loading } = useEntityManager<ProfileState>('users', false);
     const [profilePictureURL, setProfilePictureURL] = useState<string>();
-    const [account, setAccount] = useState<AccountState>({});
+    const [profile, setProfile] = useState<ProfileState>({});
     useEffect(() => {
         user &&
             user.uid &&
-            findById(user.uid).then((account: AccountState) => {
-                setAccount(account);
-                const { profilePicturePath } = account;
+            findById(user.uid).then((profile: ProfileState) => {
+                setProfile(profile);
+                const { profilePicturePath } = profile;
                 if (user?.photoURL) {
                     setProfilePictureURL(user.photoURL);
                 } else if (profilePicturePath) {
@@ -69,7 +79,7 @@ const ProfileCard = (): JSX.Element => {
             });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    const goToAccountPage = () => navigate.toAccount(history);
+    const goToProfilePage = () => navigate.toProfile(history);
     const ExerciseTitle = <PageTitle translationKey={'page.dashboard.profile.title'} align={'center'} />;
     return loading ? (
         <Loader />
@@ -95,7 +105,7 @@ const ProfileCard = (): JSX.Element => {
                             alt={'profile pic'}
                         />
                     ) : (
-                        <Avatar {...stringAvatar(user?.displayName || `${account.firstName} ${account.lastName}`)} />
+                        <Avatar {...stringAvatar(user?.displayName || `${profile.firstName} ${profile.lastName}`)} />
                     )}
                 </Grid>
                 <Grid item xs={6}>
@@ -103,28 +113,43 @@ const ProfileCard = (): JSX.Element => {
                         <ListItem disablePadding sx={{ marginTop: 1 }}>
                             <ListItemText>
                                 <Typography fontWeight={'bold'} variant={'h5'}>
-                                    {`${user?.displayName || `${account.firstName} ${account.lastName}`}`}
+                                    {`${user?.displayName || `${profile.firstName} ${profile.lastName}`}`}
                                 </Typography>
                             </ListItemText>
                         </ListItem>
-                        <ListItem disablePadding sx={{ marginTop: 1 }}>
-                            <ListItemText>
-                                <Typography variant={'body1'}>
-                                    {t('page.dashboard.profile.memberSince', {
-                                        datetime: convertStringToDateWithLocale(user?.metadata?.creationTime)
-                                    })}
-                                </Typography>
-                            </ListItemText>
-                        </ListItem>
+                        {generateListItemText(
+                            profile.dateOfBirth &&
+                                t('page.dashboard.profile.age', {
+                                    age: getAge(profile.dateOfBirth)
+                                })
+                        )}
+                        {profile.height &&
+                            profile.weight &&
+                            profile.unit &&
+                            typeof profile.height !== 'undefined' &&
+                            typeof profile.height !== 'undefined' &&
+                            generateListItemText(
+                                t('page.dashboard.profile.bmi', {
+                                    bmi:
+                                        profile.unit === Unit.METRIC
+                                            ? calculateBmiInMetric(profile.weight, profile.height).toFixed(2)
+                                            : calculateBmiInImperial(profile.weight, profile.height).toFixed(2)
+                                })
+                            )}
+                        {generateListItemText(
+                            t('page.dashboard.profile.memberSince', {
+                                datetime: convertStringToDateWithLocale(user?.metadata?.creationTime)
+                            })
+                        )}
                         <ListItem disablePadding sx={{ marginTop: 1 }}>
                             <Button
                                 fullWidth
                                 style={{ textTransform: 'none' }}
                                 variant={'contained'}
-                                onClick={goToAccountPage}
+                                onClick={goToProfilePage}
                                 color={'primary'}
                             >
-                                {t('page.dashboard.toAccount')}
+                                {t('page.dashboard.goToProfile')}
                             </Button>
                         </ListItem>
                     </List>

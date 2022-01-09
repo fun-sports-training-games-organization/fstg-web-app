@@ -3,7 +3,7 @@ import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
 const ns = ['common'];
-const supportedLngs = ['de', 'en', 'fr'];
+const supportedLngs = ['en', 'fr', 'de'];
 
 i18n.use(LanguageDetector)
     .use(initReactI18next)
@@ -21,7 +21,7 @@ i18n.use(LanguageDetector)
 
 supportedLngs.forEach((lang) => {
     ns.forEach((n) => {
-        i18n.addResources(lang, n, require(`../public/locales/${lang}/translation.json`));
+        i18n.addResourceBundle(lang, n, require(`../public/locales/${lang}/${n}.json`));
     });
 });
 

@@ -1,7 +1,6 @@
 import IRoute from './route.interface';
 import ManageExercises from '../components/pages/exercises/manage/ManageExercises';
 import ManageWorkouts from '../components/pages/workouts/manage/ManageWorkouts';
-import Account from '../components/pages/account/Account';
 import StartWorkout from '../components/pages/workouts/start/StartWorkout';
 import LoginPage from '../components/pages/authentication/login-page/LoginPage';
 import PrivacyPolicyPage from '../components/pages/legal/PrivacyPolicyPage';
@@ -13,6 +12,7 @@ import AuthRoute from './AuthRoute';
 import NoAuthRoute from './NoAuthRoute';
 import PageNotFoundPage from '../components/pages/error/PageNotFoundPage';
 import Dashboard from '../components/pages/dashboard/Dashboard';
+import Profile from '../components/pages/profile/Profile';
 
 const routes: IRoute[] = [
     {
@@ -37,10 +37,10 @@ const routes: IRoute[] = [
         Route: NoAuthRoute
     },
     {
-        path: '/account',
+        path: '/profile',
         exact: true,
-        component: Account,
-        key: 'Account',
+        component: Profile,
+        key: 'Profile',
         Route: AuthRoute
     },
     {

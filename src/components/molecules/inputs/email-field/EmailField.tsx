@@ -28,8 +28,8 @@ const EmailField: FC<TextFieldProps> = (props) => {
             <Tooltip
                 title={
                     emailIsVerified
-                        ? (t('form.tooltip.account.emailVerified') as string)
-                        : (t('form.tooltip.account.sendVerificationEmail') as string)
+                        ? (t('form.tooltip.profile.emailVerified') as string)
+                        : (t('form.tooltip.profile.sendVerificationEmail') as string)
                 }
             >
                 <span>

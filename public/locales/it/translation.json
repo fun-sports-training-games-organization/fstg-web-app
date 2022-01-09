@@ -1,0 +1,311 @@
+{
+    "nav": {
+        "home": "Casa",
+        "dashboard": "Cruscotto",
+        "exercises": "Esercizi",
+        "workouts": "Allenamenti",
+        "profile": "Profilo",
+        "logout": "Logout"
+    },
+    "actionMenu": {
+        "workout": {
+            "start": "Iniziare l'allenamento",
+            "edit": "Modifica allenamento",
+            "delete": "Cancella allenamento"
+        },
+        "exercise": {
+            "start": "Iniziare l'esercizio",
+            "edit": "Modifica esercizio",
+            "delete": "Cancella esercizio"
+        }
+    },
+    "dialog": {
+        "deleteConfirmation": {
+            "title": "Conferma di cancellazione",
+            "message": "Sei sicuro di voler cancellare {{nome}}?"
+        },
+        "editExercise": {
+            "title": "Modifica esercizio",
+            "message": "Clicca su salva per aggiornare il tuo esercizio o annulla per scartare le tue modifiche"
+        },
+        "createExercise": {
+            "title": "Creare esercizio",
+            "message": "Clicca su crea per aggiungere questo esercizio o annulla per scartarlo"
+        },
+        "editWorkoutExerciseSettings": {
+            "title": "Modifica {{workoutName}} - {{exerciseName}} impostazioni",
+            "message": "Fai clic su salva per aggiornare le impostazioni di {{workoutName}} - {{exerciseName}} o annulla per annullare le modifiche."
+        },
+        "discardChanges": {
+            "title": "Scartare le modifiche",
+            "message": "Sei sicuro di voler scartare le modifiche che hai fatto e tornare ai tuoi allenamenti?"
+        },
+        "discardWorkoutResults": {
+            "title": "Scartare i risultati dell'allenamento",
+            "message": "Clicca su conferma per scartare il risultato dell'allenamento di questa sessione."
+        },
+        "adjustWorkoutSettings": {
+            "title": "Regolare le impostazioni dell'allenamento",
+            "message": "Clicca su conferma per regolare le impostazioni per {{name}} o annulla per scartare le modifiche."
+        },
+        "saveWorkoutResultsAndRestartWorkout": {
+            "title": "Salvare e riavviare",
+            "message": "Clicca su conferma per salvare i tuoi risultati e riavviare l'allenamento"
+        },
+        "saveWorkoutResultsAndExitWorkout": {
+            "title": "Salvare e uscire",
+            "message": "Clicca su conferma per salvare l'allenamento e uscire dalla sessione di allenamento corrente!"
+        }
+    },
+    "global": {
+        "discardAndExit": "Scartare e uscire",
+        "saveAndExit": "Salva ed esci",
+        "saveAndRestart": "Salva e riavvia",
+        "confirm": "Conferma",
+        "cancel": "Annulla",
+        "save": "Salva",
+        "exit": "Esci",
+        "restart": "Riavvia",
+        "discard": "Scartare",
+        "create": "Crea",
+        "add": "Aggiungi",
+        "back": "Indietro",
+        "result": "risultato",
+        "results": "Risultati",
+        "colon": ":",
+        "ok": "OK",
+        "workout": "Allenamento",
+        "completedIn": "Completato in",
+        "repsCompleted": "Ripetizioni completate"
+    },
+    "auth": {
+        "message": {
+            "login": {
+                "successful": "Hai effettuato il login con successo!",
+                "failure": "Non sei riuscito ad accedere! ({{errorCode}}: {{errorMessage}})",
+                "wrongCredentials": "Credenziali errate!"
+            },
+            "logout": {
+                "successful": "Ti sei disconnesso con successo!",
+                "failure": "Non sei riuscito a disconnetterti!"
+            },
+            "registration": {
+                "emailAlreadyExists": "L'e-mail esiste già!",
+                "passwordTooWeak": "La tua password è troppo debole! (è richiesto un minimo di 6 caratteri)",
+                "successful": "Hai registrato con successo il tuo account FSTG! Controlla la tua casella di posta per verificare il tuo indirizzo email!",
+                "failed": "Registrazione fallita: {{errorCode}}: {{errorMessage}}"
+            },
+            "resetPassword": {
+                "emailSent": "Il link per la reimpostazione della password è stato inviato! Per favore controlla la tua posta!",
+                "emailError": "Non è stato possibile inviare il link per la reimpostazione della password. Per favore aspetta un momento e riprova"
+            },
+            "emailVerification": {
+                "sent": "Email di verifica inviata! Controlla la tua casella di posta o la posta indesiderata per confermare il tuo indirizzo e-mail",
+                "error": "Impossibile inviare l'email di verifica! Riprova più tardi!"
+            }
+        }
+    },
+    "notifications": {
+        "exerciseCompletedTimeResultSuccess": "{{exerciseName}} è stato completato in {{resultValue}}",
+        "updateSuccess": "{{item}} è stato aggiornato con successo",
+        "updateFailure": "{{item}} non può essere aggiornato",
+        "createSuccess": "{{item}} è stato creato con successo",
+        "workoutResultFor": "risultato dell'allenamento per",
+        "createFailure": "{{item}} non può essere creato",
+        "profile": {
+            "update": {
+                "success": "Il tuo profilo è stato aggiornato con successo!",
+                "failed": "L'aggiornamento del tuo profilo non è riuscito! Per favore riprova!"
+            },
+            "deleteProfilePicture": {
+                "success": "Immagine del profilo cancellata con successo!",
+                "failed": "Impossibile eliminare l'immagine del profilo! Per favore riprova!"
+            }
+        },
+        "upload": {
+            "failure": {
+                "tooLarge": "La dimensione del file non può superare il limite di {{limit}}!"
+            }
+        }
+    },
+    "idp": {
+        "login": {
+            "button": "Accedi con {{idp}}",
+            "t&c": "Continuando, stai indicando che accetti i nostri <1>Termini di servizio</1> e <3>Politica sulla privacy</3>."
+        }
+    },
+    "page": {
+        "home": {
+            "welcome": "Benvenuto in FSTG {{displayName}}!"
+        },
+        "login": {
+            "header": "Accesso",
+            "forgotPassword": "Hai dimenticato la password?",
+            "tabLabel": {
+                "login": "Accesso",
+                "register": "Registra"
+            }
+        },
+        "register": {
+            "header": "Registrazione",
+            "label": {
+                "confirmPassword": "Confermare la password"
+            },
+            "button": {
+                "register": "Registra"
+            }
+        },
+        "manageExercises": {
+            "exercises": "Esercizi"
+        },
+        "manageWorkouts": {
+            "workouts": "Allenamenti"
+        },
+        "editWorkout": {
+            "createWorkout": "Creare l'allenamento",
+            "editWorkout": "Modifica allenamento"
+        },
+        "startWorkout": {
+            "title": "Iniziare l'allenamento"
+        },
+        "doWorkout": {
+            "workoutCompleteCongratulations": "Congratulazioni, hai completato il tuo allenamento!",
+            "reviewWorkoutResults": " Per favore esamina i tuoi risultati qui sotto e correggili se qualcosa è stato inserito in modo errato durante l'allenamento",
+            "notRecordingResults": "Al momento non stai registrando alcun risultato per questo allenamento, se desideri cambiarlo in qualsiasi momento puoi farlo",
+            "adjustingWorkoutSettings": "regolando le impostazioni dell'allenamento",
+            "workoutCompletedIn": "Allenamento completato in"
+        },
+        "dashboard": {
+            "blankExercise": {
+                "title": "Esercizi",
+                "message": "Attualmente non hai nessun esercizio disponibile! Se vuoi aggiungerne uno ora, vai alla pagina degli esercizi!",
+                "button": "Vai agli esercizi"
+            },
+            "blankWorkout": {
+                "title": "Allenamenti",
+                "message": "Spiacente, ma non hai ancora nessun allenamento! Per favore vai avanti e creane uno ora!",
+                "button": "Vai agli allenamenti"
+            },
+            "profile": {
+                "title": "Profilo",
+                "memberSince": "Membro dal {{datetime}}",
+                "age": "Età: {{age}}",
+                "bmi": "IMC: {{bmi}}"
+            },
+            "showMore": "Mostra di più...",
+            "goToProfile": "Vai al profilo"
+        }
+    },
+    "form": {
+        "label": {
+            "login": {
+                "email": "Email",
+                "password": "Password"
+            },
+            "profile": {
+                "nickname": "Soprannome (opzionale)",
+                "firstName": "Nome",
+                "lastName": "Cognome",
+                "email": "E-mail",
+                "dateOfBirth": "Data di nascita",
+                "height": "Altezza",
+                "weight": "Peso",
+                "gender": "Sesso",
+                "profilePicture": "Immagine del profilo"
+            },
+            "registration": {
+                "nickname": "Soprannome (opzionale)",
+                "firstName": "Nome",
+                "lastName": "Cognome",
+                "email": "Email",
+                "password": "Password",
+                "confirmPassword": "Conferma Password"
+            },
+            "exercise": {
+                "name": "Nome dell'esercizio",
+                "imgUrl": "Immagine/URL GIF",
+                "defaultAmountType": "Tipo di importo predefinito",
+                "amountType": "Tipo di importo",
+                "countBased": "Basato sul conteggio",
+                "timeBased": "Basato sul tempo",
+                "defaultTime": "Tempo predefinito",
+                "time": "Tempo",
+                "recordResultsByDefault": "Registra i risultati per impostazione predefinita",
+                "recordResults": "Registra risultati",
+                "defaultResultType": "Tipo di risultato predefinito",
+                "resultType": "Tipo di risultato",
+                "useDefaultResult": "Usa risultato predefinito",
+                "defaultResult": "Risultato predefinito"
+            }
+        },
+        "options": {
+            "profile": {
+                "gender": {
+                    "male": "Maschio",
+                    "female": "Femmina",
+                    "other": "Altro"
+                },
+                "unit": {
+                    "metric": "Metrico",
+                    "imperial": "Imperiale"
+                }
+            }
+        },
+        "button": {
+            "exercise": {
+                "deleteImage": "Cancella immagine"
+            },
+            "registration": {
+                "register": "Registra"
+            },
+            "profile": {
+                "saveProfile": "Salva profilo",
+                "deleteProfilePicture": "Cancella immagine del profilo"
+            },
+            "editWorkout": {
+                "discardChanges": "Scartare le modifiche",
+                "addExercise": "Aggiungere un esercizio"
+            },
+            "login": {
+                "loginWithEmail": "Accedi con l'e-mail",
+                "resetPassword": "Ripristina la password"
+            }
+        },
+        "tooltip": {
+            "profile": {
+                "emailVerified": "Email verificata!",
+                "sendVerificationEmail": "Clicca qui per inviare un'e-mail di verifica!"
+            }
+        }
+    },
+    "blankSlate": {
+        "workouts": {
+            "message": "Non hai ancora nessun allenamento! Sentiti libero di aggiungerne uno ora!",
+            "button": "Aggiungi allenamento"
+        },
+        "noExercises": {
+            "message": "Scusa, ma hai bisogno di almeno un esercizio per creare un allenamento!",
+            "button": "Vai alla pagina degli esercizi"
+        },
+        "exercises": {
+            "message": "Non hai ancora nessun esercizio! Sentiti libero di aggiungerne uno ora!",
+            "button": "Aggiungi esercizio"
+        }
+    },
+    "validation": {
+        "invalidEmail": "Indirizzo e-mail non valido!",
+        "required": "Questo campo è obbligatorio!",
+        "minLength": "Deve essere di {{min}} caratteri o più",
+        "minLength_plural": "Deve essere di almeno {{min}} caratteri",
+        "maxlength": "Deve essere {{max}} caratteri o meno",
+        "number": "Deve essere un numero",
+        "minValue": "Deve essere almeno {{min}}",
+        "maxValue": "Non deve superare {{max}}",
+        "alphanumeric": "Sono ammessi solo caratteri alfanumerici, punto e trattino basso",
+        "passwordsDoNotMatch": "Le password non corrispondono!",
+        "mustContainSymbol": "Deve contenere un simbolo!",
+        "mustContainLowercase": "Deve contenere almeno una lettera minuscola!",
+        "mustContainUppercase": "Deve contenere almeno una lettera maiuscola!"
+    },
+    "Push Ups": "Flessioni"
+}

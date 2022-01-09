@@ -1,5 +1,5 @@
-import AccountForm from '../../organisms/forms/account-form/AccountForm';
-import { AccountDispatcher, AccountState } from '../../../reducers/account-reducer';
+import ProfileForm from '../../organisms/forms/profile-form/ProfileForm';
+import { ProfileDispatcher, ProfileState } from '../../../reducers/profile-reducer';
 import { FC, useCallback, useEffect, useState } from 'react';
 import { useAuth } from '../../../contexts/AuthContextProvider';
 import { useTranslation } from 'react-i18next';
@@ -10,17 +10,18 @@ import { useDispatch } from 'react-redux';
 import { SubmissionError } from 'redux-form';
 import { fileSizeTooLarge } from '../../../util/notifications-util';
 import { ONE_MEGABYTE } from '../../../util/validation';
+import { convertFirebaseDateObjectToDateString } from '../../../util/date-util';
 
-const Account: FC = () => {
+const Profile: FC = () => {
     const { user } = useAuth();
     const { t } = useTranslation();
     const { enqueueSnackbar } = useSnackbar();
 
     const dispatch = useDispatch();
-    const accountDispatcher = new AccountDispatcher(dispatch);
+    const profileDispatcher = new ProfileDispatcher(dispatch);
 
     const fileManager = useFileManager<File>('profile_pictures');
-    const entityManager = useEntityManager<AccountState>('users', false);
+    const entityManager = useEntityManager<ProfileState>('users', false);
     const [profilePicturePath, setProfilePicturePath] = useState<string>();
     const [profilePictureURL, setProfilePictureURL] = useState<string>();
     const [isExternalProvider, setIsExternalProvider] = useState<boolean>();
@@ -32,10 +33,33 @@ const Account: FC = () => {
         user &&
             user.uid &&
             user.email &&
-            entityManager.findById(user?.uid).then((account: AccountState) => {
-                const { firstName, lastName, username, profilePicturePath } = account;
+            entityManager.findById(user?.uid).then((profile: ProfileState) => {
+                const {
+                    firstName,
+                    lastName,
+                    nickname,
+                    profilePicturePath,
+                    weight,
+                    height,
+                    gender,
+                    unit,
+                    dateOfBirth: dob
+                } = profile;
                 const { email } = user;
-                accountDispatcher.load({ firstName, lastName, username, email, profilePicturePath });
+                const dateOfBirth = dob && convertFirebaseDateObjectToDateString(dob);
+                profileDispatcher.load({
+                    firstName,
+                    lastName,
+                    nickname,
+                    email,
+                    profilePicturePath,
+                    weight,
+                    height,
+                    gender,
+                    unit,
+                    dateOfBirth
+                });
+
                 setProfilePicturePath(profilePicturePath);
                 if (profilePicturePath) {
                     fileManager.getFileURL(`profile_pictures/${user?.uid}/${profilePicturePath}`).then((url) => {
@@ -52,12 +76,12 @@ const Account: FC = () => {
         loadProfile();
     }, [loadProfile]);
 
-    const handleSubmit = async (values: AccountState): Promise<void | SubmissionError> => {
+    const handleSubmit = async (values: ProfileState): Promise<void | SubmissionError> => {
         if (values) {
-            const { firstName, lastName, username, profilePicture } = values;
-            let emptyUsername;
-            if (typeof username === 'string' && username.trim().length === 0) {
-                emptyUsername = true;
+            const { firstName, lastName, nickname, gender, height, weight, profilePicture, dateOfBirth, unit } = values;
+            let emptyNickname;
+            if (typeof nickname === 'string' && nickname.trim().length === 0) {
+                emptyNickname = true;
             }
             let profilePicturePath;
             if (profilePicture && profilePicture.length > 0) {
@@ -74,7 +98,12 @@ const Account: FC = () => {
                     id: user?.uid,
                     firstName,
                     lastName,
-                    ...((username || emptyUsername) && { username }),
+                    ...(unit && { unit }),
+                    ...(gender && { gender }),
+                    ...(height && { height }),
+                    ...(weight && { weight }),
+                    ...(dateOfBirth && { dateOfBirth }),
+                    ...((nickname || emptyNickname) && { nickname }),
                     ...(profilePicturePath && { profilePicturePath })
                 })
                 .then(() => {
@@ -104,7 +133,7 @@ const Account: FC = () => {
         });
 
     return (
-        <AccountForm
+        <ProfileForm
             isExternalProvider={isExternalProvider}
             onSubmit={handleSubmit}
             profilePictureURL={profilePictureURL}
@@ -112,4 +141,4 @@ const Account: FC = () => {
         />
     );
 };
-export default Account;
+export default Profile;

@@ -4,7 +4,7 @@
         "dashboard": "Tableau de bord",
         "exercises": "Exercices",
         "workouts": "Entraînements",
-        "account": "Compte",
+        "profile": "Profil",
         "logout": "Logout"
     },
     "actionMenu": {
@@ -177,7 +177,7 @@
             "workoutCompletedIn": "Entraînement terminé en"
         },
         "dashboard": {
-            "exercice vierge": {
+            "blankExercise": {
                 "title": "Exercices",
                 "message": "Vous n'avez actuellement aucun exercice disponible! Si vous souhaitez en ajouter un maintenant, veuillez vous rendre sur la page des exercices!",
                 "button": "Aller aux exercices"
@@ -189,10 +189,12 @@
             },
             "profile": {
                 "title": "Profil",
-                "memberSince": "Membre depuis {{datetime}}"
+                "memberSince": "Membre depuis {{datetime}}",
+                "age": "Age: {{age}}",
+                "bmi": "IMC: {{bmi}}"
             },
             "showMore": "Montre plus...",
-            "toAccount": "Aller au Compte"
+            "goToProfile": "Aller au Profil"
         }
     },
     "form": {
@@ -201,8 +203,19 @@
                 "email": "E-mail",
                 "password": "Mot de passe"
             },
+            "profile": {
+                "nickname": "Surnom (facultatif)",
+                "firstName": "Prénom",
+                "lastName": "Nom de famille ",
+                "email": "E-mail",
+                "dateOfBirth": "Date de naissance",
+                "height": "Hauteur",
+                "weight": "Poids",
+                "genre": "Genre",
+                "profilePicture": "Image de profil"
+            },
             "registration": {
-                "username": "Nom d'utilisateur (facultatif)",
+                "nickname": "Surnom (facultatif)",
                 "firstName": "Prénom",
                 "lastName": "Nom de famille ",
                 "email": "E-mail",
@@ -226,9 +239,19 @@
                 "resultType": "Type de résultat",
                 "useDefaultResult": "Utiliser le résultat par défaut",
                 "defaultResult": "Résultat par défaut"
-            },
-            "account": {
-                "profilePicture": "Image de profil"
+            }
+        },
+        "options": {
+            "profile": {
+                "gender": {
+                    "male": "Homme",
+                    "female": "Femme",
+                    "other": "Autre"
+                },
+                "unit": {
+                    "metric": "Métrique",
+                    "imperial": "Impérial"
+                }
             }
         },
         "button": {
@@ -238,7 +261,7 @@
             "registration": {
                 "register": "S'inscrire"
             },
-            "account": {
+            "profile": {
                 "saveProfile": "Enregistrer le profil",
                 "deleteProfilePicture": "Supprimer la photo de profil"
             },
@@ -252,7 +275,7 @@
             }
         },
         "tooltip": {
-            "account": {
+            "profile": {
                 "emailVerified": "Email vérifié!",
                 "sendVerificationEmail": "Cliquez ici pour envoyer un e-mail de vérification!"
             }

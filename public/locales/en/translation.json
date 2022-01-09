@@ -4,7 +4,7 @@
         "dashboard": "Dashboard",
         "exercises": "Exercises",
         "workouts": "Workouts",
-        "account": "Account",
+        "profile": "Profile",
         "logout": "Logout"
     },
     "actionMenu": {
@@ -189,10 +189,12 @@
             },
             "profile": {
                 "title": "Profile",
-                "memberSince": "Member since {{datetime}}"
+                "memberSince": "Member since {{datetime}}",
+                "age": "Age: {{age}}",
+                "bmi": "BMI: {{bmi}}"
             },
             "showMore": "Show More...",
-            "toAccount": "Go to Account"
+            "goToProfile": "Go to Profile"
         }
     },
     "form": {
@@ -201,8 +203,19 @@
                 "email": "Email",
                 "password": "Password"
             },
+            "profile": {
+                "nickname": "Nickname (optional)",
+                "firstName": "First Name",
+                "lastName": "Last Name",
+                "email": "E-mail",
+                "dateOfBirth": "Date of Birth",
+                "height": "Height",
+                "weight": "Weight",
+                "gender": "Gender",
+                "profilePicture": "Profile Picture"
+            },
             "registration": {
-                "username": "Username (Optional)",
+                "nickname": "Nickname (Optional)",
                 "firstName": "First Name",
                 "lastName": "Last Name",
                 "email": "Email",
@@ -226,9 +239,19 @@
                 "resultType": "Result Type",
                 "useDefaultResult": "Use Default Result",
                 "defaultResult": "Default Result"
-            },
-            "account": {
-                "profilePicture": "Profile Picture"
+            }
+        },
+        "options": {
+            "profile": {
+                "gender": {
+                    "male": "Male",
+                    "female": "Female",
+                    "other": "Other"
+                },
+                "unit": {
+                    "metric": "Metric",
+                    "imperial": "Imperial"
+                }
             }
         },
         "button": {
@@ -238,7 +261,7 @@
             "registration": {
                 "register": "Register"
             },
-            "account": {
+            "profile": {
                 "saveProfile": "Save profile",
                 "deleteProfilePicture": "Delete Profile Picture"
             },
@@ -252,7 +275,7 @@
             }
         },
         "tooltip": {
-            "account": {
+            "profile": {
                 "emailVerified": "Email verified!",
                 "sendVerificationEmail": "Click here to send a verification email!"
             }
