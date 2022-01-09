@@ -157,6 +157,7 @@
             }
         },
         "manageExercises": {
+            "exercise": "Exercise",
             "exercises": "Exercises"
         },
         "manageWorkouts": {
@@ -177,15 +178,16 @@
             "workoutCompletedIn": "Workout completed in"
         },
         "dashboard": {
-            "blankExercise": {
+            "exercise": {
                 "title": "Exercises",
                 "message": "You currently don't have any exercises available! If you wish to add one now, please proceed to the exercises page!",
                 "button": "Go to Exercises"
             },
-            "blankWorkout": {
+            "workout": {
                 "title": "Workouts",
                 "message": "Sorry, but you don't have any workouts yet! Please go ahead and create one now!",
-                "button": "Go to Workouts"
+                "button": "Go to Workouts",
+                "tooltip": "Start this workout now!"
             },
             "profile": {
                 "title": "Profile",
@@ -239,6 +241,9 @@
                 "resultType": "Result Type",
                 "useDefaultResult": "Use Default Result",
                 "defaultResult": "Default Result"
+            },
+            "workout": {
+                "name": "Workout Name"
             }
         },
         "options": {

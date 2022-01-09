@@ -20,7 +20,7 @@ const ExerciseCard = (): JSX.Element => {
     const { entities: exercises, loading } = useEntityManager<Exercise>('exercises');
 
     const goToExercisePage = () => navigate.toExercises(history);
-    const ExerciseTitle = <PageTitle translationKey={'page.dashboard.blankExercise.title'} align={'center'} />;
+    const ExerciseTitle = <PageTitle translationKey={'page.dashboard.exercise.title'} align={'center'} />;
     return loading ? (
         <Loader />
     ) : exercises.length > 0 ? (
@@ -70,11 +70,11 @@ const ExerciseCard = (): JSX.Element => {
                 <Stack spacing={2} alignItems={'center'}>
                     <Avatar style={{ height: 200, width: 200 }} src={Fitness} />
                     <Typography align={'justify'} variant={'body1'}>
-                        {t('page.dashboard.blankExercise.message')}
+                        {t('page.dashboard.exercise.message')}
                     </Typography>
                 </Stack>
             }
-            buttonText={t('page.dashboard.blankExercise.button')}
+            buttonText={t('page.dashboard.exercise.button')}
             buttonAction={goToExercisePage}
         />
     );
