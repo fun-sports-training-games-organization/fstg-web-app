@@ -30,7 +30,7 @@ const DialogTitleWithCloseButton = (props: DialogTitleProps) => {
             }}
             {...other}
         >
-            <Typography variant="h6">{children}</Typography>
+            {children}
             {onClose && (
                 <IconButton
                     aria-label="close-button-icon"
