@@ -7,7 +7,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { ResponsiveDialogProps } from './ResponsiveDialog.types';
-import { Button, IconButton, Stack, Typography } from '@mui/material';
+import { Button, IconButton, Stack } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
 export interface DialogTitleProps {
