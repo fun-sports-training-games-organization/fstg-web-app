@@ -180,8 +180,6 @@ const DoWorkout: FC = () => {
     const areAnyResultsRecorded = (exers: ExerciseInProgress[]): boolean =>
         exers.map((e) => (e.recordResults ? 1 : 0) as number).reduce((a, b) => a + b) > 0;
 
-    const completeWorkout = () => navigate.toDashboard(history);
-
     const saveWorkoutResults = (onSuccess?: () => void, onFailure?: () => void) => {
         const workoutResult: WorkoutResult = {
             workoutId: workout.id,
@@ -596,9 +594,6 @@ const DoWorkout: FC = () => {
                                 </Button>
                             </Stack>
                         }
-                        onClose={completeWorkout}
-                        onCancel={completeWorkout}
-                        onConfirm={completeWorkout}
                         dialogActionsJustifyContent="space-between"
                     />
                     <ConfirmationDialog
