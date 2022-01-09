@@ -16,6 +16,10 @@ import 'firebase/compat/firestore';
 
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
 import { rrfProps, store } from './config/firebase';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { TouchBackend } from 'react-dnd-touch-backend';
+import { isMobile } from 'react-device-detect';
 
 ReactDOM.render(
     <Suspense fallback={<></>}>
@@ -31,7 +35,9 @@ ReactDOM.render(
                         <ReactReduxFirebaseProvider {...rrfProps}>
                             <AuthContextProvider>
                                 <ThemeProvider theme={theme}>
-                                    <App />
+                                    <DndProvider backend={isMobile ? TouchBackend : HTML5Backend}>
+                                        <App />
+                                    </DndProvider>
                                 </ThemeProvider>
                             </AuthContextProvider>
                         </ReactReduxFirebaseProvider>
