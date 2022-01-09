@@ -5,7 +5,8 @@
         "exercises": "Exercises",
         "workouts": "Workouts",
         "profile": "Profile",
-        "logout": "Logout"
+        "logout": "Logout",
+        "statistics": "Statistics"
     },
     "actionMenu": {
         "workout": {
@@ -77,7 +78,8 @@
         "workout": "Workout",
         "completedIn": "Completed in",
         "repsCompleted": "Reps completed",
-        "repsCompletedNotSentenceBegin": "reps completed"
+        "repsCompletedNotSentenceBegin": "reps completed",
+        "notYetImplemented": "This functionality is not yet implemented. We hope to have it ready soon!"
     },
     "auth": {
         "message": {
@@ -197,6 +199,14 @@
             },
             "showMore": "Show More...",
             "goToProfile": "Go to Profile"
+        },
+        "statistics": {
+            "records": {
+                "title": "Records",
+                "message": "Sorry, but you haven't completed any workouts yet for which result totals can be calculated, and that means you don't have any records yet either! Please go to the workouts page and find a workout to do now! If you want to find one that will show up here in your records it needs to have at least one exercise for which results are being recorded and all exercises for which results are being recorded need to have the same result type.",
+                "button": "Go to Workouts",
+                "tooltip": "View more information about this record"
+            }
         }
     },
     "form": {

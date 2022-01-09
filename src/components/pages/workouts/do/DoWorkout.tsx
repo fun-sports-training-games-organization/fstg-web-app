@@ -424,10 +424,10 @@ const DoWorkout: FC = () => {
                                 <Grid item>
                                     <IconButton
                                         onClick={previousExercise}
-                                        disabled={isLocked || currentExerciseIndex === 0}
+                                        disabled={true || isLocked || currentExerciseIndex === 0}
                                     >
                                         <SkipPreviousIcon
-                                            htmlColor={getIconColor(isLocked, currentExercise.amountType)}
+                                            htmlColor={getIconColor(true || isLocked, currentExercise.amountType)}
                                             transform="scale(2)"
                                         />
                                     </IconButton>

@@ -5,7 +5,8 @@
         "exercises": "Übungen",
         "workouts": "Training",
         "profile": "Profil",
-        "logout": "Abmelden"
+        "logout": "Abmelden",
+        "statistics": "Statistik"
     },
     "actionMenu": {
         "workout": {
@@ -77,7 +78,8 @@
         "workout": "Training",
         "completedIn": "Abgeschlossen in",
         "repsCompleted": "Wiederholungen abgeschlossen",
-        "repsCompletedNotSentenceBegin": "Wiederholungen abgeschlossen"
+        "repsCompletedNotSentenceBegin": "Wiederholungen abgeschlossen",
+        "notYetImplemented": "Diese Funktion ist noch nicht implementiert. Wir hoffen, dass sie bald zur Verfügung steht!"
     },
     "auth": {
         "message": {
@@ -197,6 +199,14 @@
             },
             "showMore": "Mehr anzeigen...",
             "goToProfile": "Gehe zu Profil"
+        },
+        "statistics": {
+            "records": {
+                "title": "Rekorde",
+                "message": "Sie haben leider noch keine Trainings absolviert, für die Ergebnisse berechnet werden können, und das bedeutet, dass Sie auch noch keine Rekorde haben! Bitte gehen Sie auf die Trainingsseite und finden Sie ein Training, das Sie jetzt machen können! Wenn Sie ein Training finden wollen, das hier in Ihren Rekorde auftaucht, muss es mindestens eine Übung haben, für die Ergebnisse aufgezeichnet werden, und alle Übungen, für die Ergebnisse aufgezeichnet werden, müssen denselben Ergebnistyp haben.",
+                "button": "Gehe zu Trainingseinheiten",
+                "tooltip": "Weitere Informationen zu diesem Rekord anzeigen"
+            }
         }
     },
     "form": {
