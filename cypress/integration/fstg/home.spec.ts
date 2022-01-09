@@ -1,6 +1,6 @@
 describe('FSTG login', () => {
     beforeEach(() => {
-        cy.intercept('GET', '/locales/en*/translation.json', { fixture: 'translation-en.json' }).as(
+        cy.intercept('GET', '/locales/en*/translation.json?v=*', { fixture: 'translation-en.json' }).as(
             'englishTranslations'
         );
         cy.visit('http://localhost:3000/');
