@@ -26,10 +26,15 @@ export interface ModifyInfo {
 
 export interface CreateAndModifyInfo extends CreateInfo, ModifyInfo {}
 
-export interface AmountTypeAmountValue {
+export interface AmountType {
     amountType?: RecordType;
+}
+
+export interface AmountValue {
     amountValue?: number;
 }
+
+export interface AmountTypeAmountValue extends AmountType, AmountValue {}
 
 export interface HasBeenCreated {
     hasBeenCreated: boolean;

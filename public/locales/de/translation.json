@@ -76,7 +76,8 @@
         "ok": "OK",
         "workout": "Training",
         "completedIn": "Abgeschlossen in",
-        "repsCompleted": "Wiederholungen abgeschlossen"
+        "repsCompleted": "Wiederholungen abgeschlossen",
+        "repsCompletedNotSentenceBegin": "Wiederholungen abgeschlossen"
     },
     "auth": {
         "message": {
@@ -228,6 +229,8 @@
                 "imgUrl": "Bild-/GIF-URL",
                 "defaultAmountType": "Standardbetragstyp",
                 "amountType": "Betragstyp",
+                "defaultAmount": "Standardbetrag",
+                "amount": "Betrag",
                 "countBased": "Zahlbasiert",
                 "timeBased": "Zeitbasiert",
                 "defaultTime": "Standardzeit",
@@ -312,5 +315,14 @@
         "mustContainLowercase": "Muss mindestens einen Kleinbuchstaben enthalten!",
         "mustContainUppercase": "Muss mindestens einen Grossbuchstaben enthalten!"
     },
-    "Push Ups": "Liegestütze"
+    "Rest": "Pause",
+    "Jumping Jacks": "Hampelmänner",
+    "Prepare": "Vorbereiten",
+    "Squats": "Kniebeugen",
+    "Push-Ups": "Liegestütze",
+    "Burpees": "Liegestützsprüngen",
+    "Jogging": "Joggen",
+    "Lunges": "Ausfallschritte",
+    "T Superman": "T Superman",
+    "Pull-up Superman": "Klimmzug-Superman"
 }
