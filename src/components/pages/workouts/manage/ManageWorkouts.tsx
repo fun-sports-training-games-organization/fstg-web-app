@@ -120,7 +120,7 @@ const ManageWorkouts: FC = () => {
 
     const haveWorkouts = workouts.length > 0;
     return (
-        <ResponsiveContainer xl={8} ref={containerRef}>
+        <ResponsiveContainer xl={8}>
             {loading ? (
                 <Loader />
             ) : haveWorkouts ? (
@@ -153,12 +153,14 @@ const ManageWorkouts: FC = () => {
                     buttonAction={() => navigate.toEditWorkout(history, undefined)}
                 />
             )}
-            <DeleteConfirmationDialog
-                openDeleteConfirmationDialog={openDeleteConfirmationDialog}
-                itemToDelete={workoutToDelete}
-                entityName="workouts"
-                closeDialog={() => setOpenDeleteConfirmationDialog(false)}
-            />
+            {openDeleteConfirmationDialog && (
+                <DeleteConfirmationDialog
+                    openDeleteConfirmationDialog={openDeleteConfirmationDialog}
+                    itemToDelete={workoutToDelete}
+                    entityName="workouts"
+                    closeDialog={() => setOpenDeleteConfirmationDialog(false)}
+                />
+            )}
         </ResponsiveContainer>
     );
 };

@@ -182,6 +182,12 @@ const ProfileForm: FC<OwnProps & InjectedFormProps<ProfileState>> = ({
     );
 };
 
+// we are getting the following error on this page:
+// Warning: Using UNSAFE_componentWillMount in strict mode is not recommended and may indicate bugs in your code. See https://reactjs.org/link/unsafe-component-lifecycles for details.
+// * Move code with side effects to componentDidMount, and set initial state in the constructor.
+// According to my sources below, this seems to be caused by the redux-form library and is not yet fixed!
+// source: https://github.com/redux-form/redux-form/issues/3954
+// source: https://stackoverflow.com/questions/62202890/how-can-i-fix-using-unsafe-componentwillmount-in-strict-mode-is-not-recommended
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const reduxFormProfileForm = reduxForm<any, any>({ form: 'profileForm' /*, validate, asyncValidate*/ })(ProfileForm);
 

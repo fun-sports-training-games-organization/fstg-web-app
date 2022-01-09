@@ -6,8 +6,7 @@ import {
     sendEmailVerification,
     sendPasswordResetEmail,
     signInWithEmailAndPassword,
-    User,
-    UserCredential
+    User
 } from 'firebase/auth';
 import Loader from '../components/atoms/loader/Loader';
 import { useSnackbar } from 'notistack';
@@ -99,17 +98,17 @@ const AuthContextProvider: FC<PropsWithChildren<Record<string, unknown>>> = (
                 provider,
                 type: 'popup'
             })
-            .then(() => {
+            .then(async () => {
                 if (provider === 'facebook') {
-                    getRedirectRes();
+                    await getRedirectRes();
                 }
                 loggedInSuccessfully();
             })
             .catch(loginFailed);
     };
 
-    const getRedirectRes = () => {
-        getRedirectResult(getAuth()).then((result: UserCredential | null) => console.log(result));
+    const getRedirectRes = async () => {
+        await getRedirectResult(getAuth());
     };
 
     const loginWithEmail = async (email: string, password: string): Promise<void> => {

@@ -44,7 +44,7 @@ export const renderNumberField = (props: WrappedFieldProps & { label: string | u
 };
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
 export const renderRadioGroup = ({ input, ...rest }: any): JSX.Element => (
-    <RadioGroup {...input} {...rest} valueSelected={input.value} onChange={(event, value) => input.onChange(value)} />
+    <RadioGroup {...input} {...rest} value={input.value} onChange={(event, value) => input.onChange(value)} />
 );
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
 export const renderDatePicker = ({ input, ...rest }: any): JSX.Element => (

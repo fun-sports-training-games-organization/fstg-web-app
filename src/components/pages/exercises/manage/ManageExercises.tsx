@@ -176,7 +176,7 @@ const ManageExercises: FC = (): JSX.Element => {
         return <Loader />;
     }
     return (
-        <ResponsiveContainer xl={8} ref={containerRef}>
+        <ResponsiveContainer xl={8}>
             {haveExercises ? (
                 <>
                     <PageTitleActionButton
@@ -215,15 +215,15 @@ const ManageExercises: FC = (): JSX.Element => {
                         onCreate={handleCloseAndCreate}
                     />
                 }
-                // setOpen={setOpenDialog}
-                // exerciseId={exerciseId}
             />
-            <DeleteConfirmationDialog
-                openDeleteConfirmationDialog={openDeleteConfirmationDialog}
-                itemToDelete={exerciseToDelete}
-                entityName="exercises"
-                closeDialog={() => setOpenDeleteConfirmationDialog(false)}
-            />
+            {openDeleteConfirmationDialog && (
+                <DeleteConfirmationDialog
+                    openDeleteConfirmationDialog={openDeleteConfirmationDialog}
+                    itemToDelete={exerciseToDelete}
+                    entityName="exercises"
+                    closeDialog={() => setOpenDeleteConfirmationDialog(false)}
+                />
+            )}
         </ResponsiveContainer>
     );
 };

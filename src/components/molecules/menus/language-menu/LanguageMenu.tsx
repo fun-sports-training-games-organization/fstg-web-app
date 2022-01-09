@@ -12,15 +12,15 @@ type LanguageMenuProps = {
 const LanguageMenu: FC<LanguageMenuProps> = ({ color = 'white' }: LanguageMenuProps) => {
     const { i18n } = useTranslation();
 
-    const handleSelect = (locale: string): void => {
-        i18n.changeLanguage(locale).catch(console.error);
+    const handleSelect = async (locale: string): Promise<void> => {
+        await i18n.changeLanguage(locale);
     };
 
     return (
         <MenuIcon icon={<LanguageIcon style={{ color }} />}>
             <MenuList>
                 {locales.map((locale: Locale) => (
-                    <MenuItem key={locale.key} onClick={(): void => handleSelect(locale.value)}>
+                    <MenuItem key={locale.key} onClick={(): Promise<void> => handleSelect(locale.value)}>
                         <ListItemText primary={locale.text} />
                     </MenuItem>
                 ))}
