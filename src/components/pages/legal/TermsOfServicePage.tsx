@@ -22,8 +22,8 @@ const TermsOfServicePage = (): JSX.Element => (
             <Typography mb={1} textAlign="left" variant={'body1'}>
                 These Terms of Use constitute a legally binding agreement made between you, whether personally or on
                 behalf of an entity (&quot;you&quot;) and FSTG (&quot;Company,&quot; &quot;we,&quot; &quot;us,&quot; or
-                &quot;our&quot;), concerning your access to and use of the https://fstg-edb94.firebaseapp.com website as
-                well as any other media form, media channel, mobile website or mobile application related, linked, or
+                &quot;our&quot;), concerning your access to and use of the https://fun-sports-training-games.com website
+                as well as any other media form, media channel, mobile website or mobile application related, linked, or
                 otherwise connected thereto (collectively, the &quot;Site&quot;). We are registered in Switzerland and
                 have our registered office at Oberseestrasse 10, Rapperswil-Jona‎ , St. Gallen 8640. You agree that by
                 accessing the Site, you have read, understood, and agreed to be bound by all of these Terms of Use. IF
@@ -315,7 +315,7 @@ const TermsOfServicePage = (): JSX.Element => (
             </Typography>
             <Typography mb={1} textAlign="left" variant={'body1'}>
                 We care about data privacy and security. Please review our Privacy Policy:
-                fstg-edb94.firebaseapp.com/privacy-policy. By using the Site, you agree to be bound by our Privacy
+                fun-sports-training-games.com/privacy-policy. By using the Site, you agree to be bound by our Privacy
                 Policy, which is incorporated into these Terms of Use. Please be advised the Site is hosted in
                 Switzerland. If you access the Site from any other region of the world with laws or other requirements
                 governing personal data collection, use, or disclosure that differ from applicable laws in Switzerland,

@@ -19,7 +19,9 @@ describe('<ResponsiveDialog> component test with React Testing Library', () => {
             open: true,
             onConfirm,
             onCancel,
-            onClose
+            onClose,
+            confirmText: 'Confirm',
+            cancelText: 'Cancel'
         };
     });
 

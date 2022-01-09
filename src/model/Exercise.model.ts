@@ -1,19 +1,37 @@
-import { AmountTypeAmountValue, CreateAndModifyInfo, IdName, RecordType, HasBeenCreated } from './Basics.model';
+import {
+    AmountTypeAmountValue,
+    CreateAndModifyInfo,
+    IdName,
+    HasBeenCreated,
+    ResultValue,
+    ExerciseId,
+    ResultType,
+    SecondsElapsed
+} from './Basics.model';
 
-export interface Exercise extends IdName, CreateAndModifyInfo, AmountTypeAmountValue, HasBeenCreated {
+export interface Exercise
+    extends IdName,
+        CreateAndModifyInfo,
+        AmountTypeAmountValue,
+        HasBeenCreated,
+        ResultValue,
+        ResultType {
     imageOrGifUrl?: string;
     recordResults?: boolean;
-    resultType?: RecordType;
     useDefaultResult?: boolean;
-    resultValue?: number;
 }
 
-export interface ExerciseWorkoutSettings extends Exercise {
-    exerciseId?: string;
-}
+export interface ExerciseWorkoutSettings extends Exercise, ExerciseId {}
 
-export interface ExerciseInProgress extends ExerciseWorkoutSettings {
+export interface ExerciseInProgress extends ExerciseWorkoutSettings, SecondsElapsed {
     secondsRemaining: number;
-    secondsElapsed: number;
     originalSecondsRemaining: number;
 }
+
+export interface ExerciseResult
+    extends IdName,
+        AmountTypeAmountValue,
+        ResultValue,
+        ResultType,
+        ExerciseId,
+        SecondsElapsed {}

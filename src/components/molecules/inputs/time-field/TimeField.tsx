@@ -32,7 +32,7 @@ const TimePicker: FC<OwnProps> = ({ label, value, setValue }: OwnProps): JSX.Ele
         }
     };
     return (
-        <>
+        <Stack spacing={2}>
             {label && <FormLabel>{label}</FormLabel>}
             <Stack direction={'row'} alignItems={'center'}>
                 <TextField
@@ -55,7 +55,7 @@ const TimePicker: FC<OwnProps> = ({ label, value, setValue }: OwnProps): JSX.Ele
                     inputProps={{ min: 0, max: 60, maxLength: 2, pattern: '[0-9]*' }}
                 />
             </Stack>
-        </>
+        </Stack>
     );
 };
 

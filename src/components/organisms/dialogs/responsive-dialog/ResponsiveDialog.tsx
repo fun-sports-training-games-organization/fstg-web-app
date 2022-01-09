@@ -7,7 +7,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { ResponsiveDialogProps } from './ResponsiveDialog.types';
-import { Button, IconButton, Typography } from '@mui/material';
+import { Button, IconButton, Stack } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
 export interface DialogTitleProps {
@@ -30,7 +30,7 @@ const DialogTitleWithCloseButton = (props: DialogTitleProps) => {
             }}
             {...other}
         >
-            <Typography variant="h6">{children}</Typography>
+            {children}
             {onClose && (
                 <IconButton
                     aria-label="close-button-icon"
@@ -52,8 +52,10 @@ const DialogTitleWithCloseButton = (props: DialogTitleProps) => {
 const ResponsiveDialog: FC<ResponsiveDialogProps> = ({
     title,
     message,
+    messageFontWeight,
     content,
     dialogActions,
+    dialogActionsJustifyContent,
     cancelText,
     confirmText,
     onCancel,
@@ -61,10 +63,12 @@ const ResponsiveDialog: FC<ResponsiveDialogProps> = ({
     autoFocus,
     onClose,
     showCloseButton,
+    fullScreenOverride,
     ...rest
 }: ResponsiveDialogProps) => {
     const theme = useTheme();
-    const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+    const isMdDown = useMediaQuery(theme.breakpoints.down('md'));
+    const fullScreen = fullScreenOverride === undefined ? isMdDown : fullScreenOverride;
 
     return (
         <Dialog fullScreen={fullScreen} onClose={onClose} aria-labelledby="responsive-dialog-title" {...rest}>
@@ -76,34 +80,40 @@ const ResponsiveDialog: FC<ResponsiveDialogProps> = ({
                 <DialogTitle id="responsive-dialog-title">{title}</DialogTitle>
             )}
             <DialogContent>
-                {message && <DialogContentText>{message}</DialogContentText>}
+                {message && <DialogContentText fontWeight={messageFontWeight}>{message}</DialogContentText>}
                 {typeof content === 'string' ? <DialogContentText>{content}</DialogContentText> : content}
             </DialogContent>
             {!showCloseButton && (
-                <DialogActions>
+                <DialogActions sx={{ justifyContent: dialogActionsJustifyContent, width: '100%' }}>
                     {dialogActions ? (
                         dialogActions
                     ) : (
-                        <>
-                            <Button
-                                data-testid={'responsive-dialog-cancel-button'}
-                                color={'secondary'}
-                                onClick={() => {
-                                    onCancel && onCancel();
-                                }}
-                                autoFocus={autoFocus === 'cancel'}
-                            >
-                                {cancelText}
-                            </Button>
-                            <Button
-                                data-testid={'responsive-dialog-confirm-button'}
-                                color={'primary'}
-                                onClick={onConfirm}
-                                autoFocus={autoFocus === 'confirm'}
-                            >
-                                {confirmText}
-                            </Button>
-                        </>
+                        <Stack pr={2} pl={2} pb={2} spacing={1} sx={{ width: '100%' }}>
+                            {cancelText && onCancel && (
+                                <Button
+                                    data-testid={'responsive-dialog-cancel-button'}
+                                    color={'secondary'}
+                                    onClick={() => {
+                                        onCancel && onCancel();
+                                    }}
+                                    variant={'contained'}
+                                    autoFocus={autoFocus === 'cancel'}
+                                >
+                                    {cancelText}
+                                </Button>
+                            )}
+                            {confirmText && onConfirm && (
+                                <Button
+                                    data-testid={'responsive-dialog-confirm-button'}
+                                    color={'primary'}
+                                    onClick={onConfirm}
+                                    variant={'contained'}
+                                    autoFocus={autoFocus === 'confirm'}
+                                >
+                                    {confirmText}
+                                </Button>
+                            )}
+                        </Stack>
                     )}
                 </DialogActions>
             )}

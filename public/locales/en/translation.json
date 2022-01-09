@@ -39,15 +39,44 @@
         "discardChanges": {
             "title": "Discard changes",
             "message": "Are you sure you want to discard the changes you have made and go back to your workouts?"
+        },
+        "discardWorkoutResults": {
+            "title": "Discard Workout Results",
+            "message": "Click confirm to discard your workout result from this workout session."
+        },
+        "adjustWorkoutSettings": {
+            "title": "Adjust Workout Settings",
+            "message": "Click on confirm to adjust the settings for {{name}} or cancel to discard your changes."
+        },
+        "saveWorkoutResultsAndRestartWorkout": {
+            "title": "Save and Restart",
+            "message": "Click on confirm to save your results and restart the workout."
+        },
+        "saveWorkoutResultsAndExitWorkout": {
+            "title": "Save and Exit",
+            "message": "Click confirm to save your workout and exit the current workout session!"
         }
     },
     "global": {
+        "discardAndExit": "Discard and Exit",
+        "saveAndExit": "Save and Exit",
+        "saveAndRestart": "Save and Restart",
         "confirm": "Confirm",
         "cancel": "Cancel",
         "save": "Save",
+        "exit": "Exit",
+        "restart": "Restart",
+        "discard": "Discard",
         "create": "Create",
         "add": "Add",
-        "back": "Back"
+        "back": "Back",
+        "result": "result",
+        "results": "Results",
+        "colon": ":",
+        "ok": "OK",
+        "workout": "Workout",
+        "completedIn": "Completed in",
+        "repsCompleted": "Reps completed"
     },
     "auth": {
         "message": {
@@ -81,6 +110,7 @@
         "updateSuccess": "{{item}} was successfully updated",
         "updateFailure": "{{item}} could not be updated",
         "createSuccess": "{{item}} has been created successfully",
+        "workoutResultFor": "workout result for",
         "createFailure": "{{item}} could not be created",
         "profile": {
             "update": {
@@ -137,6 +167,13 @@
         },
         "startWorkout": {
             "title": "Start workout"
+        },
+        "doWorkout": {
+            "workoutCompleteCongratulations": "Congratulations, you have completed your workout!",
+            "reviewWorkoutResults": " Please review your results below and adjust them if anything was entered incorrectly during the workout.",
+            "notRecordingResults": "You currently aren't recording any results for this workout, if you wish to change that at any point you can do so by",
+            "adjustingWorkoutSettings": "adjusting the workout settings",
+            "workoutCompletedIn": "Workout completed in"
         },
         "dashboard": {
             "blankExercise": {
