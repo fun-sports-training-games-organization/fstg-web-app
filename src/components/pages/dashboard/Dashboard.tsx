@@ -6,7 +6,7 @@ import WorkoutCard from '../../templates/cards/workout-card/WorkoutCard';
 import ProfileCard from '../../templates/cards/profile-card/ProfileCard';
 // import StatisticsCard from '../../templates/cards/statistics-card/StatisticsCard';
 
-const Dashboard = () => {
+const Dashboard = (): JSX.Element => {
     return (
         <ResponsiveContainer>
             <Stack spacing={2} padding={2}>

@@ -19,8 +19,8 @@ const PrivacyPolicyPage = (): JSX.Element => {
                     Your privacy is important to us. It is FSTG&#39;s policy to respect your privacy and comply with any
                     applicable law and regulation regarding any personal information we may collect about you, including
                     across our website,
-                    <a href="https://fstg-edb94.firebaseapp.com">https://fstg-edb94.firebaseapp.com</a>, and other sites
-                    we own and operate.
+                    <a href="https://fun-sports-training-games.com">https://fun-sports-training-games.com</a>, and other
+                    sites we own and operate.
                 </Typography>
                 <Typography mb={1} textAlign={'left'}>
                     This policy is effective as of 10 October 2021 and was last updated on 10 October 2021.

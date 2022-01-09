@@ -4,6 +4,10 @@ export interface Id {
     id?: string;
 }
 
+export interface WorkoutId {
+    workoutId?: string;
+}
+
 export interface IdName extends Id {
     name?: string;
 }
@@ -29,4 +33,20 @@ export interface AmountTypeAmountValue {
 
 export interface HasBeenCreated {
     hasBeenCreated: boolean;
+}
+
+export interface ResultValue {
+    resultValue?: number;
+}
+
+export interface ExerciseId {
+    exerciseId?: string;
+}
+
+export interface ResultType {
+    resultType?: RecordType;
+}
+
+export interface SecondsElapsed {
+    secondsElapsed: number;
 }
