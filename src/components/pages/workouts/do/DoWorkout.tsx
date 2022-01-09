@@ -121,20 +121,6 @@ const DoWorkout: FC = () => {
         }
     };
 
-    const updateExercisesAndMoveNext = () => {
-        const ce: ExerciseInProgress = { ...currentExercise, resultValue: exerciseSeconds } as ExerciseInProgress;
-        const cei = currentExerciseIndex + 1;
-        if (cei < exercises.length) {
-            setExerciseSeconds(0);
-            setExercises(exercises.map((e, i) => (i === currentExerciseIndex ? ce : e)));
-            setCurrentExerciseIndex(cei);
-            setCurrentExercise(getExercise(exercises, cei));
-            setTimeout(() => scrollToCurrentExercise(cei), 10);
-        } else {
-            setIsRunning(false);
-        }
-    };
-
     const nextExercise = (recordResults = false) => {
         if (recordResults) {
             if (currentExercise) {
@@ -155,16 +141,19 @@ const DoWorkout: FC = () => {
             }
         }
 
-        updateExercisesAndMoveNext();
-    };
-    const completeExercise = () => {
+        const ce = { ...currentExercise } as ExerciseInProgress;
         const cei = currentExerciseIndex + 1;
-        scrollToCurrentExercise(cei);
-        const nextExercise = getExercise(exercises, cei);
-        setExercises(updateSecondsRemaining(exercises, currentExerciseIndex, 0));
-        setCurrentExerciseIndex(cei);
-        setCurrentExercise(nextExercise);
+        if (cei < exercises.length) {
+            setExerciseSeconds(0);
+            setExercises(exercises.map((e, i) => (i === currentExerciseIndex ? ce : e)));
+            setCurrentExerciseIndex(cei);
+            setCurrentExercise(getExercise(exercises, cei));
+            setTimeout(() => scrollToCurrentExercise(cei), 10);
+        } else {
+            setIsRunning(false);
+        }
     };
+
     const previousExercise = () => {
         const cei = currentExerciseIndex - 1;
         scrollToCurrentExercise(cei);
@@ -333,6 +322,12 @@ const DoWorkout: FC = () => {
         setConfirmationDialogMessage(t('dialog.saveWorkoutResultsAndExitWorkout.message', { name: workout.name }));
     };
 
+    const closeExerciseResultDialog = () => {
+        setIsExerciseResultDialogOpen(false);
+        if (currentExerciseIndex + 1 >= exercises.length) {
+            setIsCompleteWorkoutDialogOpen(true);
+        }
+    };
     return isLoading ? (
         <Loader />
     ) : (
@@ -363,7 +358,7 @@ const DoWorkout: FC = () => {
                                                 onTick={() => countdownTimerTick(currentExercise, currentExerciseIndex)}
                                                 seconds={currentExercise.secondsRemaining}
                                                 typographyProps={{ variant: smUp ? 'h4' : 'h5' }}
-                                                onComplete={completeExercise}
+                                                onComplete={() => nextExercise(currentExercise.recordResults)}
                                                 key={currentExercise.id}
                                             />
                                         ) : null}
@@ -461,32 +456,17 @@ const DoWorkout: FC = () => {
                                     : 'global.repsCompleted'
                             )}
                             value={exerciseBeingEdited.resultValue}
-                            itemToUpdate={currentExercise}
+                            itemToUpdate={exerciseBeingEdited}
                             updateItem={(item) => {
                                 const eip = item as ExerciseInProgress;
-                                setCurrentExercise(eip);
+                                setExerciseBeingEdited(eip);
                                 setExercises(exercises.map((e) => (e.id === exerciseBeingEdited.id ? eip : e)));
                             }}
                         />
                     }
-                    onClose={() => {
-                        setIsExerciseResultDialogOpen(false);
-                        if (currentExerciseIndex + 1 >= exercises.length) {
-                            setIsCompleteWorkoutDialogOpen(true);
-                        }
-                    }}
-                    onCancel={() => {
-                        setIsExerciseResultDialogOpen(false);
-                        if (currentExerciseIndex + 1 >= exercises.length) {
-                            setIsCompleteWorkoutDialogOpen(true);
-                        }
-                    }}
-                    onConfirm={() => {
-                        setIsExerciseResultDialogOpen(false);
-                        if (currentExerciseIndex + 1 >= exercises.length) {
-                            setIsCompleteWorkoutDialogOpen(true);
-                        }
-                    }}
+                    onClose={closeExerciseResultDialog}
+                    onCancel={closeExerciseResultDialog}
+                    onConfirm={closeExerciseResultDialog}
                     fullScreenOverride={false}
                     confirmText={t('global.ok')}
                 />
