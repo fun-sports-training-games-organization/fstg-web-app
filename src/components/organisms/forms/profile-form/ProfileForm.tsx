@@ -57,7 +57,7 @@ const ProfileForm: FC<OwnProps & InjectedFormProps<ProfileState>> = ({
                             <Avatar sx={{ height: 80, width: 80 }} alt="Profile Picture" src={profilePictureURL} />
                             {!isExternalProvider && (
                                 <Button color="secondary" variant="contained" onClick={handleDeleteProfilePicture}>
-                                    Delete profile picture
+                                    {t('form.button.profile.deleteProfilePicture')}
                                 </Button>
                             )}
                         </>

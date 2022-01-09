@@ -2,7 +2,7 @@
 
 ### Description
 
-Fun Sports Training Games is an app intended to document workout plans and record the results for those workouts to track progress over time. That, along with multi language support (English & German) is essentially the scope of Fun Sports Training Games in terms of Project 2. However, those features alone don't really accomplish the goal of making Fun Sports Training Games a unique App. That is why the vision for Fun Sports Training Games would be to eventually add features to the App to turn the workouts into fun games & competitions as well as automating the process of entering results for the workouts.
+Fun Sports Training Games is an app intended to document workout plans and record the results for those workouts to track progress over time. That, along with multi language support (de/en/fr/it) is essentially the scope of Fun Sports Training Games in terms of Project 2. However, those features alone don't really accomplish the goal of making Fun Sports Training Games a unique App. That is why the vision for Fun Sports Training Games would be to eventually add features to the App to turn the workouts into fun games & competitions as well as automating the process of entering results for the workouts.
 
 See more information about Fun Sports Training Games below including the Project 2 Scope (5 Modules), planned tech stack (Frontend, Backend, Authentication), and future planned features that currently fall outside of the scope of Project 2, but could be added later if time permits (Nice to Haves).
 
