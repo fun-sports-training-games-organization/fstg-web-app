@@ -39,9 +39,28 @@
         "discardChanges": {
             "title": "Annuler les modifications",
             "message": "Voulez-vous vraiment annuler les modifications que vous avez apportées et revenir à vos entraînements?"
+        },
+        "discardWorkoutResults": {
+            "title": "Annuler les résultats de l'entraînement",
+            "message": "Cliquez sur confirmer pour supprimer le résultat de votre entraînement de cette séance d'entraînement."
+        },
+        "adjustWorkoutSettings": {
+            "title": "Ajuster les paramètres d'entraînement",
+            "message": "Cliquez sur confirmer pour ajuster les paramètres de {{name}} ou sur annuler pour annuler vos modifications."
+        },
+        "saveWorkoutResultsAndRestartWorkout": {
+            "title": "Enregistrer et redémarrer",
+            "message": "Cliquez sur confirmer pour enregistrer vos résultats et redémarrer l'entraînement."
+        },
+        "saveWorkoutResultsAndExitWorkout": {
+            "title": "Enregistrer et quitter",
+            "message": "Cliquez sur confirmer pour enregistrer votre entraînement et quitter la session d'entraînement en cours !"
         }
     },
     "global": {
+        "discardAndExit": "Annuler et quitter",
+        "saveAndExit": "Enregistrer et quitter",
+        "saveAndRestart": "Enregistrer et redémarrer",
         "confirm": "Confirmer",
         "cancel": "Annuler",
         "save": "Enregistrer",

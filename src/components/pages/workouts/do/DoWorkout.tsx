@@ -103,7 +103,6 @@ const DoWorkout: FC = () => {
     };
 
     const smUp = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
-    const mdUp = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'));
     const [exerciseSeconds, setExerciseSeconds] = useState<number>(0);
     const [workoutSeconds, setWorkoutSeconds] = useState<number>(0);
 
@@ -242,8 +241,8 @@ const DoWorkout: FC = () => {
                 setIsConfirmationDialogOpen(false);
             }
         });
-        setConfirmationDialogTitle(t('dialog.deleteConfirmation.title'));
-        setConfirmationDialogMessage(t('dialog.deleteConfirmation.message', { name: workout.name }));
+        setConfirmationDialogTitle(t('dialog.adjustWorkoutSettings.title'));
+        setConfirmationDialogMessage(t('dialog.adjustWorkoutSettings.message', { name: workout.name }));
     };
 
     const discardWorkoutResults = () => {
@@ -255,8 +254,8 @@ const DoWorkout: FC = () => {
                 setIsConfirmationDialogOpen(false);
             }
         });
-        setConfirmationDialogTitle(t('dialog.deleteConfirmation.title'));
-        setConfirmationDialogMessage(t('dialog.deleteConfirmation.message', { name: workout.name }));
+        setConfirmationDialogTitle(t('dialog.discardWorkoutResults.title'));
+        setConfirmationDialogMessage(t('dialog.discardWorkoutResults.message', { name: workout.name }));
     };
 
     const restartWorkout = () => {
@@ -299,8 +298,8 @@ const DoWorkout: FC = () => {
                 setIsConfirmationDialogOpen(false);
             }
         });
-        setConfirmationDialogTitle(t('dialog.deleteConfirmation.title'));
-        setConfirmationDialogMessage(t('dialog.deleteConfirmation.message', { name: workout.name }));
+        setConfirmationDialogTitle(t('dialog.saveWorkoutResultsAndRestartWorkout.title'));
+        setConfirmationDialogMessage(t('dialog.saveWorkoutResultsAndRestartWorkout.message', { name: workout.name }));
     };
 
     const saveWorkoutResultsAndExitWorkout = () => {
@@ -332,8 +331,8 @@ const DoWorkout: FC = () => {
                 setIsConfirmationDialogOpen(false);
             }
         });
-        setConfirmationDialogTitle(t('dialog.deleteConfirmation.title'));
-        setConfirmationDialogMessage(t('dialog.deleteConfirmation.message', { name: workout.name }));
+        setConfirmationDialogTitle(t('dialog.saveWorkoutResultsAndExitWorkout.title'));
+        setConfirmationDialogMessage(t('dialog.saveWorkoutResultsAndExitWorkout.message', { name: workout.name }));
     };
 
     return isLoading ? (
@@ -562,43 +561,44 @@ const DoWorkout: FC = () => {
                                         </Link>
                                     </>
                                 )}
+                                <Button
+                                    fullWidth
+                                    variant={'contained'}
+                                    data-testid={`${idPrefix}-discard-workout-results`}
+                                    color={'secondary'}
+                                    startIcon={<DeleteForeverIcon />}
+                                    endIcon={<ExitToAppIcon />}
+                                    onClick={discardWorkoutResults}
+                                >
+                                    {t('global.discardAndExit')}
+                                </Button>
+                                <Button
+                                    fullWidth
+                                    variant={'contained'}
+                                    data-testid={`${idPrefix}-save-workout-results-and-restart-workout`}
+                                    startIcon={<SaveIcon />}
+                                    endIcon={<RestartAltIcon />}
+                                    color={'info'}
+                                    onClick={saveWorkoutResultsAndRestartWorkout}
+                                >
+                                    {t('global.saveAndRestart')}
+                                </Button>
+                                <Button
+                                    fullWidth
+                                    variant={'contained'}
+                                    data-testid={`${idPrefix}-save-workout-results-and-exit-workout`}
+                                    color={'primary'}
+                                    startIcon={<SaveIcon />}
+                                    endIcon={<ExitToAppIcon />}
+                                    onClick={saveWorkoutResultsAndExitWorkout}
+                                >
+                                    {t('global.saveAndExit')}
+                                </Button>
                             </Stack>
                         }
                         onClose={completeWorkout}
                         onCancel={completeWorkout}
                         onConfirm={completeWorkout}
-                        fullScreenOverride={false}
-                        dialogActions={
-                            <>
-                                <Button
-                                    data-testid={`${idPrefix}-discard-workout-results`}
-                                    color={'secondary'}
-                                    onClick={discardWorkoutResults}
-                                >
-                                    {mdUp && t('global.discard')}
-                                    <DeleteForeverIcon />
-                                    <ExitToAppIcon />
-                                </Button>
-                                <Button
-                                    data-testid={`${idPrefix}-save-workout-results-and-restart-workout`}
-                                    color={'info'}
-                                    onClick={saveWorkoutResultsAndRestartWorkout}
-                                >
-                                    {mdUp && t('global.restart')}
-                                    <SaveIcon />
-                                    <RestartAltIcon />
-                                </Button>
-                                <Button
-                                    data-testid={`${idPrefix}-save-workout-results-and-exit-workout`}
-                                    color={'primary'}
-                                    onClick={saveWorkoutResultsAndExitWorkout}
-                                >
-                                    {mdUp && t('global.exit')}
-                                    <SaveIcon />
-                                    <ExitToAppIcon />
-                                </Button>
-                            </>
-                        }
                         dialogActionsJustifyContent="space-between"
                     />
                     <ConfirmationDialog

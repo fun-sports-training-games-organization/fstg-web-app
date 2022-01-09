@@ -39,9 +39,28 @@
         "discardChanges": {
             "title": "Änderungen verwerfen",
             "message": "Möchten Sie die vorgenommenen Änderungen wirklich verwerfen und zu deinem Training zurückkehren?"
+        },
+        "discardWorkoutResults": {
+            "title": "Trainingsergebnisse verwerfen",
+            "message": "Klicken Sie auf Bestätigen, um Ihr Trainingsergebnis aus dieser Trainingseinheit zu verwerfen."
+        },
+        "Trainingseinstellungen anpassen": {
+            "title": "Trainingseinstellungen anpassen",
+            "message": "Klicken Sie auf Bestätigen, um die Einstellungen für {{name}} anzupassen, oder auf Abbrechen, um Ihre Änderungen zu verwerfen."
+        },
+        "saveWorkoutResultsAndRestartWorkout": {
+            "title": "Speichern und neu starten",
+            "message": "Klicken Sie auf Bestätigen, um Ihre Ergebnisse zu speichern und das Training neu zu starten."
+        },
+        "saveWorkoutResultsAndExitWorkout": {
+            "title": "Speichern und beenden",
+            "message": "Klicken Sie auf Bestätigen, um Ihr Training zu speichern und die aktuelle Trainingseinheit zu verlassen!"
         }
     },
     "global": {
+        "discardAndExit": "Verwerfen und beenden",
+        "saveAndExit": "Speichern und beenden",
+        "saveAndRestart": "Speichern und neu starten",
         "confirm": "Bestätigen",
         "cancel": "Abbrechen",
         "save": "Speichern",
@@ -171,7 +190,7 @@
                 "title": "Profil",
                 "memberSince": "Mitglied seit {{datetime}}"
             },
-            "showMore": "Mehr anzeigen..."
+            "showMore": "Mehr anzeigen...",
             "toAccount": "Gehe zu Konto"
         }
     },
