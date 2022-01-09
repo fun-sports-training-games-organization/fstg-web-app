@@ -10,8 +10,6 @@ import React, {
 } from 'react';
 import { Button, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Stack } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import TimeField from '../../../molecules/inputs/time-field/TimeField';
-import CountField from '../../../molecules/inputs/count-field/CountField';
 import LabeledCheckbox from '../../../molecules/inputs/labeled-checkbox/LabeledCheckbox';
 import * as notification from '../../../../util/notifications-util';
 import { useSnackbar } from 'notistack';
@@ -227,24 +225,17 @@ const CreateEditExerciseForm = ({
                         />
                     </RadioGroup>
                 </FormControl>
-                {exercise.amountType === 'TIME_BASED' ? (
-                    <TimeField
-                        label={t(`${PREFIX}.${inWorkout ? 'time' : 'defaultTime'}`)}
-                        value={getNumber(exercise.amountValue)}
-                        setValue={(seconds: number) => {
-                            setExerciseAndWorkout({ ...exercise, amountValue: seconds });
-                        }}
-                    />
-                ) : (
-                    <CountField
-                        min={0}
-                        max={100}
-                        value={getNumber(exercise.amountValue)}
-                        setValue={(value: number) => {
-                            setExerciseAndWorkout({ ...exercise, amountValue: value });
-                        }}
-                    />
-                )}
+                <TimeOrCountField
+                    resultType={exercise.amountType}
+                    label={`${t(`${PREFIX}.${inWorkout ? 'amount' : 'defaultAmount'}`)}${t('global.colon')}`}
+                    value={getNumber(exercise.amountValue)}
+                    itemToUpdate={exercise}
+                    propertyToUpdate="amountValue"
+                    updateItem={(item) => {
+                        const exercise = item as Exercise;
+                        setExerciseAndWorkout(exercise);
+                    }}
+                />
                 <LabeledCheckbox
                     checked={exercise.recordResults ? exercise.recordResults : false}
                     onChange={onCheckboxChange}
@@ -291,12 +282,12 @@ const CreateEditExerciseForm = ({
                             checked={exercise.useDefaultResult ? exercise.useDefaultResult : false}
                             name={'useDefaultResult'}
                             onChange={onCheckboxChange}
-                            label={t(`${PREFIX}.useDefaultResult`)}
+                            label={`${t(`${PREFIX}.useDefaultResult`)}${t('global.colon')}`}
                         />
                         <TimeOrCountField
                             show={exercise.useDefaultResult}
                             resultType={exercise.resultType}
-                            timeLabel={t(`${PREFIX}.defaultResult`)}
+                            label={t(`${PREFIX}.defaultResult`)}
                             value={exercise.resultValue}
                             itemToUpdate={exercise}
                             updateItem={(item) => {

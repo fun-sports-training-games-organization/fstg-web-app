@@ -447,17 +447,19 @@ const DoWorkout: FC = () => {
             </ResponsiveContainer>
             {exercises && exerciseBeingEdited && (
                 <ResponsiveDialog
-                    title={`${exerciseBeingEdited.name} ${t(`global.result`)}${t(`global.colon`)}`}
+                    title={`${t(exerciseBeingEdited.name ? exerciseBeingEdited.name : '')} ${t(`global.result`)}${t(
+                        `global.colon`
+                    )}`}
                     open={isExerciseResultDialogOpen}
                     content={
                         <TimeOrCountField
                             show={exerciseBeingEdited.useDefaultResult}
                             resultType={exerciseBeingEdited.resultType}
-                            timeLabel={t(
+                            label={`${t(
                                 exerciseBeingEdited.resultType === 'TIME_BASED'
                                     ? 'global.completedIn'
                                     : 'global.repsCompleted'
-                            )}
+                            )}${t('global.colon')}`}
                             value={exerciseBeingEdited.resultValue}
                             itemToUpdate={exerciseBeingEdited}
                             updateItem={(item) => setExerciseBeingEdited(item as ExerciseInProgress)}
@@ -497,11 +499,11 @@ const DoWorkout: FC = () => {
                                                     key={e.id}
                                                     show={e.recordResults}
                                                     resultType={e.resultType}
-                                                    timeLabel={`${e.name} ${t(
+                                                    label={`${t(e.name ? e.name : '')} ${t(
                                                         e.resultType === 'TIME_BASED'
                                                             ? 'global.completedIn'
-                                                            : 'global.repsCompleted'
-                                                    )}`}
+                                                            : 'global.repsCompletedNotSentenceBegin'
+                                                    )}${t('global.colon')}`}
                                                     value={e.resultValue}
                                                     itemToUpdate={e}
                                                     updateItem={(item) => {

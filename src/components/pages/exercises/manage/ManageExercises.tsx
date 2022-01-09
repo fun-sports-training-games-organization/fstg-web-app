@@ -63,7 +63,7 @@ const ManageExercises: FC = (): JSX.Element => {
 
     const getAccordionProp = (exercise: Exercise, exerciseItemPrefix: string, index: number): AccordionProp => {
         return {
-            title: exercise.name,
+            title: t(exercise.name ? exercise.name : ''),
             subtitle: (
                 <>
                     {index !== expandedIndex ? (

@@ -5,6 +5,7 @@ import ExercisesTimeRepsIcons from '../../organisms/exercises-time-reps-icons/Ex
 import { v4 as uuidv4 } from 'uuid';
 import { ResponsiveStyleValue, SxProps, Theme } from '@mui/system';
 import EditImage from '../edit-image/EditImage';
+import { useTranslation } from 'react-i18next';
 
 export type ExerciseItemProps = {
     exerciseWorkoutSettings: ExerciseWorkoutSettings;
@@ -31,6 +32,8 @@ const ExerciseItem: FC<ExerciseItemProps> = ({
         length = parseInt(exerciseWorkoutSettings.amountValue);
     }
 
+    const { t } = useTranslation();
+
     return (
         <Grid container display="grid" gridTemplateColumns="repeat(100, 1fr)" gridTemplateRows="7vh" rowGap={rowGap}>
             <Typography
@@ -46,7 +49,7 @@ const ExerciseItem: FC<ExerciseItemProps> = ({
                 justifyContent="flex-start"
                 alignItems="center"
             >
-                {exerciseWorkoutSettings.name}
+                {t(exerciseWorkoutSettings?.name ? exerciseWorkoutSettings.name : '')}
             </Typography>
             <Stack
                 gridColumn={{ xs: '55 / 75', sm: '51 / 75', lg: '49 / 81' }}

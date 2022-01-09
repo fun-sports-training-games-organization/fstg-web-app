@@ -76,7 +76,8 @@
         "ok": "OK",
         "workout": "Workout",
         "completedIn": "Completed in",
-        "repsCompleted": "Reps completed"
+        "repsCompleted": "Reps completed",
+        "repsCompletedNotSentenceBegin": "reps completed"
     },
     "auth": {
         "message": {
@@ -213,6 +214,8 @@
                 "imgUrl": "Image/GIF URL",
                 "defaultAmountType": "Default Amount Type",
                 "amountType": "Amount Type",
+                "defaultAmount": "Default Amount",
+                "amount": "Amount",
                 "countBased": "Count-based",
                 "timeBased": "Time-based",
                 "defaultTime": "Default Time",
@@ -284,5 +287,14 @@
         "mustContainLowercase": "Must contain at least one lowercase letter!",
         "mustContainUppercase": "Must contain at least one uppercase letter!"
     },
-    "Push Ups": "Push Ups"
+    "Rest": "Rest",
+    "Jumping Jacks": "Jumping Jacks",
+    "Prepare": "Prepare",
+    "Squats": "Squats",
+    "Push-Ups": "Push-Ups",
+    "Burpees": "Burpees",
+    "Jogging": "Jogging",
+    "Lunges": "Lunges",
+    "T Superman": "T Superman",
+    "Pull-up Superman": "Pull-up Superman"
 }

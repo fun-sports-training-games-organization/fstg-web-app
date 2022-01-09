@@ -40,7 +40,7 @@ const StatisticsCard = (): JSX.Element => {
                                 <ListItemIcon>
                                     <Pool />
                                 </ListItemIcon>
-                                <ListItemText primary="Push Ups" />
+                                <ListItemText primary="Push-Ups" />
                             </ListItemButton>
                         </ListItem>
                         <ListItem disablePadding>

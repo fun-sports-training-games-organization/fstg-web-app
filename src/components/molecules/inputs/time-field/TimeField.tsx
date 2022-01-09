@@ -1,15 +1,14 @@
 import React, { ChangeEvent, useState } from 'react';
 import { FC } from 'react';
 import TextField from '@mui/material/TextField';
-import { Divider, FormLabel, Stack } from '@mui/material';
+import { Divider } from '@mui/material';
 import { addLeadingZero } from '../../../../util/number-util';
 
 type OwnProps = {
-    label?: string;
     value?: number;
     setValue: (seconds: number) => void;
 };
-const TimePicker: FC<OwnProps> = ({ label, value, setValue }: OwnProps): JSX.Element => {
+const TimePicker: FC<OwnProps> = ({ value, setValue }: OwnProps): JSX.Element => {
     const totalSeconds = value || 0;
     const hr = Math.floor(totalSeconds / 3600); // get hours - in case we need it some time...
     const min = Math.floor((totalSeconds - hr * 3600) / 60); // get minutes
@@ -32,30 +31,27 @@ const TimePicker: FC<OwnProps> = ({ label, value, setValue }: OwnProps): JSX.Ele
         }
     };
     return (
-        <Stack spacing={2}>
-            {label && <FormLabel>{label}</FormLabel>}
-            <Stack direction={'row'} alignItems={'center'}>
-                <TextField
-                    name="minutes"
-                    label="mm"
-                    value={minutes}
-                    type={'number'}
-                    onChange={onChange}
-                    fullWidth
-                    inputProps={{ min: 0, max: 60, maxLength: 2, pattern: '[0-9]*' }}
-                />
-                <Divider orientation={'vertical'}>:</Divider>
-                <TextField
-                    name="seconds"
-                    label="ss"
-                    value={seconds}
-                    type={'number'}
-                    onChange={onChange}
-                    fullWidth
-                    inputProps={{ min: 0, max: 60, maxLength: 2, pattern: '[0-9]*' }}
-                />
-            </Stack>
-        </Stack>
+        <>
+            <TextField
+                name="minutes"
+                label="mm"
+                value={minutes}
+                type={'number'}
+                onChange={onChange}
+                fullWidth
+                inputProps={{ min: 0, max: 60, maxLength: 2, pattern: '[0-9]*' }}
+            />
+            <Divider orientation={'vertical'}>:</Divider>
+            <TextField
+                name="seconds"
+                label="ss"
+                value={seconds}
+                type={'number'}
+                onChange={onChange}
+                fullWidth
+                inputProps={{ min: 0, max: 60, maxLength: 2, pattern: '[0-9]*' }}
+            />
+        </>
     );
 };
 
