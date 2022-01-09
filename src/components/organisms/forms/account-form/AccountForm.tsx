@@ -1,8 +1,8 @@
-import { ChangeEvent, FC, useState } from 'react';
+import { FC } from 'react';
 import { Avatar, Button, FormControlLabel, Radio, Stack } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import ResponsiveContainer from '../../../templates/containers/responsive-container/ResponsiveContainer';
-import { Field, Form, InjectedFormProps, reduxForm } from 'redux-form';
+import { Field, Form, formValueSelector, InjectedFormProps, reduxForm } from 'redux-form';
 import {
     renderDatePicker,
     renderEmailField,
@@ -34,6 +34,7 @@ type OwnProps = {
     profilePictureURL?: string;
     handleDeleteProfilePicture: () => void;
     isExternalProvider?: boolean;
+    formUnit?: Unit;
 };
 
 const AccountForm: FC<OwnProps & InjectedFormProps<AccountState>> = ({
@@ -42,10 +43,11 @@ const AccountForm: FC<OwnProps & InjectedFormProps<AccountState>> = ({
     submitting,
     profilePictureURL,
     handleDeleteProfilePicture,
-    isExternalProvider
+    isExternalProvider,
+    formUnit
 }: OwnProps & InjectedFormProps<AccountState>) => {
     const { t, i18n } = useTranslation();
-    const [unit, setUnit] = useState<Unit>(Unit.METRIC);
+
     return (
         <ResponsiveContainer>
             <Form onSubmit={handleSubmit}>
@@ -135,7 +137,6 @@ const AccountForm: FC<OwnProps & InjectedFormProps<AccountState>> = ({
                         name={'unit'}
                         label={t('form.label.profile.unit')}
                         component={renderRadioGroup}
-                        onChange={(changeEvent: ChangeEvent<any>) => setUnit(changeEvent as any)}
                     >
                         <Stack direction={'row'} alignItems={'flex-start'}>
                             <FormControlLabel
@@ -152,13 +153,13 @@ const AccountForm: FC<OwnProps & InjectedFormProps<AccountState>> = ({
                     </Field>
                     <Field
                         name={'height'}
-                        label={`${t('form.label.profile.height')} (${unit === Unit.METRIC ? 'cm' : 'ft'})`}
+                        label={`${t('form.label.profile.height')} (${formUnit === Unit.IMPERIAL ? 'ft' : 'cm'})`}
                         validate={[number, tallerThanShortestPersonEver, shorterThanTallestPersonEver]}
                         component={renderNumberField}
                     />
                     <Field
                         name={'weight'}
-                        label={`${t('form.label.profile.weight')} (${unit === Unit.METRIC ? 'kg' : 'lb'})`}
+                        label={`${t('form.label.profile.weight')} (${formUnit === Unit.IMPERIAL ? 'ft' : 'cm'})`}
                         validate={[number, heavierThanLightestPersonEver, lighterThanHeaviestPersonEver]}
                         component={renderNumberField}
                     />
@@ -182,10 +183,16 @@ const AccountForm: FC<OwnProps & InjectedFormProps<AccountState>> = ({
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const reduxFormAccountForm = reduxForm<any, any>({ form: 'accountForm' /*, validate, asyncValidate*/ })(AccountForm);
+const reduxFormAccountForm = reduxForm<any, any>({ form: 'profileForm' /*, validate, asyncValidate*/ })(AccountForm);
 
 const connectedReduxFormAccountForm = connect((state: RootStateOrAny) => ({ initialValues: state.account.data }))(
     reduxFormAccountForm
 );
 
-export default connectedReduxFormAccountForm;
+const selector = formValueSelector('profileForm');
+const connectedReduxFormAccountFormWithSelector = connect((state: RootStateOrAny) => {
+    const formUnit = selector(state, 'unit');
+    return { formUnit };
+})(connectedReduxFormAccountForm);
+
+export default connectedReduxFormAccountFormWithSelector;

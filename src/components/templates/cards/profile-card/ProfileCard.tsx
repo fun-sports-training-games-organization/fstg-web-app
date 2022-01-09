@@ -8,15 +8,11 @@ import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import PageTitle from '../../../atoms/page-title/PageTitle';
 import Loader from '../../../atoms/loader/Loader';
-import { AccountState } from '../../../../reducers/account-reducer';
+import { AccountState, Unit } from '../../../../reducers/account-reducer';
 import { useAuth } from '../../../../contexts/AuthContextProvider';
 import useFileManager from '../../../../hooks/useFileManager';
-import {
-    convertFirebaseDateObjectToDateString,
-    convertStringToDateWithLocale,
-    getAge
-} from '../../../../util/date-util';
-import { calculateBmiInMetric } from '../../../../util/bmi-util';
+import { convertStringToDateWithLocale, getAge } from '../../../../util/date-util';
+import { calculateBmiInImperial, calculateBmiInMetric } from '../../../../util/bmi-util';
 
 function stringToColor(string: string) {
     let hash = 0;
@@ -124,18 +120,20 @@ const ProfileCard = (): JSX.Element => {
                         {generateListItemText(
                             account.dateOfBirth &&
                                 t('page.dashboard.profile.age', {
-                                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                                    age: getAge(convertFirebaseDateObjectToDateString(account.dateOfBirth as any))
+                                    age: getAge(account.dateOfBirth)
                                 })
                         )}
                         {account.height &&
                             account.weight &&
+                            account.unit &&
                             typeof account.height !== 'undefined' &&
                             typeof account.height !== 'undefined' &&
                             generateListItemText(
                                 t('page.dashboard.profile.bmi', {
-                                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                                    bmi: calculateBmiInMetric(account.weight, account.height).toFixed(2)
+                                    bmi:
+                                        account.unit === Unit.METRIC
+                                            ? calculateBmiInMetric(account.weight, account.height).toFixed(2)
+                                            : calculateBmiInImperial(account.weight, account.height).toFixed(2)
                                 })
                             )}
                         {generateListItemText(

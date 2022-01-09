@@ -46,8 +46,7 @@ const Account: FC = () => {
                     dateOfBirth: dob
                 } = account;
                 const { email } = user;
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                const dateOfBirth = dob && convertFirebaseDateObjectToDateString(dob as any);
+                const dateOfBirth = dob && convertFirebaseDateObjectToDateString(dob);
                 accountDispatcher.load({
                     firstName,
                     lastName,
@@ -79,7 +78,7 @@ const Account: FC = () => {
 
     const handleSubmit = async (values: AccountState): Promise<void | SubmissionError> => {
         if (values) {
-            const { firstName, lastName, nickname, gender, height, weight, unit, profilePicture, dateOfBirth } = values;
+            const { firstName, lastName, nickname, gender, height, weight, profilePicture, dateOfBirth, unit } = values;
             let emptyNickname;
             if (typeof nickname === 'string' && nickname.trim().length === 0) {
                 emptyNickname = true;

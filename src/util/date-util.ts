@@ -47,9 +47,14 @@ export const convertStringToDate = (date?: string | Date): Date | undefined => {
     return date ? new Date(date) : undefined;
 };
 
-export const getAge = (dateString: string): number => {
+type FirebaseTimestamp = {
+    seconds: number;
+    nanoseconds: number;
+};
+
+export const getAge = (date: string | FirebaseTimestamp): number => {
     const today = new Date();
-    const birthDate = new Date(dateString);
+    const birthDate = typeof date === 'string' ? new Date(date) : new Date(date.seconds * 1000);
     let age = today.getFullYear() - birthDate.getFullYear();
     const m = today.getMonth() - birthDate.getMonth();
     if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
@@ -58,8 +63,10 @@ export const getAge = (dateString: string): number => {
     return age;
 };
 
-export const convertFirebaseDateObjectToDateString = (firebaseDateObject: { seconds: number }): string => {
-    return firebaseDateObject?.seconds ? new Date(firebaseDateObject.seconds * 1000).toDateString() : '';
+export const convertFirebaseDateObjectToDateString = (firebaseDateObject: string | FirebaseTimestamp): string => {
+    return typeof firebaseDateObject === 'string'
+        ? firebaseDateObject
+        : new Date(firebaseDateObject.seconds * 1000).toDateString();
 };
 
 // export const daysInMilliseconds = (numberOfDays: number): number => {
