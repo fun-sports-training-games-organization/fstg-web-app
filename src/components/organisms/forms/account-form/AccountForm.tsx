@@ -124,7 +124,6 @@ const AccountForm: FC<OwnProps & InjectedFormProps<AccountState>> = ({
                         validate={[number, heavierThanLightestPersonEver, lighterThanHeaviestPersonEver]}
                         component={renderNumberField}
                     />
-
                     <LoadingButton
                         loading={submitting}
                         loadingPosition="start"

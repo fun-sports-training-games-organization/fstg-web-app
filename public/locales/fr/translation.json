@@ -189,7 +189,8 @@
             "profile": {
                 "title": "Profil",
                 "memberSince": "Membre depuis {{datetime}}",
-                "age": "Age: {{age}}"
+                "age": "Age: {{age}}",
+                "bmi": "IMC: {{bmi}}"
             },
             "showMore": "Montre plus...",
             "toAccount": "Aller au Compte"

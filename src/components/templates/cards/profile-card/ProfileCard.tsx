@@ -16,6 +16,7 @@ import {
     convertStringToDateWithLocale,
     getAge
 } from '../../../../util/date-util';
+import { calculateBmiInMetric } from '../../../../util/bmi-util';
 
 function stringToColor(string: string) {
     let hash = 0;
@@ -127,6 +128,16 @@ const ProfileCard = (): JSX.Element => {
                                     age: getAge(convertFirebaseDateObjectToDateString(account.dateOfBirth as any))
                                 })
                         )}
+                        {account.height &&
+                            account.weight &&
+                            typeof account.height !== 'undefined' &&
+                            typeof account.height !== 'undefined' &&
+                            generateListItemText(
+                                t('page.dashboard.profile.bmi', {
+                                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                    bmi: calculateBmiInMetric(account.weight, account.height).toFixed(2)
+                                })
+                            )}
                         {generateListItemText(
                             t('page.dashboard.profile.memberSince', {
                                 datetime: convertStringToDateWithLocale(user?.metadata?.creationTime)

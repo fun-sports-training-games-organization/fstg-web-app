@@ -189,7 +189,8 @@
             "profile": {
                 "title": "Profil",
                 "memberSince": "Mitglied seit {{datetime}}",
-                "age": "Alter: {{age}}"
+                "age": "Alter: {{age}}",
+                "bmi": "KMZ: {{bmi}}"
             },
             "showMore": "Mehr anzeigen...",
             "toAccount": "Gehe zu Konto"
