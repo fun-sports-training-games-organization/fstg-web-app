@@ -76,7 +76,8 @@
         "ok": "OK",
         "workout": "Entraînement",
         "completedIn": "Terminé en",
-        "repsCompleted": "répétitions terminées"
+        "repsCompleted": "répétitions terminées",
+        "repsCompletedNotSentenceBegin": "répétitions terminées"
     },
     "auth": {
         "message": {
@@ -226,6 +227,8 @@
                 "imgUrl": "URL de l'image/GIF",
                 "defaultAmountType": "Type de montant par défaut",
                 "amountType": "Type de montant",
+                "defaultAmount": "Montant par défaut",
+                "amount": "Montant",
                 "countBased": "Basé sur le nombre",
                 "timeBased": "Basé sur le temps",
                 "defaultTime": "Heure par défaut",
@@ -307,5 +310,14 @@
         "mustContainLowercase": "Doit contenir au moins une lettre minuscule!",
         "mustContainUppercase": "Doit contenir au moins une lettre majuscule!"
     },
-    "Push Ups": "Pompes"
+    "Rest": "Repos",
+    "Jumping Jacks": "sauts à l'élastique",
+    "Prepare": "Préparez",
+    "Squats": "flexions",
+    "Push-Ups": "Pompes",
+    "Burpees": "Sauts d'obstacles",
+    "Jogging": "Jogging",
+    "Lunges": "fentes",
+    "T Superman": "T Superman",
+    "Pull-up Superman": "Pull-up Superman"
 }
