@@ -188,7 +188,8 @@
             },
             "profile": {
                 "title": "Profil",
-                "memberSince": "Mitglied seit {{datetime}}"
+                "memberSince": "Mitglied seit {{datetime}}",
+                "age": "Alter: {{age}}"
             },
             "showMore": "Mehr anzeigen...",
             "toAccount": "Gehe zu Konto"

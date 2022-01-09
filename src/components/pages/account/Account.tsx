@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import { SubmissionError } from 'redux-form';
 import { fileSizeTooLarge } from '../../../util/notifications-util';
 import { ONE_MEGABYTE } from '../../../util/validation';
+import { convertFirebaseDateObjectToDateString } from '../../../util/date-util';
 
 const Account: FC = () => {
     const { user } = useAuth();
@@ -33,9 +34,19 @@ const Account: FC = () => {
             user.uid &&
             user.email &&
             entityManager.findById(user?.uid).then((account: AccountState) => {
-                const { firstName, lastName, nickname, profilePicturePath, weight, height, gender, dateOfBirth } =
-                    account;
+                const {
+                    firstName,
+                    lastName,
+                    nickname,
+                    profilePicturePath,
+                    weight,
+                    height,
+                    gender,
+                    dateOfBirth: dob
+                } = account;
                 const { email } = user;
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const dateOfBirth = dob && convertFirebaseDateObjectToDateString(dob as any);
                 accountDispatcher.load({
                     firstName,
                     lastName,
@@ -47,6 +58,7 @@ const Account: FC = () => {
                     gender,
                     dateOfBirth
                 });
+
                 setProfilePicturePath(profilePicturePath);
                 if (profilePicturePath) {
                     fileManager.getFileURL(`profile_pictures/${user?.uid}/${profilePicturePath}`).then((url) => {

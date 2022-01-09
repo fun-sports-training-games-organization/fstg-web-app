@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import ResponsiveContainer from '../../../templates/containers/responsive-container/ResponsiveContainer';
 import { Field, Form, InjectedFormProps, reduxForm } from 'redux-form';
 import {
+    renderDatePicker,
     renderEmailField,
     renderFileChooser,
     renderNumberField,
@@ -43,7 +44,7 @@ const AccountForm: FC<OwnProps & InjectedFormProps<AccountState>> = ({
     handleDeleteProfilePicture,
     isExternalProvider
 }: OwnProps & InjectedFormProps<AccountState>) => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     return (
         <ResponsiveContainer>
             <Form onSubmit={handleSubmit}>
@@ -105,7 +106,12 @@ const AccountForm: FC<OwnProps & InjectedFormProps<AccountState>> = ({
                             <FormControlLabel value={'other'} control={<Radio />} label={'Other'} />
                         </Stack>
                     </Field>
-                    {/*<Field name={'dateOfBirth'} label={t('Date of Birth')} component={renderDatePicker} />*/}
+                    <Field
+                        name={'dateOfBirth'}
+                        label={t('Date of Birth')}
+                        component={renderDatePicker}
+                        locale={i18n.language.split('-')[0]}
+                    />
                     <Field
                         name={'height'}
                         label={t('Height (cm)')}

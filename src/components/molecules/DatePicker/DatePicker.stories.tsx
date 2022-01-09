@@ -40,7 +40,7 @@ export default {
     }
 };
 
-export const datePicker = (args: DatePickerProps): JSX.Element => {
+export const LocalizedDatePicker = (args: DatePickerProps): JSX.Element => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars,unused-imports/no-unused-vars
     const { value, onChange, onError, ...rest } = args;
     const [val, setVal] = React.useState<unknown>([new Date(2022, 0, 1), new Date(2022, 0, 1)]);

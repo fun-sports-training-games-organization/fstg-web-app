@@ -71,7 +71,7 @@ import { withThemes } from '@react-theming/storybook-addon';
 import { createTheme, ThemeProvider } from '@mui/material';
 import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
 import theme from '../src/theme/theme';
-import { i18n } from './i18next.js';
+// import { i18n } from './i18next.js';
 
 const providerFn = ({ theme, children }) => {
     const muiTheme = createTheme(theme);

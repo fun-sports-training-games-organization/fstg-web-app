@@ -10,8 +10,8 @@ module.exports = {
         '@storybook/addon-viewport',
         '@storybook/addon-links',
         '@storybook/addon-essentials',
-        '@storybook/addon-docs',
-        'storybook-react-i18next'
+        '@storybook/addon-docs'
+        // 'storybook-react-i18next'
     ],
     webpackFinal: async (config) => {
         config.module.rules.push({

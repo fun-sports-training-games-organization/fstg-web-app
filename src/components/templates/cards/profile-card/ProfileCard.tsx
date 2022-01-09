@@ -11,7 +11,11 @@ import Loader from '../../../atoms/loader/Loader';
 import { AccountState } from '../../../../reducers/account-reducer';
 import { useAuth } from '../../../../contexts/AuthContextProvider';
 import useFileManager from '../../../../hooks/useFileManager';
-import { convertStringToDateWithLocale } from '../../../../util/date-util';
+import {
+    convertFirebaseDateObjectToDateString,
+    convertStringToDateWithLocale,
+    getAge
+} from '../../../../util/date-util';
 
 function stringToColor(string: string) {
     let hash = 0;
@@ -43,6 +47,15 @@ function stringAvatar(name: string) {
         children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`
     };
 }
+
+const generateListItemText = (text?: string) =>
+    text && (
+        <ListItem disablePadding sx={{ marginTop: 1 }}>
+            <ListItemText>
+                <Typography variant={'body1'}>{text}</Typography>
+            </ListItemText>
+        </ListItem>
+    );
 
 const ProfileCard = (): JSX.Element => {
     const history = useHistory();
@@ -107,15 +120,18 @@ const ProfileCard = (): JSX.Element => {
                                 </Typography>
                             </ListItemText>
                         </ListItem>
-                        <ListItem disablePadding sx={{ marginTop: 1 }}>
-                            <ListItemText>
-                                <Typography variant={'body1'}>
-                                    {t('page.dashboard.profile.memberSince', {
-                                        datetime: convertStringToDateWithLocale(user?.metadata?.creationTime)
-                                    })}
-                                </Typography>
-                            </ListItemText>
-                        </ListItem>
+                        {generateListItemText(
+                            account.dateOfBirth &&
+                                t('page.dashboard.profile.age', {
+                                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                    age: getAge(convertFirebaseDateObjectToDateString(account.dateOfBirth as any))
+                                })
+                        )}
+                        {generateListItemText(
+                            t('page.dashboard.profile.memberSince', {
+                                datetime: convertStringToDateWithLocale(user?.metadata?.creationTime)
+                            })
+                        )}
                         <ListItem disablePadding sx={{ marginTop: 1 }}>
                             <Button
                                 fullWidth
