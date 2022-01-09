@@ -6,7 +6,7 @@ export enum Unit {
     IMPERIAL = 'IMPERIAL'
 }
 
-export interface AccountState {
+export interface ProfileState {
     nickname?: string;
     firstName?: string;
     lastName?: string;
@@ -20,17 +20,17 @@ export interface AccountState {
     profilePicturePath?: string;
 }
 
-const initialState: AccountState = {};
+const initialState: ProfileState = {};
 
 export interface DispatchAction extends Action {
-    payload: Partial<AccountState>;
+    payload: Partial<ProfileState>;
 }
 
 export enum ActionType {
     LOAD
 }
 
-const accountReducer = (state = initialState, action: DispatchAction): AccountState & { data?: AccountState } => {
+const profileReducer = (state = initialState, action: DispatchAction): ProfileState & { data?: ProfileState } => {
     switch (action.type) {
         case ActionType.LOAD:
             return {
@@ -42,13 +42,13 @@ const accountReducer = (state = initialState, action: DispatchAction): AccountSt
     }
 };
 
-// export const load = (data: Account): void => ({ type: LOAD_ACCOUNT, data });
+// export const load = (data: Profile): void => ({ type: LOAD_ACCOUNT, data });
 
-export class AccountDispatcher {
+export class ProfileDispatcher {
     private readonly dispatch: Dispatch<DispatchAction>;
     constructor(dispatch: Dispatch<DispatchAction>) {
         this.dispatch = dispatch;
     }
-    load = (data: AccountState): void => this.dispatch({ type: ActionType.LOAD, payload: data });
+    load = (data: ProfileState): void => this.dispatch({ type: ActionType.LOAD, payload: data });
 }
-export default accountReducer;
+export default profileReducer;

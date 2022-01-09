@@ -28,6 +28,6 @@ export const toExercises = (history: History<unknown>): void => {
     history.push('/exercises');
 };
 
-export const toAccount = (history: History<unknown>): void => {
-    history.push('/account');
+export const toProfile = (history: History<unknown>): void => {
+    history.push('/profile');
 };

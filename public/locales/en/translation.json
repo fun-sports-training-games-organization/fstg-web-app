@@ -4,7 +4,7 @@
         "dashboard": "Dashboard",
         "exercises": "Exercises",
         "workouts": "Workouts",
-        "account": "Account",
+        "profile": "Profile",
         "logout": "Logout"
     },
     "actionMenu": {
@@ -193,7 +193,7 @@
                 "bmi": "BMI: {{bmi}}"
             },
             "showMore": "Show More...",
-            "toAccount": "Go to Account"
+            "goToProfile": "Go to Profile"
         }
     },
     "form": {
@@ -260,7 +260,7 @@
             "registration": {
                 "register": "Register"
             },
-            "account": {
+            "profile": {
                 "saveProfile": "Save profile",
                 "deleteProfilePicture": "Delete Profile Picture"
             },

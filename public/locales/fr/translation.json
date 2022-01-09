@@ -4,7 +4,7 @@
         "dashboard": "Tableau de bord",
         "exercises": "Exercices",
         "workouts": "Entraînements",
-        "account": "Compte",
+        "profile": "Profil",
         "logout": "Logout"
     },
     "actionMenu": {
@@ -193,7 +193,7 @@
                 "bmi": "IMC: {{bmi}}"
             },
             "showMore": "Montre plus...",
-            "toAccount": "Aller au Compte"
+            "goToProfile": "Aller au Profil"
         }
     },
     "form": {
@@ -260,7 +260,7 @@
             "registration": {
                 "register": "S'inscrire"
             },
-            "account": {
+            "profile": {
                 "saveProfile": "Enregistrer le profil",
                 "deleteProfilePicture": "Supprimer la photo de profil"
             },

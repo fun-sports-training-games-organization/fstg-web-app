@@ -4,7 +4,7 @@
         "dashboard": "Dashboard",
         "exercises": "Übungen",
         "workouts": "Training",
-        "account": "Konto",
+        "profile": "Profil",
         "logout": "Abmelden"
     },
     "actionMenu": {
@@ -193,7 +193,7 @@
                 "bmi": "KMZ: {{bmi}}"
             },
             "showMore": "Mehr anzeigen...",
-            "toAccount": "Gehe zu Konto"
+            "goToProfile": "Gehe zu Profil"
         }
     },
     "form": {
@@ -252,7 +252,7 @@
             "registration": {
                 "register": "Registrieren"
             },
-            "account": {
+            "profile": {
                 "saveProfile": "Profil sichern",
                 "deleteProfilePicture": "Profilbild entfernen"
             },
