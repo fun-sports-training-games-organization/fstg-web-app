@@ -1,11 +1,21 @@
 import { Dispatch } from 'react';
 import { Action } from 'redux';
 
+export enum Unit {
+    METRIC = 'METRIC',
+    IMPERIAL = 'IMPERIAL'
+}
+
 export interface AccountState {
-    username?: string;
+    nickname?: string;
     firstName?: string;
     lastName?: string;
     email?: string | null;
+    gender?: string;
+    unit?: Unit;
+    weight?: number;
+    height?: number;
+    dateOfBirth?: string;
     profilePicture?: FileList;
     profilePicturePath?: string;
 }

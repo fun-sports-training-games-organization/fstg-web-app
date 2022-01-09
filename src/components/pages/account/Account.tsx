@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import { SubmissionError } from 'redux-form';
 import { fileSizeTooLarge } from '../../../util/notifications-util';
 import { ONE_MEGABYTE } from '../../../util/validation';
+import { convertFirebaseDateObjectToDateString } from '../../../util/date-util';
 
 const Account: FC = () => {
     const { user } = useAuth();
@@ -33,9 +34,32 @@ const Account: FC = () => {
             user.uid &&
             user.email &&
             entityManager.findById(user?.uid).then((account: AccountState) => {
-                const { firstName, lastName, username, profilePicturePath } = account;
+                const {
+                    firstName,
+                    lastName,
+                    nickname,
+                    profilePicturePath,
+                    weight,
+                    height,
+                    gender,
+                    unit,
+                    dateOfBirth: dob
+                } = account;
                 const { email } = user;
-                accountDispatcher.load({ firstName, lastName, username, email, profilePicturePath });
+                const dateOfBirth = dob && convertFirebaseDateObjectToDateString(dob);
+                accountDispatcher.load({
+                    firstName,
+                    lastName,
+                    nickname,
+                    email,
+                    profilePicturePath,
+                    weight,
+                    height,
+                    gender,
+                    unit,
+                    dateOfBirth
+                });
+
                 setProfilePicturePath(profilePicturePath);
                 if (profilePicturePath) {
                     fileManager.getFileURL(`profile_pictures/${user?.uid}/${profilePicturePath}`).then((url) => {
@@ -54,10 +78,10 @@ const Account: FC = () => {
 
     const handleSubmit = async (values: AccountState): Promise<void | SubmissionError> => {
         if (values) {
-            const { firstName, lastName, username, profilePicture } = values;
-            let emptyUsername;
-            if (typeof username === 'string' && username.trim().length === 0) {
-                emptyUsername = true;
+            const { firstName, lastName, nickname, gender, height, weight, profilePicture, dateOfBirth, unit } = values;
+            let emptyNickname;
+            if (typeof nickname === 'string' && nickname.trim().length === 0) {
+                emptyNickname = true;
             }
             let profilePicturePath;
             if (profilePicture && profilePicture.length > 0) {
@@ -74,7 +98,12 @@ const Account: FC = () => {
                     id: user?.uid,
                     firstName,
                     lastName,
-                    ...((username || emptyUsername) && { username }),
+                    ...(unit && { unit }),
+                    ...(gender && { gender }),
+                    ...(height && { height }),
+                    ...(weight && { weight }),
+                    ...(dateOfBirth && { dateOfBirth }),
+                    ...((nickname || emptyNickname) && { nickname }),
                     ...(profilePicturePath && { profilePicturePath })
                 })
                 .then(() => {

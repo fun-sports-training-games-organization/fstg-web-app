@@ -46,3 +46,39 @@ export const convertStringToDateWithLocale = (date?: string | Date | null, local
 export const convertStringToDate = (date?: string | Date): Date | undefined => {
     return date ? new Date(date) : undefined;
 };
+
+type FirebaseTimestamp = {
+    seconds: number;
+    nanoseconds: number;
+};
+
+export const getAge = (date: string | FirebaseTimestamp): number => {
+    const today = new Date();
+    const birthDate = typeof date === 'string' ? new Date(date) : new Date(date.seconds * 1000);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+    }
+    return age;
+};
+
+export const convertFirebaseDateObjectToDateString = (firebaseDateObject: string | FirebaseTimestamp): string => {
+    return typeof firebaseDateObject === 'string'
+        ? firebaseDateObject
+        : new Date(firebaseDateObject.seconds * 1000).toDateString();
+};
+
+// export const daysInMilliseconds = (numberOfDays: number): number => {
+//     return numberOfDays > 0 ? numberOfDays + 1000 * 60 * 60 * 24 * 2 * 365 : NaN;
+// };
+//
+// export const yearsInMilliseconds = (numberOfYears: number): number => {
+//     return numberOfYears > 0 ? numberOfYears * daysInMilliseconds(1) : NaN;
+// };
+//
+// export const xYearsAgo = (x: number): Date => {
+//     const today = new Date();
+//     const yearsAgo = today.getMilliseconds() - yearsInMilliseconds(x);
+//     return new Date(yearsAgo);
+// };

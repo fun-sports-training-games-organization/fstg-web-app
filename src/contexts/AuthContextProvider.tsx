@@ -47,7 +47,7 @@ export type AuthContextData = {
         password?: string,
         firstName?: string,
         lastName?: string,
-        username?: string
+        nickname?: string
     ) => Promise<void>;
     sendResetPasswordLink: (email: string) => Promise<void>;
     sendVerificationEmail: () => Promise<void>;
@@ -121,12 +121,12 @@ const AuthContextProvider: FC<PropsWithChildren<Record<string, unknown>>> = (
         password?: string,
         firstName?: string,
         lastName?: string,
-        username?: string
+        nickname?: string
     ): Promise<void> => {
         email &&
             password &&
             (await firebase
-                .createUser({ email, password }, { ...(username && { username }), firstName, lastName })
+                .createUser({ email, password }, { ...(nickname && { nickname }), firstName, lastName })
                 .then(() => {
                     notification.registrationSuccess(enqueueSnackbar, t);
                     setNewlyRegistered(true);

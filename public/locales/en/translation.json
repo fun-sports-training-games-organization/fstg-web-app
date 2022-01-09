@@ -188,7 +188,9 @@
             },
             "profile": {
                 "title": "Profile",
-                "memberSince": "Member since {{datetime}}"
+                "memberSince": "Member since {{datetime}}",
+                "age": "Age: {{age}}",
+                "bmi": "BMI: {{bmi}}"
             },
             "showMore": "Show More...",
             "toAccount": "Go to Account"
@@ -200,8 +202,18 @@
                 "email": "Email",
                 "password": "Password"
             },
+            "profile": {
+                "nickname": "Nickname (optional)",
+                "firstName": "First Name",
+                "lastName": "Last Name",
+                "email": "E-mail",
+                "dateOfBirth": "Date of Birth",
+                "height": "Height",
+                "weight": "Weight",
+                "gender": "Gender"
+            },
             "registration": {
-                "username": "Username (Optional)",
+                "nickname": "Nickname (Optional)",
                 "firstName": "First Name",
                 "lastName": "Last Name",
                 "email": "Email",
@@ -226,6 +238,19 @@
             },
             "account": {
                 "profilePicture": "Profile Picture"
+            }
+        },
+        "options": {
+            "profile": {
+                "gender": {
+                    "male": "Male",
+                    "female": "Female",
+                    "other": "Other"
+                },
+                "unit": {
+                    "metric": "Metric",
+                    "imperial": "Imperial"
+                }
             }
         },
         "button": {

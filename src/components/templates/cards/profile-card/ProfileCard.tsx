@@ -8,10 +8,11 @@ import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import PageTitle from '../../../atoms/page-title/PageTitle';
 import Loader from '../../../atoms/loader/Loader';
-import { AccountState } from '../../../../reducers/account-reducer';
+import { AccountState, Unit } from '../../../../reducers/account-reducer';
 import { useAuth } from '../../../../contexts/AuthContextProvider';
 import useFileManager from '../../../../hooks/useFileManager';
-import { convertStringToDateWithLocale } from '../../../../util/date-util';
+import { convertStringToDateWithLocale, getAge } from '../../../../util/date-util';
+import { calculateBmiInImperial, calculateBmiInMetric } from '../../../../util/bmi-util';
 
 function stringToColor(string: string) {
     let hash = 0;
@@ -43,6 +44,15 @@ function stringAvatar(name: string) {
         children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`
     };
 }
+
+const generateListItemText = (text?: string) =>
+    text && (
+        <ListItem disablePadding sx={{ marginTop: 1 }}>
+            <ListItemText>
+                <Typography variant={'body1'}>{text}</Typography>
+            </ListItemText>
+        </ListItem>
+    );
 
 const ProfileCard = (): JSX.Element => {
     const history = useHistory();
@@ -107,15 +117,30 @@ const ProfileCard = (): JSX.Element => {
                                 </Typography>
                             </ListItemText>
                         </ListItem>
-                        <ListItem disablePadding sx={{ marginTop: 1 }}>
-                            <ListItemText>
-                                <Typography variant={'body1'}>
-                                    {t('page.dashboard.profile.memberSince', {
-                                        datetime: convertStringToDateWithLocale(user?.metadata?.creationTime)
-                                    })}
-                                </Typography>
-                            </ListItemText>
-                        </ListItem>
+                        {generateListItemText(
+                            account.dateOfBirth &&
+                                t('page.dashboard.profile.age', {
+                                    age: getAge(account.dateOfBirth)
+                                })
+                        )}
+                        {account.height &&
+                            account.weight &&
+                            account.unit &&
+                            typeof account.height !== 'undefined' &&
+                            typeof account.height !== 'undefined' &&
+                            generateListItemText(
+                                t('page.dashboard.profile.bmi', {
+                                    bmi:
+                                        account.unit === Unit.METRIC
+                                            ? calculateBmiInMetric(account.weight, account.height).toFixed(2)
+                                            : calculateBmiInImperial(account.weight, account.height).toFixed(2)
+                                })
+                            )}
+                        {generateListItemText(
+                            t('page.dashboard.profile.memberSince', {
+                                datetime: convertStringToDateWithLocale(user?.metadata?.creationTime)
+                            })
+                        )}
                         <ListItem disablePadding sx={{ marginTop: 1 }}>
                             <Button
                                 fullWidth

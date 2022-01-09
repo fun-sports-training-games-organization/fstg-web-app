@@ -188,7 +188,9 @@
             },
             "profile": {
                 "title": "Profil",
-                "memberSince": "Mitglied seit {{datetime}}"
+                "memberSince": "Mitglied seit {{datetime}}",
+                "age": "Alter: {{age}}",
+                "bmi": "KMZ: {{bmi}}"
             },
             "showMore": "Mehr anzeigen...",
             "toAccount": "Gehe zu Konto"
@@ -200,13 +202,15 @@
                 "email": "E-mail",
                 "password": "Kennwort"
             },
-            "registration": {
-                "username": "Benutzername (optional)",
+            "profile": {
+                "nickname": "Spitzname (optional)",
                 "firstName": "Vorname",
                 "lastName": "Nachname",
                 "email": "E-mail",
-                "password": "Kennwort",
-                "confirmPassword": "Kennwort bestätigen"
+                "dateOfBirth": "Geburtsdatum",
+                "height": "Höhe",
+                "weight": "Gewicht",
+                "gender": "Geschlecht"
             },
             "exercise": {
                 "name": "Name der Übung",
@@ -226,6 +230,19 @@
             },
             "account": {
                 "profilePicture": "Profilbild"
+            }
+        },
+        "options": {
+            "profile": {
+                "gender": {
+                    "male": "Mann",
+                    "female": "Weiblich",
+                    "other": "Andere"
+                },
+                "unit": {
+                    "metric": "Metrisch",
+                    "imperial": "Imperial"
+                }
             }
         },
         "button": {
