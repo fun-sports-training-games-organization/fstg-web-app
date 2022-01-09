@@ -323,6 +323,9 @@ const DoWorkout: FC = () => {
     };
 
     const closeExerciseResultDialog = () => {
+        setExercises(
+            exercises.map((e) => (exerciseBeingEdited && e.id === exerciseBeingEdited.id ? exerciseBeingEdited : e))
+        );
         setIsExerciseResultDialogOpen(false);
         if (currentExerciseIndex + 1 >= exercises.length) {
             setIsCompleteWorkoutDialogOpen(true);
@@ -457,11 +460,7 @@ const DoWorkout: FC = () => {
                             )}
                             value={exerciseBeingEdited.resultValue}
                             itemToUpdate={exerciseBeingEdited}
-                            updateItem={(item) => {
-                                const eip = item as ExerciseInProgress;
-                                setExerciseBeingEdited(eip);
-                                setExercises(exercises.map((e) => (e.id === exerciseBeingEdited.id ? eip : e)));
-                            }}
+                            updateItem={(item) => setExerciseBeingEdited(item as ExerciseInProgress)}
                         />
                     }
                     onClose={closeExerciseResultDialog}
