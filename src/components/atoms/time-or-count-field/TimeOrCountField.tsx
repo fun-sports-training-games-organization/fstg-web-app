@@ -16,7 +16,7 @@ type TimeOrCountFieldProps = {
 const TimeOrCountField = ({
     show = true,
     resultType = 'COUNT_BASED',
-    timeLabel: label = 'Time label',
+    timeLabel = 'Time label',
     value = 0,
     itemToUpdate,
     updateItem,
@@ -37,7 +37,7 @@ const TimeOrCountField = ({
                     />
                 ) : (
                     <TimeField
-                        label={label}
+                        label={timeLabel}
                         value={value}
                         setValue={(seconds: number) => {
                             itemToUpdate && updateItem && updateItem({ ...itemToUpdate, resultValue: seconds });
