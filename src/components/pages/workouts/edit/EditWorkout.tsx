@@ -121,7 +121,8 @@ const EditWorkout: FC = () => {
                             autoFocus
                             margin="dense"
                             id={`${idPrefix}name`}
-                            label="Workout Name"
+                            // TODO : localize this...
+                            label={t('Workout name')}
                             type="text"
                             fullWidth
                             value={workout.name}

@@ -131,6 +131,7 @@ const ManageWorkoutExercises = ({ parentIdPrefix, workout, setWorkout }: Props):
                     <AutoCompleteSelect
                         key={`${exerciseItemPrefix}${index}__auto-complete-select`}
                         id={`${exerciseItemPrefix}${index}`}
+                        // TODO : localize this!
                         label={`Exercise ${index + 1}`}
                         value={getValue(exerciseWorkoutSettings)}
                         options={exercises}
