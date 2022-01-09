@@ -307,5 +307,14 @@
         "mustContainLowercase": "Deve contenere almeno una lettera minuscola!",
         "mustContainUppercase": "Deve contenere almeno una lettera maiuscola!"
     },
-    "Push Ups": "Flessioni"
+    "Rest": "Pausa",
+    "Jumping Jacks": "Salti mortali",
+    "Prepare": "Preparare",
+    "Squats": "Piegamenti",
+    "Push-Ups": "Flessioni",
+    "Burpees": "Burpees",
+    "Jogging": "Jogging",
+    "Lunges": "Affondi",
+    "T Superman": "T Superman",
+    "Pull-up Superman": "Tirata Superman"
 }
