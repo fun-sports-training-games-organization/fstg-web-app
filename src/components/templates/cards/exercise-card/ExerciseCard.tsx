@@ -12,8 +12,10 @@ import { useTranslation } from 'react-i18next';
 import PageTitle from '../../../atoms/page-title/PageTitle';
 import ExerciseCardItem from './ExerciseCardItem';
 import Loader from '../../../atoms/loader/Loader';
+import { DraggableProps } from '../dashboard-card/DashboardCard.types';
+import { FC } from 'react';
 
-const ExerciseCard = (): JSX.Element => {
+const ExerciseCard: FC<DraggableProps> = ({ id, index, moveCard }: DraggableProps): JSX.Element => {
     const history = useHistory();
     const { t } = useTranslation();
     const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
@@ -25,6 +27,9 @@ const ExerciseCard = (): JSX.Element => {
         <Loader />
     ) : exercises.length > 0 ? (
         <DashboardCard
+            id={id}
+            index={index}
+            moveCard={moveCard}
             cardProps={{ elevation: 5 }}
             cardHeaderProps={{ title: ExerciseTitle, ...(smDown && { sx: { paddingBottom: 0 } }) }}
             cardContentProps={smDown ? { sx: { paddingTop: 0 } } : undefined}
@@ -65,6 +70,9 @@ const ExerciseCard = (): JSX.Element => {
         </DashboardCard>
     ) : (
         <EmptyCard
+            id={id}
+            index={index}
+            moveCard={moveCard}
             title={ExerciseTitle}
             message={
                 <Stack spacing={2} alignItems={'center'}>

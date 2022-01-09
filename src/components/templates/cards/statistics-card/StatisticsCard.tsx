@@ -3,10 +3,18 @@ import ExerciseIcon from '../../../../assets/exercise.png';
 import { DirectionsRun, FitnessCenter, Pool } from '@mui/icons-material';
 import DashboardCard from '../dashboard-card/DashboardCard';
 import * as React from 'react';
+import { FC } from 'react';
+import { DraggableProps } from '../dashboard-card/DashboardCard.types';
 
-const StatisticsCard = (): JSX.Element => {
+const StatisticsCard: FC<DraggableProps> = ({ id, index, moveCard }: DraggableProps): JSX.Element => {
     return (
-        <DashboardCard cardProps={{ elevation: 5 }} cardHeaderProps={{ title: 'Statistics' }}>
+        <DashboardCard
+            id={id}
+            index={index}
+            moveCard={moveCard}
+            cardProps={{ elevation: 5 }}
+            cardHeaderProps={{ title: 'Statistics' }}
+        >
             <Grid container spacing={1} alignItems={'center'} alignContent={'center'} justifyContent={'space-between'}>
                 <Grid item xs={4}>
                     <img
