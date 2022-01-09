@@ -156,6 +156,7 @@
             }
         },
         "manageExercises": {
+            "exercise": "Übung",
             "exercises": "Übungen"
         },
         "manageWorkouts": {
@@ -163,7 +164,7 @@
         },
         "editWorkout": {
             "createWorkout": "Training erstellen",
-            "editWorkout": "Training editieren"
+            "editWorkout": "Training bearbeiten"
         },
         "startWorkout": {
             "title": "Training starten"
@@ -176,15 +177,16 @@
             "workoutCompletedIn": "Training abgeschlossen in"
         },
         "dashboard": {
-            "blankExercise": {
+            "exercise": {
                 "title": "Übungen",
                 "message": "Sie haben derzeit keine Übungen zur Verfügung! Wenn Sie jetzt eine hinzufügen möchten, gehen Sie bitte zur Übungsseite!",
                 "button": "Gehe zu Übungen"
             },
-            "blankWorkout": {
+            "workout": {
                 "title": "Trainingseinheiten",
                 "message": "Entschuldigung, aber Sie haben noch keine Trainingseinheiten! Bitte erstellen Sie jetzt eine!",
-                "button": "Gehe zu Trainingseinheiten"
+                "button": "Gehe zu Trainingseinheiten",
+                "tooltip": "Starte dieses Training jetzt!"
             },
             "profile": {
                 "title": "Profil",
@@ -236,6 +238,9 @@
                 "resultType": "Ergebnistyp",
                 "useDefaultResult": "Standardergebnis verwenden",
                 "defaultResult": "Standardergebnis"
+            },
+            "workout": {
+                "name": "Training-Name"
             }
         },
         "options": {

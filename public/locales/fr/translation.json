@@ -156,6 +156,7 @@
             }
         },
         "manageExercises": {
+            "exercise": "Exercice",
             "exercises": "Exercices"
         },
         "manageWorkouts": {
@@ -176,15 +177,16 @@
             "workoutCompletedIn": "Entraînement terminé en"
         },
         "dashboard": {
-            "blankExercise": {
+            "exercise": {
                 "title": "Exercices",
                 "message": "Vous n'avez actuellement aucun exercice disponible! Si vous souhaitez en ajouter un maintenant, veuillez vous rendre sur la page des exercices!",
                 "button": "Aller aux exercices"
             },
-            "blankWorkout": {
+            "workout": {
                 "title": "Entraînements",
                 "message": "Désolé, mais vous n'avez pas encore d'entraînement! Veuillez en créer un maintenant!",
-                "button": "Aller aux entraînements"
+                "button": "Aller aux entraînements",
+                "tooltip": "Commencez cette séance d'entraînement maintenant!"
             },
             "profile": {
                 "title": "Profil",
@@ -236,6 +238,9 @@
                 "resultType": "Type de résultat",
                 "useDefaultResult": "Utiliser le résultat par défaut",
                 "defaultResult": "Résultat par défaut"
+            },
+            "workout": {
+                "name": "Nom de l'entraînement"
             }
         },
         "options": {
