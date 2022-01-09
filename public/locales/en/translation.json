@@ -210,7 +210,8 @@
                 "dateOfBirth": "Date of Birth",
                 "height": "Height",
                 "weight": "Weight",
-                "gender": "Gender"
+                "gender": "Gender",
+                "profilePicture": "Profile Picture"
             },
             "registration": {
                 "nickname": "Nickname (Optional)",
@@ -235,9 +236,6 @@
                 "resultType": "Result Type",
                 "useDefaultResult": "Use Default Result",
                 "defaultResult": "Default Result"
-            },
-            "profile": {
-                "profilePicture": "Profile Picture"
             }
         },
         "options": {

@@ -210,7 +210,16 @@
                 "dateOfBirth": "Geburtsdatum",
                 "height": "Höhe",
                 "weight": "Gewicht",
-                "gender": "Geschlecht"
+                "gender": "Geschlecht",
+                "profilePicture": "Profilbild"
+            },
+            "registration": {
+                "nickname": "Spitzname (optional)",
+                "firstName": "Vorname",
+                "lastName": "Nachname",
+                "email": "E-mail",
+                "password": "Passwort",
+                "confirmPassword": "Passwort bestätigen"
             },
             "exercise": {
                 "name": "Name der Übung",
@@ -227,9 +236,6 @@
                 "resultType": "Ergebnistyp",
                 "useDefaultResult": "Standardergebnis verwenden",
                 "defaultResult": "Standardergebnis"
-            },
-            "profile": {
-                "profilePicture": "Profilbild"
             }
         },
         "options": {

@@ -176,7 +176,7 @@
             "workoutCompletedIn": "Entraînement terminé en"
         },
         "dashboard": {
-            "exercice vierge": {
+            "blankExercise": {
                 "title": "Exercices",
                 "message": "Vous n'avez actuellement aucun exercice disponible! Si vous souhaitez en ajouter un maintenant, veuillez vous rendre sur la page des exercices!",
                 "button": "Aller aux exercices"
@@ -210,7 +210,8 @@
                 "dateOfBirth": "Date de naissance",
                 "height": "Hauteur",
                 "weight": "Poids",
-                "genre": "Genre"
+                "genre": "Genre",
+                "profilePicture": "Image de profil"
             },
             "registration": {
                 "nickname": "Surnom (facultatif)",
@@ -235,9 +236,6 @@
                 "resultType": "Type de résultat",
                 "useDefaultResult": "Utiliser le résultat par défaut",
                 "defaultResult": "Résultat par défaut"
-            },
-            "profile": {
-                "profilePicture": "Image de profil"
             }
         },
         "options": {
