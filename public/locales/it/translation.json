@@ -5,7 +5,8 @@
         "exercises": "Esercizi",
         "workouts": "Allenamenti",
         "profile": "Profilo",
-        "logout": "Logout"
+        "logout": "Logout",
+        "statistics": "Statistiche"
     },
     "actionMenu": {
         "workout": {
@@ -76,7 +77,8 @@
         "ok": "OK",
         "workout": "Allenamento",
         "completedIn": "Completato in",
-        "repsCompleted": "Ripetizioni completate"
+        "repsCompleted": "Ripetizioni completate",
+        "notYetImplemented": "Questa funzionalità non è ancora implementata. Speriamo di averla pronta presto!"
     },
     "auth": {
         "message": {
@@ -196,6 +198,14 @@
             },
             "showMore": "Mostra di più...",
             "goToProfile": "Vai al profilo"
+        },
+        "statistics": {
+            "records": {
+                "title": "Records",
+                "message": "Spiacente, ma non hai ancora completato nessun allenamento per il quale si possano calcolare i totali dei risultati, e questo significa che non hai ancora nessun record! Per favore vai alla pagina degli allenamenti e trova un allenamento da fare adesso! Se vuoi trovarne uno che compaia qui nei tuoi record, deve avere almeno un esercizio per il quale i risultati vengono registrati e tutti gli esercizi per i quali i risultati vengono registrati devono avere lo stesso tipo di risultato.",
+                "button": "Vai agli allenamenti",
+                "tooltip": "Visualizza ulteriori informazioni su questo record"
+            }
         }
     },
     "form": {
