@@ -22,6 +22,7 @@ import HeaderBar from '../header-bar/HeaderBar';
 import LanguageMenu from '../../molecules/menus/language-menu/LanguageMenu';
 import MenuButton from '../../molecules/menus/menu-button/MenuButton';
 import { useTranslation } from 'react-i18next';
+import Logo from '../../../assets/fstg-logo.png';
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' && prop !== 'drawerWidth' })<{
     open?: boolean;
@@ -128,14 +129,26 @@ const PersistentDrawer: FC<PersistentDrawerProps> = ({
                 {user ? (
                     <Toolbar>
                         <Typography color={'white'} variant="h6" noWrap sx={{ flexGrow: 1 }} component="div">
-                            {/* We can use a static string here because the name of the app will not change. */}
-                            Fun Sports Training Games
+                            <Stack direction={'row'} alignItems={'center'}>
+                                {/* We can use a static string here because the name of the app will not change. */}
+                                Fun Sports Training Games
+                                <img
+                                    src={Logo}
+                                    style={{ height: 25, width: 25, marginLeft: 10, borderRadius: 3 }}
+                                    alt={'logo'}
+                                />
+                            </Stack>
                         </Typography>
+
                         {!smDown && (
                             <MenuButton
                                 buttonElement={<Avatar sx={{ height: 30, width: 30 }} src={photoURL} />}
                                 menuItems={[
-                                    { text: t('nav.profile'), icon: 'person', onClick: () => history.push('/profile') },
+                                    {
+                                        text: t('nav.profile'),
+                                        icon: 'person',
+                                        onClick: () => history.push('/profile')
+                                    },
                                     { text: t('nav.logout'), icon: 'logout', onClick: () => logout && logout() }
                                 ]}
                             />
