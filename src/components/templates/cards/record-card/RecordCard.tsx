@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { FC, useState } from 'react';
 import { Avatar, Button, Grid, List, ListItem, Stack, Theme, Typography, useMediaQuery } from '@mui/material';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import DashboardCard from '../dashboard-card/DashboardCard';
@@ -14,8 +14,9 @@ import { getRecords } from '../../../../util/workout-util';
 import NotYetImplementedDialog from '../../../molecules/not-yet-implemented-dialog/NotYetImplementedDialog';
 import { useHistory } from 'react-router-dom';
 import { toManageWorkouts } from '../../../../util/navigation-util';
+import { DraggableProps } from '../dashboard-card/DashboardCard.types';
 
-const RecordCard = (): JSX.Element => {
+const RecordCard: FC<DraggableProps> = ({ id, index, moveCard }: DraggableProps): JSX.Element => {
     const { t } = useTranslation();
     const history = useHistory();
     const goToWorkouts = () => toManageWorkouts(history);
@@ -28,6 +29,9 @@ const RecordCard = (): JSX.Element => {
     ) : workoutResults.length > 0 ? (
         <>
             <DashboardCard
+                id={id}
+                index={index}
+                moveCard={moveCard}
                 cardProps={{ elevation: 5 }}
                 cardHeaderProps={{ title: RecordsTitle, ...(smDown && { sx: { paddingBottom: 0 } }) }}
                 cardContentProps={smDown ? { sx: { paddingTop: 0 } } : undefined}
@@ -74,6 +78,9 @@ const RecordCard = (): JSX.Element => {
         </>
     ) : (
         <EmptyCard
+            id={id}
+            index={index}
+            moveCard={moveCard}
             title={RecordsTitle}
             message={
                 <Stack spacing={2} alignItems={'center'}>
