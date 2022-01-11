@@ -46,7 +46,11 @@ const RecordCard: FC<DraggableProps> = ({ id, index, moveCard }: DraggableProps)
                     <Grid item md={1} />
                     <Grid item xs={4}>
                         <EmojiEventsIcon
-                            sx={{ transform: { xs: 'scale(5)', sm: 'scale(6)', md: 'scale(8)' }, color: 'gold' }}
+                            sx={{
+                                transform: { xs: 'scale(5)', sm: 'scale(6)', md: 'scale(8)' },
+                                marginLeft: { xs: 4, md: 5 },
+                                color: 'gold'
+                            }}
                         />
                     </Grid>
                     <Grid item xs={6}>

@@ -103,7 +103,7 @@ const ProfileCard: FC<DraggableProps> = ({ id, index, moveCard }: DraggableProps
                                 textAlign: 'center',
                                 maxWidth: '100%',
                                 height: 'auto',
-                                borderRadius: 100
+                                borderRadius: '50%'
                             }}
                             src={profilePictureURL}
                             alt={'profile pic'}
