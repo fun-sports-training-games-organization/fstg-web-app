@@ -520,7 +520,10 @@ const DoWorkout: FC = () => {
                                                     value={e.resultValue}
                                                     itemToUpdate={e}
                                                     updateItem={(item) => {
-                                                        setCurrentExercise(item as ExerciseInProgress);
+                                                        const eip = item as ExerciseInProgress;
+                                                        setExercises(
+                                                            exercises.map((ex) => (ex.id === eip.id ? eip : ex))
+                                                        );
                                                     }}
                                                 />
                                             );
