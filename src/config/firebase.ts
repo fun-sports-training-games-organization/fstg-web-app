@@ -3,6 +3,10 @@ import { rootReducer } from '../reducers';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
+import 'firebase/compat/storage';
+
 import firebaseConfig from './firebaseConfig';
 import { createFirestoreInstance } from 'redux-firestore';
 import { getAuth } from 'firebase/auth';

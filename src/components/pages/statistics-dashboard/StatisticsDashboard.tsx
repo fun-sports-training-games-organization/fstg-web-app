@@ -2,16 +2,21 @@ import * as React from 'react';
 import { Stack } from '@mui/material';
 import ResponsiveContainer from '../../templates/containers/responsive-container/ResponsiveContainer';
 import RecordCard from '../../templates/cards/record-card/RecordCard';
-// import StatisticsCard from '../../templates/cards/statistics-card/StatisticsCard';
 
-const statistics = (): JSX.Element => {
+const StatisticsDashboard = (): JSX.Element => {
     return (
         <ResponsiveContainer>
             <Stack spacing={2} padding={2}>
-                <RecordCard />
+                <RecordCard
+                    id={1}
+                    index={1}
+                    moveCard={() => {
+                        // will need to eventually implement this so that it can be re-arrangeable when there are more items here!
+                    }}
+                />
             </Stack>
         </ResponsiveContainer>
     );
 };
 
-export default statistics;
+export default StatisticsDashboard;
