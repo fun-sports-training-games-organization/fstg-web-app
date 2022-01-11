@@ -43,7 +43,7 @@ const WorkoutCard: FC<DraggableProps> = ({ id, index, moveCard }: DraggableProps
                             textAlign: 'center',
                             maxWidth: '100%',
                             height: 'auto',
-                            borderRadius: 100
+                            borderRadius: '50%'
                         }}
                         src={WorkoutIcon}
                         alt={'workout icon'}
