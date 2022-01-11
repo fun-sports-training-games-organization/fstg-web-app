@@ -22,6 +22,7 @@ import HeaderBar from '../header-bar/HeaderBar';
 import LanguageMenu from '../../molecules/menus/language-menu/LanguageMenu';
 import MenuButton from '../../molecules/menus/menu-button/MenuButton';
 import { useTranslation } from 'react-i18next';
+import ThemeMenu from '../../molecules/menus/theme-menu/ThemeMenu';
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' && prop !== 'drawerWidth' })<{
     open?: boolean;
@@ -178,7 +179,10 @@ const PersistentDrawer: FC<PersistentDrawerProps> = ({
                         alignItems={'center'}
                         justifyContent={'space-between'}
                     >
-                        <LanguageMenu color={'#00000087'} />
+                        <Stack direction={'row'} spacing={2}>
+                            <ThemeMenu color={'#00000087'} />
+                            <LanguageMenu color={'#00000087'} />
+                        </Stack>
                         <IconButton onClick={handleDrawerClose}>
                             <CloseIcon />
                         </IconButton>

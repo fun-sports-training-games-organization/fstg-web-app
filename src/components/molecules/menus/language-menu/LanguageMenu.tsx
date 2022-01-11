@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Language as LanguageIcon } from '@mui/icons-material';
+import { Translate } from '@mui/icons-material';
 import ListItemText from '@mui/material/ListItemText';
 import { useTranslation } from 'react-i18next';
 import { MenuItem, MenuList } from '@mui/material';
@@ -17,7 +17,7 @@ const LanguageMenu: FC<LanguageMenuProps> = ({ color = 'white' }: LanguageMenuPr
     };
 
     return (
-        <MenuIcon icon={<LanguageIcon style={{ color }} />}>
+        <MenuIcon icon={<Translate style={{ color }} />}>
             <MenuList>
                 {locales.map((locale: Locale) => (
                     <MenuItem key={locale.key} onClick={(): Promise<void> => handleSelect(locale.value)}>
