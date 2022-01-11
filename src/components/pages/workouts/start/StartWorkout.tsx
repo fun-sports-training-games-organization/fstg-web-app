@@ -4,7 +4,7 @@ import { Workout } from '../../../../model/Workout.model';
 import { getPageIdPrefix } from '../../../../util/id-util';
 import ExercisesContent from '../../../organisms/exercises-content/ExercisesContent';
 import { getNewEmptyWorkout } from '../../../../util/workout-util';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Grid, IconButton, Stack } from '@mui/material';
 import { PlayArrow } from '@mui/icons-material';
 import theme from '../../../../theme/theme';
@@ -13,14 +13,13 @@ import ExercisesTimeRepsIcons from '../../../organisms/exercises-time-reps-icons
 import { v4 as uuidv4 } from 'uuid';
 import PageTitleActionButton from '../../../molecules/page-title-action/PageTitleAction';
 import { TypographyOverrideable } from '../../../atoms/typography-overrideable/TypographyOverridable';
-import * as navigate from '../../../../util/navigation-util';
 import ResponsiveContainer from '../../../templates/containers/responsive-container/ResponsiveContainer';
+import { toDoWorkout } from '../../../../util/navigation-util';
 
 const StartWorkout: FC = () => {
     const pageName = 'start_workout';
     const idPrefix = getPageIdPrefix(pageName);
     const params = useParams() as Id;
-    const history = useHistory();
     const workoutId = params?.id ? params.id : undefined;
     const { findById } = useEntityManager<Workout>('workouts');
 
@@ -43,16 +42,13 @@ const StartWorkout: FC = () => {
             <Grid container direction="column" justifyContent="space-between" alignItems="stretch">
                 <PageTitleActionButton
                     postTitleActionButton={
-                        <IconButton
-                            onClick={() => workout.id && navigate.toDoWorkout(workout.id)}
-                            sx={{ marginRight: 3 }}
-                        >
+                        <IconButton onClick={() => workout.id && toDoWorkout(workout.id)} sx={{ marginRight: 3 }}>
                             <PlayArrow htmlColor={'black'} transform="scale(3)" />
                         </IconButton>
                     }
                     titleTranslationKey="page.startWorkout.title"
                     idPrefix={idPrefix}
-                ></PageTitleActionButton>
+                />
                 <Stack
                     mt={2}
                     mr={{ xs: 0, sm: 2 }}
@@ -75,7 +71,7 @@ const StartWorkout: FC = () => {
                         parentIdPrefix={idPrefix}
                         typographySx={{ lineHeight: 2.2, marginLeft: '0.7rem' }}
                         rowGap="1vh"
-                    ></ExercisesContent>
+                    />
                     <Grid
                         mt={5}
                         mb={2}

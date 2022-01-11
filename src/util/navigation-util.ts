@@ -31,3 +31,7 @@ export const toExercises = (): void => {
 export const toProfile = (): void => {
     history.push('/profile');
 };
+
+export const toErrorPage = (): void => {
+    history.push('/server-error-500');
+};

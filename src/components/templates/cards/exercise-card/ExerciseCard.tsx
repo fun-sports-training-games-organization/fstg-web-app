@@ -4,8 +4,6 @@ import DashboardCard from '../dashboard-card/DashboardCard';
 import * as React from 'react';
 import useEntityManager from '../../../../hooks/useEntityManager';
 import { Exercise } from '../../../../model/Exercise.model';
-import * as navigate from '../../../../util/navigation-util';
-import { useHistory } from 'react-router-dom';
 import EmptyCard from '../../blank-slate/template/empty-card/EmptyCard';
 import Fitness from '../../../../assets/fitness.png';
 import { useTranslation } from 'react-i18next';
@@ -14,14 +12,13 @@ import ExerciseCardItem from './ExerciseCardItem';
 import Loader from '../../../atoms/loader/Loader';
 import { DraggableProps } from '../dashboard-card/DashboardCard.types';
 import { FC } from 'react';
+import { toExercises } from '../../../../util/navigation-util';
 
 const ExerciseCard: FC<DraggableProps> = ({ id, index, moveCard }: DraggableProps): JSX.Element => {
-    const history = useHistory();
     const { t } = useTranslation();
     const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
     const { entities: exercises, loading } = useEntityManager<Exercise>('exercises');
 
-    const goToExercisePage = () => navigate.toExercises();
     const ExerciseTitle = <PageTitle translationKey={'page.dashboard.exercise.title'} align={'center'} />;
     return loading ? (
         <Loader />
@@ -58,7 +55,7 @@ const ExerciseCard: FC<DraggableProps> = ({ id, index, moveCard }: DraggableProp
                                 fullWidth
                                 style={{ textTransform: 'none' }}
                                 variant={'contained'}
-                                onClick={goToExercisePage}
+                                onClick={toExercises}
                                 color={'primary'}
                             >
                                 {t('page.dashboard.showMore')}
@@ -83,7 +80,7 @@ const ExerciseCard: FC<DraggableProps> = ({ id, index, moveCard }: DraggableProp
                 </Stack>
             }
             buttonText={t('page.dashboard.exercise.button')}
-            buttonAction={goToExercisePage}
+            buttonAction={toExercises}
         />
     );
 };

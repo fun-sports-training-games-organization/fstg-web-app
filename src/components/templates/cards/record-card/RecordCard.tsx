@@ -12,14 +12,11 @@ import { WorkoutResult } from '../../../../model/Workout.model';
 import Loader from '../../../atoms/loader/Loader';
 import { getRecords } from '../../../../util/workout-util';
 import NotYetImplementedDialog from '../../../molecules/not-yet-implemented-dialog/NotYetImplementedDialog';
-import { useHistory } from 'react-router-dom';
 import { toManageWorkouts } from '../../../../util/navigation-util';
 import { DraggableProps } from '../dashboard-card/DashboardCard.types';
 
 const RecordCard: FC<DraggableProps> = ({ id, index, moveCard }: DraggableProps): JSX.Element => {
     const { t } = useTranslation();
-    const history = useHistory();
-    const goToWorkouts = () => toManageWorkouts();
     const [isNotYetImplementedDialogOpen, setIsNotYetImplementedDialogOpen] = useState<boolean>(false);
     const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
     const { entities: workoutResults, loading } = useEntityManager<WorkoutResult>('workoutResults', true);
@@ -102,7 +99,7 @@ const RecordCard: FC<DraggableProps> = ({ id, index, moveCard }: DraggableProps)
                 </Stack>
             }
             buttonText={t('page.statistics.records.button')}
-            buttonAction={goToWorkouts}
+            buttonAction={toManageWorkouts}
         />
     );
 };
