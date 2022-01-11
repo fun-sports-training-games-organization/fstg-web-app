@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { DarkMode } from '@mui/icons-material';
 import ListItemText from '@mui/material/ListItemText';
-import { MenuItem, MenuList, Theme } from '@mui/material';
+import { MenuItem, MenuList } from '@mui/material';
 import MenuIcon from '../../../atoms/menu-icon/MenuIcon';
 import { useTheme } from '../../../../contexts/ThemeContextProvider';
 import { ThemeOption, themes } from '../../../../config/themes';
@@ -13,7 +13,7 @@ type ThemeMenuProps = {
 const ThemeMenu: FC<ThemeMenuProps> = ({ color = 'white' }: ThemeMenuProps) => {
     const { changeTheme } = useTheme();
 
-    const handleSelect = (theme: Theme): void => {
+    const handleSelect = (theme: string): void => {
         changeTheme(theme);
     };
 
@@ -21,7 +21,7 @@ const ThemeMenu: FC<ThemeMenuProps> = ({ color = 'white' }: ThemeMenuProps) => {
         <MenuIcon icon={<DarkMode style={{ color }} />}>
             <MenuList>
                 {themes.map((theme: ThemeOption) => (
-                    <MenuItem key={theme.key} onClick={(): void => handleSelect(theme.value)}>
+                    <MenuItem key={theme.key} onClick={(): void => handleSelect(theme.key)}>
                         <ListItemText primary={theme.text} />
                     </MenuItem>
                 ))}
