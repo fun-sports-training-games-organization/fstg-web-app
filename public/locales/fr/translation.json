@@ -5,7 +5,8 @@
         "exercises": "Exercices",
         "workouts": "Entraînements",
         "profile": "Profil",
-        "logout": "Logout"
+        "logout": "Logout",
+        "statistics": "Statistiques"
     },
     "actionMenu": {
         "workout": {
@@ -77,7 +78,8 @@
         "workout": "Entraînement",
         "completedIn": "Terminé en",
         "repsCompleted": "répétitions terminées",
-        "repsCompletedNotSentenceBegin": "répétitions terminées"
+        "repsCompletedNotSentenceBegin": "répétitions terminées",
+        "notYetImplemented": "Cette fonctionnalité n'est pas encore mise en œuvre. Nous espérons qu'elle sera bientôt prête !"
     },
     "auth": {
         "message": {
@@ -197,6 +199,14 @@
             },
             "showMore": "Montre plus...",
             "goToProfile": "Aller au Profil"
+        },
+        "statistics": {
+            "records": {
+                "title": "Records",
+                "message": "Désolé, mais vous n'avez pas encore effectué de séances d'entraînement pour lesquelles des totaux de résultats peuvent être calculés, ce qui signifie que vous n'avez pas encore de records non plus ! Veuillez vous rendre sur la page des entraînements et trouver un entraînement à faire maintenant ! Si vous voulez en trouver une qui apparaîtra ici dans vos enregistrements, elle doit comporter au moins un exercice pour lequel des résultats sont enregistrés et tous les exercices pour lesquels des résultats sont enregistrés doivent avoir le même type de résultat.",
+                "button": "Aller aux entraînements",
+                "tooltip": "Voir plus d'informations sur ce record"
+            }
         }
     },
     "form": {

@@ -39,7 +39,8 @@ function App(): JSX.Element {
     const topMenuListItems: MenuListItem[] = [
         { key: 'dashboard', text: t('nav.dashboard'), icon: 'dashboard', path: '/dashboard' },
         { key: 'exercises', text: t('nav.exercises'), icon: 'fitness_center', path: '/exercises' },
-        { key: 'workouts', text: t('nav.workouts'), icon: 'directions_run', path: '/workouts' }
+        { key: 'workouts', text: t('nav.workouts'), icon: 'directions_run', path: '/workouts' },
+        { key: 'statistics', text: t('nav.statistics'), icon: 'insights', path: '/statistics' }
     ];
 
     const bottomMenuList: MenuListItem[] | undefined = smDown

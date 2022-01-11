@@ -13,6 +13,7 @@ import NoAuthRoute from './NoAuthRoute';
 import PageNotFoundPage from '../components/pages/error/PageNotFoundPage';
 import Dashboard from '../components/pages/dashboard/Dashboard';
 import Profile from '../components/pages/profile/Profile';
+import StatisticsDashboard from '../components/pages/statistics-dashboard/StatisticsDashboard';
 
 const routes: IRoute[] = [
     {
@@ -83,6 +84,13 @@ const routes: IRoute[] = [
         exact: true,
         component: ManageWorkouts,
         key: 'Manage Workouts',
+        Route: AuthRoute
+    },
+    {
+        path: '/statistics',
+        exact: true,
+        component: StatisticsDashboard,
+        key: 'Statistics Dashboard',
         Route: AuthRoute
     },
     {

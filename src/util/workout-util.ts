@@ -1,4 +1,4 @@
-import { Workout } from '../model/Workout.model';
+import { Workout, WorkoutResult } from '../model/Workout.model';
 import { v4 as uuidv4 } from 'uuid';
 import { getNewEmptyExerciseWorkoutSettings } from './exercise-util';
 import { FormEvent } from 'react';
@@ -26,4 +26,56 @@ export const getShouldSubmitAndNavigate = (
         submitterDataTestId !== 'fstg__create-edit-exercise-form__submit_button' ||
         submitter?.outerText.toLowerCase() === t('global.save').toLowerCase();
     return { shouldSubmit, shouldNavigate };
+};
+
+export const getRecordValid = (workoutResults: WorkoutResult[]): WorkoutResult[] => {
+    return workoutResults.filter((w) => {
+        let allAreSame = true;
+        for (let i = 0; i + 1 < w.exercises.length; i++) {
+            if (w.exercises[i].amountType !== w.exercises[i + 1].amountType) {
+                allAreSame = false;
+                break;
+            }
+        }
+        return allAreSame;
+    });
+};
+
+export const getMostRecent = (workoutResults: WorkoutResult[]): WorkoutResult => {
+    return workoutResults.reduce((a, b) =>
+        (a?.createdUTCMilliseconds ? a.createdUTCMilliseconds : 0) >=
+        (b?.createdUTCMilliseconds ? b?.createdUTCMilliseconds : 0)
+            ? a
+            : b
+    );
+};
+
+export const getRecords = (workoutResults: WorkoutResult[], maxRecords = 100): WorkoutResult[] => {
+    const records = [];
+    const originalValid = getRecordValid(workoutResults);
+    let filteredValid = [...originalValid];
+    for (let i = 0; (filteredValid ? filteredValid.length : 0) > 0 && i < maxRecords; i++) {
+        const mostRecentValid = getMostRecent(filteredValid);
+        const allMostRecentValid = filteredValid.filter((w) => w.workoutId === mostRecentValid.workoutId);
+        let bestMostRecentValid;
+        if (mostRecentValid.exercises.length > 0 && mostRecentValid.exercises[0].resultType === 'TIME_BASED') {
+            bestMostRecentValid = allMostRecentValid.reduce((a: WorkoutResult, b: WorkoutResult) =>
+                a.exercises.map((e) => (e.resultValue ? e.resultValue : 0)).reduce((c, d) => c + d) <=
+                b.exercises.map((e) => (e.resultValue ? e.resultValue : 0)).reduce((e, f) => e + f)
+                    ? a
+                    : b
+            );
+        } else {
+            bestMostRecentValid = allMostRecentValid.reduce((a: WorkoutResult, b: WorkoutResult) =>
+                a.exercises.map((e) => (e.resultValue ? e.resultValue : 0)).reduce((c, d) => c + d) >=
+                b.exercises.map((e) => (e.resultValue ? e.resultValue : 0)).reduce((e, f) => e + f)
+                    ? a
+                    : b
+            );
+        }
+        records.push(bestMostRecentValid);
+        filteredValid = filteredValid.filter((w) => w.workoutId !== mostRecentValid.workoutId);
+    }
+
+    return records;
 };
