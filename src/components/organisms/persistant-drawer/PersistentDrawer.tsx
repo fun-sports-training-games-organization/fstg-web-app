@@ -22,7 +22,8 @@ import HeaderBar from '../header-bar/HeaderBar';
 import LanguageMenu from '../../molecules/menus/language-menu/LanguageMenu';
 import MenuButton from '../../molecules/menus/menu-button/MenuButton';
 import { useTranslation } from 'react-i18next';
-import Logo from '../../../assets/fstg-logo.png';
+import Logo from '../../../assets/fstg-logo-35x35.png';
+import { toBase } from '../../../util/navigation-util';
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' && prop !== 'drawerWidth' })<{
     open?: boolean;
@@ -91,6 +92,10 @@ const PersistentDrawer: FC<PersistentDrawerProps> = ({
 
     const [open, setOpen] = useState(false);
 
+    const navigateToBase = () => {
+        toBase(history);
+    };
+
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -130,13 +135,19 @@ const PersistentDrawer: FC<PersistentDrawerProps> = ({
                     <Toolbar>
                         <Typography color={'white'} variant="h6" noWrap sx={{ flexGrow: 1 }} component="div">
                             <Stack direction={'row'} alignItems={'center'}>
-                                {/* We can use a static string here because the name of the app will not change. */}
-                                Fun Sports Training Games
                                 <img
+                                    onClick={navigateToBase}
                                     src={Logo}
-                                    style={{ height: 25, width: 25, marginLeft: 10, borderRadius: 3 }}
+                                    style={{
+                                        height: 35,
+                                        width: 35,
+                                        marginRight: 10,
+                                        cursor: 'pointer'
+                                    }}
                                     alt={'logo'}
                                 />
+                                {/* We can use a static string here because the name of the app will not change. */}
+                                Fun Sports Training Games
                             </Stack>
                         </Typography>
 
