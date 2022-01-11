@@ -58,7 +58,7 @@ const EditWorkout: FC = () => {
                 notification.updateSuccess(enqueueSnackbar, t, workout.name);
 
                 if (shouldNavigate) {
-                    navigate.toManageWorkouts(history);
+                    navigate.toManageWorkouts();
                     setWorkout(getNewEmptyWorkout());
                 }
             })
@@ -75,9 +75,9 @@ const EditWorkout: FC = () => {
                 setWorkout(getNewEmptyWorkout());
 
                 if (navigateToManageWorkouts) {
-                    navigate.toManageWorkouts(history);
+                    navigate.toManageWorkouts();
                 } else {
-                    navigate.toEditWorkout(history, id);
+                    navigate.toEditWorkout(id);
                 }
             })
             .catch(() => {

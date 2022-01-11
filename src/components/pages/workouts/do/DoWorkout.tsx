@@ -229,7 +229,7 @@ const DoWorkout: FC = () => {
                             `${t('notifications.workoutResultFor')}${t('global.colon')} ${workout.name}`
                         );
                         setIsLoading(false);
-                        navigate.toEditWorkout(history, workout.id);
+                        navigate.toEditWorkout(workout.id);
                     },
                     () => {
                         notification.createError(
@@ -252,7 +252,7 @@ const DoWorkout: FC = () => {
         setIsConfirmationDialogOpen(true);
         setConfirmationDialogOnClose(() => (event: SyntheticEvent<HTMLButtonElement>) => {
             if (event.currentTarget.value === 'confirm') {
-                navigate.toDashboard(history);
+                navigate.toDashboard();
             } else {
                 setIsConfirmationDialogOpen(false);
             }
@@ -318,7 +318,7 @@ const DoWorkout: FC = () => {
                             `${t('notifications.workoutResultFor')}${t('global.colon')} ${workout.name}`
                         );
                         setIsLoading(false);
-                        navigate.toDashboard(history);
+                        navigate.toDashboard();
                     },
                     () => {
                         notification.createError(

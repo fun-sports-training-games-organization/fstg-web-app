@@ -44,7 +44,7 @@ const StartWorkout: FC = () => {
                 <PageTitleActionButton
                     postTitleActionButton={
                         <IconButton
-                            onClick={() => workout.id && navigate.toDoWorkout(history, workout.id)}
+                            onClick={() => workout.id && navigate.toDoWorkout(workout.id)}
                             sx={{ marginRight: 3 }}
                         >
                             <PlayArrow htmlColor={'black'} transform="scale(3)" />

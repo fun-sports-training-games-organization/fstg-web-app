@@ -80,7 +80,7 @@ const ProfileCard: FC<DraggableProps> = ({ id, index, moveCard }: DraggableProps
             });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    const goToProfilePage = () => navigate.toProfile(history);
+    const goToProfilePage = () => navigate.toProfile();
     const ExerciseTitle = <PageTitle translationKey={'page.dashboard.profile.title'} align={'center'} />;
     return loading ? (
         <Loader />

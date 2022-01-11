@@ -13,7 +13,7 @@ type WorkoutCardItemProps = {
 const WorkoutCardItem: FC<WorkoutCardItemProps> = ({ workout }: WorkoutCardItemProps) => {
     const { t } = useTranslation();
     const history = useHistory();
-    const goToWorkout = () => workout.id && navigateToStartWorkout(history, workout.id);
+    const goToWorkout = () => workout.id && navigateToStartWorkout(workout.id);
 
     return (
         <ListItem key={workout.id} disablePadding sx={{ marginBottom: 1 }}>

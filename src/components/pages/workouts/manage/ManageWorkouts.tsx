@@ -74,13 +74,13 @@ const ManageWorkouts: FC = () => {
                         options={[
                             {
                                 name: 'start',
-                                handleClick: () => workout.id && navigate.toStartWorkout(history, workout.id),
+                                handleClick: () => workout.id && navigate.toStartWorkout(workout.id),
                                 translationKey: 'actionMenu.workout.start',
                                 icon: <PlayArrow htmlColor={'green'} />
                             },
                             {
                                 name: 'edit',
-                                handleClick: () => navigate.toEditWorkout(history, workout.id),
+                                handleClick: () => navigate.toEditWorkout(workout.id),
                                 translationKey: 'actionMenu.workout.edit',
                                 icon: <Edit htmlColor={'steelblue'} />
                             },
@@ -128,7 +128,7 @@ const ManageWorkouts: FC = () => {
                     <PageTitleActionButton
                         postTitleActionButton={
                             <AddButton
-                                onClick={() => navigate.toEditWorkout(history, undefined)}
+                                onClick={() => navigate.toEditWorkout(undefined)}
                                 testId={`${idPrefix}add_button`}
                             />
                         }
@@ -150,7 +150,7 @@ const ManageWorkouts: FC = () => {
                     imageAttributes={{ src: WorkoutIcon, alt: 'Workout Icon', height: '250px', width: '250px' }}
                     message={t('blankSlate.workouts.message')}
                     buttonText={t('blankSlate.workouts.button')}
-                    buttonAction={() => navigate.toEditWorkout(history, undefined)}
+                    buttonAction={() => navigate.toEditWorkout(undefined)}
                 />
             )}
             {openDeleteConfirmationDialog && (

@@ -1,33 +1,33 @@
-import { History } from 'history';
+import history from '../history';
 
-export const toManageWorkouts = (history: History<unknown>): void => {
+export const toManageWorkouts = (): void => {
     history.push('/workouts');
 };
 
-export const toEditWorkout = (history: History<unknown>, workoutId?: string): void => {
+export const toEditWorkout = (workoutId?: string): void => {
     history.push(`/workout${workoutId ? `/${workoutId}` : ''}`);
 };
 
-export const toStartWorkout = (history: History<unknown>, workoutId: string): void => {
+export const toStartWorkout = (workoutId: string): void => {
     history.push(`/start-workout/${workoutId}`);
 };
 
-export const toDoWorkout = (history: History<unknown>, workoutId: string): void => {
+export const toDoWorkout = (workoutId: string): void => {
     history.push(`/do-workout/${workoutId}`);
 };
 
-export const toDashboard = (history: History<unknown>): void => {
+export const toDashboard = (): void => {
     history.push('/dashboard');
 };
 
-export const toBase = (history: History<unknown>): void => {
+export const toBase = (): void => {
     history.push('/');
 };
 
-export const toExercises = (history: History<unknown>): void => {
+export const toExercises = (): void => {
     history.push('/exercises');
 };
 
-export const toProfile = (history: History<unknown>): void => {
+export const toProfile = (): void => {
     history.push('/profile');
 };

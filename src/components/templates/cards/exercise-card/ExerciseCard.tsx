@@ -21,7 +21,7 @@ const ExerciseCard: FC<DraggableProps> = ({ id, index, moveCard }: DraggableProp
     const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
     const { entities: exercises, loading } = useEntityManager<Exercise>('exercises');
 
-    const goToExercisePage = () => navigate.toExercises(history);
+    const goToExercisePage = () => navigate.toExercises();
     const ExerciseTitle = <PageTitle translationKey={'page.dashboard.exercise.title'} align={'center'} />;
     return loading ? (
         <Loader />

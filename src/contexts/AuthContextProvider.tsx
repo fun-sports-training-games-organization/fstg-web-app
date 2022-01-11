@@ -89,7 +89,7 @@ const AuthContextProvider: FC<PropsWithChildren<Record<string, unknown>>> = (
 
     const loggedInSuccessfully = () => {
         notification.loginSuccess(enqueueSnackbar, t);
-        return navigate.toDashboard(history);
+        return navigate.toDashboard();
     };
 
     const loginWith = (provider: Provider) => {
@@ -129,7 +129,7 @@ const AuthContextProvider: FC<PropsWithChildren<Record<string, unknown>>> = (
                 .then(() => {
                     notification.registrationSuccess(enqueueSnackbar, t);
                     setNewlyRegistered(true);
-                    return navigate.toBase(history);
+                    return navigate.toBase();
                 })
                 .catch((error) => {
                     const { code: errorCode, message: errorMessage } = error;
