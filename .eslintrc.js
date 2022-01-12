@@ -51,5 +51,5 @@ module.exports = {
             }
         }
     ],
-    ignorePatterns: ['src/**/*.test.tsx']
+    ignorePatterns: ['src/**/*.test.tsx', 'src/**/*.te_skip_st.tsx', 'src/**/*.stories.tsx']
 };
