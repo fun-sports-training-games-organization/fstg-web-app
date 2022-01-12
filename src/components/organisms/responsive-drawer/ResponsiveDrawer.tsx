@@ -15,13 +15,14 @@ import CloseIcon from '@mui/icons-material/Close';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { MenuListItem, PersistentDrawerProps } from './PersistentDrawer.types';
+import { MenuListItem, ResponsiveDrawerProps } from './ResponsiveDrawer.types';
 import { Avatar, Icon, Stack, Theme, useMediaQuery } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import HeaderBar from '../header-bar/HeaderBar';
 import LanguageMenu from '../../molecules/menus/language-menu/LanguageMenu';
 import MenuButton from '../../molecules/menus/menu-button/MenuButton';
 import { useTranslation } from 'react-i18next';
+import ThemeMenu from '../../molecules/menus/theme-menu/ThemeMenu';
 import Logo from '../../../assets/fstg-logo-35x35.png';
 import { toBase } from '../../../util/navigation-util';
 
@@ -78,14 +79,14 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     color: theme.palette.common.white
 }));
 
-const PersistentDrawer: FC<PersistentDrawerProps> = ({
+const ResponsiveDrawer: FC<ResponsiveDrawerProps> = ({
     children,
     topMenuListItems,
     bottomMenuListItems,
     user,
     photoURL,
     logout
-}: PersistentDrawerProps) => {
+}: ResponsiveDrawerProps) => {
     const { t } = useTranslation();
     const history = useHistory();
     const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
@@ -202,7 +203,10 @@ const PersistentDrawer: FC<PersistentDrawerProps> = ({
                         alignItems={'center'}
                         justifyContent={'space-between'}
                     >
-                        <LanguageMenu color={'#00000087'} />
+                        <Stack direction={'row'} spacing={2}>
+                            <ThemeMenu color={'#00000087'} />
+                            <LanguageMenu color={'#00000087'} />
+                        </Stack>
                         <IconButton onClick={handleDrawerClose}>
                             <CloseIcon />
                         </IconButton>
@@ -219,4 +223,4 @@ const PersistentDrawer: FC<PersistentDrawerProps> = ({
     );
 };
 
-export default PersistentDrawer;
+export default ResponsiveDrawer;

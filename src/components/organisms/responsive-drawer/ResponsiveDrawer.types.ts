@@ -9,7 +9,7 @@ export type MenuListItem = {
     onClick?: () => void;
 };
 
-export type PersistentDrawerProps = {
+export type ResponsiveDrawerProps = {
     children: JSX.Element;
     topMenuListItems: MenuListItem[];
     bottomMenuListItems?: MenuListItem[];

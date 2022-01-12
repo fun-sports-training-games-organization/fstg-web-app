@@ -4,10 +4,10 @@ import MenuIcon, { MenuIconProps } from './MenuIcon';
 import { Language as LanguageIcon } from '@mui/icons-material';
 
 export default {
-    title: 'atoms/MenuIcon',
+    title: 'atoms/LanguageMenuIcon',
     component: MenuIcon,
     args: {
-        icon: <LanguageIcon style={{ color: 'white' }} />,
+        icon: <LanguageIcon />,
         onMenuSelect: () => console.log('onMenuSelect was triggered')
     }
 } as Meta;

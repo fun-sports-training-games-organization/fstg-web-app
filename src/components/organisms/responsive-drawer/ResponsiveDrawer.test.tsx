@@ -1,15 +1,14 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import PersistentDrawer from './PersistentDrawer';
-import { MenuListItem, PersistentDrawerProps } from './PersistentDrawer.types';
+import ResponsiveDrawer from './ResponsiveDrawer';
+import { MenuListItem, ResponsiveDrawerProps } from './ResponsiveDrawer.types';
 import { SnackbarProvider } from 'notistack';
 import { MemoryRouter } from 'react-router-dom';
 import { mockUser } from '../../../__mocks__/mockUserContext';
 import userEvent from '@testing-library/user-event';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
-import { ThemeProvider } from '@mui/material';
-import { createTheme } from '@mui/material/styles';
+import ThemeContextProvider from '../../../contexts/ThemeContextProvider';
 
 jest.mock('react-i18next', () => ({
     useTranslation: () => ({ t: (key: string) => key })
@@ -20,8 +19,8 @@ jest.mock(
     () => 'https://icon-library.com/images/icon-running-man/icon-running-man-24.jpg'
 );
 
-describe('<PersistentDrawer> component test with React Testing Library', () => {
-    let props: PersistentDrawerProps;
+describe('<ResponsiveDrawerProps> component test with React Testing Library', () => {
+    let props: ResponsiveDrawerProps;
     const onClick = jest.fn();
     const topMenuListItems: MenuListItem[] = [
         { key: 'home', text: 'Home', icon: 'home', path: '/home' },
@@ -48,9 +47,9 @@ describe('<PersistentDrawer> component test with React Testing Library', () => {
         render(
             <SnackbarProvider>
                 <MemoryRouter>
-                    <ThemeProvider theme={createTheme()}>
-                        <PersistentDrawer {...props}>{props.children}</PersistentDrawer>
-                    </ThemeProvider>
+                    <ThemeContextProvider>
+                        <ResponsiveDrawer {...props}>{props.children}</ResponsiveDrawer>
+                    </ThemeContextProvider>
                 </MemoryRouter>
             </SnackbarProvider>
         );

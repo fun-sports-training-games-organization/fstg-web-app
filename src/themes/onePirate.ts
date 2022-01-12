@@ -1,8 +1,9 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme } from '@mui/material';
+import { Theme } from '@mui/material';
 import { green, grey, red } from '@mui/material/colors';
 
 // sourced: https://github.com/mui-org/material-ui/tree/master/docs/src/pages/premium-themes/onepirate
-const rawTheme = createTheme({
+const rawTheme: Theme = createTheme({
     palette: {
         primary: {
             light: '#69696a',
@@ -45,7 +46,7 @@ const fontHeader = {
     textTransform: 'uppercase'
 };
 
-const theme = {
+const onePirate = {
     ...rawTheme,
     palette: {
         ...rawTheme.palette,
@@ -110,4 +111,4 @@ const theme = {
     }
 };
 
-export default theme;
+export default onePirate;

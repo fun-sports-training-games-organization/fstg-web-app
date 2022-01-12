@@ -4,6 +4,8 @@ import LoginPage from './LoginPage';
 import AuthContextProvider from '../../../../contexts/AuthContextProvider';
 import { SnackbarProvider } from 'notistack';
 import Loader from '../../../atoms/loader/Loader';
+import { Provider } from 'react-redux';
+import { store } from '../../../../config/firebase';
 
 export default {
     title: 'pages/LoginPage',
@@ -18,9 +20,11 @@ export const loginPage = (): JSX.Element => (
                 horizontal: 'center'
             }}
         >
-            <AuthContextProvider>
-                <LoginPage />
-            </AuthContextProvider>
+            <Provider store={store}>
+                <AuthContextProvider>
+                    <LoginPage />
+                </AuthContextProvider>
+            </Provider>
         </SnackbarProvider>
     </Suspense>
 );
