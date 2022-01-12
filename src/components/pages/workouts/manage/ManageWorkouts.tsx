@@ -15,15 +15,16 @@ import useEntityManager from '../../../../hooks/useEntityManager';
 import { v4 as uuidv4 } from 'uuid';
 import AddButton from '../../../atoms/add-button/AddButton';
 import ResponsiveContainer from '../../../templates/containers/responsive-container/ResponsiveContainer';
-import theme from '../../../../theme/theme';
 import FunctionsIcon from '@mui/icons-material/Functions';
 import { Delete, Edit, PlayArrow } from '@mui/icons-material';
 import BlankPage from '../../../templates/blank-slate/template/blank-page/BlankPage';
 import WorkoutIcon from '../../../../assets/workout.png';
 import { useTranslation } from 'react-i18next';
 import Loader from '../../../atoms/loader/Loader';
+import { useTheme } from '@mui/material';
 
 const ManageWorkouts: FC = () => {
+    const theme = useTheme();
     const containerRef = useRef(null);
     const { t } = useTranslation();
     const pageName = 'manage_workouts';

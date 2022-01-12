@@ -1,10 +1,9 @@
-import { Card, Stack, Theme, Typography, useMediaQuery } from '@mui/material';
+import { Card, Stack, Theme, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { getPageIdPrefix } from '../../../util/id-util';
 import EditImage from '../../molecules/edit-image/EditImage';
 import ExercisesTimeRepsIcons from '../../organisms/exercises-time-reps-icons/ExercisesTimeRepsIcons';
 import { ExerciseInProgress } from '../../../model/Exercise.model';
 import { FC } from 'react';
-import theme from '../../../theme/theme';
 import { useTranslation } from 'react-i18next';
 
 export type DoWorkoutItemProps = {
@@ -14,6 +13,7 @@ export type DoWorkoutItemProps = {
 };
 
 const DoWorkoutItem: FC<DoWorkoutItemProps> = ({ exercise, index, isCurrent }: DoWorkoutItemProps) => {
+    const theme = useTheme();
     const pageName = 'edit_workout';
     const idPrefix = getPageIdPrefix(pageName);
     const { t } = useTranslation();

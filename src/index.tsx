@@ -9,8 +9,6 @@ import './i18n';
 import { Provider } from 'react-redux';
 import { SnackbarProvider } from 'notistack';
 import AuthContextProvider from './contexts/AuthContextProvider';
-import { ThemeProvider } from '@mui/material';
-import theme from './theme/theme';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 
@@ -20,6 +18,7 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { TouchBackend } from 'react-dnd-touch-backend';
 import { isMobile } from 'react-device-detect';
+import ThemeContextProvider from './contexts/ThemeContextProvider';
 
 ReactDOM.render(
     <Suspense fallback={<></>}>
@@ -34,11 +33,11 @@ ReactDOM.render(
                     <Provider store={store}>
                         <ReactReduxFirebaseProvider {...rrfProps}>
                             <AuthContextProvider>
-                                <ThemeProvider theme={theme}>
+                                <ThemeContextProvider>
                                     <DndProvider backend={isMobile ? TouchBackend : HTML5Backend}>
                                         <App />
                                     </DndProvider>
-                                </ThemeProvider>
+                                </ThemeContextProvider>
                             </AuthContextProvider>
                         </ReactReduxFirebaseProvider>
                     </Provider>
