@@ -14,7 +14,12 @@ jest.mock('react-i18next', () => ({
     useTranslation: () => ({ t: (key: string) => key })
 }));
 
-describe('<ResponsiveDrawer> component test with React Testing Library', () => {
+jest.mock(
+    '../../../assets/fstg-logo-35x35.png',
+    () => 'https://icon-library.com/images/icon-running-man/icon-running-man-24.jpg'
+);
+
+describe('<ResponsiveDrawerProps> component test with React Testing Library', () => {
     let props: ResponsiveDrawerProps;
     const onClick = jest.fn();
     const topMenuListItems: MenuListItem[] = [

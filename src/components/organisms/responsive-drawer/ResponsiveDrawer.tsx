@@ -23,6 +23,8 @@ import LanguageMenu from '../../molecules/menus/language-menu/LanguageMenu';
 import MenuButton from '../../molecules/menus/menu-button/MenuButton';
 import { useTranslation } from 'react-i18next';
 import ThemeMenu from '../../molecules/menus/theme-menu/ThemeMenu';
+import Logo from '../../../assets/fstg-logo-35x35.png';
+import { toBase } from '../../../util/navigation-util';
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' && prop !== 'drawerWidth' })<{
     open?: boolean;
@@ -91,6 +93,10 @@ const ResponsiveDrawer: FC<ResponsiveDrawerProps> = ({
 
     const [open, setOpen] = useState(false);
 
+    const navigateToBase = () => {
+        toBase(history);
+    };
+
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -129,14 +135,32 @@ const ResponsiveDrawer: FC<ResponsiveDrawerProps> = ({
                 {user ? (
                     <Toolbar>
                         <Typography color={'white'} variant="h6" noWrap sx={{ flexGrow: 1 }} component="div">
-                            {/* We can use a static string here because the name of the app will not change. */}
-                            Fun Sports Training Games
+                            <Stack direction={'row'} alignItems={'center'}>
+                                <img
+                                    onClick={navigateToBase}
+                                    src={Logo}
+                                    style={{
+                                        height: 35,
+                                        width: 35,
+                                        marginRight: 10,
+                                        cursor: 'pointer'
+                                    }}
+                                    alt={'logo'}
+                                />
+                                {/* We can use a static string here because the name of the app will not change. */}
+                                Fun Sports Training Games
+                            </Stack>
                         </Typography>
+
                         {!smDown && (
                             <MenuButton
                                 buttonElement={<Avatar sx={{ height: 30, width: 30 }} src={photoURL} />}
                                 menuItems={[
-                                    { text: t('nav.profile'), icon: 'person', onClick: () => history.push('/profile') },
+                                    {
+                                        text: t('nav.profile'),
+                                        icon: 'person',
+                                        onClick: () => history.push('/profile')
+                                    },
                                     { text: t('nav.logout'), icon: 'logout', onClick: () => logout && logout() }
                                 ]}
                             />
