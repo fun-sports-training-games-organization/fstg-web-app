@@ -4,13 +4,22 @@ import React from 'react';
 import MenuButton from '../../../molecules/menus/menu-button/MenuButton';
 import DashboardCard from './DashboardCard';
 import { DashboardCardProps } from './DashboardCard.types';
-import { Grid, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Stack } from '@mui/material';
+import { Grid, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import ExerciseIcon from '../../../../assets/exercise.png';
+import { isMobile } from 'react-device-detect';
+import { TouchBackend } from 'react-dnd-touch-backend';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { DndProvider } from 'react-dnd';
 
 export default {
     title: 'organisms/DashboardCard',
     component: DashboardCard,
     args: {
+        id: 1,
+        index: 1,
+        moveCard: () => {
+            console.log('moving...');
+        },
         cardProps: { sx: { maxWidth: 400 } },
         cardHeaderProps: {
             title: 'Exercises',
@@ -73,4 +82,8 @@ export default {
     }
 } as Meta;
 
-export const dashboardCard = (args: DashboardCardProps): JSX.Element => <DashboardCard {...args} />;
+export const dashboardCard = (args: DashboardCardProps): JSX.Element => (
+    <DndProvider backend={isMobile ? TouchBackend : HTML5Backend}>
+        <DashboardCard {...args} />
+    </DndProvider>
+);

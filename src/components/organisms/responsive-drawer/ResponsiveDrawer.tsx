@@ -15,7 +15,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { MenuListItem, PersistentDrawerProps } from './PersistentDrawer.types';
+import { MenuListItem, ResponsiveDrawerProps } from './ResponsiveDrawer.types';
 import { Avatar, Icon, Stack, Theme, useMediaQuery } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import HeaderBar from '../header-bar/HeaderBar';
@@ -77,14 +77,14 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     color: theme.palette.common.white
 }));
 
-const PersistentDrawer: FC<PersistentDrawerProps> = ({
+const ResponsiveDrawer: FC<ResponsiveDrawerProps> = ({
     children,
     topMenuListItems,
     bottomMenuListItems,
     user,
     photoURL,
     logout
-}: PersistentDrawerProps) => {
+}: ResponsiveDrawerProps) => {
     const { t } = useTranslation();
     const history = useHistory();
     const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
@@ -199,4 +199,4 @@ const PersistentDrawer: FC<PersistentDrawerProps> = ({
     );
 };
 
-export default PersistentDrawer;
+export default ResponsiveDrawer;

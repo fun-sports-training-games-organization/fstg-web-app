@@ -37,7 +37,7 @@ const ThemeContextProvider: FC<PropsWithChildren<Record<string, unknown>>> = (
 export function useTheme(): ThemeContextData {
     const context = useContext(ThemeContext);
     if (context === undefined) {
-        throw new Error(`useTheme must be used within a ThemeProvider`);
+        throw new Error(`useTheme must be used within a ThemeContextProvider`);
     }
     return context;
 }

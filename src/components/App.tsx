@@ -3,8 +3,8 @@ import './App.css';
 import { Switch } from 'react-router-dom';
 import routes from '../routes/Routes';
 import { Box } from '@mui/system';
-import PersistentDrawer from './organisms/persistant-drawer/PersistentDrawer';
-import { MenuListItem } from './organisms/persistant-drawer/PersistentDrawer.types';
+import ResponsiveDrawer from './organisms/responsive-drawer/ResponsiveDrawer';
+import { MenuListItem } from './organisms/responsive-drawer/ResponsiveDrawer.types';
 import { useAuth } from '../contexts/AuthContextProvider';
 import { useTranslation } from 'react-i18next';
 import { Theme, useMediaQuery } from '@mui/material';
@@ -51,7 +51,7 @@ function App(): JSX.Element {
         : undefined;
     return (
         <Box>
-            <PersistentDrawer
+            <ResponsiveDrawer
                 photoURL={photoURL}
                 user={user ? user : undefined}
                 logout={logout}
@@ -63,7 +63,7 @@ function App(): JSX.Element {
                         <Route key={key} path={path} exact={exact} component={component} />
                     ))}
                 </Switch>
-            </PersistentDrawer>
+            </ResponsiveDrawer>
         </Box>
     );
 }
