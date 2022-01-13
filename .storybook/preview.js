@@ -51,9 +51,9 @@
  * For example:
  *
  * export const globalTypes = {
- *   theme: {
+ *   themes: {
  *     name: 'Theme',
- *     description: 'Global theme for components',
+ *     description: 'Global themes for components',
  *     defaultValue: 'light',
  *     toolbar: {
  *       icon: 'circlehollow',
@@ -70,7 +70,7 @@ import { addDecorator, addParameters } from '@storybook/react';
 import { withThemes } from '@react-theming/storybook-addon';
 import { createTheme, ThemeProvider } from '@mui/material';
 import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
-import theme from '../src/theme/theme';
+import onePirate from '../src/themes/onePirate';
 // import { i18n } from './i18next.js';
 
 const providerFn = ({ theme, children }) => {
@@ -79,7 +79,7 @@ const providerFn = ({ theme, children }) => {
 };
 
 // pass ThemeProvider and array of your themes to decorator
-addDecorator(withThemes(null, [theme], { providerFn }));
+addDecorator(withThemes(null, [onePirate], { providerFn }));
 
 // https://www.npmjs.com/package/@storybook/addon-backgrounds
 export const parameters = {

@@ -7,7 +7,7 @@ import { getNewEmptyWorkout } from '../../../../util/workout-util';
 import { useParams } from 'react-router-dom';
 import { Grid, IconButton, Stack } from '@mui/material';
 import { PlayArrow } from '@mui/icons-material';
-import theme from '../../../../theme/theme';
+import onePirate from '../../../../themes/onePirate';
 import useEntityManager from '../../../../hooks/useEntityManager';
 import ExercisesTimeRepsIcons from '../../../organisms/exercises-time-reps-icons/ExercisesTimeRepsIcons';
 import { v4 as uuidv4 } from 'uuid';
@@ -53,9 +53,9 @@ const StartWorkout: FC = () => {
                     mt={2}
                     mr={{ xs: 0, sm: 2 }}
                     direction="column"
-                    border={`2px solid ${theme.palette.grey[300]}`}
+                    border={`2px solid ${onePirate.palette.grey[300]}`}
                     borderRadius="1rem"
-                    sx={{ backgroundColor: theme.palette.grey[100], paddingRight: '0.7rem' }}
+                    sx={{ backgroundColor: onePirate.palette.grey[100], paddingRight: '0.7rem' }}
                 >
                     <TypographyOverrideable
                         fontSize={'twentyThree'}

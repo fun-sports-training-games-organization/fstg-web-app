@@ -5,7 +5,7 @@ import { MoreVert as MoreVertIcon } from '@mui/icons-material';
 import { mockMenuList } from '../../../../__mocks__/mockMenuList';
 
 export default {
-    title: 'atoms/MenuIcon',
+    title: 'atoms/MenuIconShowMore',
     component: MenuIcon,
     args: {
         icon: <MoreVertIcon />,

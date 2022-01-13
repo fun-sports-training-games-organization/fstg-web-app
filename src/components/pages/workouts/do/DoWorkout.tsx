@@ -17,7 +17,6 @@ import CountdownTimer from '../../../molecules/countdown-timer/CountdownTimer';
 import { formatSecondsValueInHoursMinutesAndSeconds } from '../../../../util/date-util';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
-import theme from '../../../../theme/theme';
 import { useTranslation } from 'react-i18next';
 import ResponsiveDialog from '../../../organisms/dialogs/responsive-dialog';
 import TimeOrCountField from '../../../atoms/time-or-count-field/TimeOrCountField';
@@ -30,9 +29,11 @@ import ConfirmationDialog from '../../../organisms/dialogs/confirmation-dialog/C
 import * as notification from '../../../../util/notifications-util';
 import { useSnackbar } from 'notistack';
 import Loader from '../../../atoms/loader/Loader';
+import { useTheme } from '@mui/material';
 import { toDashboard, toEditWorkout } from '../../../../util/navigation-util';
 
 const DoWorkout: FC = () => {
+    const theme = useTheme();
     const pageName = 'do_workout';
     const idPrefix = getPageIdPrefix(pageName);
     const params = useParams() as Id;
@@ -518,7 +519,10 @@ const DoWorkout: FC = () => {
                                                     value={e.resultValue}
                                                     itemToUpdate={e}
                                                     updateItem={(item) => {
-                                                        setCurrentExercise(item as ExerciseInProgress);
+                                                        const eip = item as ExerciseInProgress;
+                                                        setExercises(
+                                                            exercises.map((ex) => (ex.id === eip.id ? eip : ex))
+                                                        );
                                                     }}
                                                 />
                                             );

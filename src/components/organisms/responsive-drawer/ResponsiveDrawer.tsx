@@ -15,13 +15,16 @@ import CloseIcon from '@mui/icons-material/Close';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { MenuListItem, PersistentDrawerProps } from './PersistentDrawer.types';
+import { MenuListItem, ResponsiveDrawerProps } from './ResponsiveDrawer.types';
 import { Avatar, Icon, Stack, Theme, useMediaQuery } from '@mui/material';
-import { useHistory } from 'react-router-dom';
 import HeaderBar from '../header-bar/HeaderBar';
 import LanguageMenu from '../../molecules/menus/language-menu/LanguageMenu';
 import MenuButton from '../../molecules/menus/menu-button/MenuButton';
 import { useTranslation } from 'react-i18next';
+import ThemeMenu from '../../molecules/menus/theme-menu/ThemeMenu';
+import Logo from '../../../assets/fstg-logo-35x35.png';
+import { toBase } from '../../../util/navigation-util';
+import history from '../../../history';
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' && prop !== 'drawerWidth' })<{
     open?: boolean;
@@ -76,19 +79,22 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     color: theme.palette.common.white
 }));
 
-const PersistentDrawer: FC<PersistentDrawerProps> = ({
+const ResponsiveDrawer: FC<ResponsiveDrawerProps> = ({
     children,
     topMenuListItems,
     bottomMenuListItems,
     user,
     photoURL,
     logout
-}: PersistentDrawerProps) => {
+}: ResponsiveDrawerProps) => {
     const { t } = useTranslation();
-    const history = useHistory();
     const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
     const [open, setOpen] = useState(false);
+
+    const navigateToBase = () => {
+        toBase();
+    };
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -128,14 +134,32 @@ const PersistentDrawer: FC<PersistentDrawerProps> = ({
                 {user ? (
                     <Toolbar>
                         <Typography color={'white'} variant="h6" noWrap sx={{ flexGrow: 1 }} component="div">
-                            {/* We can use a static string here because the name of the app will not change. */}
-                            Fun Sports Training Games
+                            <Stack direction={'row'} alignItems={'center'}>
+                                <img
+                                    onClick={navigateToBase}
+                                    src={Logo}
+                                    style={{
+                                        height: 35,
+                                        width: 35,
+                                        marginRight: 10,
+                                        cursor: 'pointer'
+                                    }}
+                                    alt={'logo'}
+                                />
+                                {/* We can use a static string here because the name of the app will not change. */}
+                                Fun Sports Training Games
+                            </Stack>
                         </Typography>
+
                         {!smDown && (
                             <MenuButton
                                 buttonElement={<Avatar sx={{ height: 30, width: 30 }} src={photoURL} />}
                                 menuItems={[
-                                    { text: t('nav.profile'), icon: 'person', onClick: () => history.push('/profile') },
+                                    {
+                                        text: t('nav.profile'),
+                                        icon: 'person',
+                                        onClick: () => history.push('/profile')
+                                    },
                                     { text: t('nav.logout'), icon: 'logout', onClick: () => logout && logout() }
                                 ]}
                             />
@@ -178,7 +202,10 @@ const PersistentDrawer: FC<PersistentDrawerProps> = ({
                         alignItems={'center'}
                         justifyContent={'space-between'}
                     >
-                        <LanguageMenu color={'#00000087'} />
+                        <Stack direction={'row'} spacing={2}>
+                            <ThemeMenu color={'#00000087'} />
+                            <LanguageMenu color={'#00000087'} />
+                        </Stack>
                         <IconButton onClick={handleDrawerClose}>
                             <CloseIcon />
                         </IconButton>
@@ -195,4 +222,4 @@ const PersistentDrawer: FC<PersistentDrawerProps> = ({
     );
 };
 
-export default PersistentDrawer;
+export default ResponsiveDrawer;

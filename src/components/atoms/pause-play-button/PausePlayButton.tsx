@@ -1,6 +1,5 @@
 import { Pause, PlayArrow } from '@mui/icons-material';
-import { IconButton } from '@mui/material';
-import theme from '../../../theme/theme';
+import { IconButton, useTheme } from '@mui/material';
 
 type PausePlayButtonProps = {
     isRunning?: boolean;
@@ -9,6 +8,7 @@ type PausePlayButtonProps = {
 };
 
 const PausePlayButton = ({ isRunning = true, disabled = false, handleClick }: PausePlayButtonProps): JSX.Element => {
+    const theme = useTheme();
     const getButtonColor = (): string => {
         return disabled ? theme.palette.grey[500] : 'black';
     };

@@ -2,9 +2,11 @@ import React from 'react';
 import { Meta } from '@storybook/react';
 import EmailField from './EmailField';
 import { OutlinedInputProps } from '@mui/material';
+import AuthContextProvider from '../../../../contexts/AuthContextProvider';
+import { SnackbarProvider } from 'notistack';
 
 export default {
-    title: 'molecules/PasswordField',
+    title: 'molecules/EmailField',
     component: EmailField,
     args: {
         label: 'Password',
@@ -14,8 +16,15 @@ export default {
     }
 } as Meta;
 
-export const passwordField = (args: OutlinedInputProps): JSX.Element => <EmailField {...args} />;
-passwordField.args = {
-    label: 'Password',
+export const emailField = (args: OutlinedInputProps): JSX.Element => (
+    <SnackbarProvider>
+        <AuthContextProvider>
+            <EmailField {...args} />
+        </AuthContextProvider>
+    </SnackbarProvider>
+);
+emailField.args = {
+    label: 'Email',
+    value: 'example@email.com',
     disabled: false
 };

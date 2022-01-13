@@ -1,9 +1,10 @@
 import React, { FC } from 'react';
-import { AppBar, Avatar, IconButton, Toolbar } from '@mui/material';
+import { AppBar, Avatar, IconButton, Stack, Toolbar } from '@mui/material';
 import { Logout as LogoutIcon, Menu as MenuIcon } from '@mui/icons-material';
 import { Box } from '@mui/system';
 import LanguageMenu from '../../molecules/menus/language-menu/LanguageMenu';
 import { HeaderBarProps } from './HeaderBar.types';
+import ThemeMenu from '../../molecules/menus/theme-menu/ThemeMenu';
 
 const HeaderBar: FC<HeaderBarProps> = ({ user, logout }: HeaderBarProps): JSX.Element => {
     return (
@@ -21,7 +22,10 @@ const HeaderBar: FC<HeaderBarProps> = ({ user, logout }: HeaderBarProps): JSX.El
                         <LogoutIcon style={{ color: 'white' }} />
                     </IconButton>
                 )}
-                <LanguageMenu />
+                <Stack direction={'row'} spacing={2}>
+                    <ThemeMenu />
+                    <LanguageMenu />
+                </Stack>
             </Toolbar>
             <div className="App"></div>
         </AppBar>
