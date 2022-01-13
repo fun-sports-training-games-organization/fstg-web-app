@@ -56,4 +56,62 @@ https://miro.com/welcomeonboard/Z2N0eXNGbXQ3M3FPbkZXblFQRWY0ZW9qUUxqQ200MllOT3B3
 
 copy env.template and rename to env.local, go here: https://console.firebase.google.com/u/1/project/fstg-edb94/settings/general/web:NDBhNGM1NDktMTUyZS00MGEyLTg1NDQtNjc4NTUxMWJlNjU0 (you will obviously need valid credentials) and go to the section "SDK setup and configuration", select the config radio button there and fill in the variables in env.local with the variables in the const firebaseConfig.
 
-### TODO: Install firebase and first deployment instructions
+## Storybook
+
+We have written some stories to go with our components to use as code reference and documentation.
+
+***Important***: Please use `npm ci` to install the exact versions defined in `package-lock.json`, because things may break in Storybook version 6.4.X.
+
+To start storybook locally, you can run the following command:
+
+```shell
+npm run storybook
+```
+Optionally, you can build storybook and deploy it to your desired host location with the following command:
+```shell
+npm run storybook:export
+```
+
+## Component Tests, E2E-Testing, Coverage and ESLint Reports
+#### To run a normal test, you can run the following command:
+```shell
+npm test
+```
+HTML Test Report Location: `doc/html-report/index.html` 
+
+#### To run a test WITH coverage report, you can run the following command:
+```shell
+npm run test:coverage
+```
+Coverage Report Location:  `.doc/coverage/lcov-report/index.html`
+
+#### To run an E2E Test, you can run the following command:
+```shell
+npm run e2e
+```
+
+Cypress Video Output Location: `.doc/cypress-report/videos`
+
+#### To run a lint check, you can run one of the following commands:
+```shell
+# checks lint in command line only
+npm run lint
+# checks lint and produce an HTML report
+npm run lint:html
+# checks lint and auto-fixes whatever is auto-fixable
+npm run lint:fix
+```
+
+ESLint Report Location: `.doc/html-report/lint_report.html`
+
+## Firebase Deployment
+Our project is set up with GitHub Actions that will automatically deploy our App to Firebase after a successful merge to our main branch.
+However, it is still possible to do a manual deployment using firebase. Please setup firebase using the correct API credentials and run the following commands to invoke a manual deployment.
+```shell
+# if you have not yet installed the dependencies
+npm ci
+# to build the React App bundle
+npm run build
+# to deploy to firebase (firebase must first be configured with the right API settings)
+firebase deploy
+```
