@@ -11,7 +11,7 @@ import PausePlayButton from '../../../atoms/pause-play-button/PausePlayButton';
 import UnlockLockButton from '../../../atoms/unlock-lock-button/UnlockLockButton';
 import { ExerciseInProgress, ExerciseResult } from '../../../../model/Exercise.model';
 import { getExercise, mapToExercisesInProgress, updateSecondsRemaining } from '../../../../util/exercise-util';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import DoWorkoutItem from '../../../organisms/do-workout-item/DoWorkoutItem';
 import CountdownTimer from '../../../molecules/countdown-timer/CountdownTimer';
 import { formatSecondsValueInHoursMinutesAndSeconds } from '../../../../util/date-util';
@@ -20,7 +20,6 @@ import SkipNextIcon from '@mui/icons-material/SkipNext';
 import { useTranslation } from 'react-i18next';
 import ResponsiveDialog from '../../../organisms/dialogs/responsive-dialog';
 import TimeOrCountField from '../../../atoms/time-or-count-field/TimeOrCountField';
-import * as navigate from '../../../../util/navigation-util';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
@@ -31,6 +30,7 @@ import * as notification from '../../../../util/notifications-util';
 import { useSnackbar } from 'notistack';
 import Loader from '../../../atoms/loader/Loader';
 import { useTheme } from '@mui/material';
+import { toDashboard, toEditWorkout } from '../../../../util/navigation-util';
 
 const DoWorkout: FC = () => {
     const theme = useTheme();
@@ -40,7 +40,6 @@ const DoWorkout: FC = () => {
     const workoutId = params?.id ? params.id : undefined;
     const { t } = useTranslation();
     const { enqueueSnackbar } = useSnackbar();
-    const history = useHistory();
     const { findById } = useEntityManager<Workout>('workouts');
     const { createEntity } = useEntityManager<WorkoutResult>('workoutResults');
     const [workout, setWorkout] = useState<Workout>(getNewEmptyWorkout());
@@ -230,7 +229,7 @@ const DoWorkout: FC = () => {
                             `${t('notifications.workoutResultFor')}${t('global.colon')} ${workout.name}`
                         );
                         setIsLoading(false);
-                        navigate.toEditWorkout(history, workout.id);
+                        toEditWorkout(workout.id);
                     },
                     () => {
                         notification.createError(
@@ -253,7 +252,7 @@ const DoWorkout: FC = () => {
         setIsConfirmationDialogOpen(true);
         setConfirmationDialogOnClose(() => (event: SyntheticEvent<HTMLButtonElement>) => {
             if (event.currentTarget.value === 'confirm') {
-                navigate.toDashboard(history);
+                toDashboard();
             } else {
                 setIsConfirmationDialogOpen(false);
             }
@@ -319,7 +318,7 @@ const DoWorkout: FC = () => {
                             `${t('notifications.workoutResultFor')}${t('global.colon')} ${workout.name}`
                         );
                         setIsLoading(false);
-                        navigate.toDashboard(history);
+                        toDashboard();
                     },
                     () => {
                         notification.createError(

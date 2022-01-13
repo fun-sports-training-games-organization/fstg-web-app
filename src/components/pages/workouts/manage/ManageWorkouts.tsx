@@ -1,11 +1,10 @@
 import { FC, useEffect, useRef, useState } from 'react';
 import { Stack, Theme, useMediaQuery } from '@mui/material';
-import { useHistory } from 'react-router-dom';
 import DeleteConfirmationDialog from '../../../organisms/dialogs/delete-confirmation-dialog/DeleteConfirmationDialog';
 import PageTitleActionButton from '../../../molecules/page-title-action/PageTitleAction';
 import { Workout } from '../../../../model/Workout.model';
 import { getPageIdPrefix } from '../../../../util/id-util';
-import * as navigate from '../../../../util/navigation-util';
+import { toEditWorkout, toStartWorkout } from '../../../../util/navigation-util';
 import Accordion from '../../../templates/containers/accordion/Accordion';
 import { AccordionProp } from '../../../templates/containers/accordion/Accordion.types';
 import ExercisesTimeRepsIcons from '../../../organisms/exercises-time-reps-icons/ExercisesTimeRepsIcons';
@@ -30,7 +29,6 @@ const ManageWorkouts: FC = () => {
     const pageName = 'manage_workouts';
     const idPrefix = getPageIdPrefix(pageName);
     const exerciseItemPrefix = `${idPrefix}exercise_list__item_`;
-    const history = useHistory();
     const { entities, loading } = useEntityManager<Workout>('workouts');
 
     const [workouts, setWorkouts] = useState<Workout[]>([]);
@@ -75,13 +73,13 @@ const ManageWorkouts: FC = () => {
                         options={[
                             {
                                 name: 'start',
-                                handleClick: () => workout.id && navigate.toStartWorkout(history, workout.id),
+                                handleClick: () => workout.id && toStartWorkout(workout.id),
                                 translationKey: 'actionMenu.workout.start',
                                 icon: <PlayArrow htmlColor={'green'} />
                             },
                             {
                                 name: 'edit',
-                                handleClick: () => navigate.toEditWorkout(history, workout.id),
+                                handleClick: () => toEditWorkout(workout.id),
                                 translationKey: 'actionMenu.workout.edit',
                                 icon: <Edit htmlColor={'steelblue'} />
                             },
@@ -127,12 +125,7 @@ const ManageWorkouts: FC = () => {
             ) : haveWorkouts ? (
                 <>
                     <PageTitleActionButton
-                        postTitleActionButton={
-                            <AddButton
-                                onClick={() => navigate.toEditWorkout(history, undefined)}
-                                testId={`${idPrefix}add_button`}
-                            />
-                        }
+                        postTitleActionButton={<AddButton onClick={toEditWorkout} testId={`${idPrefix}add_button`} />}
                         titleTranslationKey="page.manageWorkouts.workouts"
                         idPrefix={idPrefix}
                     />
@@ -151,7 +144,7 @@ const ManageWorkouts: FC = () => {
                     imageAttributes={{ src: WorkoutIcon, alt: 'Workout Icon', height: '250px', width: '250px' }}
                     message={t('blankSlate.workouts.message')}
                     buttonText={t('blankSlate.workouts.button')}
-                    buttonAction={() => navigate.toEditWorkout(history, undefined)}
+                    buttonAction={toEditWorkout}
                 />
             )}
             {openDeleteConfirmationDialog && (

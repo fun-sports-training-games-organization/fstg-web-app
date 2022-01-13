@@ -5,15 +5,13 @@ import { Workout } from '../../../../model/Workout.model';
 import { PlayArrow } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 import { toStartWorkout as navigateToStartWorkout } from '../../../../util/navigation-util';
-import { useHistory } from 'react-router-dom';
 
 type WorkoutCardItemProps = {
     workout: Workout;
 };
 const WorkoutCardItem: FC<WorkoutCardItemProps> = ({ workout }: WorkoutCardItemProps) => {
     const { t } = useTranslation();
-    const history = useHistory();
-    const goToWorkout = () => workout.id && navigateToStartWorkout(history, workout.id);
+    const goToWorkout = () => workout.id && navigateToStartWorkout(workout.id);
 
     return (
         <ListItem key={workout.id} disablePadding sx={{ marginBottom: 1 }}>
