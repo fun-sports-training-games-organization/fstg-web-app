@@ -11,6 +11,7 @@ import { Theme, useMediaQuery } from '@mui/material';
 import useEntityManager from '../hooks/useEntityManager';
 import useFileManager from '../hooks/useFileManager';
 import { ProfileState } from '../reducers/profile-reducer';
+import ErrorBoundary from './pages/error/ErrorBoundary';
 
 function App(): JSX.Element {
     const { logout, user } = useAuth();
@@ -58,11 +59,13 @@ function App(): JSX.Element {
                 topMenuListItems={topMenuListItems}
                 bottomMenuListItems={bottomMenuList}
             >
-                <Switch>
-                    {routes.map(({ Route, key, path, exact, component }) => (
-                        <Route key={key} path={path} exact={exact} component={component} />
-                    ))}
-                </Switch>
+                <ErrorBoundary>
+                    <Switch>
+                        {routes.map(({ Route, key, path, exact, component }) => (
+                            <Route key={key} path={path} exact={exact} component={component} />
+                        ))}
+                    </Switch>
+                </ErrorBoundary>
             </ResponsiveDrawer>
         </Box>
     );

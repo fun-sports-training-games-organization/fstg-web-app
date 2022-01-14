@@ -3,8 +3,6 @@ import DashboardCard from '../dashboard-card/DashboardCard';
 import * as React from 'react';
 import { FC, useEffect, useState } from 'react';
 import useEntityManager from '../../../../hooks/useEntityManager';
-import * as navigate from '../../../../util/navigation-util';
-import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import PageTitle from '../../../atoms/page-title/PageTitle';
 import Loader from '../../../atoms/loader/Loader';
@@ -14,6 +12,7 @@ import useFileManager from '../../../../hooks/useFileManager';
 import { convertStringToDateWithLocale, getAge } from '../../../../util/date-util';
 import { calculateBmiInImperial, calculateBmiInMetric } from '../../../../util/bmi-util';
 import { DraggableProps } from '../dashboard-card/DashboardCard.types';
+import { toProfile } from '../../../../util/navigation-util';
 
 function stringToColor(string: string) {
     let hash = 0;
@@ -42,7 +41,7 @@ function stringAvatar(name: string) {
             height: 100,
             width: 100
         },
-        children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`
+        children: name.split(' ')?.length > 1 ? `${name.split(' ')[0][0]}${name.split(' ')[1][0]}` : name
     };
 }
 
@@ -56,7 +55,6 @@ const generateListItemText = (text?: string) =>
     );
 
 const ProfileCard: FC<DraggableProps> = ({ id, index, moveCard }: DraggableProps): JSX.Element => {
-    const history = useHistory();
     const { t } = useTranslation();
     const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
     const { user } = useAuth();
@@ -80,7 +78,6 @@ const ProfileCard: FC<DraggableProps> = ({ id, index, moveCard }: DraggableProps
             });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    const goToProfilePage = () => navigate.toProfile(history);
     const ExerciseTitle = <PageTitle translationKey={'page.dashboard.profile.title'} align={'center'} />;
     return loading ? (
         <Loader />
@@ -150,7 +147,7 @@ const ProfileCard: FC<DraggableProps> = ({ id, index, moveCard }: DraggableProps
                                 fullWidth
                                 style={{ textTransform: 'none' }}
                                 variant={'contained'}
-                                onClick={goToProfilePage}
+                                onClick={toProfile}
                                 color={'primary'}
                             >
                                 {t('page.dashboard.goToProfile')}

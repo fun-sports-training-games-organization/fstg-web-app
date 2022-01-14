@@ -1,7 +1,7 @@
 import { ChangeEvent, FC, FormEvent, SyntheticEvent, useCallback, useEffect, useState } from 'react';
 import { Button, Stack, TextField } from '@mui/material';
 import { useSnackbar } from 'notistack';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import * as notification from '../../../../util/notifications-util';
 import * as navigate from '../../../../util/navigation-util';
@@ -21,7 +21,6 @@ const EditWorkout: FC = () => {
     const pageName = 'edit_workout';
     const idPrefix = getPageIdPrefix(pageName);
     const submitTestId = `${idPrefix}submit_button`;
-    const history = useHistory();
     const { t } = useTranslation();
     const { enqueueSnackbar } = useSnackbar();
     const params = useParams() as Id;
@@ -62,7 +61,7 @@ const EditWorkout: FC = () => {
                 notification.updateSuccess(enqueueSnackbar, t, workout.name);
 
                 if (shouldNavigate) {
-                    navigate.toManageWorkouts(history);
+                    navigate.toManageWorkouts();
                     setWorkout(getNewEmptyWorkout());
                 }
             })
@@ -83,9 +82,9 @@ const EditWorkout: FC = () => {
                 setWorkout(getNewEmptyWorkout());
 
                 if (navigateToManageWorkouts) {
-                    navigate.toManageWorkouts(history);
+                    navigate.toManageWorkouts();
                 } else {
-                    navigate.toEditWorkout(history, id);
+                    navigate.toEditWorkout(id);
                 }
             })
             .catch(() => {
@@ -107,7 +106,7 @@ const EditWorkout: FC = () => {
 
     const onClose = (event: SyntheticEvent<HTMLButtonElement>) => {
         if (event.currentTarget.value === 'confirm') {
-            history.push('/workouts');
+            navigate.toManageWorkouts();
         } else {
             setOpenConfirmationDialog(false);
         }

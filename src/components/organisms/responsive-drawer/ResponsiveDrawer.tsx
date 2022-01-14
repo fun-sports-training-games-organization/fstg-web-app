@@ -17,7 +17,6 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { MenuListItem, ResponsiveDrawerProps } from './ResponsiveDrawer.types';
 import { Avatar, Icon, Stack, Theme, useMediaQuery } from '@mui/material';
-import { useHistory } from 'react-router-dom';
 import HeaderBar from '../header-bar/HeaderBar';
 import LanguageMenu from '../../molecules/menus/language-menu/LanguageMenu';
 import MenuButton from '../../molecules/menus/menu-button/MenuButton';
@@ -25,6 +24,7 @@ import { useTranslation } from 'react-i18next';
 import ThemeMenu from '../../molecules/menus/theme-menu/ThemeMenu';
 import Logo from '../../../assets/fstg-logo-35x35.png';
 import { toBase } from '../../../util/navigation-util';
+import history from '../../../history';
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' && prop !== 'drawerWidth' })<{
     open?: boolean;
@@ -87,13 +87,12 @@ const ResponsiveDrawer: FC<ResponsiveDrawerProps> = ({
     logout
 }: ResponsiveDrawerProps) => {
     const { t } = useTranslation();
-    const history = useHistory();
     const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
     const [open, setOpen] = useState(false);
 
     const navigateToBase = () => {
-        toBase(history);
+        toBase();
     };
 
     const handleDrawerOpen = () => {

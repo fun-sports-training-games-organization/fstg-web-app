@@ -2,26 +2,24 @@ import { Avatar, Button, Grid, List, ListItem, Stack, Theme, Typography, useMedi
 import WorkoutIcon from '../../../../assets/workout_plan_3.png';
 import DashboardCard from '../dashboard-card/DashboardCard';
 import * as React from 'react';
+import { FC } from 'react';
 import EmptyCard from '../../blank-slate/template/empty-card/EmptyCard';
 import WorkoutPlan from '../../../../assets/workout_plan_2.png';
 import * as navigate from '../../../../util/navigation-util';
-import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import useEntityManager from '../../../../hooks/useEntityManager';
 import PageTitle from '../../../atoms/page-title/PageTitle';
 import WorkoutCardItem from './WorkoutCardItem';
 import { Workout } from '../../../../model/Workout.model';
 import Loader from '../../../atoms/loader/Loader';
-import { FC } from 'react';
 import { DraggableProps } from '../dashboard-card/DashboardCard.types';
 
 const WorkoutCard: FC<DraggableProps> = ({ id, index, moveCard }: DraggableProps): JSX.Element => {
-    const history = useHistory();
     const { t } = useTranslation();
     const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
     const { entities: workouts, loading } = useEntityManager<Workout>('workouts');
     const WorkoutTitle = <PageTitle translationKey={'page.dashboard.workout.title'} align={'center'} />;
-    const goToWorkoutPage = () => navigate.toManageWorkouts(history);
+    const goToWorkoutPage = () => navigate.toManageWorkouts();
 
     return loading ? (
         <Loader />

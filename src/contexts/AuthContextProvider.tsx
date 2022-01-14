@@ -11,7 +11,6 @@ import {
 import Loader from '../components/atoms/loader/Loader';
 import { useSnackbar } from 'notistack';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router-dom';
 import { useFirebase } from 'react-redux-firebase';
 import { auth } from '../config/firebase';
 import { Facebook as FacebookIcon, Google as GoogleIcon, Twitter as TwitterIcon } from '@mui/icons-material';
@@ -64,7 +63,6 @@ const AuthContextProvider: FC<PropsWithChildren<Record<string, unknown>>> = (
     const { t } = useTranslation();
     const { enqueueSnackbar } = useSnackbar();
     const firebase = useFirebase();
-    const history = useHistory();
 
     useEffect(() => {
         onAuthStateChanged(auth, (user: User | null) => {
@@ -89,7 +87,7 @@ const AuthContextProvider: FC<PropsWithChildren<Record<string, unknown>>> = (
 
     const loggedInSuccessfully = () => {
         notification.loginSuccess(enqueueSnackbar, t);
-        return navigate.toDashboard(history);
+        return navigate.toDashboard();
     };
 
     const loginWith = (provider: Provider) => {
@@ -129,7 +127,7 @@ const AuthContextProvider: FC<PropsWithChildren<Record<string, unknown>>> = (
                 .then(() => {
                     notification.registrationSuccess(enqueueSnackbar, t);
                     setNewlyRegistered(true);
-                    return navigate.toBase(history);
+                    return navigate.toBase();
                 })
                 .catch((error) => {
                     const { code: errorCode, message: errorMessage } = error;

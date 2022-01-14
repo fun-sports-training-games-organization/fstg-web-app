@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './components/App';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter } from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import './i18n';
 
 import { Provider } from 'react-redux';
@@ -18,13 +18,14 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { TouchBackend } from 'react-dnd-touch-backend';
 import { isMobile } from 'react-device-detect';
+import history from './history';
 import ThemeContextProvider from './contexts/ThemeContextProvider';
 import Loader from './components/atoms/loader/Loader';
 
 ReactDOM.render(
     <Suspense fallback={<Loader />}>
         <StrictMode>
-            <BrowserRouter>
+            <Router history={history}>
                 <SnackbarProvider
                     anchorOrigin={{
                         vertical: 'bottom',
@@ -43,7 +44,7 @@ ReactDOM.render(
                         </ReactReduxFirebaseProvider>
                     </Provider>
                 </SnackbarProvider>
-            </BrowserRouter>
+            </Router>
         </StrictMode>
     </Suspense>,
     document.getElementById('root')
