@@ -118,6 +118,7 @@ const EditWorkout: FC = () => {
                             }
                         />
                         <TextField
+                            required
                             autoFocus
                             margin="dense"
                             id={`${idPrefix}name`}

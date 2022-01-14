@@ -169,6 +169,7 @@ const CreateEditExerciseForm = ({
                 {!inWorkout ? (
                     <>
                         <TextField
+                            required
                             autoFocus
                             shrinkLabel={!!exercise.name}
                             id={`exercise.name`}
