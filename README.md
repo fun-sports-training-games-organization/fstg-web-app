@@ -66,7 +66,6 @@ they are able to write to our DB.
 
 #### Known issues: 
 - Facebook login sometimes require two attempts
-- Users who are logged via Twitter cannot view their saved profile correctly.
 
 ### Profile Page
 Users can update their profile in their profile page. If a height and weight have been saved, then the BMI will be automatically be calculated accordingly 
