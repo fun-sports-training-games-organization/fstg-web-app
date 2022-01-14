@@ -133,19 +133,28 @@ const ResponsiveDrawer: FC<ResponsiveDrawerProps> = ({
             <AppBar position="fixed" open={open}>
                 {user ? (
                     <Toolbar>
-                        <Typography color={'white'} variant="h6" noWrap sx={{ flexGrow: 1 }} component="div">
+                        <Typography
+                            onClick={navigateToBase}
+                            color={'white'}
+                            variant="h6"
+                            noWrap
+                            sx={{ flexGrow: 1 }}
+                            component="div"
+                        >
                             <Stack direction={'row'} alignItems={'center'}>
-                                <img
-                                    onClick={navigateToBase}
-                                    src={Logo}
-                                    style={{
-                                        height: 35,
-                                        width: 35,
-                                        marginRight: 10,
-                                        cursor: 'pointer'
-                                    }}
-                                    alt={'logo'}
-                                />
+                                {!smDown && (
+                                    <img
+                                        onClick={navigateToBase}
+                                        src={Logo}
+                                        style={{
+                                            height: 35,
+                                            width: 35,
+                                            marginRight: 10,
+                                            cursor: 'pointer'
+                                        }}
+                                        alt={'logo'}
+                                    />
+                                )}
                                 {/* We can use a static string here because the name of the app will not change. */}
                                 Fun Sports Training Games
                             </Stack>
