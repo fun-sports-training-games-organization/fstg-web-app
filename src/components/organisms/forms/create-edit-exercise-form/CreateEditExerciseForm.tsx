@@ -1,12 +1,4 @@
-import React, {
-    ChangeEvent,
-    Dispatch,
-    FormEvent,
-    SetStateAction,
-    useCallback,
-    useEffect,
-    useState
-} from 'react';
+import React, { ChangeEvent, Dispatch, FormEvent, SetStateAction, useCallback, useEffect, useState } from 'react';
 import { Button, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Stack } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import LabeledCheckbox from '../../../molecules/inputs/labeled-checkbox/LabeledCheckbox';
