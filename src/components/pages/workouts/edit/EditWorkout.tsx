@@ -51,10 +51,14 @@ const EditWorkout: FC = () => {
     }, [loadWorkout]);
 
     const handleUpdate = (shouldNavigate = true) => {
+        const workoutToSave = {
+            ...workout,
+            exercises: workout.exercises.filter((exercise) => exercise.exerciseId !== 'none')
+        };
         entityManager
-            .updateEntity(workout)
+            .updateEntity(workoutToSave)
             .then(() => {
-                setWorkout(workout);
+                setWorkout(workoutToSave);
                 notification.updateSuccess(enqueueSnackbar, t, workout.name);
 
                 if (shouldNavigate) {
@@ -68,8 +72,12 @@ const EditWorkout: FC = () => {
     };
 
     const handleCreate = (navigateToManageWorkouts = true) => {
+        const workoutToCreate = {
+            ...workout,
+            exercises: workout.exercises.filter((exercise) => exercise.exerciseId !== 'none')
+        };
         entityManager
-            .createEntity(workout)
+            .createEntity(workoutToCreate)
             .then((id) => {
                 notification.createSuccess(enqueueSnackbar, t, workout.name);
                 setWorkout(getNewEmptyWorkout());
