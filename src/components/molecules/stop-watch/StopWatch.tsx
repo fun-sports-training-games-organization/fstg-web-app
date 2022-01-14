@@ -22,7 +22,7 @@ const StopWatch: FC<StopwatchProps> = ({
     const { elapsedTime, reset } = useElapsedTime({ isPlaying });
 
     return (
-        // https://codesandbox.io/s/epic-dream-hn62k?fontsize=14&hidenavigation=1&theme=dark&file=/src/index.js:179-232
+        // source: https://codesandbox.io/s/epic-dream-hn62k?fontsize=14&hidenavigation=1&theme=dark&file=/src/index.js:179-232
         <Stack
             direction={buttonsRightToLeft ? 'row-reverse' : 'row'}
             spacing={1}

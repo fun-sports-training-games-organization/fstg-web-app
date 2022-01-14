@@ -1,13 +1,4 @@
-import React, {
-    ChangeEvent,
-    Dispatch,
-    FormEvent,
-    SetStateAction,
-    SyntheticEvent,
-    useCallback,
-    useEffect,
-    useState
-} from 'react';
+import React, { ChangeEvent, Dispatch, FormEvent, SetStateAction, useCallback, useEffect, useState } from 'react';
 import { Button, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Stack } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import LabeledCheckbox from '../../../molecules/inputs/labeled-checkbox/LabeledCheckbox';
@@ -178,6 +169,7 @@ const CreateEditExerciseForm = ({
                 {!inWorkout ? (
                     <>
                         <TextField
+                            required
                             autoFocus
                             shrinkLabel={!!exercise.name}
                             id={`exercise.name`}
@@ -265,7 +257,6 @@ const CreateEditExerciseForm = ({
                                     label={t(`${PREFIX}.countBased`)}
                                 />
                                 <FormControlLabel
-                                    onChange={(e: SyntheticEvent) => console.log(e)}
                                     value="TIME_BASED"
                                     control={
                                         <Radio

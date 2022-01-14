@@ -5,7 +5,6 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Paper, { PaperProps } from '@mui/material/Paper';
-// import Draggable from 'react-draggable';
 import { Button } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
@@ -17,11 +16,7 @@ interface DraggableConfirmationDialogProps {
 }
 
 function PaperComponent(props: PaperProps): JSX.Element {
-    return (
-        // <Draggable handle="#draggable-dialog-title" cancel={'[class*="MuiDialogContent-root"]'}>
-        <Paper {...props} sx={{ padding: 2 }} />
-        // </Draggable>
-    );
+    return <Paper {...props} sx={{ padding: 2 }} />;
 }
 
 const DraggableConfirmationDialog: FC<DraggableConfirmationDialogProps> = (props): JSX.Element => {

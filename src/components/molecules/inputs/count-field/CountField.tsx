@@ -14,7 +14,6 @@ const CountField: FC<OwnProps> = ({
     value = 0,
     setValue
 }: OwnProps) => {
-    // const [val, setVal] = useState<number>(value);
     const handleDecrement = () => {
         if (value > min) {
             setValue(value - 1);

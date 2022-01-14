@@ -31,6 +31,6 @@ describe('<MenuIcon> component test with React Testing Library', () => {
             fireEvent.click(button); // open menu again
             fireEvent.click(getByText('Edit')); // close menu by clicking menu item
         }
-        // still need to figure out a way to test menu open state...
+        // TODO : still need to figure out a way to test menu open state...
     });
 });

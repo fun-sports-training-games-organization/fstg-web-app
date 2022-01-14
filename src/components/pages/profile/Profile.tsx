@@ -27,12 +27,12 @@ const Profile: FC = () => {
     const [isExternalProvider, setIsExternalProvider] = useState<boolean>();
 
     const loadProfile = useCallback(() => {
+        console.log(user);
         user?.providerData &&
             user.providerData[0] &&
             setIsExternalProvider(user?.providerData[0].providerId !== 'password');
         user &&
             user.uid &&
-            user.email &&
             entityManager.findById(user?.uid).then((profile: ProfileState) => {
                 const {
                     firstName,

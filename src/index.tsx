@@ -20,9 +20,10 @@ import { TouchBackend } from 'react-dnd-touch-backend';
 import { isMobile } from 'react-device-detect';
 import history from './history';
 import ThemeContextProvider from './contexts/ThemeContextProvider';
+import Loader from './components/atoms/loader/Loader';
 
 ReactDOM.render(
-    <Suspense fallback={<></>}>
+    <Suspense fallback={<Loader />}>
         <StrictMode>
             <Router history={history}>
                 <SnackbarProvider

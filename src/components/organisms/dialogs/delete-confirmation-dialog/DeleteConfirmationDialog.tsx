@@ -28,10 +28,7 @@ const DeleteConfirmationDialog = ({
             message={t('dialog.deleteConfirmation.message', { name: itemToDelete?.name })}
             onClose={async (event: SyntheticEvent<HTMLButtonElement>) => {
                 if (event.currentTarget.value === 'confirm') {
-                    itemToDelete &&
-                        itemToDelete.id &&
-                        // (await new CRUDService('exercise', firestore).delete(itemToDelete.id));
-                        (await deleteEntityById(itemToDelete.id));
+                    itemToDelete && itemToDelete.id && (await deleteEntityById(itemToDelete.id));
                 }
                 closeDialog();
             }}

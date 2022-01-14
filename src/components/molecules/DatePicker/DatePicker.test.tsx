@@ -16,52 +16,10 @@ describe('<DatePicker> component test with React Testing Library', () => {
             label: 'Test Date Picker',
             onChange,
             value: null
-            // invalidDateMessage: 'test invalid message'
         };
         onChange.mockReset();
     });
 
-    // potentially related issue? But this fix does not work...
-    // https://github.com/mui-org/material-ui-pickers/issues/2073
-    // beforeEach(() => {
-    //     // add window.matchMedia
-    //     // this is necessary for the date picker to be rendered in desktop mode.
-    //     // if this is not provided, the mobile mode is rendered, which might lead to unexpected behavior
-    //     Object.defineProperty(window, 'matchMedia', {
-    //         writable: true,
-    //         value: (query: string): MediaQueryList => ({
-    //             media: query,
-    //             // this is the media query that @material-ui/pickers uses to determine if a device is a desktop device
-    //             matches: query === '(pointer: fine)',
-    //             onchange: () => {},
-    //             addEventListener: () => {},
-    //             removeEventListener: () => {},
-    //             addListener: () => {},
-    //             removeListener: () => {},
-    //             dispatchEvent: () => false
-    //         })
-    //     });
-    // });
-
-    // afterEach(() => {
-    //     delete window.matchMedia;
-    // });
-
-    // const RenderedDatePicker = (props: DatePickerProps): JSX.Element => {
-    //     const [value, setValue] = React.useState<Date | null>(new Date());
-    //     const { onChange, ...rest } = props;
-    //     return (
-    //         <DatePicker
-    //             value={value}
-    //             onChange={(newValue: Date | null) => {
-    //                 setValue(newValue);
-    //             }}
-    //             {...rest}
-    //             // views={['year', 'month', 'day']}
-    //             // openTo="year"
-    //         />
-    //     );
-    // };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const renderComponent = () => render(<DatePicker {...(props as any)} />);
 
@@ -78,9 +36,7 @@ describe('<DatePicker> component test with React Testing Library', () => {
         props.mask = '__.__.____';
         delete props.locale;
         const { container, debug } = renderComponent();
-        // const component = getByTestId('date-picker');
         expect(container).toHaveTextContent('Test Date Picker');
-        // const input = container.querySelector('input');
         const inputElement = container.querySelector('#custom-date-picker-input');
         await act(async () => {
             inputElement && userEvent.type(inputElement, '31.12.2020');
@@ -96,12 +52,9 @@ describe('<DatePicker> component test with React Testing Library', () => {
         props.withTime = true;
         props.inputFormat = 'yyyy-MM-dd hh:mm';
         const { container } = renderComponent();
-        // const component = getByTestId('date-picker');
         expect(container).toHaveTextContent('Test Date Picker');
         const input = container.querySelector('input');
         input && fireEvent.change(input, { target: { value: '2021-12-31 13:00' } });
-        // expect(getByDisplayValue('2021-12-31 13:00')).toBeInTheDocument();
-        // expect(onChange).toBeCalledTimes(1);
     });
 
     it('should render DaysPicker Calendar when calendar icon is clicked', () => {

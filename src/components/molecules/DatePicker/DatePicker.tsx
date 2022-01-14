@@ -25,62 +25,6 @@ const maskMap: Record<string, string> = {
 };
 
 const DatePicker: React.FC<DatePickerProps> = ({ locale = 'de', ...props }: DatePickerProps) => {
-    // const {
-    //     fullWidth,
-    //     width,
-    //     hideClearButton,
-    //     startAdornment,
-    //     endAdornment,
-    //     withTime,
-    //     noBorder,
-    //     inputSx,
-    //     labelSx,
-    //     ...rest
-    // } = props;
-    //
-    // // const InputType = withTime ? DateTimePicker : MUIDatePicker;
-    // const clearButton = (
-    //     <IconButton
-    //         aria-label={'clear-button'}
-    //         edge="end"
-    //         size="small"
-    //         disabled={props.disabled}
-    //         onClick={(): void => props.onChange(null)}
-    //     >
-    //         <ClearIcon style={{ fill: props.disabled ? 'grey' : 'red' }} />
-    //     </IconButton>
-    // );
-    //
-    // const DEFAULT_DATE_FORMAT = 'dd.MM.yyyy';
-    //
-    // const renderDay = (
-    //     day: unknown,
-    //     selectedDates: Array<unknown | null>,
-    //     pickersDayProps: PickersDayProps<unknown>
-    // ) => {
-    //     return <PickersDay {...pickersDayProps} />;
-    // };
-    //
-    // const args: DatePickerProps = {
-    //     renderDay,
-    //     inputFormat: props.inputFormat ? props.inputFormat : DEFAULT_DATE_FORMAT,
-    //     mask: maskMap[locale],
-    //     InputProps: {
-    //         inputProps: {
-    //             startAdornment,
-    //             endAdornment,
-    //             noBorder,
-    //             hideClearButton,
-    //             clearButton,
-    //             inputSx,
-    //             labelSx,
-    //             width,
-    //             fullWidth
-    //         }
-    //     },
-    //     ...rest
-    // };
-
     return (
         <LocalizationProvider dateAdapter={AdapterDateFns} locale={localeMap[locale]}>
             {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}

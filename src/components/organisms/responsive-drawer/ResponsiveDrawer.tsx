@@ -31,7 +31,6 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' && pr
     drawerWidth: string | number;
 }>(({ theme, open, drawerWidth }) => ({
     flexGrow: 1,
-    // TODO: set padding based on page and screen size... will need to either use redux or context-provider to do this...
     padding: theme.spacing(2),
     transition: theme.transitions.create('margin', {
         easing: theme.transitions.easing.sharp,
@@ -133,19 +132,28 @@ const ResponsiveDrawer: FC<ResponsiveDrawerProps> = ({
             <AppBar position="fixed" open={open}>
                 {user ? (
                     <Toolbar>
-                        <Typography color={'white'} variant="h6" noWrap sx={{ flexGrow: 1 }} component="div">
+                        <Typography
+                            onClick={navigateToBase}
+                            color={'white'}
+                            variant="h6"
+                            noWrap
+                            sx={{ flexGrow: 1 }}
+                            component="div"
+                        >
                             <Stack direction={'row'} alignItems={'center'}>
-                                <img
-                                    onClick={navigateToBase}
-                                    src={Logo}
-                                    style={{
-                                        height: 35,
-                                        width: 35,
-                                        marginRight: 10,
-                                        cursor: 'pointer'
-                                    }}
-                                    alt={'logo'}
-                                />
+                                {!smDown && (
+                                    <img
+                                        onClick={navigateToBase}
+                                        src={Logo}
+                                        style={{
+                                            height: 35,
+                                            width: 35,
+                                            marginRight: 10,
+                                            cursor: 'pointer'
+                                        }}
+                                        alt={'logo'}
+                                    />
+                                )}
                                 {/* We can use a static string here because the name of the app will not change. */}
                                 Fun Sports Training Games
                             </Stack>

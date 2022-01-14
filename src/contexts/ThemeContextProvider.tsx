@@ -13,7 +13,7 @@ export const ThemeContext = createContext<ThemeContextData | undefined>(undefine
 const ThemeContextProvider: FC<PropsWithChildren<Record<string, unknown>>> = (
     props: PropsWithChildren<Record<string, unknown>>
 ) => {
-    // we can eventually save this to the user's account in firebase!
+    // TODO:  we can eventually save this to the user's account in firebase!
     const [themeName, setThemeName] = useStickyState<string>('onePirate', 'fstg.theme.name');
     const [theme, setTheme] = useState<Theme>(onePirate as Theme);
     const changeTheme = (themeName: string) => {

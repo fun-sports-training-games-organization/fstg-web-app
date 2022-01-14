@@ -23,7 +23,6 @@ const LoginPage: FC = (): JSX.Element => {
                     } else if (email) {
                         await sendResetPasswordLink(email);
                     }
-                    // forgotPasswordMode ? resetPassword() : signIn();
                 }}
             />
             <Stack spacing={2}>
