@@ -47,8 +47,6 @@ const WorkoutCard: FC<DraggableProps> = ({ id, index, moveCard }: DraggableProps
                         }}
                         src={WorkoutIcon}
                         alt={'workout icon'}
-                        // width={200}
-                        // height={200}
                     />
                 </Grid>
                 <Grid item xs={6}>

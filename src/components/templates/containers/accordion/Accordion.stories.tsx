@@ -16,4 +16,3 @@ export default {
 };
 
 export const accordion = (args: AccordionProps): JSX.Element => <Accordion {...args} />;
-// accordion.args = { foo: 'bar' };

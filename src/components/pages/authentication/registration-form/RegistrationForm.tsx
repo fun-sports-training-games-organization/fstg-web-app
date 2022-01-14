@@ -119,7 +119,6 @@ const RegistrationForm: FC<InjectedFormProps<RegistrationFormFields>> = (
                     fullWidth
                     disabled={pristine || submitting}
                     startIcon={<EditIcon />}
-                    // disabled={!state.email || !state.password || !state.confirmPassword}
                 >
                     {t('form.button.registration.register')}
                 </LoadingButton>

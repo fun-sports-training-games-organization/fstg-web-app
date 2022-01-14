@@ -21,10 +21,6 @@ export default {
         noBorder: false,
         inputFormat: 'dd.MM.yyyy',
         mask: '__.__.____'
-        // minDate: new Date('1000-01-01'),
-        // maxDate: new Date('9999-12-31')
-        // handleDateChange: (date) => console.log(date),
-        // selectedDate: new Date()
     },
     argTypes: {
         locale: {

@@ -18,7 +18,7 @@ export default {
         id: 1,
         index: 1,
         moveCard: () => {
-            console.log('moving...');
+            // empty
         },
         cardProps: { sx: { maxWidth: 400 } },
         cardHeaderProps: {

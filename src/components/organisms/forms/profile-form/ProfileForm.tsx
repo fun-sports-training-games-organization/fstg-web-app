@@ -66,7 +66,6 @@ const ProfileForm: FC<OwnProps & InjectedFormProps<ProfileState>> = ({
                             name={'profilePicture'}
                             label={t('form.label.profile.profilePicture')}
                             component={renderFileChooser}
-                            // onChange={handleChangeEvent}
                         />
                     )}
                     {!isExternalProvider && (

@@ -31,7 +31,6 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' && pr
     drawerWidth: string | number;
 }>(({ theme, open, drawerWidth }) => ({
     flexGrow: 1,
-    // TODO: set padding based on page and screen size... will need to either use redux or context-provider to do this...
     padding: theme.spacing(2),
     transition: theme.transitions.create('margin', {
         easing: theme.transitions.easing.sharp,

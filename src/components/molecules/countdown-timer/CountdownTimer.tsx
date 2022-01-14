@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Stack, Typography } from '@mui/material';
 import React, { FC } from 'react';
 import Countdown, { CountdownProps } from 'react-countdown';
@@ -8,6 +7,7 @@ import { addLeadingZero } from '../../../util/number-util';
 import AlarmIcon from '@mui/icons-material/Alarm';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import { ResponsiveStyleValue, Theme } from '@mui/system';
+
 type OwnProps = {
     seconds?: number;
     showHours?: boolean;
@@ -16,9 +16,11 @@ type OwnProps = {
     onTick?: CountdownTimeDeltaFn | undefined;
     countdownRef?: (countdown: Countdown | null) => void | null;
     autoStart?: boolean;
+    /* eslint-disable @typescript-eslint/no-explicit-any */
     display?:
         | ResponsiveStyleValue<any | any[] | undefined>
         | ((theme: Theme) => ResponsiveStyleValue<any | any[] | undefined>);
+    /* eslint-enable @typescript-eslint/no-explicit-any */
 };
 
 export type CountdownTimerProps = Omit<CountdownProps, 'renderer'> & OwnProps;
@@ -36,15 +38,12 @@ const CountdownTimer: FC<CountdownTimerProps> = ({
     display,
     ...rest
 }: Omit<CountdownProps, 'renderer'> & Omit<CountdownProps, 'onTick'> & OwnProps) => {
-    // Renderer callback with condition
     const renderer = ({ hours, minutes, seconds, completed }: CountdownRenderProps) => {
         if (completed) {
-            // Render a completed state
-            // return children;
             return <AssignmentTurnedInIcon color="success" sx={{ fontSize: 40 }} />;
         } else {
             // Render a countdown
-            // TODO : add animation when timer is low on seconds
+            // TODO : add animation or color change when timer close to 0 (e.g. orange on 5, red on 3)
             // source : https://stackoverflow.com/questions/52568739/blink-animation-in-mui
             return (
                 <Stack direction={'row'} spacing={1} alignItems={'center'} display={display}>

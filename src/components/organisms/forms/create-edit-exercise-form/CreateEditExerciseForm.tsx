@@ -265,7 +265,6 @@ const CreateEditExerciseForm = ({
                                     label={t(`${PREFIX}.countBased`)}
                                 />
                                 <FormControlLabel
-                                    onChange={(e: SyntheticEvent) => console.log(e)}
                                     value="TIME_BASED"
                                     control={
                                         <Radio

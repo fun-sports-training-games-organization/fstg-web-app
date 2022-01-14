@@ -19,7 +19,6 @@ describe('<AutoCompleteSelect> component test with React Testing Library', () =>
             options,
             getOptionLabel: (option: { value: string }) => option && option.value,
             noOptionsText: 'Found nothing!'
-            // foo: 'bar'
         };
     });
 
