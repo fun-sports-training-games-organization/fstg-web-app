@@ -3,7 +3,6 @@ import React, {
     Dispatch,
     FormEvent,
     SetStateAction,
-    SyntheticEvent,
     useCallback,
     useEffect,
     useState
