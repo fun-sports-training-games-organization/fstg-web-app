@@ -27,21 +27,32 @@ const EditWorkout: FC = () => {
     const workoutId = params?.id;
     const entityManager = useEntityManager<Workout>('workouts');
 
-    const addExerciseToWorkout = (): void =>
-        setWorkout({
-            ...workout,
-            exercises: [...workout.exercises, getNewEmptyExerciseWorkoutSettings()]
-        });
+    const addExerciseToWorkout = (): void => {
+        if (workout && workout.exercises) {
+            setWorkout({
+                ...workout,
+                exercises: [...workout.exercises, getNewEmptyExerciseWorkoutSettings()]
+            });
+        }
+    };
 
     const [openConfirmationDialog, setOpenConfirmationDialog] = useState<boolean>(false);
     const [workout, setWorkout] = useState<Workout>(getNewEmptyWorkout());
 
     const loadWorkout = useCallback(() => {
-        workoutId
-            ? entityManager.findById(workoutId).then((wo: Workout) => {
-                  setWorkout({ ...wo, id: workoutId, hasBeenCreated: true });
-              })
-            : setWorkout(getNewEmptyWorkout());
+        if (workoutId) {
+            entityManager
+                .findById(workoutId)
+                .then((wo: Workout) => {
+                    console.log(wo);
+                    setWorkout({ ...wo, id: workoutId, hasBeenCreated: true });
+                })
+                .catch(() => {
+                    setWorkout(getNewEmptyWorkout());
+                });
+        } else {
+            setWorkout(getNewEmptyWorkout());
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -50,46 +61,50 @@ const EditWorkout: FC = () => {
     }, [loadWorkout]);
 
     const handleUpdate = (shouldNavigate = true) => {
-        const workoutToSave = {
-            ...workout,
-            exercises: workout.exercises.filter((exercise) => exercise.exerciseId !== 'none')
-        };
-        entityManager
-            .updateEntity(workoutToSave)
-            .then(() => {
-                setWorkout(workoutToSave);
-                notification.updateSuccess(enqueueSnackbar, t, workout.name);
+        if (workout && workout.exercises) {
+            const workoutToSave = {
+                ...workout,
+                exercises: workout.exercises.filter((exercise) => exercise.exerciseId !== 'none')
+            };
+            entityManager
+                .updateEntity(workoutToSave)
+                .then(() => {
+                    setWorkout(workoutToSave);
+                    notification.updateSuccess(enqueueSnackbar, t, workout.name);
 
-                if (shouldNavigate) {
-                    navigate.toManageWorkouts();
-                    setWorkout(getNewEmptyWorkout());
-                }
-            })
-            .catch(() => {
-                notification.updateError(enqueueSnackbar, t, workout.name);
-            });
+                    if (shouldNavigate) {
+                        navigate.toManageWorkouts();
+                        setWorkout(getNewEmptyWorkout());
+                    }
+                })
+                .catch(() => {
+                    notification.updateError(enqueueSnackbar, t, workout.name);
+                });
+        }
     };
 
     const handleCreate = (navigateToManageWorkouts = true) => {
-        const workoutToCreate = {
-            ...workout,
-            exercises: workout.exercises.filter((exercise) => exercise.exerciseId !== 'none')
-        };
-        entityManager
-            .createEntity(workoutToCreate)
-            .then((id) => {
-                notification.createSuccess(enqueueSnackbar, t, workout.name);
-                setWorkout(getNewEmptyWorkout());
+        if (workout && workout.exercises) {
+            const workoutToCreate = {
+                ...workout,
+                exercises: workout.exercises.filter((exercise) => exercise.exerciseId !== 'none')
+            };
+            entityManager
+                .createEntity(workoutToCreate)
+                .then((id) => {
+                    notification.createSuccess(enqueueSnackbar, t, workout.name);
+                    setWorkout(getNewEmptyWorkout());
 
-                if (navigateToManageWorkouts) {
-                    navigate.toManageWorkouts();
-                } else {
-                    navigate.toEditWorkout(id);
-                }
-            })
-            .catch(() => {
-                notification.createError(enqueueSnackbar, t, workout.name);
-            });
+                    if (navigateToManageWorkouts) {
+                        navigate.toManageWorkouts();
+                    } else {
+                        navigate.toEditWorkout(id);
+                    }
+                })
+                .catch(() => {
+                    notification.createError(enqueueSnackbar, t, workout.name);
+                });
+        }
     };
 
     const onSubmit = (e: FormEvent<HTMLFormElement>) => {

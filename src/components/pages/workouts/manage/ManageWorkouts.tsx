@@ -144,7 +144,7 @@ const ManageWorkouts: FC = () => {
                     imageAttributes={{ src: WorkoutIcon, alt: 'Workout Icon', height: '250px', width: '250px' }}
                     message={t('blankSlate.workouts.message')}
                     buttonText={t('blankSlate.workouts.button')}
-                    buttonAction={toEditWorkout}
+                    buttonAction={() => toEditWorkout('')}
                 />
             )}
             {openDeleteConfirmationDialog && (
