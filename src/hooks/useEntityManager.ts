@@ -47,7 +47,11 @@ function useEntityManager<T>(entityName: string, ownerCheck = true): EntityManag
     const findById = async (id: string): Promise<any> => {
         const doc = await firestore.collection(entityName).doc(id);
         const docSnapshot = await doc.get();
-        return { ...docSnapshot.data(), id, hasBeenCreated: true };
+        if (docSnapshot.data()) {
+            return { ...docSnapshot.data(), id, hasBeenCreated: true };
+        } else {
+            throw Error('entity not found!');
+        }
     };
 
     const createEntity = async (entity: T): Promise<string> => {

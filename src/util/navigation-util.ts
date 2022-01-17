@@ -5,7 +5,7 @@ export const toManageWorkouts = (): void => {
 };
 
 export const toEditWorkout = (workoutId?: string): void => {
-    history.push(`/workout${workoutId ? `/${workoutId}` : ''}`);
+    history.push(workoutId ? `/workout/${workoutId}` : `workout`);
 };
 
 export const toStartWorkout = (workoutId: string): void => {

@@ -28,11 +28,13 @@ function App(): JSX.Element {
         } else {
             user?.uid &&
                 findById(user?.uid).then((userProfile) => {
-                    fileManager
-                        .getFileURL(`profile_pictures/${user.uid}/${userProfile?.profilePicturePath}`)
-                        .then((url) => {
-                            setPhotoURL(url);
-                        });
+                    if (userProfile.profilePicturePath) {
+                        fileManager
+                            .getFileURL(`profile_pictures/${user.uid}/${userProfile?.profilePicturePath}`)
+                            .then((url) => {
+                                setPhotoURL(url);
+                            });
+                    }
                 });
         }
     }, [user, findById, fileManager]);
