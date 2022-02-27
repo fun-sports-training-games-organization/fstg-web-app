@@ -339,11 +339,15 @@ const DoWorkout: FC = () => {
     };
 
     const closeExerciseResultDialog = () => {
+        const isLastExerciseIndex = currentExerciseIndex + 1 >= exercises.length;
+        const isLastExerciseDialog =
+            exerciseBeingEdited && exerciseBeingEdited.id === exercises[exercises.length - 1].id;
         setExercises(
             exercises.map((e) => (exerciseBeingEdited && e.id === exerciseBeingEdited.id ? exerciseBeingEdited : e))
         );
         setIsExerciseResultDialogOpen(false);
-        if (currentExerciseIndex + 1 >= exercises.length) {
+
+        if (isLastExerciseIndex && isLastExerciseDialog) {
             setIsCompleteWorkoutDialogOpen(true);
         }
     };

@@ -43,10 +43,7 @@ export const getRecordValid = (workoutResults: WorkoutResult[]): WorkoutResult[]
 
 export const getMostRecent = (workoutResults: WorkoutResult[]): WorkoutResult => {
     return workoutResults.reduce((a, b) =>
-        (a?.createdUTCMilliseconds ? a.createdUTCMilliseconds : 0) >=
-        (b?.createdUTCMilliseconds ? b?.createdUTCMilliseconds : 0)
-            ? a
-            : b
+        (a?.createdUTCMilliseconds ?? 0) >= (b?.createdUTCMilliseconds ?? 0) ? a : b
     );
 };
 
@@ -60,15 +57,15 @@ export const getRecords = (workoutResults: WorkoutResult[], maxRecords = 100): W
         let bestMostRecentValid;
         if (mostRecentValid.exercises.length > 0 && mostRecentValid.exercises[0].resultType === 'TIME_BASED') {
             bestMostRecentValid = allMostRecentValid.reduce((a: WorkoutResult, b: WorkoutResult) =>
-                a.exercises.map((e) => (e.resultValue ? e.resultValue : 0)).reduce((c, d) => c + d) <=
-                b.exercises.map((e) => (e.resultValue ? e.resultValue : 0)).reduce((e, f) => e + f)
+                a.exercises.map((e) => e.resultValue ?? 0).reduce((c, d) => c + d) <=
+                b.exercises.map((e) => e.resultValue ?? 0).reduce((e, f) => e + f)
                     ? a
                     : b
             );
         } else {
             bestMostRecentValid = allMostRecentValid.reduce((a: WorkoutResult, b: WorkoutResult) =>
-                a.exercises.map((e) => (e.resultValue ? e.resultValue : 0)).reduce((c, d) => c + d) >=
-                b.exercises.map((e) => (e.resultValue ? e.resultValue : 0)).reduce((e, f) => e + f)
+                a.exercises.map((e) => e.resultValue ?? 0).reduce((c, d) => c + d) >=
+                b.exercises.map((e) => e.resultValue ?? 0).reduce((e, f) => e + f)
                     ? a
                     : b
             );
