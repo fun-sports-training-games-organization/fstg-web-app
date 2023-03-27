@@ -45,7 +45,6 @@ describe('<DatePicker> component test with React Testing Library', () => {
             input && fireEvent.change(input, { target: { value: '31.12.2020' } });
             await wait();
         });
-        debug();
     });
 
     it('should render Date Picker component expect handle date change to be called with specific datetime format', () => {
@@ -64,6 +63,5 @@ describe('<DatePicker> component test with React Testing Library', () => {
         fireEvent.click(calendarIcon);
         // here expect the calendar popup to show up
         expect(getByRole('presentation')).toBeInTheDocument();
-        debug();
     });
 });
