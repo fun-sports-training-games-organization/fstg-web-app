@@ -12,6 +12,8 @@ jobs:
             - uses: actions/checkout@v2
             - name: Use Node.js
               uses: actions/setup-node@v1
+              with:
+                  node-version: '12.22.12'
             - name: Setup the code
               run: npm install --legacy-peer-deps
             - name: Test the code
@@ -22,6 +24,10 @@ jobs:
         steps:
             - name: Checkout
               uses: actions/checkout@v2
+            - name: Use Node.js
+              uses: actions/setup-node@v1
+              with:
+                  node-version: '12.22.12'
             # Install NPM dependencies, cache them correctly
             # and run all Cypress tests
             - name: Setup the code
@@ -41,6 +47,7 @@ jobs:
                   start: npm run start
                   browser: chrome
                   headless: true
+                  node-version: '12.22.12'
                   install: false
                   wait-on: 'http://localhost:3000/login'
                   wait-on-timeout: 240

@@ -30,6 +30,8 @@ jest.mock(
             )
 );
 
+jest.mock('firebase/compat/firestore', () => {});
+
 jest.mock('react', () => ({
     ...jest.requireActual('react'),
     useContext: () => {
