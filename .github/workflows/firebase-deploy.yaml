@@ -28,3 +28,4 @@ jobs:
                   REACT_APP_MEASUREMENT_ID: ${{secrets.FSTG_EDB94_REACT_APP_MEASUREMENT_ID}}
               with:
                   firebase-token: ${{ secrets.FIREBASE_TOKEN }}
+                  node-version: '12.22.12'
