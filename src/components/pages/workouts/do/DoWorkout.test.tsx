@@ -2,6 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import DoWorkout from './DoWorkout';
 import { Button, Grid, IconButton, Link, Stack, Theme, Typography, useMediaQuery } from '@mui/material';
+import ResponsiveContainer from '../../../templates/containers/responsive-container/ResponsiveContainer';
 
 const mockEnqueue = jest.fn();
 jest.mock('notistack', () => ({
@@ -17,6 +18,17 @@ jest.mock('@mui/material', () => ({
     ...jest.requireActual('@mui/material'),
     useMediaQuery: () => true
 }));
+
+jest.mock(
+    '../../../templates/containers/responsive-container/ResponsiveContainer',
+    () =>
+        ({ ref, xs = 12, sm = 10, md = 8, lg = 6, xl = 4, children }: any) =>
+            (
+                <div ref={ref} id={`xs-${xs}-sm-${sm}-md-${md}-lg-${lg}-xl-${xl}`}>
+                    {children}
+                </div>
+            )
+);
 
 jest.mock('react', () => ({
     ...jest.requireActual('react'),
@@ -86,6 +98,13 @@ jest.mock('react-redux-firebase', () => ({
                 return {
                     onSnapshot: () => {
                         return { docs: [] };
+                    },
+                    where: () => {
+                        return {
+                            onSnapshot: () => {
+                                return { docs: [] };
+                            }
+                        };
                     }
                 };
             }
