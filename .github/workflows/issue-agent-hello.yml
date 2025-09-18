@@ -1,17 +1,28 @@
-name: Issue Agent Hello
+name: Issue Agent Capture
 
 on:
   issues:
     types: [labeled]
 
 jobs:
-  hello:
-    if: contains(github.event.issue.labels.*.name, 'agent-task')
+  capture:
+    if: github.event.label.name == 'agent-task'
     runs-on: ubuntu-latest
     steps:
-      - name: Echo issue info
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Capture issue title and body
         run: |
-          echo "Issue #${{ github.event.issue.number }}"
-          echo "Title: ${{ github.event.issue.title }}"
-          echo "Body:"
-          echo "${{ github.event.issue.body }}"
+          echo "ISSUE_TITLE<<EOF" >> $GITHUB_ENV
+          echo "${{ github.event.issue.title }}" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+          echo "ISSUE_BODY<<EOF" >> $GITHUB_ENV
+          echo "${{ github.event.issue.body }}" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: Show captured values
+        run: |
+          echo "Title: $ISSUE_TITLE"
+          echo "Body: $ISSUE_BODY"
