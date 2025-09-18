@@ -11,11 +11,21 @@ permissions:
 env:
   OPENAI_MODEL: gpt-5-nano
   PROMPT_TEMPLATE: |
-    You are an AI coding assistant. Based on the following GitHub issue, create a short text file summarizing the task:
+    You are an AI coding assistant. You will be given:
+    1. A GitHub issue describing a requested change.
+    2. Context about the current repository (file tree, key files).
 
-    Title: ${{ github.event.issue.title }}
+    Your task:
+    - Generate a valid unified diff (patch) that implements the change.
+    - Suggest a concise PR title.
+    - Suggest a short PR body summarizing the changes.
 
-    Body: ${{ github.event.issue.body }}
+    Output ONLY valid JSON in the following format:
+    {
+      "pr_title": "...",
+      "pr_body": "...",
+      "patch": "..."
+    }
 
 jobs:
   create-branch-and-pr:
@@ -50,16 +60,22 @@ jobs:
 
           echo "BRANCH_NAME=agent/${{ github.event.issue.number }}-${SAFE_TITLE}" >> $GITHUB_ENV
 
-      - name: Create and switch to branch
+      - name: Gather repository context
         run: |
-          git checkout -b "$BRANCH_NAME"
+          echo "## Repository File Tree" > repo_context.txt
+          tree -I '.git' -L 2 >> repo_context.txt || true
+          echo -e "\n## README.md" >> repo_context.txt
+          [ -f README.md ] && cat README.md >> repo_context.txt || echo "No README.md" >> repo_context.txt
 
-      - name: Minimal AI code generation
+      - name: AI generate patch and PR metadata
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
-          mkdir -p agent-output
-          PROMPT_JSON=$(echo "${PROMPT_TEMPLATE}" | jq -Rs .)
+          PROMPT_JSON=$(printf "%s\n\nGitHub Issue:\nTitle: %s\nBody: %s\n\nRepository Context:\n%s" \
+            "${PROMPT_TEMPLATE}" \
+            "${{ github.event.issue.title }}" \
+            "${{ github.event.issue.body }}" \
+            "$(cat repo_context.txt)" | jq -Rs .)
 
           RAW=$(curl https://api.openai.com/v1/chat/completions \
             -s \
@@ -80,18 +96,24 @@ jobs:
             exit 1
           fi
 
-          RESPONSE=$(echo "$RAW" | jq -r '.choices[0].message.content')
-          if [ -z "$RESPONSE" ] || [ "$RESPONSE" = "null" ]; then
-            echo "Error: No content returned from OpenAI API."
+          PR_TITLE=$(echo "$RAW" | jq -r '.choices[0].message.content' | jq -r '.pr_title')
+          PR_BODY=$(echo "$RAW" | jq -r '.choices[0].message.content' | jq -r '.pr_body')
+          PATCH=$(echo "$RAW" | jq -r '.choices[0].message.content' | jq -r '.patch')
+
+          if [ -z "$PATCH" ] || [ "$PATCH" = "null" ]; then
+            echo "Error: No patch returned from AI."
             exit 1
           fi
 
-          SAFE_FILE_NAME=$(echo "$BRANCH_NAME" | tr '/' '-')
-          FILE_NAME="agent-output/${SAFE_FILE_NAME}.txt"
+          echo "$PATCH" > patch.diff
+          echo "$PR_TITLE" > pr_title.txt
+          echo "$PR_BODY" > pr_body.txt
 
-          echo "$RESPONSE" > "$FILE_NAME"
-          git add "$FILE_NAME"
-          git commit -m "chore: AI-generated summary for #${{ github.event.issue.number }}"
+      - name: Apply AI-generated patch
+        run: |
+          git apply patch.diff || { echo "Patch failed to apply"; exit 1; }
+          git add .
+          git commit -m "$(cat pr_title.txt)"
 
       - name: Push branch
         run: |
@@ -100,8 +122,8 @@ jobs:
       - name: Open Pull Request
         run: |
           gh pr create \
-            --title "Auto PR: ${{ github.event.issue.title }}" \
-            --body "This PR was automatically generated for issue #${{ github.event.issue.number }}." \
+            --title "$(cat pr_title.txt)" \
+            --body "$(cat pr_body.txt)" \
             --base main \
             --head "$BRANCH_NAME"
         env:
