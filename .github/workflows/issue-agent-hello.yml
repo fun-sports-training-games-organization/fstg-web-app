@@ -1,4 +1,4 @@
-name: Issue Agent Branch
+name: Issue Agent PR
 
 on:
   issues:
@@ -6,16 +6,17 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
-  create-branch:
+  create-branch-and-pr:
     if: github.event.label.name == 'agent-task'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # ensure we have full history to branch from
+          fetch-depth: 0
 
       - name: Configure git identity
         run: |
@@ -43,7 +44,27 @@ jobs:
 
           echo "BRANCH_NAME=agent/${{ github.event.issue.number }}-${SAFE_TITLE}" >> $GITHUB_ENV
 
-      - name: Create and push branch
+      - name: Create and switch to branch
         run: |
           git checkout -b "$BRANCH_NAME"
+
+      - name: Placeholder code change
+        run: |
+          mkdir -p agent-output
+          echo "This is a placeholder change for issue #${{ github.event.issue.number }}" > agent-output/placeholder.txt
+          git add agent-output/placeholder.txt
+          git commit -m "chore: placeholder change for #${{ github.event.issue.number }}"
+
+      - name: Push branch
+        run: |
           git push origin "$BRANCH_NAME"
+
+      - name: Open Pull Request
+        run: |
+          gh pr create \
+            --title "Auto PR: ${{ github.event.issue.title }}" \
+            --body "This PR was automatically generated for issue #${{ github.event.issue.number }}." \
+            --base main \
+            --head "$BRANCH_NAME"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
