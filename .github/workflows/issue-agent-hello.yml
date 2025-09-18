@@ -2,7 +2,7 @@ name: Issue Agent Hello
 
 on:
   issues:
-    types: [opened, labeled]
+    types: [labeled]
 
 jobs:
   hello:
