@@ -1,0 +1,17 @@
+name: Issue Agent Hello
+
+on:
+  issues:
+    types: [opened, labeled]
+
+jobs:
+  hello:
+    if: contains(github.event.issue.labels.*.name, 'agent-task')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo issue info
+        run: |
+          echo "Issue #${{ github.event.issue.number }}"
+          echo "Title: ${{ github.event.issue.title }}"
+          echo "Body:"
+          echo "${{ github.event.issue.body }}"
