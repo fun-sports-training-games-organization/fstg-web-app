@@ -1,0 +1,5 @@
+agent_test_summary.txt
+Agent test
+Summary: Simple test to verify that an agent-task is recognized by the system.
+Goal: Ensure recognition and basic handling of agent-tasks.
+Notes: Quick smoke test for integration.
