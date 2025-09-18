@@ -4,6 +4,9 @@ on:
   issues:
     types: [labeled]
 
+permissions:
+  contents: write
+
 jobs:
   create-branch:
     if: github.event.label.name == 'agent-task'
@@ -12,13 +15,30 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # so we can branch from latest main
+          fetch-depth: 0 # ensure we have full history to branch from
+
+      - name: Configure git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
       - name: Set up branch name
         id: vars
         run: |
-          # Lowercase, replace spaces with dashes, strip non-alphanum
-          SAFE_TITLE=$(echo "${{ github.event.issue.title }}" | tr '[:upper:]' '[:lower:]' | tr ' ' '-' | tr -cd '[:alnum:]-' | cut -c1-30 | sed 's/-*$//')
+          # Lowercase, replace spaces with dashes, strip non-alphanum, trim trailing dashes
+          SAFE_TITLE=$(echo "${{ github.event.issue.title }}" \
+            | tr '[:upper:]' '[:lower:]' \
+            | tr ' ' '-' \
+            | tr -cd '[:alnum:]-' \
+            | cut -c1-30 \
+            | sed 's/-*$//')
+
+          # Fail if empty after sanitization
+          if [ -z "$SAFE_TITLE" ]; then
+            echo "Error: Issue title produced an empty branch name after sanitization."
+            exit 1
+          fi
+
           echo "BRANCH_NAME=agent/${{ github.event.issue.number }}-${SAFE_TITLE}" >> $GITHUB_ENV
 
       - name: Create and push branch
