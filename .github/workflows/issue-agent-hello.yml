@@ -23,26 +23,29 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      - name: Set up branch name
-        id: vars
+      - name: Minimal AI code generation
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
-          # Lowercase, replace spaces with dashes, strip non-alphanum, trim trailing dashes
-          # Allow configurable branch name length (default: 60)
-          MAXLEN="${BRANCH_NAME_MAXLEN:-60}"
-          SAFE_TITLE=$(echo "${{ github.event.issue.title }}" \
-            | tr '[:upper:]' '[:lower:]' \
-            | tr ' ' '-' \
-            | tr -cd '[:alnum:]-' \
-            | cut -c1-"$MAXLEN" \
-            | sed 's/-*$//')
+          mkdir -p agent-output
+          PROMPT="You are an AI coding assistant. Based on the following GitHub issue, create a short text file summarizing the task:\n\nTitle: ${{ github.event.issue.title }}\n\nBody: ${{ github.event.issue.body }}"
+          RESPONSE=$(curl https://api.openai.com/v1/chat/completions \
+            -s \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer $OPENAI_API_KEY" \
+            -d '{
+              "model": "gpt-5",
+              "messages": [{"role": "user", "content": "'"$PROMPT"'"}],
+              "max_tokens": 200
+            }' | jq -r '.choices[0].message.content')
 
-          # Fail if empty after sanitization
-          if [ -z "$SAFE_TITLE" ]; then
-            echo "Error: Issue title produced an empty branch name after sanitization."
-            exit 1
-          fi
+          # Flatten branch name for file name (replace slashes with dashes)
+          SAFE_FILE_NAME=$(echo "$BRANCH_NAME" | tr '/' '-')
+          FILE_NAME="agent-output/${SAFE_FILE_NAME}.txt"
 
-          echo "BRANCH_NAME=agent/${{ github.event.issue.number }}-${SAFE_TITLE}" >> $GITHUB_ENV
+          echo "$RESPONSE" > "$FILE_NAME"
+          git add "$FILE_NAME"
+          git commit -m "chore: AI-generated summary for #${{ github.event.issue.number }}"
 
       - name: Create and switch to branch
         run: |
@@ -64,8 +67,10 @@ jobs:
               "max_tokens": 200
             }' | jq -r '.choices[0].message.content')
 
-          # Use branch name in the file name
-          FILE_NAME="agent-output/${BRANCH_NAME}.txt"
+          # Flatten branch name for file name (replace slashes with dashes)
+          SAFE_FILE_NAME=$(echo "$BRANCH_NAME" | tr '/' '-')
+          FILE_NAME="agent-output/${SAFE_FILE_NAME}.txt"
+
           echo "$RESPONSE" > "$FILE_NAME"
 
           git add "$FILE_NAME"
