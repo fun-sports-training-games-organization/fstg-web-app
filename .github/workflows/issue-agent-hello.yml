@@ -26,11 +26,13 @@ jobs:
         id: vars
         run: |
           # Lowercase, replace spaces with dashes, strip non-alphanum, trim trailing dashes
+          # Allow configurable branch name length (default: 60)
+          MAXLEN="${BRANCH_NAME_MAXLEN:-60}"
           SAFE_TITLE=$(echo "${{ github.event.issue.title }}" \
             | tr '[:upper:]' '[:lower:]' \
             | tr ' ' '-' \
             | tr -cd '[:alnum:]-' \
-            | cut -c1-30 \
+            | cut -c1-"$MAXLEN" \
             | sed 's/-*$//')
 
           # Fail if empty after sanitization
