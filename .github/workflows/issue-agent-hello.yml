@@ -1,28 +1,49 @@
-name: Issue Agent Capture
+name: Issue Agent Branch
 
 on:
   issues:
     types: [labeled]
 
+permissions:
+  contents: write
+
 jobs:
-  capture:
+  create-branch:
     if: github.event.label.name == 'agent-task'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # ensure we have full history to branch from
 
-      - name: Capture issue title and body
+      - name: Configure git identity
         run: |
-          echo "ISSUE_TITLE<<EOF" >> $GITHUB_ENV
-          echo "${{ github.event.issue.title }}" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          echo "ISSUE_BODY<<EOF" >> $GITHUB_ENV
-          echo "${{ github.event.issue.body }}" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
-
-      - name: Show captured values
+      - name: Set up branch name
+        id: vars
         run: |
-          echo "Title: $ISSUE_TITLE"
-          echo "Body: $ISSUE_BODY"
+          # Lowercase, replace spaces with dashes, strip non-alphanum, trim trailing dashes
+          # Allow configurable branch name length (default: 60)
+          MAXLEN="${BRANCH_NAME_MAXLEN:-60}"
+          SAFE_TITLE=$(echo "${{ github.event.issue.title }}" \
+            | tr '[:upper:]' '[:lower:]' \
+            | tr ' ' '-' \
+            | tr -cd '[:alnum:]-' \
+            | cut -c1-"$MAXLEN" \
+            | sed 's/-*$//')
+
+          # Fail if empty after sanitization
+          if [ -z "$SAFE_TITLE" ]; then
+            echo "Error: Issue title produced an empty branch name after sanitization."
+            exit 1
+          fi
+
+          echo "BRANCH_NAME=agent/${{ github.event.issue.number }}-${SAFE_TITLE}" >> $GITHUB_ENV
+
+      - name: Create and push branch
+        run: |
+          git checkout -b "$BRANCH_NAME"
+          git push origin "$BRANCH_NAME"
