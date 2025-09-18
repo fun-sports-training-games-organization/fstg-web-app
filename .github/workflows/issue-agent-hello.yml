@@ -13,38 +13,32 @@ jobs:
     if: github.event.label.name == 'agent-task'
     runs-on: ubuntu-latest
     steps:
-      - name: Check OpenAI API credit (optional)
+      - name: Test OpenAI API availability (optional)
         if: env.SKIP_CREDIT_CHECK != 'true'
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           SKIP_CREDIT_CHECK: ${{ vars.SKIP_CREDIT_CHECK }}
         run: |
-          echo "Checking OpenAI API credit..."
-          RAW=$(curl -s https://api.openai.com/v1/dashboard/billing/credit_grants \
-            -H "Authorization: Bearer $OPENAI_API_KEY")
+          echo "Pinging OpenAI API with a minimal request..."
+          RAW=$(curl https://api.openai.com/v1/chat/completions \
+            -s \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer $OPENAI_API_KEY" \
+            -d '{
+              "model": "gpt-5-nano",
+              "messages": [{"role": "user", "content": "ping"}],
+              "max_tokens": 1
+            }')
 
-          echo "----- RAW CREDIT RESPONSE START -----"
+          echo "----- RAW PING RESPONSE START -----"
           echo "$RAW"
-          echo "----- RAW CREDIT RESPONSE END -----"
+          echo "----- RAW PING RESPONSE END -----"
 
           ERROR_MSG=$(echo "$RAW" | jq -r '.error.message // empty')
           if [ -n "$ERROR_MSG" ]; then
             echo "OpenAI API Error: $ERROR_MSG"
             exit 1
           fi
-
-          REMAINING=$(echo "$RAW" | jq -r '.total_available // empty')
-          if [ -z "$REMAINING" ] || [ "$REMAINING" = "null" ]; then
-            echo "Error: Could not determine remaining credit."
-            exit 1
-          fi
-
-          if (( $(echo "$REMAINING <= 0" | bc -l) )); then
-            echo "Error: No remaining OpenAI API credit."
-            exit 1
-          fi
-
-          echo "Remaining credit: $REMAINING USD"
 
       - name: Checkout repo
         uses: actions/checkout@v4
